@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
+
+body {
+  background-color: black;
+  color: white;
+  font-family: "Press Start 2P", cursive;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.game-container {
+  text-align: center;
+}
+.title {
+  margin-bottom: 30px; /* 제목과 옵션 사이의 간격 */
+}
+.game-option {
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px 0; /* 옵션들 사이의 수직 간격 */
+}
+.game-option:hover {
+  background-color: #555;
+}
