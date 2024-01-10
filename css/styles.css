@@ -6,33 +6,73 @@
 }
 
 body {
-  height: 100%;
-  margin: 0;
   background: black;
-  color: white;
+  color: rgba(255, 255, 255, 0.95);
   font-family: "Symtext", cursive;
   display: flex;
   justify-content: center;
-  letter-spacing: 0; /* em의 뜻은 현재 폰트의 글자 크기를 의미한다. */
   align-items: center;
 }
 
-.title-pong {
-  font-size: 36px;
-}
-
-.title-classic {
-  font-size: 24px;
-}
-
+/* 게임 인터페이스 화면 전체 */
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   text-align: center;
 }
 
-footer p {
-  font-size: 1em;
-  position: f
-  bottom: 10px;
-  width: 100%;
+/* 화면 상단 PONG/nCLASSIC */
+.pong-header {
+  font-size: 80px;
+  margin-bottom: -10px;
+  margin-left: 4px;
+  letter-spacing: 4px;
+}
+
+.classic-header {
+  font-size: 47px;
+  margin-top: -10px;
+  letter-spacing: 4px;
+}
+
+/* 화면 중앙 */
+.player-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+}
+
+.player-option {
+  text-align: center;
+  margin: 0 90px;
+  font-size: 38px;
+}
+
+.left,
+.right {
+  flex: 1; /* flex가 같은 비율로 공간 차지 */
+  text-align: center;
+}
+
+.divider {
+  width: 4px; /* divider의 너비 설정 */
+  height: 384px; /* divider의 높이 설정 */
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.95) 50%,
+    transparent 50%
+  );
+  background-size: 4px 96px; /* 점선의 크기와 간격 설정 */
+}
+
+/* 화면 하단 */
+footer {
+  position: absolute; /* 절대 위치 */
+  bottom: 0; /* 페이지 하단 */
+  width: 100%; /* 부모 요소 너비의 100%로 설정 */
+  text-align: center; /* 중앙 정렬 */
+  font-size: 14px;
 }
