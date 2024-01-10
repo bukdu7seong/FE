@@ -1,27 +1,38 @@
+/* styles.css */
 @import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
+@font-face {
+  font-family: "Symtext";
+  src: url("fonts/symtext/Symtext.ttf") format("truetype");
+}
 
 body {
-  background-color: black;
-  color: white;
-  font-family: "Press Start 2P", cursive;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  height: 100%;
   margin: 0;
+  background: black;
+  color: white;
+  font-family: "Symtext", cursive;
+  display: flex;
+  justify-content: center;
+  letter-spacing: 0; /* em의 뜻은 현재 폰트의 글자 크기를 의미한다. */
+  align-items: center;
 }
-.game-container {
+
+.title-pong {
+  font-size: 36px;
+}
+
+.title-classic {
+  font-size: 24px;
+}
+
+.container {
   text-align: center;
 }
-.title {
-  margin-bottom: 30px; /* 제목과 옵션 사이의 간격 */
-}
-.game-option {
-  cursor: pointer;
-  padding: 10px;
-  margin: 10px 0; /* 옵션들 사이의 수직 간격 */
-}
-.game-option:hover {
-  background-color: #555;
+
+footer p {
+  font-size: 1em;
+  position: f
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
 }
