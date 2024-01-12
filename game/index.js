@@ -80,12 +80,12 @@ function moveBall(dy, dx) {
         dy *= -1;
     }
     else if (ballPaddle1Collsion()) {
-        dx = speed * 3;
         dy = speed;
+        dx = speed * 3;
     }
     else if (ballPaddel2Collsion()) {
-        dx = -1 * speed * 3;
         dy = speed;
+        dx = -1 * speed * 3;
     }
     else if (roundOver()) {
         if (paddle1Win()) {
@@ -109,4 +109,3 @@ function moveBall(dy, dx) {
         moveBall(dy, dx);
     });
 }
-
