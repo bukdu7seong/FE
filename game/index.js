@@ -105,14 +105,13 @@ function moveBall(dy, dx) {
     let ball_mid = ball_coord.top + ball_coord.height / 2;
     let paddle1_mid = paddle_1_coord.top + paddle_1_coord.height / 2;
     if (paddle1_mid < ball_mid) {
-      dy = speed * 6;
+      dy = ((ball_mid - paddle_1_coord.top) / paddle_1_coord.height / 2) * 30;
       dx = speed * 6;
     } else {
-      dy = speed * -3;
-      dx = speed * 3;
+      dy =
+        ((ball_mid - paddle_1_coord.bottom) / paddle_1_coord.height / 2) * 30;
+      dx = speed * 6;
     }
-    // dy = speed;
-    // dx = speed * 3;
   } else if (ballPaddel2Collsion()) {
     dy = speed;
     dx = -1 * speed * 3;
