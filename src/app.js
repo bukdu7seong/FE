@@ -1,6 +1,7 @@
 "use strict";
 
 function h(tag, attrs, ...children) {
+  console.log("------ ENTER ------");
   // 동적으로 DOM을 만드는 데 도움을 주는 헬퍼 함수
   const element = document.createElement(tag);
   if (attrs instanceof Object && !Array.isArray(attrs)) {
@@ -10,16 +11,20 @@ function h(tag, attrs, ...children) {
   } else {
     children.unshift(attrs);
   }
-  console.log("tag: ", tag, ", before children: ", children);
   children = children.flat();
-  console.log("tag: ", tag, ", after children: ", children);
+  console.log("tag: ", tag, ", attrs: ", attrs, ", children: ", children);
   children.forEach((child) => {
+    console.log(child);
     if (child instanceof Node) {
+      console.log("first");
       element.appendChild(child);
     } else {
+      console.log("second");
       element.appendChild(document.createTextNode(child));
     }
   });
+  console.log(element);
+
   return element;
 }
 
@@ -142,6 +147,7 @@ function PageContact() {
 }
 
 const routes = {
+  "/": { name: "Home", component: PageCounter },
   "/index.html": { name: "Home", component: PageCounter },
   "/about.html": { name: "About", component: PageAbout },
   "/contact.html": { name: "Contact", component: PageContact },
@@ -171,6 +177,7 @@ function router(href) {
     window.history.pushState(null, null, href);
   }
   const currentPath = href || window.location.pathname;
+  console.log(currentPath);
   routes[currentPath].component();
   handleLinks();
 }
