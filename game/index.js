@@ -20,7 +20,7 @@ let speed = mode == 'normal' ? 10 : 20;
 
 function getRandomDirection() {
   // return Math.random() < 0.5 ? -1 : 1;
-  return -1;
+  return 1;
 }
 
 document.addEventListener('keydown', (e) => {
@@ -52,15 +52,17 @@ document.addEventListener('keydown', (e) => {
   }
   if (e.key == 'ArrowUp') {
     paddle_2.style.top =
-      Math.max(board_coord.top, paddle_2_coord.top - window.innerHeight * 0.1) +
-      'px';
+      Math.max(
+        board_coord.top,
+        paddle_2_coord.top - window.innerHeight * 0.01
+      ) + 'px';
     paddle_2_coord = paddle_2.getBoundingClientRect();
   }
   if (e.key == 'ArrowDown') {
     paddle_2.style.top =
       Math.min(
         board_coord.bottom - paddle_common.height,
-        paddle_2_coord.top + window.innerHeight * 0.1
+        paddle_2_coord.top + window.innerHeight * 0.01
       ) + 'px';
     paddle_2_coord = paddle_2.getBoundingClientRect();
   }
@@ -103,14 +105,18 @@ function moveBall(dy, dx) {
     dy *= -1;
   } else if (ballPaddle1Collsion()) {
     let ball_mid = ball_coord.top + ball_coord.height / 2;
-    let paddle1_mid = paddle_1_coord.top + paddle_1_coord.height / 2;
-    let ydir = (ball_mid - paddle1_mid) / paddle_1_coord.height / 2;
-    let xdir = 1 - Math.sqrt(dy * dy);
+    let paddle1_mid = paddle_1_coord.top + paddle_common.height / 2;
+    let ydir = (ball_mid - paddle1_mid) / paddle_common.height / 2;
+    let xdir = 1 - Math.sqrt(ydir * ydir);
     dy = ydir * speed;
     dx = xdir * speed;
   } else if (ballPaddel2Collsion()) {
-    dy = speed;
-    dx = -1 * speed * 3;
+    let ball_mid = ball_coord.top + ball_coord.height / 2;
+    let paddle2_mid = paddle_2_coord.top + paddle_common.height / 2;
+    let ydir = (ball_mid - paddle2_mid) / paddle_common.height / 2;
+    let xdir = Math.sqrt(ydir * ydir) - 1;
+    dy = ydir * speed;
+    dx = xdir * speed;
   } else if (roundOver()) {
     if (paddle1Win()) {
       score_1.innerHTML = +score_1.innerHTML + 1;
