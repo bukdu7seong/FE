@@ -16,7 +16,7 @@ let paddle_common = document.querySelector('.paddle').getBoundingClientRect();
 
 // let mode = 'normal';
 let mode = 'speed';
-let speed = mode == 'normal' ? 5 : 10;
+let speed = mode == 'normal' ? 10 : 20;
 
 function getRandomDirection() {
   // return Math.random() < 0.5 ? -1 : 1;
@@ -30,7 +30,7 @@ document.addEventListener('keydown', (e) => {
     message.style.left = 42 + 'vw';
     requestAnimationFrame(() => {
       let dy = 0;
-      let dx = getRandomDirection() * speed * 2.2;
+      let dx = getRandomDirection() * speed;
       moveBall(dy, dx);
     });
   }
@@ -104,14 +104,10 @@ function moveBall(dy, dx) {
   } else if (ballPaddle1Collsion()) {
     let ball_mid = ball_coord.top + ball_coord.height / 2;
     let paddle1_mid = paddle_1_coord.top + paddle_1_coord.height / 2;
-    if (paddle1_mid < ball_mid) {
-      dy = ((ball_mid - paddle_1_coord.top) / paddle_1_coord.height / 2) * 30;
-      dx = speed * 6;
-    } else {
-      dy =
-        ((ball_mid - paddle_1_coord.bottom) / paddle_1_coord.height / 2) * 30;
-      dx = speed * 6;
-    }
+    let ydir = (ball_mid - paddle1_mid) / paddle_1_coord.height / 2;
+    let xdir = 1 - Math.sqrt(dy * dy);
+    dy = ydir * speed;
+    dx = xdir * speed;
   } else if (ballPaddel2Collsion()) {
     dy = speed;
     dx = -1 * speed * 3;
