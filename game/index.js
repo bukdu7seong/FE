@@ -20,7 +20,7 @@ let speed = mode == 'normal' ? 10 : 20;
 
 function getRandomDirection() {
   // return Math.random() < 0.5 ? -1 : 1;
-  return 1;
+  return -1;
 }
 
 document.addEventListener('keydown', (e) => {
@@ -104,17 +104,17 @@ function moveBall(dy, dx) {
   if (ballBoardCollsion()) {
     dy *= -1;
   } else if (ballPaddle1Collsion()) {
-    let ball_mid = ball_coord.top + ball_coord.height / 2;
-    let paddle1_mid = paddle_1_coord.top + paddle_common.height / 2;
-    let ydir = (ball_mid - paddle1_mid) / paddle_common.height / 2;
-    let xdir = 1 - Math.sqrt(ydir * ydir);
+    const ball_mid = ball_coord.top + ball_coord.height / 2;
+    const paddle1_mid = paddle_1_coord.top + paddle_common.height / 2;
+    const ydir = (ball_mid - paddle1_mid) / paddle_common.height / 2;
+    const xdir = 1 - Math.sqrt(ydir * ydir);
     dy = ydir * speed;
     dx = xdir * speed;
   } else if (ballPaddel2Collsion()) {
-    let ball_mid = ball_coord.top + ball_coord.height / 2;
-    let paddle2_mid = paddle_2_coord.top + paddle_common.height / 2;
-    let ydir = (ball_mid - paddle2_mid) / paddle_common.height / 2;
-    let xdir = Math.sqrt(ydir * ydir) - 1;
+    const ball_mid = ball_coord.top + ball_coord.height / 2;
+    const paddle2_mid = paddle_2_coord.top + paddle_common.height / 2;
+    const ydir = (ball_mid - paddle2_mid) / paddle_common.height / 2;
+    const xdir = Math.sqrt(ydir * ydir) - 1;
     dy = ydir * speed;
     dx = xdir * speed;
   } else if (roundOver()) {
