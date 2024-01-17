@@ -107,14 +107,14 @@ function moveBall(dy, dx) {
     const ball_mid = ball_coord.top + ball_coord.height / 2;
     const paddle1_mid = paddle_1_coord.top + paddle_common.height / 2;
     const ydir = (ball_mid - paddle1_mid) / paddle_common.height / 2;
-    const xdir = 1 - Math.sqrt(ydir * ydir);
+    const xdir = Math.sqrt(1 - ydir * ydir);
     dy = ydir * speed;
     dx = xdir * speed;
   } else if (ballPaddel2Collsion()) {
     const ball_mid = ball_coord.top + ball_coord.height / 2;
     const paddle2_mid = paddle_2_coord.top + paddle_common.height / 2;
     const ydir = (ball_mid - paddle2_mid) / paddle_common.height / 2;
-    const xdir = Math.sqrt(ydir * ydir) - 1;
+    const xdir = -Math.sqrt(1 - ydir * ydir);
     dy = ydir * speed;
     dx = xdir * speed;
   } else if (roundOver()) {
