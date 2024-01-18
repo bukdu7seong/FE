@@ -1,6 +1,35 @@
 "use strict";
 
+function h(tag, attrs, ...children) {
+  const element = document.createElement(tag);
+  if (attrs instanceof Object && !Array.isArray(attrs)) {
+    for (const attr in attrs) {
+      element.setAttribute(attr, attrs[attr]);
+    }
+  } else {
+    children.unshift(attrs);
+  }
+  children = children.flat();
+  children.forEach((child) => {
+    if (child instanceof Node) {
+      element.appendChild(child);
+    } else {
+      element.appendChild(document.createTextNode(child));
+    }
+  });
+
+  return element;
+}
+
+const div = (...args) => h("div", ...args);
+const h1 = (...args) => h("h1", ...args);
+const p = (...args) => h("p", ...args);
+const a = (...args) => h("a", ...args);
+const button = (...args) => h("button", ...args);
+const span = (...args) => h("span", ...args);
+
 function PageCounter() {
+  /*
   const page = `
       <div class="container">
         <div id="navbar">
@@ -16,6 +45,22 @@ function PageCounter() {
     `;
 
   document.getElementById("app").innerHTML = page;
+  */
+  const page = div(
+    { class: "container" },
+    div({ id: "navbar" }),
+    div(
+      { class: "card" },
+      h1("Count", span({ id: "count-view" }, 0)),
+      div(
+        { class: "btn-box" },
+        button({ class: "btn btn-primary", id: "btn-increase" }, "Increase"),
+        button({ class: "btn btn-danger", id: "btn-decrease" }, "Decrease")
+      )
+    )
+  );
+
+  document.getElementById("app").replaceChildren(page);
 
   const countView = document.getElementById("count-view");
   const btnIncrease = document.getElementById("btn-increase");
@@ -34,7 +79,9 @@ function PageCounter() {
   });
 }
 
+/* symlink로 변경 */
 function PageAbout() {
+  /*
   const page = `
       <div class="container">
         <div id="navbar">
@@ -47,10 +94,30 @@ function PageAbout() {
     `;
 
   document.getElementById("app").innerHTML = page;
+  */
+
+  const elems = `
+  <div id="navbar"></div>
+  <div class="card">
+    <h1>About</h1>
+    <p>This is about</p>
+  </div>
+  `;
+
+  // const page = div(
+  //   { class: "container" },
+  //   div({ id: "navbar" }),
+  //   div({ class: "card" }, h1("About"), p("This is about"))
+  // );
+
+  const page = document.createElement("div");
+  page.classList.add("container");
+  page.insertAdjacentHTML("afterbegin", elems);
+
+  document.getElementById("app").replaceChildren(page);
 }
 
 function PageContact() {
-  // 안전한 HTML 생성 예시
   /*
   const page = `
       <div class="container">
