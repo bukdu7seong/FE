@@ -26,6 +26,7 @@ body {
   width: 80vw;
   background-color: black; /* 검은색 배경으로 변경 */
   border-radius: 14px;
+  position: relative;
 }
 
 .ball {
@@ -103,4 +104,11 @@ body {
   color: #c9cbff;
   left: 38vw;
   margin: 30px auto auto auto;
+}
+
+.obstacle {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
 }

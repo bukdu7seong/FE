@@ -16,7 +16,8 @@ let paddle_common = document.querySelector('.paddle').getBoundingClientRect();
 
 // let mode = 'normal';
 let mode = 'speed';
-let speed = mode == 'normal' ? 11 : 20;
+let speed = mode == 'normal' ? 10 : 20;
+const numObstacle = 15;
 
 function getRandomDirection() {
   return Math.random() < 0.5 ? -1 : 1;
@@ -25,6 +26,16 @@ function getRandomDirection() {
 
 document.addEventListener('keydown', (e) => {
   if (e.key == 'Enter' && gameState == 'ready') {
+    for (let obstacle of obstacles) {
+      obstacle.remove();
+    }
+    obstacles = [];
+
+    // 추가: 여러 개의 장애물 다시 생성
+    for (let i = 0; i < numObstacle; i++) {
+      createObstacle();
+    }
+
     gameState = 'play';
     message.innerHTML = 'Game Started';
     message.style.left = 42 + 'vw';
@@ -72,15 +83,59 @@ function paddle2Win() {
   return board_coord.left <= ball_coord.left;
 }
 
-function getBounceDirectionVector(paddle_coord) {
+// function getBounceDirectionVector(paddle_coord) {
+//   const ball_mid = ball_coord.top + ball_coord.height / 2;
+//   const paddle_mid = paddle_coord.top + paddle_common.height / 2;
+//   const y = (ball_mid - paddle_mid) / paddle_common.height / 2;
+//   const x = Math.sqrt(1 - y * y);
+//   return { y: y, x: x };
+// }
+
+function getBounceDirectionVector(target_coord) {
   const ball_mid = ball_coord.top + ball_coord.height / 2;
-  const paddle_mid = paddle_coord.top + paddle_common.height / 2;
-  const y = (ball_mid - paddle_mid) / paddle_common.height / 2;
+  const target_mid = target_coord.top + target_coord.height / 2;
+  const y = (ball_mid - target_mid) / target_coord.height / 2;
   const x = Math.sqrt(1 - y * y);
   return { y: y, x: x };
 }
 
+function ballObstacleCollision() {
+  for (let i = 0; i < obstacles.length; i++) {
+    const obstacle = obstacles[i].getBoundingClientRect();
+    if (
+      obstacle.left <= ball_coord.right &&
+      ball_coord.left <= obstacle.right &&
+      obstacle.top <= ball_coord.bottom &&
+      ball_coord.top <= obstacle.bottom
+    )
+      return obstacle;
+  }
+  return null;
+}
+
 function moveBall(dy, dx) {
+  let obstacle = ballObstacleCollision();
+  if (obstacle) {
+    const sign = dx > 0 ? -1 : 1;
+    const dir = getBounceDirectionVector(obstacle);
+    if (
+      obstacle.left <= ball_coord.right &&
+      obstacle.top <= ball_coord.bottom &&
+      ball_coord.top <= obstacle.bottom
+    ) {
+      dy = dir.y * speed;
+      dx = sign * dir.x * speed;
+    }
+    // 오른쪽에서 충돌한 경우
+    else if (
+      ball_coord.left <= obstacle.right &&
+      obstacle.top <= ball_coord.bottom &&
+      ball_coord.top <= obstacle.bottom
+    ) {
+      dy = dir.y * speed;
+      dx = sign * dir.x * speed;
+    }
+  }
   if (ballBoardCollsion()) {
     dy *= -1;
   } else if (ballPaddle1Collsion()) {
@@ -178,3 +233,18 @@ function movePaddles() {
 
 // 초기화: requestAnimationFrame 호출
 requestAnimationFrame(movePaddles);
+
+let obstacles = [];
+
+// 추가: 장애물을 생성하는 함수
+function createObstacle() {
+  let obstacle = document.createElement('div');
+  obstacle.className = 'obstacle';
+  board.appendChild(obstacle);
+
+  // 장애물 초기 위치 무작위 설정
+  obstacle.style.top = Math.random() * (board.clientHeight - 20) + 'px';
+  obstacle.style.left = Math.random() * (board.clientWidth - 20) + 'px';
+
+  obstacles.push(obstacle);
+}
