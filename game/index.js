@@ -41,24 +41,21 @@ document.addEventListener('keydown', (e) => {
         paddle_1_coord.top - window.innerHeight * 0.01
       ) + 'px';
     paddle_1_coord = paddle_1.getBoundingClientRect();
-  }
-  if (e.key == 's') {
+  } else if (e.key == 's') {
     paddle_1.style.top =
       Math.min(
         board_coord.bottom - paddle_common.height,
         paddle_1_coord.top + window.innerHeight * 0.01
       ) + 'px';
     paddle_1_coord = paddle_1.getBoundingClientRect();
-  }
-  if (e.key == 'ArrowUp') {
+  } else if (e.key == 'ArrowUp') {
     paddle_2.style.top =
       Math.max(
         board_coord.top,
         paddle_2_coord.top - window.innerHeight * 0.01
       ) + 'px';
     paddle_2_coord = paddle_2.getBoundingClientRect();
-  }
-  if (e.key == 'ArrowDown') {
+  } else if (e.key == 'ArrowDown') {
     paddle_2.style.top =
       Math.min(
         board_coord.bottom - paddle_common.height,
@@ -100,23 +97,25 @@ function paddle1Win() {
   return board_coord.right <= ball_coord.right;
 }
 
+function getBounceDirectionVector(paddle_coord) {
+  const ball_mid = ball_coord.top + ball_coord.height / 2;
+  const paddle_mid = paddle_coord.top + paddle_common.height / 2;
+  const y = (ball_mid - paddle_mid) / paddle_common.height / 2;
+  const x = Math.sqrt(1 - y * y);
+  return { y: y, x: x };
+}
+
 function moveBall(dy, dx) {
   if (ballBoardCollsion()) {
     dy *= -1;
   } else if (ballPaddle1Collsion()) {
-    const ball_mid = ball_coord.top + ball_coord.height / 2;
-    const paddle1_mid = paddle_1_coord.top + paddle_common.height / 2;
-    const ydir = (ball_mid - paddle1_mid) / paddle_common.height / 2;
-    const xdir = 1 - Math.sqrt(ydir * ydir);
-    dy = ydir * speed;
-    dx = xdir * speed;
+    const dir = getBounceDirectionVector(paddle_1_coord);
+    dy = dir.y * speed;
+    dx = dir.x * speed;
   } else if (ballPaddel2Collsion()) {
-    const ball_mid = ball_coord.top + ball_coord.height / 2;
-    const paddle2_mid = paddle_2_coord.top + paddle_common.height / 2;
-    const ydir = (ball_mid - paddle2_mid) / paddle_common.height / 2;
-    const xdir = Math.sqrt(ydir * ydir) - 1;
-    dy = ydir * speed;
-    dx = xdir * speed;
+    const dir = getBounceDirectionVector(paddle_2_coord);
+    dy = dir.y * speed;
+    dx = -dir.x * speed;
   } else if (roundOver()) {
     if (paddle1Win()) {
       score_1.innerHTML = +score_1.innerHTML + 1;
