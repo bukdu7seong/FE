@@ -16,11 +16,11 @@ let paddle_common = document.querySelector('.paddle').getBoundingClientRect();
 
 // let mode = 'normal';
 let mode = 'speed';
-let speed = mode == 'normal' ? 10 : 20;
+let speed = mode == 'normal' ? 11 : 20;
 
 function getRandomDirection() {
-  // return Math.random() < 0.5 ? -1 : 1;
-  return -1;
+  return Math.random() < 0.5 ? -1 : 1;
+  // return -1;
 }
 
 document.addEventListener('keydown', (e) => {
@@ -33,35 +33,6 @@ document.addEventListener('keydown', (e) => {
       let dx = getRandomDirection() * speed;
       moveBall(dy, dx);
     });
-  }
-  if (e.key == 'w') {
-    paddle_1.style.top =
-      Math.max(
-        board_coord.top,
-        paddle_1_coord.top - window.innerHeight * 0.01
-      ) + 'px';
-    paddle_1_coord = paddle_1.getBoundingClientRect();
-  } else if (e.key == 's') {
-    paddle_1.style.top =
-      Math.min(
-        board_coord.bottom - paddle_common.height,
-        paddle_1_coord.top + window.innerHeight * 0.01
-      ) + 'px';
-    paddle_1_coord = paddle_1.getBoundingClientRect();
-  } else if (e.key == 'ArrowUp') {
-    paddle_2.style.top =
-      Math.max(
-        board_coord.top,
-        paddle_2_coord.top - window.innerHeight * 0.01
-      ) + 'px';
-    paddle_2_coord = paddle_2.getBoundingClientRect();
-  } else if (e.key == 'ArrowDown') {
-    paddle_2.style.top =
-      Math.min(
-        board_coord.bottom - paddle_common.height,
-        paddle_2_coord.top + window.innerHeight * 0.01
-      ) + 'px';
-    paddle_2_coord = paddle_2.getBoundingClientRect();
   }
 });
 
@@ -95,6 +66,10 @@ function roundOver() {
 
 function paddle1Win() {
   return board_coord.right <= ball_coord.right;
+}
+
+function paddle2Win() {
+  return board_coord.left <= ball_coord.left;
 }
 
 function getBounceDirectionVector(paddle_coord) {
@@ -137,3 +112,69 @@ function moveBall(dy, dx) {
     moveBall(dy, dx);
   });
 }
+
+let isPlayer1MovingUp = false;
+let isPlayer1MovingDown = false;
+let isPlayer2MovingUp = false;
+let isPlayer2MovingDown = false;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'w') {
+    isPlayer1MovingUp = true;
+  } else if (e.key === 's') {
+    isPlayer1MovingDown = true;
+  } else if (e.key === 'ArrowUp') {
+    isPlayer2MovingUp = true;
+  } else if (e.key === 'ArrowDown') {
+    isPlayer2MovingDown = true;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'w') {
+    isPlayer1MovingUp = false;
+  } else if (e.key === 's') {
+    isPlayer1MovingDown = false;
+  } else if (e.key === 'ArrowUp') {
+    isPlayer2MovingUp = false;
+  } else if (e.key === 'ArrowDown') {
+    isPlayer2MovingDown = false;
+  }
+});
+
+function movePaddles() {
+  if (isPlayer1MovingUp) {
+    paddle_1.style.top =
+      Math.max(
+        board_coord.top,
+        paddle_1_coord.top - window.innerHeight * 0.01
+      ) + 'px';
+  }
+  if (isPlayer1MovingDown) {
+    paddle_1.style.top =
+      Math.min(
+        board_coord.bottom - paddle_common.height,
+        paddle_1_coord.top + window.innerHeight * 0.01
+      ) + 'px';
+  }
+  if (isPlayer2MovingUp) {
+    paddle_2.style.top =
+      Math.max(
+        board_coord.top,
+        paddle_2_coord.top - window.innerHeight * 0.01
+      ) + 'px';
+  }
+  if (isPlayer2MovingDown) {
+    paddle_2.style.top =
+      Math.min(
+        board_coord.bottom - paddle_common.height,
+        paddle_2_coord.top + window.innerHeight * 0.01
+      ) + 'px';
+  }
+  paddle_1_coord = paddle_1.getBoundingClientRect();
+  paddle_2_coord = paddle_2.getBoundingClientRect();
+  requestAnimationFrame(movePaddles);
+}
+
+// 초기화: requestAnimationFrame 호출
+requestAnimationFrame(movePaddles);
