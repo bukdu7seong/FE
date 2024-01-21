@@ -2,9 +2,9 @@ import { Render } from "../../lib/render.js";
 
 /*
  * @description: 라우터 객체를 받아서 네비게이션 바를 생성한다. 만약 네비게이션 바가 존재한다면 초기화한다.
- * @param: routes - 라우터 객체
+ * @param: routes - 라우터 객체 (라우터 객체의 객체)
  * @param: handleNavigation - 라우터 함수
- * @return: navbar - 네비게이션 바
+ * @return: navbar - HTML 형식의 네비게이션 바
  */
 export function navbar(routes, handleNavigation) {
   let navbar = document.getElementById("navbar");
