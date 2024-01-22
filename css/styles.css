@@ -84,10 +84,7 @@ body {
   top: 0;
   right: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-width: 13vw; /* 최소 너비 설정 */
-  max-width: 50vw; /* 최대 너비 설정 */
   height: 7vh;
   padding: 10px;
   border-radius: 20px;
