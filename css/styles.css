@@ -13,8 +13,6 @@
 body {
   background: #131313;
   color: rgb(242, 242, 242);
-  margin: 0;
-  padding: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -121,7 +119,7 @@ body {
   font-family: "Symtext", cursive;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 70vh;
   width: 80vw;
   text-align: center;
 }
