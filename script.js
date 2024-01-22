@@ -51,3 +51,29 @@ window.addEventListener("resize", function () {
     playerOption2.textContent = "2 PLAYERS";
   }
 });
+
+// 모달 요소를 가져옵니다
+var modal = document.getElementById("playerModal");
+
+// 모달을 여는 버튼 요소를 가져옵니다
+var btn1 = document.getElementById("player1");
+
+// 모달을 닫는 <span> 요소 (닫기 버튼)를 가져옵니다
+var closeBtn = document.getElementsByClassName("close-button")[0];
+
+// 1 Player 버튼을 클릭하면 모달을 엽니다
+btn1.onclick = function () {
+  modal.style.display = "block";
+};
+
+// 닫기 버튼을 클릭하면 모달을 닫습니다
+closeBtn.onclick = function () {
+  modal.style.display = "none";
+};
+
+// 모달 외부를 클릭하면 모달을 닫습니다
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
