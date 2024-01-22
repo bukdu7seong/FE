@@ -1,0 +1,208 @@
+/* styles.css */
+@font-face {
+  font-family: "Symtext";
+  src: url("fonts/symtext/Symtext.ttf") format("truetype");
+}
+
+body {
+  background: #131313;
+  color: rgb(242, 242, 242);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 전체 화면 */
+.full-screen {
+  display: flex;
+  width: 100vw; /* 전체 너비를 차지하도록 설정 */
+}
+
+/* 사이드바 */
+.side-bar {
+  flex-shrink: 0; /* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 */
+  height: 100vh; /* 전체 높이를 차지하도록 설정 */
+  width: 8vw; /* 사이드바의 너비 */
+  min-width: 75px; /* 사이드바의 최소 너비 */
+  background-color: #282828; /* 사이드바 배경색 */
+  display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
+  flex-direction: column; /* 자식 요소들을 세로로 나열 */
+  justify-content: space-between;
+  align-items: center; /* 세로 방향으로 중앙 정렬 */
+}
+
+.menu-item {
+  width: 45px;
+  height: 45px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 95px;
+  border-radius: 10px;
+}
+
+.home,
+.games,
+.tournament,
+.settings {
+  background-color: transparent;
+}
+
+/* 
+.games {
+  background-color: #4caf50;
+}
+
+.tournament {
+  background-color: transparent;
+} */
+
+.home,
+.settings {
+  margin-bottom: 40px;
+}
+
+/* ---------------------------------------------- */
+/* 사이드바 제외 */
+.main-box {
+  background-color: #131313;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1; /* flex가 같은 비율로 공간 차지 */
+}
+
+/* 프로필 */
+.profile-box {
+  background-color: #131313;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 13vw; /* 최소 너비 설정 */
+  max-width: 50vw; /* 최대 너비 설정 */
+  height: 7vh;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.profile-image {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.profile-nickname {
+  color: white;
+  font-size: 24px;
+  white-space: nowrap; /* 닉네임이 한 줄로 표시되도록 설정 */
+  overflow: hidden; /* 너비를 초과하는 내용은 숨김 */
+  text-overflow: ellipsis; /* 너비를 초과하는 내용은 ...으로 표시 */
+}
+
+/* 게임 인터페이스 화면 전체 */
+.game-box {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  font-family: "Symtext", cursive;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 80vw;
+  text-align: center;
+}
+
+/* 화면 상단  PONG/n CLASSIC */
+.header-pong {
+  font-size: 12vh;
+  margin-bottom: -20px;
+  margin-left: 4px;
+  letter-spacing: 2px;
+}
+
+.header-classic {
+  font-size: 7vh;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  letter-spacing: 4px;
+}
+
+/* 화면 중앙 */
+.player-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
+.player-option {
+  margin: 0 90px;
+  font-size: 6vh;
+  min-width: 0; /* 최소 너비를 0으로 설정하여 내용에 관계없이 동일한 너비를 가지도록 함 */
+  flex: 1 1 50%; /* flex-grow, flex-shrink, flex-basis */
+  text-align: center;
+  white-space: nowrap;
+}
+
+.divider {
+  width: 4px; /* divider의 너비 설정 */
+  height: 40vh; /* divider의 높이 설정 */
+  margin-right: 15px;
+  flex-shrink: 0;
+  background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
+  background-size: 4px 96px; /* 점선의 크기와 간격 설정 */
+}
+
+/* 게임 화면 하단 */
+footer {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.game-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}

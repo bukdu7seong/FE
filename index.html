@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pong Classic</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/main_styles.css" />
+    <!-- <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    /> --> 
+  </head>
+  <body>
+    <!-- 모든 화면 -->
+    <div class="full-screen">
+      <div class="side-bar">
+        <div class="menu-top">
+          <div class="menu-item home">
+            <i class="icon-home"
+              ><img src="images/icon/house-solid.svg" alt="Home"
+            /></i>
+          </div>
+          <div class="menu-item game">
+            <i class="icon-game">
+              <img src="images/icon/gamepad-solid.svg" alt="Games"
+            /></i>
+          </div>
+          <div class="menu-item tournament">
+            <i class="icon-tournament"
+              ><img src="images/icon/trophy-solid.svg" alt="Trophy"
+            /></i>
+          </div>
+        </div>
+        <div class="menu-item settings"><img class="icon-settings"><img src="images/icon/gear-solid.svg"></i></div>
+      </div>
+      <!-- 사이드바 제외 -->
+      <div class="main-box">
+        <!-- 프로필 -->
+        <div class="profile-box">
+          <img alt="Profile Image" class="profile-image" id="randomImage" />
+          <div class="profile-nickname">Welcome, junyojeo</div>
+        </div>
+        <!-- 게임 화면 -->
+        <div class="game-box">
+          <p class="header-pong">PONG</p>
+          <p class="header-classic">CLASSIC</p>
+          <div class="player-container">
+            <div class="player-option" id="player1">1 PLAYER</div>
+            <div class="divider"></div>
+            <div class="player-option" id="player2">2 PLAYERS</div>
+            <!-- <input
+              type="checkbox"
+              id="myCheckbox"
+              onclick="return toggleBool()"
+            /> -->
+          </div>
+          <!-- 게임 화면 하단 -->
+          <footer>
+            <p>DEVELOPED BY TWISTED BY RAT</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <!-- <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script> -->
+    <!-- <script src="app.js"></script> -->
+  </body>
+</html>
+
+<!-- Bootstrap's CSS and JS -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+
+<!-- <p id="my-id"></p> -->
+<!-- <p class="my-class"></p> -->
+<!-- <img src="myimage.png"> -->
+
+<!-- <script> 스크립트 사용법
+  var myId = document.getElementById("my-id");
+  myId.innerHTML = "Hello, World!";
+
+  var myClass = document.getElementsByClassName("my-class");
+  myClass[0].innerHTML = "Hello, World!";
+
+  var myTag = document.getElementsByTagName("p");
+  myTag[0].innerHTML = "Hello, World!";
+-->
+
+<!-- <button type="button" onclick="loadData()">데이터 불러오기</button> 
+<div id="result"></div>-->
