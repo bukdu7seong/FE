@@ -25,11 +25,8 @@ export function navbar(routes, handleNavigation) {
   navbar.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.tagName === "A") {
-      const component = handleNavigation(
-        routes,
-        e.target.getAttribute("href")
-      ).component();
-      Render(component);
+      const target = handleNavigation(routes, e.target.getAttribute("href"));
+      Render(target);
     }
   });
 
