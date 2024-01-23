@@ -1,51 +1,37 @@
 let gameState = 'ready';
-let paddle_1 = document.querySelector('.paddle_1');
-let paddle_2 = document.querySelector('.paddle_2');
-let board = document.querySelector('.board');
-let initial_ball = document.querySelector('.ball');
-let ball = document.querySelector('.ball');
-let score_1 = document.querySelector('.player_1_score');
-let score_2 = document.querySelector('.player_2_score');
-let message = document.querySelector('.message');
-let paddle_1_coord = paddle_1.getBoundingClientRect();
-let paddle_2_coord = paddle_2.getBoundingClientRect();
-let initial_ball_coord = ball.getBoundingClientRect();
-let ball_coord = initial_ball_coord;
-let board_coord = board.getBoundingClientRect();
-let paddle_common = document.querySelector('.paddle').getBoundingClientRect();
+let paddle_1;
+let paddle_2;
+let board;
+let initial_ball;
+let ball;
+let score_1;
+let score_2;
+let message;
+let paddle_1_coord;
+let paddle_2_coord;
+let initial_ball_coord;
+let ball_coord;
+let board_coord;
+let paddle_common;
+let isPlayer1MovingUp;
+let isPlayer1MovingDown;
+let isPlayer2MovingUp;
+let isPlayer2MovingDown;
 
 // let mode = 'normal';
 let mode = 'speed';
 let speed = mode == 'normal' ? 10 : 20;
 const numObstacle = 15;
 
+// test
+speed = 5;
+
+let obstacles = [];
+
 function getRandomDirection() {
   return Math.random() < 0.5 ? -1 : 1;
   // return -1;
 }
-
-document.addEventListener('keydown', (e) => {
-  if (e.key == 'Enter' && gameState == 'ready') {
-    for (let obstacle of obstacles) {
-      obstacle.remove();
-    }
-    obstacles = [];
-
-    // 추가: 여러 개의 장애물 다시 생성
-    for (let i = 0; i < numObstacle; i++) {
-      createObstacle();
-    }
-
-    gameState = 'play';
-    message.innerHTML = 'Game Started';
-    message.style.left = 42 + 'vw';
-    requestAnimationFrame(() => {
-      let dy = 0;
-      let dx = getRandomDirection() * speed;
-      moveBall(dy, dx);
-    });
-  }
-});
 
 function ballBoardCollsion() {
   return (
@@ -82,14 +68,6 @@ function paddle1Win() {
 function paddle2Win() {
   return board_coord.left <= ball_coord.left;
 }
-
-// function getBounceDirectionVector(paddle_coord) {
-//   const ball_mid = ball_coord.top + ball_coord.height / 2;
-//   const paddle_mid = paddle_coord.top + paddle_common.height / 2;
-//   const y = (ball_mid - paddle_mid) / paddle_common.height / 2;
-//   const x = Math.sqrt(1 - y * y);
-//   return { y: y, x: x };
-// }
 
 function getBounceDirectionVector(target_coord) {
   const ball_mid = ball_coord.top + ball_coord.height / 2;
@@ -137,16 +115,20 @@ function moveBall(dy, dx) {
     }
   }
   if (ballBoardCollsion()) {
+    console.log('first', dx, dy);
     dy *= -1;
   } else if (ballPaddle1Collsion()) {
+    console.log('second');
     const dir = getBounceDirectionVector(paddle_1_coord);
     dy = dir.y * speed;
     dx = dir.x * speed;
   } else if (ballPaddel2Collsion()) {
+    console.log('thrid');
     const dir = getBounceDirectionVector(paddle_2_coord);
     dy = dir.y * speed;
     dx = -dir.x * speed;
   } else if (roundOver()) {
+    console.log('fourth');
     if (paddle1Win()) {
       score_1.innerHTML = +score_1.innerHTML + 1;
     } else {
@@ -160,6 +142,7 @@ function moveBall(dy, dx) {
     message.style.left = 38 + 'vw';
     return;
   }
+  console.log(ball_coord.top, ball_coord.left, dx, dy);
   ball.style.top = ball_coord.top + dy + 'px';
   ball.style.left = ball_coord.left + dx + 'px';
   ball_coord = ball.getBoundingClientRect();
@@ -168,35 +151,6 @@ function moveBall(dy, dx) {
   });
 }
 
-let isPlayer1MovingUp = false;
-let isPlayer1MovingDown = false;
-let isPlayer2MovingUp = false;
-let isPlayer2MovingDown = false;
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'w') {
-    isPlayer1MovingUp = true;
-  } else if (e.key === 's') {
-    isPlayer1MovingDown = true;
-  } else if (e.key === 'ArrowUp') {
-    isPlayer2MovingUp = true;
-  } else if (e.key === 'ArrowDown') {
-    isPlayer2MovingDown = true;
-  }
-});
-
-document.addEventListener('keyup', (e) => {
-  if (e.key === 'w') {
-    isPlayer1MovingUp = false;
-  } else if (e.key === 's') {
-    isPlayer1MovingDown = false;
-  } else if (e.key === 'ArrowUp') {
-    isPlayer2MovingUp = false;
-  } else if (e.key === 'ArrowDown') {
-    isPlayer2MovingDown = false;
-  }
-});
-
 function movePaddles() {
   if (isPlayer1MovingUp) {
     paddle_1.style.top =
@@ -204,13 +158,19 @@ function movePaddles() {
         board_coord.top,
         paddle_1_coord.top - window.innerHeight * 0.01
       ) + 'px';
+    console.log('P1UP', board_coord.top, paddle_1_coord.top);
   }
   if (isPlayer1MovingDown) {
     paddle_1.style.top =
-      Math.min(
+      Math.max(
         board_coord.bottom - paddle_common.height,
         paddle_1_coord.top + window.innerHeight * 0.01
-      ) + 'px';
+      ) + 'px'; // 임시로 변경
+    console.log(
+      'P1DOWN',
+      board_coord.bottom - paddle_common.height,
+      paddle_1_coord.top + window.innerHeight * 0.01
+    );
   }
   if (isPlayer2MovingUp) {
     paddle_2.style.top =
@@ -218,13 +178,19 @@ function movePaddles() {
         board_coord.top,
         paddle_2_coord.top - window.innerHeight * 0.01
       ) + 'px';
+    console.log('P2UP', board_coord.top, paddle_2_coord.top);
   }
   if (isPlayer2MovingDown) {
     paddle_2.style.top =
-      Math.min(
+      Math.max(
         board_coord.bottom - paddle_common.height,
         paddle_2_coord.top + window.innerHeight * 0.01
-      ) + 'px';
+      ) + 'px'; // 임시로 변경
+    console.log(
+      'P2DOWN',
+      board_coord.bottom - paddle_common.height,
+      paddle_2_coord.top
+    );
   }
   paddle_1_coord = paddle_1.getBoundingClientRect();
   paddle_2_coord = paddle_2.getBoundingClientRect();
@@ -232,9 +198,9 @@ function movePaddles() {
 }
 
 // 초기화: requestAnimationFrame 호출
-requestAnimationFrame(movePaddles);
+// requestAnimationFrame(movePaddles);
 
-let obstacles = [];
+// let obstacles = [];
 
 // 추가: 장애물을 생성하는 함수
 function createObstacle() {
@@ -247,4 +213,95 @@ function createObstacle() {
   obstacle.style.left = Math.random() * (board.clientWidth - 20) + 'px';
 
   obstacles.push(obstacle);
+}
+
+export function getBoard() {
+  const page = document.createElement('div');
+  page.setAttribute('class', 'board');
+  const content = `
+    <div class="ball">
+      <div class="ball_effect"></div>
+    </div>
+    <div class="paddle paddle_1"></div>
+    <div class="paddle paddle_2"></div>
+    <div class="player_1_score">0</div>
+    <div class="player_2_score">0</div>
+    <div class="message">Press Enter to Play Pong</div>
+  `;
+
+  page.innerHTML = content;
+
+  return page;
+}
+
+export function setBoard() {
+  gameState = 'ready';
+  paddle_1 = document.querySelector('.paddle_1');
+  paddle_2 = document.querySelector('.paddle_2');
+  board = document.querySelector('.board');
+  initial_ball = document.querySelector('.ball');
+  ball = document.querySelector('.ball');
+  score_1 = document.querySelector('.player_1_score');
+  score_2 = document.querySelector('.player_2_score');
+  message = document.querySelector('.message');
+  paddle_1_coord = paddle_1.getBoundingClientRect();
+  paddle_2_coord = paddle_2.getBoundingClientRect();
+  initial_ball_coord = ball.getBoundingClientRect();
+  ball_coord = initial_ball_coord;
+  board_coord = board.getBoundingClientRect();
+  paddle_common = document.querySelector('.paddle').getBoundingClientRect();
+
+  isPlayer1MovingUp = false;
+  isPlayer1MovingDown = false;
+  isPlayer2MovingUp = false;
+  isPlayer2MovingDown = false;
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter' && gameState == 'ready') {
+      for (let obstacle of obstacles) {
+        obstacle.remove();
+      }
+      obstacles = [];
+
+      // 추가: 여러 개의 장애물 다시 생성
+      for (let i = 0; i < numObstacle; i++) {
+        createObstacle();
+      }
+
+      gameState = 'play';
+      message.innerHTML = 'Game Started';
+      message.style.left = 42 + 'vw';
+      requestAnimationFrame(() => {
+        let dy = 0;
+        let dx = getRandomDirection() * speed;
+        moveBall(dy, dx);
+      });
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'w') {
+      isPlayer1MovingUp = true;
+    } else if (e.key === 's') {
+      isPlayer1MovingDown = true;
+    } else if (e.key === 'ArrowUp') {
+      isPlayer2MovingUp = true;
+    } else if (e.key === 'ArrowDown') {
+      isPlayer2MovingDown = true;
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'w') {
+      isPlayer1MovingUp = false;
+    } else if (e.key === 's') {
+      isPlayer1MovingDown = false;
+    } else if (e.key === 'ArrowUp') {
+      isPlayer2MovingUp = false;
+    } else if (e.key === 'ArrowDown') {
+      isPlayer2MovingDown = false;
+    }
+  });
+
+  requestAnimationFrame(movePaddles);
 }
