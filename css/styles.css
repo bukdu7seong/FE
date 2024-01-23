@@ -113,6 +113,7 @@ body {
 
 /* 게임 인터페이스 화면 전체 */
 .game-box {
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: black;
@@ -241,6 +242,9 @@ footer {
   text-align: center;
 } */
 
+/* 현재는 임의로 CSS를 설정한 상황 
+ * 반응형으로 변경하기 위해 고정값을 모두 대체해야 한다.
+*/
 .board {
   height: 70vh;
   width: 80vw;
@@ -284,7 +288,7 @@ footer {
 
 .paddle_1 {
   top: calc(7.5vh + 55px);
-  left: calc(10vw + 30px);
+  left: calc(12% + 30px);
   box-shadow: inset 0 0 18px #fff, inset -6px 0 18px #f3bad6,
     inset 6px 0 18px #0ff, inset -6px 0 30px #f3bad6, inset 6px 0 30px #0ff,
     0 0 18px #fff, 4px 0 18px #f3bad6, -4px 0 18px #0ff;
@@ -292,7 +296,7 @@ footer {
 
 .paddle_2 {
   top: calc(85vh + 7.5vh - 100px - 55px);
-  right: calc(10vw + 30px);
+  right: calc(5% + 30px);
   box-shadow: inset 0 0 18px #fff, inset 6px 0 18px #f3bad6,
     inset -6px 0 18px #0ff, inset 6px 0 30px #f3bad6, inset -6px 0 30px #0ff,
     0 0 18px #fff, -4px 0 18px #f3bad6, 4px 0 18px #0ff;

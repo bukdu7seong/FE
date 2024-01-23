@@ -23,9 +23,6 @@ let mode = 'speed';
 let speed = mode == 'normal' ? 10 : 20;
 const numObstacle = 15;
 
-// test
-speed = 5;
-
 let obstacles = [];
 
 function getRandomDirection() {
@@ -115,25 +112,22 @@ function moveBall(dy, dx) {
     }
   }
   if (ballBoardCollsion()) {
-    console.log('first', dx, dy);
     dy *= -1;
   } else if (ballPaddle1Collsion()) {
-    console.log('second');
     const dir = getBounceDirectionVector(paddle_1_coord);
     dy = dir.y * speed;
     dx = dir.x * speed;
   } else if (ballPaddel2Collsion()) {
-    console.log('thrid');
     const dir = getBounceDirectionVector(paddle_2_coord);
     dy = dir.y * speed;
     dx = -dir.x * speed;
   } else if (roundOver()) {
-    console.log('fourth');
     if (paddle1Win()) {
       score_1.innerHTML = +score_1.innerHTML + 1;
     } else {
       score_2.innerHTML = +score_2.innerHTML + 1;
     }
+
     gameState = 'ready';
 
     ball_coord = initial_ball_coord;
@@ -142,7 +136,6 @@ function moveBall(dy, dx) {
     message.style.left = 38 + 'vw';
     return;
   }
-  console.log(ball_coord.top, ball_coord.left, dx, dy);
   ball.style.top = ball_coord.top + dy + 'px';
   ball.style.left = ball_coord.left + dx + 'px';
   ball_coord = ball.getBoundingClientRect();
@@ -158,19 +151,13 @@ function movePaddles() {
         board_coord.top,
         paddle_1_coord.top - window.innerHeight * 0.01
       ) + 'px';
-    console.log('P1UP', board_coord.top, paddle_1_coord.top);
   }
   if (isPlayer1MovingDown) {
     paddle_1.style.top =
-      Math.max(
+      Math.min(
         board_coord.bottom - paddle_common.height,
         paddle_1_coord.top + window.innerHeight * 0.01
       ) + 'px'; // 임시로 변경
-    console.log(
-      'P1DOWN',
-      board_coord.bottom - paddle_common.height,
-      paddle_1_coord.top + window.innerHeight * 0.01
-    );
   }
   if (isPlayer2MovingUp) {
     paddle_2.style.top =
@@ -178,19 +165,13 @@ function movePaddles() {
         board_coord.top,
         paddle_2_coord.top - window.innerHeight * 0.01
       ) + 'px';
-    console.log('P2UP', board_coord.top, paddle_2_coord.top);
   }
   if (isPlayer2MovingDown) {
     paddle_2.style.top =
-      Math.max(
+      Math.min(
         board_coord.bottom - paddle_common.height,
         paddle_2_coord.top + window.innerHeight * 0.01
       ) + 'px'; // 임시로 변경
-    console.log(
-      'P2DOWN',
-      board_coord.bottom - paddle_common.height,
-      paddle_2_coord.top
-    );
   }
   paddle_1_coord = paddle_1.getBoundingClientRect();
   paddle_2_coord = paddle_2.getBoundingClientRect();

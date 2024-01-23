@@ -80,12 +80,12 @@ window.onclick = function (event) {
   }
 };
 
+// 임시로 Player2 div를 누르면 게임이 시작되게 설정
 document.getElementById('player2').addEventListener('click', function () {
-  console.log('clicked');
-  const gameBox = document.getElementsByClassName('game-box')[0];
+  const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
   while (gameBox.firstChild) {
     gameBox.removeChild(gameBox.firstChild);
-  }
-  gameBox.appendChild(getBoard());
-  setBoard();
+  } // game-box div의 자식 요소들을 모두 삭제
+  gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
+  setBoard(); // 게임에 필요한 요소들을 설정
 });
