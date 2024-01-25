@@ -29,7 +29,7 @@ body {
 .side-bar {
   flex-shrink: 0; /* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 */
   height: 100vh; /* 전체 높이를 차지하도록 설정 */
-  width: 8vw; /* 사이드바의 너비 */
+  /* width: 8vw; 사이드바의 너비 -> flex-shrink가 적용되지 않음 */
   min-width: 75px; /* 사이드바의 최소 너비 */
   background-color: #282828; /* 사이드바 배경색 */
   display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
@@ -288,7 +288,7 @@ footer {
 
 .paddle_1 {
   top: calc(7.5vh + 55px);
-  left: calc(12% + 30px);
+  left: calc(15% + 30px);
   box-shadow: inset 0 0 18px #fff, inset -6px 0 18px #f3bad6,
     inset 6px 0 18px #0ff, inset -6px 0 30px #f3bad6, inset 6px 0 30px #0ff,
     0 0 18px #fff, 4px 0 18px #f3bad6, -4px 0 18px #0ff;
@@ -296,7 +296,7 @@ footer {
 
 .paddle_2 {
   top: calc(85vh + 7.5vh - 100px - 55px);
-  right: calc(5% + 30px);
+  right: calc(1% + 30px);
   box-shadow: inset 0 0 18px #fff, inset 6px 0 18px #f3bad6,
     inset -6px 0 18px #0ff, inset 6px 0 30px #f3bad6, inset -6px 0 30px #0ff,
     0 0 18px #fff, -4px 0 18px #f3bad6, 4px 0 18px #0ff;
