@@ -1,5 +1,6 @@
 import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
+import { pageToggle } from './pages/toggle.js';
 import { Route, handleNavigation } from '../lib/router.js';
 import { pageProfile } from './pages/profile.js';
 import { pageGame } from './pages/game.js';
@@ -11,6 +12,7 @@ const routes = {
   '/profile': { name: 'Profile', page: pageProfile, component: [] },
   '/game': { name: 'Game', page: pageGame, component: [] },
   '/tournament': { name: 'Tournament', page: pageTournament, component: [] },
+  '/settings': { name: 'Settings', page: pageToggle, component: [] },
 };
 
 // 지금은 모든 라우팅 경로의 페이지에 동일한 sidebar 컴포넌트를 적용하지만...
