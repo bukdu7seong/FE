@@ -11,7 +11,7 @@ export function sidebar(routes, handleNavigation) {
     Profile: 'house-solid',
     Game: 'gamepad-solid',
     Tournament: 'trophy-solid',
-    Settings: 'gear-solid',
+    Settings: 'arrow-right-from-bracket-solid',
   };
 
   Object.entries(routes).forEach(([route, { name }]) => {

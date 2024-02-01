@@ -42,18 +42,6 @@ window.onload = function () {
 */
 // game에서만 적용되게 해야 함
 
-function moveWindow() {
-  var playerOption1 = document.getElementById('player1');
-  var playerOption2 = document.getElementById('player2');
-  if (window.innerWidth <= 1112) {
-    playerOption1.textContent = '1';
-    playerOption2.textContent = '2';
-  } else {
-    playerOption1.textContent = '1 PLAYER';
-    playerOption2.textContent = '2 PLAYERS';
-  }
-}
-
 window.removeEventListener('resize', moveWindow);
 
 window.addEventListener('resize', moveWindow);
