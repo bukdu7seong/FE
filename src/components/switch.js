@@ -1,4 +1,5 @@
-export function createToggle() {
+// 이 함수는 스위치 컴포넌트를 생성합니다.
+export function createSwitch() {
   const label = document.createElement('label');
   label.setAttribute('class', 'switch');
 

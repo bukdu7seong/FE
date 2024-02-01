@@ -1,62 +1,89 @@
-import { sidebar } from './components/sidebar.js';
-import { profile } from './components/profile.js';
-import { pageToggle } from './pages/toggle.js';
-import { Route, handleNavigation } from '../lib/router.js';
+import { Route } from './utils/router/router.js';
+import { SetComponent } from './utils/router/setcomponent.js';
+import { Navigate } from './utils/router/navigate.js';
+// pages
 import { pageProfile } from './pages/profile.js';
 import { pageGame } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
-import { SetComponent } from '../lib/render.js';
+import { pageSwitch } from './pages/switch.js';
+// components
+import { sidebar } from './components/sidebar.js';
+import { profile } from './components/profile.js';
 import { getBoard, setBoard } from './components/pong.js';
 
+// 라우팅 경로를 설정. { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 컴포넌트는 배열로 설정.
 const routes = {
   '/profile': { name: 'Profile', page: pageProfile, component: [] },
   '/game': { name: 'Game', page: pageGame, component: [] },
   '/tournament': { name: 'Tournament', page: pageTournament, component: [] },
-  '/settings': { name: 'Settings', page: pageToggle, component: [] },
+  '/logout': { name: 'Logout', page: pageSwitch, component: [] },
 };
 
-// 지금은 모든 라우팅 경로의 페이지에 동일한 sidebar 컴포넌트를 적용하지만...
-// 굳이 이렇게 할 필요 없이 별도로 컴포넌트를 추가하는 방식으로 구현해도 될 듯.
-SetComponent(routes, sidebar(routes, handleNavigation), profile('junyojeo'));
+// router -> sidebar, profile 제외 화면 Render, navigater()
+// SetComponent -> sidebar, profile 컴포넌트를 화면에 세팅 해둠.
+SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
+// 나머지 화면은 라우터를 통해 세팅.
 Route(routes);
 
-// 문서가 로드될 때 실행되는 함수를 정의합니다.
-window.onload = function () {
-  // 이미지 경로를 배열로 저장합니다.
-  const images = [
-    '../images/profile/profile_01.jpg',
-    '../images/profile/profile_02.jpg',
-    '../images/profile/profile_03.jpg',
-    '../images/profile/profile_04.jpg',
-  ];
-  // 랜덤 인덱스를 생성합니다.
-  var index = Math.floor(Math.random() * images.length);
-  // 이미지 요소의 src 속성을 랜덤 이미지로 설정합니다.
-  // console.log(document.getElementById('randomImage'));
-  document.getElementById('randomImage').src = images[index];
-};
-
-/*
-  이렇게 페이지마다 로딩해야 하는 이벤트가 있어서
-  상태 관리 요소를 하나 추가해야 할 것 같다.
-*/
-// game에서만 적용되게 해야 함
-
-window.removeEventListener('resize', moveWindow);
-
-window.addEventListener('resize', moveWindow);
-
-// 임시로 Player2 div를 누르면 게임이 시작되게 설정
-// 페이지가 바뀔 때 로딩되면서 이벤트가 설정되어야 하는데... 임시로 일단 window 클릭 이벤트로 체크
-window.onclick = function () {
-  if (document.getElementById('player2')) {
-    document.getElementById('player2').addEventListener('click', function () {
-      const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
-      while (gameBox.firstChild) {
-        gameBox.removeChild(gameBox.firstChild);
-      } // game-box div의 자식 요소들을 모두 삭제
-      gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
-      setBoard(); // 게임에 필요한 요소들을 설정
+// 상태 변경에 따른 UI 업데이트를 수행하는 함수
+function updateUI(state) {
+  // 예: 프로필 이미지 URL이 변경된 경우, 이미지를 업데이트.
+  if (document.getElementById('profileImage')) {
+    document.getElementById('profileImage').src = state.profileImageUrl;
+  }
+  // 예: 프로필 이름이 변경된 경우, 이름을 업데이트.
+  if (document.getElementsByClassName('profile-name').length > 0) {
+    [...document.getElementsByClassName('profile-name')].forEach((element) => {
+      element.innerHTML = state.profileName;
     });
   }
-};
+}
+
+// 스토어의 상태 변경을 구독합니다.
+store.subscribe(updateUI);
+
+// 애플리케이션 초기화 로직
+function init() {
+  // 랜덤 이미지를 프로필 사진으로 설정
+  window.onload = function () {
+    // 이미지 경로를 담은 배열을 생성합니다.
+    const images = [
+      '../images/profile/profile_01.jpg',
+      '../images/profile/profile_02.jpg',
+      '../images/profile/profile_03.jpg',
+      '../images/profile/profile_04.jpg',
+    ];
+    // 랜덤 숫자를 생성.
+    var index = Math.floor(Math.random() * images.length);
+    // 랜덤 이미지를 출력합니다.
+    document.getElementById('randomImage').src = images[index];
+  };
+
+  // 앞, 뒤 버튼을 누르면, 해당 라우팅 경로의 객체를 반환.
+  window.addEventListener('popstate', () => {
+    const target = Navigate(routeObject, window.location.pathname, false);
+    Render(target);
+  }); // Todo. 중복 이벤트 처리 방지
+
+  // 브라우저의 창 크가 변경될 때마다 이벤트를 발생시키고 지웁니다. 중복 이벤트 처리 방지를 위해 사용.
+  window.addEventListener('resize', moveWindow);
+  window.removeEventListener('resize', moveWindow);
+
+  // 게임 시작 버튼을 누르면 게임이 시작되도록 설정
+  window.onclick = function () {
+    if (document.getElementById('player1')) {
+    }
+    if (document.getElementById('player2')) {
+      document.getElementById('player2').addEventListener('click', function () {
+        const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
+        while (gameBox.firstChild) {
+          gameBox.removeChild(gameBox.firstChild);
+        } // game-box div의 자식 요소들을 모두 삭제
+        gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
+        setBoard(); // 게임에 필요한 요소들을 설정
+      });
+    }
+  };
+}
+
+init();

@@ -1,6 +1,7 @@
-import { Render } from '../../lib/render.js';
+import { Render } from '../utils/router/render.js';
 
-export function sidebar(routes, handleNavigation) {
+// 이 함수는 라우터 객체를 받아서, 해당 객체의 페이지를 렌더링한다.
+export function sidebar(routes, Navigate) {
   const sidebar = document.createElement('div');
   sidebar.setAttribute('class', 'side-bar');
 
@@ -11,7 +12,7 @@ export function sidebar(routes, handleNavigation) {
     Profile: 'house-solid',
     Game: 'gamepad-solid',
     Tournament: 'trophy-solid',
-    Settings: 'arrow-right-from-bracket-solid',
+    Logout: 'arrow-right-from-bracket-solid',
   };
 
   Object.entries(routes).forEach(([route, { name }]) => {
@@ -26,13 +27,13 @@ export function sidebar(routes, handleNavigation) {
       image.src = `../../images/icon/${icons[name]}.svg`;
       image.alt = name;
       //   image.setAttribute('href', route);
-      image.setAttribute('route', route); // 수정된 부분
+      image.setAttribute('route', route);
 
       icon.appendChild(image);
       menuItem.appendChild(icon);
 
-      menuTop.appendChild(menuItem); // 이 부분을 추가합니다.
-      if (name === 'Settings') {
+      menuTop.appendChild(menuItem);
+      if (name === 'Logout') {
         sidebar.appendChild(menuItem);
       } else {
         menuTop.appendChild(menuItem);
@@ -46,7 +47,7 @@ export function sidebar(routes, handleNavigation) {
     e.preventDefault();
     const targetImg = e.target.closest('img');
     if (targetImg) {
-      const target = handleNavigation(routes, targetImg.getAttribute('href'));
+      const target = Navigate(routes, targetImg.getAttribute('route'));
       Render(target);
     }
   });
