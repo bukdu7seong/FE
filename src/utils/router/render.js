@@ -7,6 +7,7 @@ import { ReplaceElement } from '../replace.js';
  * @returns
  */
 export function Render(target, tag = 'app') {
+  // app이라는 id를 가진 요소를 찾아서, 해당 요소의 자식을 모두 지운다.
   const app =
     document.getElementById(tag) || document.getElementsByClassName(tag)[0];
   if (!app) {
@@ -15,13 +16,16 @@ export function Render(target, tag = 'app') {
     app.innerHTML = '';
   }
 
+  // target.page()의 결과(≒ page: PageNotFound)를 app에 추가한다.
   app.appendChild(target.page());
+  console.log('target:', target);
 
+  // target.component에 있는 모든 요소를 찾아서, 해당 요소를 app에 추가한다.
   target.component.forEach((element) => {
     if (element.id) {
-      ReplaceElement(element.id, element);
+      ReplaceElement(element.id, element); // id가 있는 경우
     } else if (element.className) {
-      ReplaceElement(element.className, element);
+      ReplaceElement(element.className, element); // class가 있는 경우
     } else {
       // skip
     }

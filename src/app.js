@@ -1,3 +1,4 @@
+// app.js는 브라우저가 새로고침 될 때마다 실행.
 import { Route } from './utils/router/router.js';
 import { SetComponent } from './utils/router/setcomponent.js';
 import { Navigate } from './utils/router/navigate.js';
@@ -10,8 +11,10 @@ import { pageSwitch } from './pages/switch.js';
 import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
 import { getBoard, setBoard } from './components/pong.js';
+// state
+import { store, updateUI } from './state/store.js';
 
-// 라우팅 경로를 설정. { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 컴포넌트는 배열로 설정.
+// { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 const routes = {
   '/profile': { name: 'Profile', page: pageProfile, component: [] },
   '/game': { name: 'Game', page: pageGame, component: [] },
@@ -19,68 +22,53 @@ const routes = {
   '/logout': { name: 'Logout', page: pageSwitch, component: [] },
 };
 
-// router -> sidebar, profile 제외 화면 Render, navigater()
-// SetComponent -> sidebar, profile 컴포넌트를 화면에 세팅 해둠.
+// SetComponent -> routes 객체의 component 배열에 속성 추가
 SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
-// 나머지 화면은 라우터를 통해 세팅.
+// 나머지 페이지에도 컴포넌트 추가
 Route(routes);
 
-// 상태 변경에 따른 UI 업데이트를 수행하는 함수
-function updateUI(state) {
-  // 예: 프로필 이미지 URL이 변경된 경우, 이미지를 업데이트.
-  if (document.getElementById('profileImage')) {
-    document.getElementById('profileImage').src = state.profileImageUrl;
-  }
-  // 예: 프로필 이름이 변경된 경우, 이름을 업데이트.
-  if (document.getElementsByClassName('profile-name').length > 0) {
-    [...document.getElementsByClassName('profile-name')].forEach((element) => {
-      element.innerHTML = state.profileName;
-    });
-  }
-}
-
-// 스토어의 상태 변경을 구독합니다.
+// 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행.
+// 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
 store.subscribe(updateUI);
 
-// 애플리케이션 초기화 로직
 function init() {
-  // 랜덤 이미지를 프로필 사진으로 설정
+  // window.onload -> 브라우저가 새로고침 될 때마다 실행
   window.onload = function () {
-    // 이미지 경로를 담은 배열을 생성합니다.
+    // 프로필 이미지로 사용될 이미지 목록
     const images = [
       '../images/profile/profile_01.jpg',
       '../images/profile/profile_02.jpg',
       '../images/profile/profile_03.jpg',
       '../images/profile/profile_04.jpg',
     ];
-    // 랜덤 숫자를 생성.
+    // images 배열에서 무작위로 하나의 인덱스를 선택
     var index = Math.floor(Math.random() * images.length);
-    // 랜덤 이미지를 출력합니다.
+    // 선택된 이미지로 randomImage의 src 속성을 업데이트
     document.getElementById('randomImage').src = images[index];
   };
 
-  // 앞, 뒤 버튼을 누르면, 해당 라우팅 경로의 객체를 반환.
+  // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
   window.addEventListener('popstate', () => {
-    const target = Navigate(routeObject, window.location.pathname, false);
+    const target = Navigate(routes, window.location.pathname, false);
     Render(target);
-  }); // Todo. 중복 이벤트 처리 방지
+  });
 
-  // 브라우저의 창 크가 변경될 때마다 이벤트를 발생시키고 지웁니다. 중복 이벤트 처리 방지를 위해 사용.
-  window.addEventListener('resize', moveWindow);
-  window.removeEventListener('resize', moveWindow);
+  // 창 크기가 변경될 때마다 상태 업데이트
+  function handleResize() {
+    resizeWindow(window.innerWidth, window.innerHeight);
+  }
+  window.addEventListener('resize', handleResize);
 
-  // 게임 시작 버튼을 누르면 게임이 시작되도록 설정
+  // 게임 시작 버튼을 클릭하면 게임을 시작
   window.onclick = function () {
-    if (document.getElementById('player1')) {
-    }
     if (document.getElementById('player2')) {
       document.getElementById('player2').addEventListener('click', function () {
-        const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
+        const gameBox = document.getElementsByClassName('game-box')[0];
         while (gameBox.firstChild) {
           gameBox.removeChild(gameBox.firstChild);
-        } // game-box div의 자식 요소들을 모두 삭제
-        gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
-        setBoard(); // 게임에 필요한 요소들을 설정
+        }
+        gameBox.appendChild(getBoard());
+        setBoard();
       });
     }
   };
