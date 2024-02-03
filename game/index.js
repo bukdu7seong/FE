@@ -236,9 +236,9 @@ class Ball {
       dx = -dir.x * this.speed;
     } else if (roundOver()) {
       if (paddle1Win()) {
-        score_1.innerHTML = score_1.innerHTML + 1;
+        ++score_1.innerHTML;
       } else {
-        score_2.innerHTML = score_2.innerHTML + 1;
+        ++score_2.innerHTML;
       }
       gameState = 'ready';
 
