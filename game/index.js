@@ -1,24 +1,91 @@
 let gameState = 'ready';
-let paddle_1 = document.querySelector('.paddle_1');
-let paddle_2 = document.querySelector('.paddle_2');
 let board = document.querySelector('.board');
-let score_1 = document.querySelector('.player_1_score');
-let score_2 = document.querySelector('.player_2_score');
 let message = document.querySelector('.message');
-let paddle_1_coord = paddle_1.getBoundingClientRect();
-let paddle_2_coord = paddle_2.getBoundingClientRect();
 let board_coord = board.getBoundingClientRect();
 let paddle_common = document.querySelector('.paddle').getBoundingClientRect();
-
-// let mode = 'normal';
 let mode = 'speed';
-let speed = mode == 'normal' ? 10 : 20;
 const numObstacle = 15;
 
 function getRandomDirection() {
   return Math.random() < 0.5 ? -1 : 1;
   // return -1;
 }
+
+class Player{
+  constructor(paddleElement, scoreElement, playerName) {
+    this.paddle = paddleElement;
+    this.paddleCoord = this.paddle.getBoundingClientRect();
+    this.scoreElement = scoreElement;
+    this.score = 0;
+    this.playerName = playerName;
+    this.isMovingUp = false;
+    this.isMovingDown = false;
+  }
+
+  moveUp() {
+    this.paddle.style.top = Math.max(board_coord.top, this.paddleCoord.top - window.innerHeight * 0.01) + 'px';
+    this.paddleCoord = this.paddle.getBoundingClientRect();
+  }
+
+  moveDown() {
+    this.paddle.style.top = Math.min(board_coord.bottom - paddle_common.height, this.paddleCoord.top + window.innerHeight * 0.01) + 'px';
+    this.paddleCoord = this.paddle.getBoundingClientRect();
+  }
+
+  updateScore() {
+    this.scoreElement.innerHTML = this.score;
+  }
+}
+
+let paddle_1 = document.querySelector('.paddle_1');
+let paddle_2 = document.querySelector('.paddle_2');
+let score_1 = document.querySelector('.player_1_score');
+let score_2 = document.querySelector('.player_2_score');
+
+let player1 = new Player(paddle_1, score_1, 'Player1');
+let player2 = new Player(paddle_2, score_2, 'Player2');
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'w') {
+    player1.isMovingUp = true;
+  } else if (e.key === 's') {
+    player1.isMovingDown = true;
+  } else if (e.key === 'ArrowUp') {
+    player2.isMovingUp = true;
+  } else if (e.key === 'ArrowDown') {
+    player2.isMovingDown = true;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'w') {
+    player1.isMovingUp = false;
+  } else if (e.key === 's') {
+    player1.isMovingDown = false;
+  } else if (e.key === 'ArrowUp') {
+    player2.isMovingUp = false;
+  } else if (e.key === 'ArrowDown') {
+    player2.isMovingDown = false;
+  }
+});
+
+function movePaddles() {
+  if (player1.isMovingUp) {
+    player1.moveUp();
+  }
+  if (player1.isMovingDown) {
+    player1.moveDown();
+  }
+  if (player2.isMovingUp) {
+    player2.moveUp();
+  }
+  if (player2.isMovingDown) {
+    player2.moveDown();
+  }
+  requestAnimationFrame(movePaddles);
+}
+// 초기화: requestAnimationFrame 호출
+requestAnimationFrame(movePaddles);
 
 document.addEventListener('keydown', (e) => {
   console.log('hello');
@@ -38,7 +105,7 @@ document.addEventListener('keydown', (e) => {
     message.style.left = 42 + 'vw';
     requestAnimationFrame(() => {
       let dy = 0;
-      let dx = getRandomDirection() * speed;
+      let dx = getRandomDirection() * ball.speed;
       ball.move(dy, dx);
     });
   }
@@ -52,17 +119,17 @@ function ballBoardCollsion() {
 
 function ballPaddle1Collsion() {
   return (
-    ball.coord.left <= paddle_1_coord.right &&
-    ball.coord.bottom >= paddle_1_coord.top &&
-    ball.coord.top <= paddle_1_coord.bottom
+    ball.coord.left <= player1.paddle.getBoundingClientRect().right &&
+    ball.coord.bottom >= player1.paddle.getBoundingClientRect().top &&
+    ball.coord.top <= player1.paddle.getBoundingClientRect().bottom
   );
 }
 
 function ballPaddel2Collsion() {
   return (
-    ball.coord.right >= paddle_2_coord.left &&
-    ball.coord.bottom >= paddle_2_coord.top &&
-    ball.coord.top <= paddle_2_coord.bottom
+    ball.coord.right >= player2.paddle.getBoundingClientRect().left &&
+    ball.coord.bottom >= player2.paddle.getBoundingClientRect().top &&
+    ball.coord.top <= player2.paddle.getBoundingClientRect().bottom
   );
 }
 
@@ -75,7 +142,6 @@ function roundOver() {
 function paddle1Win() {
   return board_coord.right <= ball.coord.right;
 }
-
 function paddle2Win() {
   return board_coord.left <= ball.coord.left;
 }
@@ -87,7 +153,6 @@ function getBounceDirectionVector(target_coord) {
   const x = Math.sqrt(1 - y * y);
   return { y: y, x: x };
 }
-
 function ballObstacleCollision() {
   for (let i = 0; i < obstacles.length; i++) {
     const obstacle = obstacles[i].getBoundingClientRect();
@@ -102,101 +167,27 @@ function ballObstacleCollision() {
   return null;
 }
 
-
-let isPlayer1MovingUp = false;
-let isPlayer1MovingDown = false;
-let isPlayer2MovingUp = false;
-let isPlayer2MovingDown = false;
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'w') {
-    isPlayer1MovingUp = true;
-  } else if (e.key === 's') {
-    isPlayer1MovingDown = true;
-  } else if (e.key === 'ArrowUp') {
-    isPlayer2MovingUp = true;
-  } else if (e.key === 'ArrowDown') {
-    isPlayer2MovingDown = true;
-  }
-});
-
-document.addEventListener('keyup', (e) => {
-  if (e.key === 'w') {
-    isPlayer1MovingUp = false;
-  } else if (e.key === 's') {
-    isPlayer1MovingDown = false;
-  } else if (e.key === 'ArrowUp') {
-    isPlayer2MovingUp = false;
-  } else if (e.key === 'ArrowDown') {
-    isPlayer2MovingDown = false;
-  }
-});
-
-function movePaddles() {
-  if (isPlayer1MovingUp) {
-    paddle_1.style.top =
-      Math.max(
-        board_coord.top,
-        paddle_1_coord.top - window.innerHeight * 0.01
-      ) + 'px';
-  }
-  if (isPlayer1MovingDown) {
-    paddle_1.style.top =
-      Math.min(
-        board_coord.bottom - paddle_common.height,
-        paddle_1_coord.top + window.innerHeight * 0.01
-      ) + 'px';
-  }
-  if (isPlayer2MovingUp) {
-    paddle_2.style.top =
-      Math.max(
-        board_coord.top,
-        paddle_2_coord.top - window.innerHeight * 0.01
-      ) + 'px';
-  }
-  if (isPlayer2MovingDown) {
-    paddle_2.style.top =
-      Math.min(
-        board_coord.bottom - paddle_common.height,
-        paddle_2_coord.top + window.innerHeight * 0.01
-      ) + 'px';
-  }
-  paddle_1_coord = paddle_1.getBoundingClientRect();
-  paddle_2_coord = paddle_2.getBoundingClientRect();
-  requestAnimationFrame(movePaddles);
-}
-
-// 초기화: requestAnimationFrame 호출
-requestAnimationFrame(movePaddles);
-
 let obstacles = [];
-
 // 추가: 장애물을 생성하는 함수
 function createObstacle() {
   let obstacle = document.createElement('div');
   obstacle.className = 'obstacle';
   board.appendChild(obstacle);
-
   // 장애물 초기 위치 무작위 설정
   obstacle.style.top = Math.random() * (board.clientHeight - 20) + 'px';
   obstacle.style.left = Math.random() * (board.clientWidth - 20) + 'px';
-
   obstacles.push(obstacle);
 }
-
-
 class Ball {
   constructor(element, initialCoord, speed) {
     this.element = element;  // 공의 DOM 요소
     this.coord = initialCoord;  // 초기 좌표
     this.speed = speed;  // 공의 속도
   }
-
   // 현재 공의 위치 정보를 반환하는 메서드
   getBoundingClientRect() {
     return this.element.getBoundingClientRect();
   }
-
   // 공을 이동시키는 메서드
   move(dy, dx) {
     // 기존의 공 이동 로직을 여기에 복사합니다.
@@ -227,11 +218,11 @@ class Ball {
     if (ballBoardCollsion()) {
       dy *= -1;
     } else if (ballPaddle1Collsion()) {
-      const dir = getBounceDirectionVector(paddle_1_coord);
+      const dir = getBounceDirectionVector(player1.paddle.getBoundingClientRect());
       dy = dir.y * this.speed;
       dx = dir.x * this.speed;
     } else if (ballPaddel2Collsion()) {
-      const dir = getBounceDirectionVector(paddle_2_coord);
+      const dir = getBounceDirectionVector(player2.paddle.getBoundingClientRect());
       dy = dir.y * this.speed;
       dx = -dir.x * this.speed;
     } else if (roundOver()) {
@@ -265,6 +256,5 @@ class Ball {
 const initialBall = document.querySelector('.ball');
 const initialBallCoord = initialBall.getBoundingClientRect();
 const ballSpeed = mode === 'normal' ? 10 : 20;
-
 // Ball 클래스의 인스턴스를 생성합니다.
 let ball = new Ball(initialBall, initialBallCoord, ballSpeed);
