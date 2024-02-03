@@ -111,28 +111,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function ballBoardCollsion() {
-  return (
-    ball.coord.top <= board_coord.top || ball.coord.bottom >= board_coord.bottom
-  );
-}
-
-function ballPaddle1Collsion() {
-  return (
-    ball.coord.left <= player1.paddle.getBoundingClientRect().right &&
-    ball.coord.bottom >= player1.paddle.getBoundingClientRect().top &&
-    ball.coord.top <= player1.paddle.getBoundingClientRect().bottom
-  );
-}
-
-function ballPaddel2Collsion() {
-  return (
-    ball.coord.right >= player2.paddle.getBoundingClientRect().left &&
-    ball.coord.bottom >= player2.paddle.getBoundingClientRect().top &&
-    ball.coord.top <= player2.paddle.getBoundingClientRect().bottom
-  );
-}
-
 function roundOver() {
   return (
     ball.coord.left <= board_coord.left || ball.coord.right >= board_coord.right
@@ -153,19 +131,6 @@ function getBounceDirectionVector(target_coord) {
   const x = Math.sqrt(1 - y * y);
   return { y: y, x: x };
 }
-function ballObstacleCollision() {
-  for (let i = 0; i < obstacles.length; i++) {
-    const obstacle = obstacles[i].getBoundingClientRect();
-    if (
-      obstacle.left <= ball.coord.right &&
-      ball.coord.left <= obstacle.right &&
-      obstacle.top <= ball.coord.bottom &&
-      ball.coord.top <= obstacle.bottom
-    )
-      return obstacle;
-  }
-  return null;
-}
 
 let obstacles = [];
 // 추가: 장애물을 생성하는 함수
@@ -178,6 +143,42 @@ function createObstacle() {
   obstacle.style.left = Math.random() * (board.clientWidth - 20) + 'px';
   obstacles.push(obstacle);
 }
+
+class CollisionDetector {
+  static ballBoardCollision() {
+    return (
+      ball.coord.top <= board_coord.top || ball.coord.bottom >= board_coord.bottom
+    );
+  }
+  static ballPlayer1Collision() {
+    return (
+      ball.coord.left <= player1.paddle.getBoundingClientRect().right &&
+      ball.coord.bottom >= player1.paddle.getBoundingClientRect().top &&
+      ball.coord.top <= player1.paddle.getBoundingClientRect().bottom
+    );
+  }
+  static ballPlayer2Collision() {
+    return (
+      ball.coord.right >= player2.paddle.getBoundingClientRect().left &&
+      ball.coord.bottom >= player2.paddle.getBoundingClientRect().top &&
+      ball.coord.top <= player2.paddle.getBoundingClientRect().bottom
+    );
+  }
+  static ballObstacleCollision() {
+    for (let i = 0; i < obstacles.length; i++) {
+      const obstacle = obstacles[i].getBoundingClientRect();
+      if (
+        obstacle.left <= ball.coord.right &&
+        ball.coord.left <= obstacle.right &&
+        obstacle.top <= ball.coord.bottom &&
+        ball.coord.top <= obstacle.bottom
+      )
+        return obstacle;
+    }
+    return null;
+  }
+}
+
 class Ball {
   constructor(element, initialCoord, speed) {
     this.element = element;  // 공의 DOM 요소
@@ -192,7 +193,7 @@ class Ball {
   move(dy, dx) {
     // 기존의 공 이동 로직을 여기에 복사합니다.
     // ...
-    let obstacle = ballObstacleCollision();
+    let obstacle = CollisionDetector.ballObstacleCollision();
     if (obstacle) {
       const sign = dx > 0 ? -1 : 1;
       const dir = getBounceDirectionVector(obstacle);
@@ -215,13 +216,13 @@ class Ball {
       }
     }
 
-    if (ballBoardCollsion()) {
+    if (CollisionDetector.ballBoardCollision()) {
       dy *= -1;
-    } else if (ballPaddle1Collsion()) {
+    } else if (CollisionDetector.ballPlayer1Collision()) {
       const dir = getBounceDirectionVector(player1.paddle.getBoundingClientRect());
       dy = dir.y * this.speed;
       dx = dir.x * this.speed;
-    } else if (ballPaddel2Collsion()) {
+    } else if (CollisionDetector.ballPlayer2Collision()) {
       const dir = getBounceDirectionVector(player2.paddle.getBoundingClientRect());
       dy = dir.y * this.speed;
       dx = -dir.x * this.speed;
