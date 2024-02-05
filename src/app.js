@@ -1,7 +1,7 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { Route } from './utils/router/router.js';
-import { SetComponent } from './utils/router/setcomponent.js';
-import { Navigate } from './utils/router/navigate.js';
+import { Route } from '../lib/router/router.js';
+import { SetComponent } from '../lib/router/setcomponent.js';
+import { Navigate } from '../lib/router/navigate.js';
 // pages
 import { pageLogin } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';

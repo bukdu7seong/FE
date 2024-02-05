@@ -1,4 +1,4 @@
-import { Render } from '../utils/router/render.js';
+import { Render } from '../../lib/router/render.js';
 
 /* 
   <div class="side-bar">
