@@ -1,6 +1,7 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
-class PongGame {
+
+export default class PingPongGame {
   constructor(mode) {
     this.gameState = 'ready';
     this.board = document.querySelector('.board');
@@ -133,6 +134,7 @@ class PongGame {
     this.player2.updateScore();
   }
 
+
   roundOver() {
     return (
       this.ball.coord.left <= this.boardCoord.left || this.ball.coord.right >= this.boardCoord.right
@@ -148,8 +150,3 @@ class PongGame {
   }
 }
 
-// const gameMode = 'speed';
-const gameMode = 'normal';
-
-const pongGame = new PongGame(gameMode);
-pongGame.gameStart();
