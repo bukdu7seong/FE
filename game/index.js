@@ -87,27 +87,29 @@ function movePaddles() {
 // 초기화: requestAnimationFrame 호출
 requestAnimationFrame(movePaddles);
 
+function gameStart(){
+  for (let obstacle of obstacles) {
+    obstacle.remove();
+  }
+  obstacles = [];
+
+  // 추가: 여러 개의 장애물 다시 생성
+  for (let i = 0; i < numObstacle; i++) {
+    createObstacle();
+  }
+  gameState = 'play';
+  message.innerHTML = 'Game Started';
+  message.style.left = 42 + 'vw';
+  requestAnimationFrame(() => {
+    let dy = 0;
+    let dx = getRandomDirection() * ball.speed;
+    ball.move(dy, dx);
+  });
+}
+
 document.addEventListener('keydown', (e) => {
-  console.log('hello');
   if (e.key === 'Enter' && gameState === 'ready') {
-    for (let obstacle of obstacles) {
-      obstacle.remove();
-    }
-    obstacles = [];
-
-    // 추가: 여러 개의 장애물 다시 생성
-    for (let i = 0; i < numObstacle; i++) {
-      createObstacle();
-    }
-
-    gameState = 'play';
-    message.innerHTML = 'Game Started';
-    message.style.left = 42 + 'vw';
-    requestAnimationFrame(() => {
-      let dy = 0;
-      let dx = getRandomDirection() * ball.speed;
-      ball.move(dy, dx);
-    });
+    gameStart();
   }
 });
 
@@ -179,6 +181,13 @@ class CollisionDetector {
   }
 }
 
+
+function initGameState(){
+  gameState = 'ready';
+  message.innerHTML = 'Press Enter to Play Pong';
+  message.style.left = 38 + 'vw';
+}
+
 class Ball {
   constructor(element, initialCoord, speed) {
     this.element = element;  // 공의 DOM 요소
@@ -188,6 +197,11 @@ class Ball {
   // 현재 공의 위치 정보를 반환하는 메서드
   getBoundingClientRect() {
     return this.element.getBoundingClientRect();
+  }
+
+  init() {
+    this.coord = initialBallCoord;
+    this.element.style = initialBall.style;
   }
   // 공을 이동시키는 메서드
   move(dy, dx) {
@@ -232,12 +246,8 @@ class Ball {
       } else {
         ++score_2.innerHTML;
       }
-      gameState = 'ready';
-
-      this.coord = initialBallCoord;
-      this.element.style = initialBall.style;
-      message.innerHTML = 'Press Enter to Play Pong';
-      message.style.left = 38 + 'vw';
+      this.init();
+      initGameState();
       return;
     }
 
