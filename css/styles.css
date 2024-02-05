@@ -155,6 +155,8 @@ body {
   height: 40vh; /* divider의 높이 설정 */
   margin-right: 15px;
   flex: 0 0 4px;
+  /* margin-right: 15px; */
+  flex-shrink: 0;
   background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
   background-size: 4px 96px; /* 점선의 크기와 간격 설정 */
 }
@@ -197,14 +199,22 @@ footer {
   background-image: linear-gradient(to right, #5c6e91, #839b97);
   background-color: black; /* 검은색 배경으로 변경 */
   border-radius: 14px;
+  display: flex;
   position: relative;
+  justify-content: center;
+  /* background-color: black; 검은색 배경으로 변경
+  border-radius: 14px;
+  position: relative; */
 }
 
 .ball {
   height: 30px;
   width: 30px;
-  border-radius: 50%;
-  position: fixed;
+  /* border-radius: 50%; */
+  /* position: fixed;
+  top: calc(50%);
+  left: calc(50%); */
+  position: absolute;
   top: calc(50% - 15px);
   left: calc(50% - 15px);
 }
@@ -213,68 +223,83 @@ footer {
   height: 100%;
   width: 100%;
   border-radius: 100px;
-  animation: spinBall 0.1s linear infinite;
+  background: rgb(242, 242, 242);
+  /* animation: spinBall 0.1s linear infinite;
   box-shadow: inset 0 0 18px #fff, inset 6px 0 18px violet,
     inset -6px 0 18px #0ff, inset 6px 0 30px violet, inset -6px 0 30px #0ff,
-    0 0 18px #fff, -4px 0 18px violet, 4px 0 18px #0ff;
+    0 0 18px #fff, -4px 0 18px violet, 4px 0 18px #0ff; */
 }
 
-@keyframes spinBall {
+/* @keyframes spinBall {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
+} */
 
 .paddle {
   height: 100px;
   width: 18px;
-  border-radius: 50%;
-  position: fixed;
+  /* border-radius: 50%; */
 }
 
 .paddle_1 {
-  top: calc(7.5vh + 55px);
-  left: calc(15% + 30px);
-  box-shadow: inset 0 0 18px #fff, inset -6px 0 18px #f3bad6,
+  top: 10px;
+  left: 10px;
+  background: rgb(242, 242, 242);
+  position: absolute;
+  /* box-shadow: inset 0 0 18px #fff, inset -6px 0 18px #f3bad6,
     inset 6px 0 18px #0ff, inset -6px 0 30px #f3bad6, inset 6px 0 30px #0ff,
-    0 0 18px #fff, 4px 0 18px #f3bad6, -4px 0 18px #0ff;
+    0 0 18px #fff, 4px 0 18px #f3bad6, -4px 0 18px #0ff; */
 }
 
 .paddle_2 {
-  top: calc(85vh + 7.5vh - 100px - 55px);
-  right: calc(1% + 30px);
-  box-shadow: inset 0 0 18px #fff, inset 6px 0 18px #f3bad6,
+  top: 1%;
+  right: 1%;
+  background: rgb(242, 242, 242);
+  position: absolute;
+  /* box-shadow: inset 0 0 18px #fff, inset 6px 0 18px #f3bad6,
     inset -6px 0 18px #0ff, inset 6px 0 30px #f3bad6, inset -6px 0 30px #0ff,
-    0 0 18px #fff, -4px 0 18px #f3bad6, 4px 0 18px #0ff;
+    0 0 18px #fff, -4px 0 18px #f3bad6, 4px 0 18px #0ff; */
 }
 
 .player_1_score {
-  height: 50px;
-  width: 50px;
+  /* height: 50px;
+  width: 50px; */
   color: chartreuse;
-  position: fixed;
-  left: 30vw;
-  margin-top: 30px;
+  position: absolute;
+  left: 20%;
+  margin: 30px;
 }
 
 .player_2_score {
-  height: 50px;
-  width: 50px;
+  /* height: 50px;
+  width: 50px; */
   color: chartreuse;
-  position: fixed;
-  left: 70vw;
-  margin-top: 30px;
+  position: absolute;
+  right: 20%;
+  margin: 30px;
 }
 
 .message {
-  position: fixed;
+  position: absolute;
   /* color: #48426d; */
   height: 10vh;
   width: 30vw;
-  color: #c9cbff;
-  left: 38vw;
-  margin: 30px auto auto auto;
+  color: rgb(242, 242, 242);
+  /* left: 38vw; */
+  margin: 30px;
+}
+
+.board .divider {
+  width: 4px; /* divider의 너비 설정 */
+  height: calc(100% - 12vh); /* divider의 높이 설정 */
+  top: 12vh;
+  position: absolute;
+  margin-right: 0px;
+  /* flex-shrink: 0; */
+  background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
+  /* background-size: 4px 96px; 점선의 크기와 간격 설정 */
 }
 
 .obstacle {
