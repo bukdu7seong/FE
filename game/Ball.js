@@ -18,7 +18,7 @@ export default class Ball {
   }
 
   getBounceDirectionVector(target_coord) {
-    const ball_mid = ball.coord.top + ball.coord.height / 2;
+    const ball_mid = this.coord.top + this.coord.height / 2;
     const target_mid = target_coord.top + target_coord.height / 2;
     const y = (ball_mid - target_mid) / target_coord.height / 2;
     const x = Math.sqrt(1 - y * y);
@@ -57,12 +57,12 @@ export default class Ball {
       dy *= -1;
     }
     if (CollisionDetector.ballPlayer1Collision(this, game.player1)) {
-      const dir = this.getBounceDirectionVector(player1.paddle.getBoundingClientRect());
+      const dir = this.getBounceDirectionVector(game.player1.paddle.getBoundingClientRect());
       dy = dir.y * this.speed;
       dx = dir.x * this.speed;
     }
     if (CollisionDetector.ballPlayer2Collision(this, game.player2)) {
-      const dir = this.getBounceDirectionVector(player2.paddle.getBoundingClientRect());
+      const dir = this.getBounceDirectionVector(game.player2.paddle.getBoundingClientRect());
       dy = dir.y * this.speed;
       dx = -dir.x * this.speed;
     }

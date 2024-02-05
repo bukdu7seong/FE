@@ -1,12 +1,12 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
 class PongGame {
-  constructor() {
+  constructor(mode) {
     this.gameState = 'ready';
     this.board = document.querySelector('.board');
     this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
-    this.mode = 'speed';
+    this.mode = mode;
     this.numObstacle = 15;
     this.obstacles = [];
     this.initPlayers();
@@ -47,9 +47,6 @@ class PongGame {
         case 'ArrowDown':
           this.player2.isMovingDown = true;
           break;
-        case 'Enter':
-          if (this.gameState === 'ready') this.gameStart();
-          break;
       }
     });
 
@@ -78,16 +75,19 @@ class PongGame {
   }
 
   gameStart() {
-    this.gameState = 'play';
-    this.message.innerHTML = 'Game Started';
-    this.message.style.left = '42vw';
-    this.obstacles.forEach(obstacle => obstacle.remove());
-    this.obstacles = [];
-    for (let i = 0; i < this.numObstacle; i++) {
-      this.createObstacle();
-    }
-    this.movePaddles();
-    this.moveBall();
+    // for (let i = 0; i < 1; ++i) {
+      this.gameState = 'play';
+      this.message.innerHTML = 'Game Started';
+      this.message.style.left = '42vw';
+      this.obstacles.forEach(obstacle => obstacle.remove());
+      this.obstacles = [];
+      for (let i = 0; i < this.numObstacle; i++) {
+        this.createObstacle();
+      }
+      this.movePaddles();
+      this.moveBall();
+    // }
+
   }
 
   createObstacle() {
@@ -148,6 +148,8 @@ class PongGame {
   }
 }
 
-// // 게임 인스턴스를 생성하고 시작합니다.
-const pongGame = new PongGame();
+// const gameMode = 'speed';
+const gameMode = 'normal';
+
+const pongGame = new PongGame(gameMode);
 pongGame.gameStart();
