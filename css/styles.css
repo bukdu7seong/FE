@@ -197,12 +197,14 @@ footer {
   height: 85vh;
   width: 80vw;
   background-image: linear-gradient(to right, #5c6e91, #839b97);
+  background-color: black; /* 검은색 배경으로 변경 */
+  border-radius: 14px;
   display: flex;
   position: relative;
   justify-content: center;
   /* background-color: black; 검은색 배경으로 변경
   border-radius: 14px;
-  position: relative;
+  position: relative; */
 }
 
 .ball {
