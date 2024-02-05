@@ -1,13 +1,14 @@
 /* styles.css */
 @font-face {
   font-family: 'Symtext';
-  src: url('fonts/symtext/Symtext.ttf') format('truetype');
+  src: url('fonts/Symtext.ttf') format('truetype');
 }
 
 * {
+  border: 0;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
@@ -31,6 +32,7 @@ body {
   height: 100vh; /* 전체 높이를 차지하도록 설정 */
   width: 8vw;
   min-width: 75px; /* 사이드바의 최소 너비 */
+  max-width: 150px; /* 사이드바의 최대 너비 */
   background-color: #282828; /* 사이드바 배경색 */
   display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
   flex-direction: column; /* 자식 요소들을 세로로 나열 */
@@ -52,25 +54,15 @@ body {
 .home,
 .games,
 .tournament,
-.settings {
+.logout {
   background-color: transparent;
 }
-
-/* 
-.games {
-  background-color: #4caf50;
-}
-
-.tournament {
-  background-color: transparent;
-} */
 
 .home,
-.settings {
+.logout {
   margin-bottom: 40px;
 }
 
-/* ---------------------------------------------- */
 /* 사이드바 제외 */
 .main-box {
   background-color: #131313;
@@ -78,7 +70,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1; /* flex가 같은 비율로 공간 차지 */
+  flex: 1;
 }
 
 /* 프로필 */
@@ -113,7 +105,6 @@ body {
 
 /* 게임 인터페이스 화면 전체 */
 .game-box {
-  position: relative;
   display: flex;
   flex-direction: column;
   background-color: black;
@@ -149,10 +140,12 @@ body {
 }
 
 .player-option {
+  cursor: pointer;
   margin: 0 90px;
   font-size: 6vh;
   min-width: 0; /* 최소 너비를 0으로 설정하여 내용에 관계없이 동일한 너비를 가지도록 함 */
-  flex: 1 1 50%; /* flex-grow, flex-shrink, flex-basis */
+  flex: 1 1 0; /* flex-grow, flex-shrink, flex-basis */
+  padding: 10px;
   text-align: center;
   white-space: nowrap;
 }
@@ -160,6 +153,8 @@ body {
 .divider {
   width: 4px; /* divider의 너비 설정 */
   height: 40vh; /* divider의 높이 설정 */
+  margin-right: 15px;
+  flex: 0 0 4px;
   /* margin-right: 15px; */
   flex-shrink: 0;
   background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
@@ -193,67 +188,21 @@ footer {
   border: 1px solid #888;
   width: 80%; /* 모달 너비 */
 }
-/* 
-.close-button {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-} */
-
-/* .game-box {
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  font-family: 'Symtext', cursive;
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
-  width: 80vw;
-  text-align: center;
-} */
 
 /* 현재는 임의로 CSS를 설정한 상황 
  * 반응형으로 변경하기 위해 고정값을 모두 대체해야 한다.
 */
+
 .board {
-  height: 70vh;
+  height: 85vh;
   width: 80vw;
+  background-image: linear-gradient(to right, #5c6e91, #839b97);
   display: flex;
   position: relative;
   justify-content: center;
   /* background-color: black; 검은색 배경으로 변경
   border-radius: 14px;
-  position: relative; */
+  position: relative;
 }
 
 .ball {
