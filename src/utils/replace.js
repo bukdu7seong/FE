@@ -9,7 +9,7 @@
  * @param {*} element
  * @returns
  */
-// tag를 찾아서 element로 변경한다.
+// tag를 찾아서 element로 변경
 export function ReplaceElement(tag, element) {
   let target =
     document.getElementById(tag) || document.getElementsByClassName(tag)[0];

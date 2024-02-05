@@ -3,6 +3,7 @@ import { Route } from './utils/router/router.js';
 import { SetComponent } from './utils/router/setcomponent.js';
 import { Navigate } from './utils/router/navigate.js';
 // pages
+import { pageLogin } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
 import { pageGame } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
@@ -12,10 +13,13 @@ import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
 import { getBoard, setBoard } from './components/pong.js';
 // state
-import { store, updateUI } from './state/store.js';
+import { store, updateUI } from '../lib/state/store.js';
+import { checkLogin } from '../lib/state/check_login.js';
+import { defaultProfile } from '../lib/state/default_profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 const routes = {
+  '/login': { name: 'Login', page: pageLogin, component: [] },
   '/profile': { name: 'Profile', page: pageProfile, component: [] },
   '/game': { name: 'Game', page: pageGame, component: [] },
   '/tournament': { name: 'Tournament', page: pageTournament, component: [] },
@@ -27,24 +31,15 @@ SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
 // 나머지 페이지에도 컴포넌트 추가
 Route(routes);
 
-// 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행.
+// 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
 store.subscribe(updateUI);
 
 function init() {
-  // window.onload -> 브라우저가 새로고침 될 때마다 실행
   window.onload = function () {
-    // 프로필 이미지로 사용될 이미지 목록
-    const images = [
-      '../images/profile/profile_01.jpg',
-      '../images/profile/profile_02.jpg',
-      '../images/profile/profile_03.jpg',
-      '../images/profile/profile_04.jpg',
-    ];
-    // images 배열에서 무작위로 하나의 인덱스를 선택
-    var index = Math.floor(Math.random() * images.length);
-    // 선택된 이미지로 randomImage의 src 속성을 업데이트
-    document.getElementById('randomImage').src = images[index];
+    // window.onload -> 브라우저가 새로고침 될 때마다 실행
+    checkLogin(store, routes, Navigate);
+    defaultProfile();
   };
 
   // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
@@ -52,12 +47,6 @@ function init() {
     const target = Navigate(routes, window.location.pathname, false);
     Render(target);
   });
-
-  // 창 크기가 변경될 때마다 상태 업데이트
-  function handleResize() {
-    resizeWindow(window.innerWidth, window.innerHeight);
-  }
-  window.addEventListener('resize', handleResize);
 
   // 게임 시작 버튼을 클릭하면 게임을 시작
   window.onclick = function () {
