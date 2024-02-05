@@ -27,10 +27,6 @@ export default class Ball {
 
   // 공을 이동시키는 메서드
   move(dy, dx, game) {
-
-    // this.coord.top += dy;
-    // this.coord.left += dx;
-
     let obstacle = CollisionDetector.ballObstacleCollision(this, game.obstacles);
     if (obstacle) {
       const sign = dx > 0 ? -1 : 1;
@@ -67,27 +63,16 @@ export default class Ball {
       dx = -dir.x * this.speed;
     }
 
-    // 게임 승리 조건 검사
     if (game.roundOver()) {
       game.checkWinCondition();
       return; // 승리 조건을 만족하면 이동을 중단합니다.
     }
 
-    // DOM 요소의 위치를 업데이트합니다.
-    // this.element.style.top = `${this.coord.top}px` +;
-    // this.element.style.left = `${this.coord.left}px`;
-
-    // 다음 프레임을 위한 이동 요청
-    // requestAnimationFrame(() => this.move(dy, dx, game));
-
-    // DOM 요소의 위치를 업데이트합니다.
     this.element.style.top = this.coord.top + dy + 'px';
     this.element.style.left = this.coord.left + dx + 'px';
     this.coord = this.getBoundingClientRect();
-    //
-    // // 애니메이션 프레임 요청
+
     requestAnimationFrame(() => {
-      this.move(dy, dx, game);
-    });
+      this.move(dy, dx, game);});
   }
 }
