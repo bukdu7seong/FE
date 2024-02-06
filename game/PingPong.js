@@ -88,7 +88,6 @@ export default class PingPong {
       this.movePaddles();
       this.moveBall();
     // }
-
   }
 
   createObstacle() {
@@ -135,12 +134,21 @@ export default class PingPong {
   }
 
 
+
   roundOver() {
     return (
       this.ball.coord.left <= this.boardCoord.left || this.ball.coord.right >= this.boardCoord.right
     );
   }
   checkWinCondition() {
+    if (this.ball.coord.left <= this.boardCoord.left) {
+      ++this.player2.score;
+    } else {
+      ++this.player1.score;
+    }
+    this.player1.updateScore();
+    this.player2.updateScore();
+    this.initGameState();
     // 승리 조건 검사 및 처리 로직
     if (this.player1.score >= this.scoreToWin) {
       this.endGame('Player1');
