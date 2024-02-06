@@ -27,7 +27,7 @@ const routes = {
 };
 
 // SetComponent -> routes 객체의 component 배열에 속성 추가
-SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
+SetComponent(routes, sidebar(routes), profile('junyojeo'));
 // 나머지 페이지에도 컴포넌트 추가
 Route(routes);
 
@@ -38,7 +38,7 @@ store.subscribe(updateUI);
 function init() {
   window.onload = function () {
     // window.onload -> 브라우저가 새로고침 될 때마다 실행
-    checkLogin(store, routes, Navigate);
+    checkLogin(store, routes);
     defaultProfile();
   };
 
