@@ -18,10 +18,10 @@ export default class Ball {
     this.element.style = this.element.style;
   }
 
-  getBounceDirectionVector(target_coord) {
-    const ball_mid = this.coord.top + this.coord.height / 2;
-    const target_mid = target_coord.top + target_coord.height / 2;
-    const y = (ball_mid - target_mid) / target_coord.height / 2;
+  getBounceDirectionVector(targetCoord) {
+    const ballMid = this.coord.top + this.coord.height / 2;
+    const targetMid = targetCoord.top + targetCoord.height / 2;
+    const y = (ballMid - targetMid) / targetCoord.height / 2;
     const x = Math.sqrt(1 - y * y);
     return { y: y, x: x };
   }
