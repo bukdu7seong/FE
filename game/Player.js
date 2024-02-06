@@ -19,6 +19,11 @@ export default class Player {
     this.paddleCoord = this.paddle.getBoundingClientRect();
   }
 
+  scored() {
+    ++this.score;
+    this.updateScore();
+  }
+
   updateScore() {
     this.scoreElement.innerHTML = this.score;
   }
