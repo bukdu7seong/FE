@@ -76,18 +76,16 @@ export default class PingPong {
   }
 
   gameStart() {
-    // for (let i = 0; i < 1; ++i) {
-      this.gameState = 'play';
-      this.message.innerHTML = 'Game Started';
-      this.message.style.left = '42vw';
-      this.obstacles.forEach(obstacle => obstacle.remove());
-      this.obstacles = [];
-      for (let i = 0; i < this.numObstacle; i++) {
-        this.createObstacle();
-      }
-      this.movePaddles();
-      this.moveBall();
-    // }
+    this.gameState = 'play';
+    this.message.innerHTML = 'Game Started';
+    this.message.style.left = '42vw';
+    this.obstacles.forEach(obstacle => obstacle.remove());
+    this.obstacles = [];
+    for (let i = 0; i < this.numObstacle; i++) {
+      this.createObstacle();
+    }
+    this.movePaddles();
+    this.moveBall();
   }
 
   createObstacle() {
@@ -107,54 +105,36 @@ export default class PingPong {
     if (this.gameState === 'play') requestAnimationFrame(this.movePaddles.bind(this));
   }
 
+  getRandomDirection() {
+    return Math.random() < 0.5 ? -1 : 1;
+  }
+
   moveBall() {
     let dy = 0;
     let dx = this.getRandomDirection() * this.ball.speed;
     this.ball.move(dy, dx, this);
   }
 
-  getRandomDirection() {
-    return Math.random() < 0.5 ? -1 : 1;
+  updatePlayersScore() {
+    if (this.ball.leftOut(this.boardCoord)) {
+      this.player2.scored();
+    } else if (this.ball.rightOut(this.boardCoord)) {
+      this.player1.scored();
+    }
+
+    this.ball.init();
+    if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
+      this.endGame(this.player1.score >= this.scoreToWin ? 'Player1' : 'Player2');
+    } else {
+      // 목표 점수에 도달하지 않았다면 게임 재시작
+      this.moveBall();
+    }
   }
 
   endGame(winner) {
     this.gameState = 'over';
     this.message.innerHTML = `${winner} Wins! Press Enter to Play Again`;
     this.message.style.left = '30vw';
-    // 승자의 점수를 업데이트하고, 게임을 재시작할 준비를 합니다.
-    if (winner === 'Player1') {
-      this.player1.score++;
-    } else if (winner === 'Player2') {
-      this.player2.score++;
-    }
-    // 게임 상태를 초기화하고, 점수를 업데이트합니다.
-    this.initGameState();
-    this.player1.updateScore();
-    this.player2.updateScore();
-  }
-
-
-
-  roundOver() {
-    return (
-      this.ball.coord.left <= this.boardCoord.left || this.ball.coord.right >= this.boardCoord.right
-    );
-  }
-  checkWinCondition() {
-    if (this.ball.coord.left <= this.boardCoord.left) {
-      ++this.player2.score;
-    } else {
-      ++this.player1.score;
-    }
-    this.player1.updateScore();
-    this.player2.updateScore();
-    this.initGameState();
-    // 승리 조건 검사 및 처리 로직
-    if (this.player1.score >= this.scoreToWin) {
-      this.endGame('Player1');
-    } else if (this.player2.score >= this.scoreToWin) {
-      this.endGame('Player2');
-    }
   }
 }
 
