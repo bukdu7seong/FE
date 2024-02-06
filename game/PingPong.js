@@ -1,7 +1,7 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
 
-export default class PingPongGame {
+export default class PingPong {
   constructor(mode) {
     this.gameState = 'ready';
     this.board = document.querySelector('.board');
