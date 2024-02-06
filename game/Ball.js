@@ -7,17 +7,13 @@ export default class Ball {
     this.initialCoord = initialCoord;
     this.speed = speed;  // 공의 속도
   }
-
   // 현재 공의 위치 정보를 반환하는 메서드
   getBoundingClientRect() {
     return this.element.getBoundingClientRect();
   }
-
   init() {
     this.coord = this.initialCoord;
-    this.element.style = this.element.style;
   }
-
   getBounceDirectionVector(targetCoord) {
     const ballMid = this.coord.top + this.coord.height / 2;
     const targetMid = targetCoord.top + targetCoord.height / 2;
@@ -25,13 +21,15 @@ export default class Ball {
     const x = Math.sqrt(1 - y * y);
     return { y: y, x: x };
   }
-
-  outOfBoard(pingPong) {
-    return (
-      this.coord.left <= pingPong.boardCoord.left || this.coord.right >= pingPong.boardCoord.right
-    );
+  leftOut(boardCoord) {
+    return this.coord.left <= boardCoord.left;
   }
-
+  rightOut(boardCoord) {
+    return this.coord.right >= boardCoord.right;
+  }
+  outOfBoard(boardCoord) {
+    return (this.leftOut(boardCoord) || this.rightOut(boardCoord));
+  }
   // 공을 이동시키는 메서드
   move(dy, dx, pingPong) {
     let obstacle = CollisionDetector.ballObstacleCollision(this, pingPong.obstacles);
@@ -70,9 +68,8 @@ export default class Ball {
       dx = -dir.x * this.speed;
     }
 
-    if (this.outOfBoard(pingPong)) {
-      pingPong.checkWinCondition();
-      this.init();
+    if (this.outOfBoard(pingPong.boardCoord)) {
+      pingPong.updatePlayersScore();
       return; // 승리 조건을 만족하면 이동을 중단합니다.
     }
 
