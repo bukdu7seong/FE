@@ -2,7 +2,7 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 
 export default class PingPong {
-  constructor(mode) {
+  constructor(mode, player1Name, player2Name) {
     this.gameState = 'ready';
     this.board = document.querySelector('.board');
     this.message = document.querySelector('.message');
@@ -10,20 +10,20 @@ export default class PingPong {
     this.mode = mode;
     this.numObstacle = 15;
     this.obstacles = [];
-    this.initPlayers();
+    this.initPlayers(player1Name, player2Name);
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 5;
+    this.scoreToWin = 2;
   }
 
-  initPlayers() {
+  initPlayers(player1Name, player2Name) {
     const paddle1 = document.querySelector('.paddle_1');
     const score1 = document.querySelector('.player_1_score');
     const paddle2 = document.querySelector('.paddle_2');
     const score2 = document.querySelector('.player_2_score');
-    this.player1 = new Player(paddle1, score1, 'Player1');
-    this.player2 = new Player(paddle2, score2, 'Player2');
+    this.player1 = new Player(paddle1, score1, player1Name);
+    this.player2 = new Player(paddle2, score2, player2Name);
   }
 
   initBall() {
@@ -79,7 +79,6 @@ export default class PingPong {
     this.gameState = 'play';
     this.message.innerHTML = 'Game Started';
     this.message.style.left = '42vw';
-    this.obstacles.forEach(obstacle => obstacle.remove());
     this.obstacles = [];
     for (let i = 0; i < this.numObstacle; i++) {
       this.createObstacle();
@@ -124,7 +123,12 @@ export default class PingPong {
 
     this.ball.init();
     if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
-      this.endGame(this.player1.score >= this.scoreToWin ? 'Player1' : 'Player2');
+      this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
+      this.endGame(this.winner);
+      this.obstacles.forEach(obstacle => obstacle.remove());
+      // this.ball.init();
+      this.gameState = 'end';
+      this.onGameEnd();
     } else {
       // 목표 점수에 도달하지 않았다면 게임 재시작
       this.moveBall();
@@ -133,7 +137,7 @@ export default class PingPong {
 
   endGame(winner) {
     this.gameState = 'over';
-    this.message.innerHTML = `${winner} Wins! Press Enter to Play Again`;
+    this.message.innerHTML = `${winner} Wins!`;
     this.message.style.left = '30vw';
   }
 }
