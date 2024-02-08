@@ -4,7 +4,7 @@ import Tournament from './Tournament.js';
 // const gameMode = 'speed';
 const gameMode = 'speed';
 
-const pongGame = new PingPong(gameMode, 'salee2', 'gychoi');
+// const pongGame = new PingPong(gameMode, 'salee2', 'gychoi');
 
 // pongGame.gameStart();
 
