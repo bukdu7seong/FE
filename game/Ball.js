@@ -43,10 +43,10 @@ export default class Ball {
     }
     let ndy = dy;
     let ndx = dx;
-    let dir;
-    let obstacle = CollisionDetector.ballObstacleCollision(this, pingPong.obstacles);
+    let dir = null;
+    let obstacle = CollisionDetector.ballObstaclesCollision(this, pingPong.obstacles);
     if (obstacle) {
-      if ((obstacle.left <= this.coord.right && obstacle.top <= this.coord.bottom && this.coord.top <= obstacle.bottom) || (this.coord.left <= obstacle.right && obstacle.top <= this.coord.bottom && this.coord.top <= obstacle.bottom)) {
+      if (CollisionDetector.ballObstacleLeftCollision(this, obstacle) || CollisionDetector.ballObstacleRightCollision(this, obstacle)) {
         dir = this.getReflectVector(obstacle);
       }
     } else if (CollisionDetector.ballPlayer1Collision(this, pingPong.player1)) {
