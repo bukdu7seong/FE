@@ -80,8 +80,10 @@ export default class PingPong {
     this.message.innerHTML = 'Game Started';
     this.message.style.left = '42vw';
     this.obstacles = [];
-    for (let i = 0; i < this.numObstacle; i++) {
-      this.createObstacle();
+    if (this.mode === 'object') {
+      for (let i = 0; i < this.numObstacle; i++) {
+        this.createObstacle();
+      }
     }
     this.movePaddles();
     this.moveBall();
@@ -120,13 +122,14 @@ export default class PingPong {
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.scored();
     }
-
     this.ball.init();
     if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
       this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
       this.endGame(this.winner);
-      this.obstacles.forEach(obstacle => obstacle.remove());
-      // this.ball.init();
+      if (this.mode === 'object') {
+        this.obstacles.forEach(obstacle => obstacle.remove());
+      }
+      this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
       this.gameState = 'end';
       this.onGameEnd();
     } else {
