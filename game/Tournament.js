@@ -2,7 +2,6 @@ import PingPong from './PingPong.js';
 
 export default class Tournament {
   constructor(mode, players) {
-
     this.mode = mode;
     this.players = players;
     this.finalist = [];
@@ -41,16 +40,13 @@ export default class Tournament {
       if (this.stage === 'final') {
         if (!this.final) {
           this.final = new PingPong(this.mode, this.finalist[0], this.finalist[1]);
-          this.final.onGameEnd = () => this.play();
-          alert('final start');
-        }
-        if (this.final.gameState === 'ready') {
           this.final.player1.updateScore();
           this.final.player2.updateScore();
+          this.final.onGameEnd = () => this.play();
           this.final.gameStart();
         }
         if (this.final.gameState === 'end') {
-          alert('finish!');
+          alert('final end');
         }
       }
     }
