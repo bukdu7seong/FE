@@ -9,7 +9,7 @@ export default class Ball {
   }
 
   // 현재 공의 위치 정보를 반환하는 메서드
-  getBoundingClientRect() {
+  getCoord() {
     return this.element.getBoundingClientRect();
   }
 
@@ -17,7 +17,7 @@ export default class Ball {
     this.coord = this.initialCoord;
   }
 
-  getBounceDirectionVector(targetCoord) {
+  getReflectVector(targetCoord) {
     const ballMid = this.coord.top + this.coord.height / 2;
     const targetMid = targetCoord.top + targetCoord.height / 2;
     const y = (ballMid - targetMid) / targetCoord.height / 2;
@@ -37,45 +37,34 @@ export default class Ball {
     return (this.leftOut(boardCoord) || this.rightOut(boardCoord));
   }
 
-  getNextPosition(dy, dx, pingPong) {
+  getNextCoordinate(dy, dx, pingPong) {
+    if (CollisionDetector.ballBoardCollision(this, pingPong.boardCoord)) {
+      return { y: dy * -1, x: dx };
+    }
     let ndy = dy;
     let ndx = dx;
+    let dir;
     let obstacle = CollisionDetector.ballObstacleCollision(this, pingPong.obstacles);
     if (obstacle) {
+      if ((obstacle.left <= this.coord.right && obstacle.top <= this.coord.bottom && this.coord.top <= obstacle.bottom) || (this.coord.left <= obstacle.right && obstacle.top <= this.coord.bottom && this.coord.top <= obstacle.bottom)) {
+        dir = this.getReflectVector(obstacle);
+      }
+    } else if (CollisionDetector.ballPlayer1Collision(this, pingPong.player1)) {
+      dir = this.getReflectVector(pingPong.player1.paddle.getBoundingClientRect());
+    } else if (CollisionDetector.ballPlayer2Collision(this, pingPong.player2)) {
+      dir = this.getReflectVector(pingPong.player2.paddle.getBoundingClientRect());
+    }
+    if (dir != null) {
       const sign = dx > 0 ? -1 : 1;
-      const dir = this.getBounceDirectionVector(obstacle);
-      if (
-        obstacle.left <= this.coord.right &&
-        obstacle.top <= this.coord.bottom &&
-        this.coord.top <= obstacle.bottom
-      ) {
-        ndy = dir.y * this.speed;
-        ndx = sign * dir.x * this.speed;
-      }
-      // 오른쪽에서 충돌한 경우
-      else if (
-        this.coord.left <= obstacle.right &&
-        obstacle.top <= this.coord.bottom &&
-        this.coord.top <= obstacle.bottom
-      ) {
-        ndy = dir.y * this.speed;
-        ndx = sign * dir.x * this.speed;
-      }
-    }
-    if (CollisionDetector.ballBoardCollision(this, pingPong.boardCoord)) {
-      ndy *= -1;
-    }
-    if (CollisionDetector.ballPlayer1Collision(this, pingPong.player1)) {
-      const dir = this.getBounceDirectionVector(pingPong.player1.paddle.getBoundingClientRect());
       ndy = dir.y * this.speed;
-      ndx = dir.x * this.speed;
-    }
-    if (CollisionDetector.ballPlayer2Collision(this, pingPong.player2)) {
-      const dir = this.getBounceDirectionVector(pingPong.player2.paddle.getBoundingClientRect());
-      ndy = dir.y * this.speed;
-      ndx = -dir.x * this.speed;
+      ndx = dir.x * this.speed * sign;
     }
     return { y: ndy, x: ndx };
+  }
+
+  updateStyle(coordTop, coordLeft) {
+    this.element.style.top = coordTop + 'px';
+    this.element.style.left = coordLeft + 'px';
   }
 
   move(dy, dx, pingPong) {
@@ -83,12 +72,11 @@ export default class Ball {
       pingPong.updatePlayersScore();
       return; // 승리 조건을 만족하면 이동을 중단합니다.
     }
-    const newPos = this.getNextPosition(dy, dx, pingPong);
-    this.element.style.top = this.coord.top + newPos.y + 'px';
-    this.element.style.left = this.coord.left + newPos.x + 'px';
-    this.coord = this.getBoundingClientRect();
+    const nextCoord = this.getNextCoordinate(dy, dx, pingPong);
+    this.updateStyle(this.coord.top + nextCoord.y, this.coord.left + nextCoord.x);
+    this.coord = this.getCoord();
     requestAnimationFrame(() => {
-      this.move(newPos.y, newPos.x, pingPong);
+      this.move(nextCoord.y, nextCoord.x, pingPong);
     });
   }
 }
