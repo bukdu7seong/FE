@@ -80,6 +80,8 @@ export default class PingPong {
     this.message.innerHTML = 'Game Started';
     this.message.style.left = '42vw';
     this.obstacles = [];
+    this.player1.updateScoreHtml();
+    this.player2.updateScoreHtml();
     if (this.mode === 'object') {
       for (let i = 0; i < this.numObstacle; i++) {
         this.createObstacle();
@@ -118,9 +120,9 @@ export default class PingPong {
 
   updatePlayersScore() {
     if (this.ball.leftOut(this.boardCoord)) {
-      this.player2.scored();
+      this.player2.updateScore();
     } else if (this.ball.rightOut(this.boardCoord)) {
-      this.player1.scored();
+      this.player1.updateScore();
     }
     this.ball.init();
     if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
