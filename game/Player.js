@@ -19,12 +19,12 @@ export default class Player {
     this.paddleCoord = this.paddle.getBoundingClientRect();
   }
 
-  scored() {
+  updateScore() {
     ++this.score;
-    this.updateScore();
+    this.updateScoreHtml();
   }
 
-  updateScore() {
+  updateScoreHtml() {
     this.scoreElement.innerHTML = this.score;
   }
 }
