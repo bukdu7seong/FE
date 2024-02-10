@@ -1,6 +1,6 @@
 import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
-import { Route, handleNavigation } from '../lib/router.js';
+import { RouteFirst, handleNavigation } from '../lib/router.js';
 import { pageProfile } from './pages/profile.js';
 import { pageGame } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
@@ -16,7 +16,7 @@ const routes = {
 // 지금은 모든 라우팅 경로의 페이지에 동일한 sidebar 컴포넌트를 적용하지만...
 // 굳이 이렇게 할 필요 없이 별도로 컴포넌트를 추가하는 방식으로 구현해도 될 듯.
 SetComponent(routes, sidebar(routes, handleNavigation), profile('junyojeo'));
-Route(routes);
+RouteFirst(routes);
 
 // 문서가 로드될 때 실행되는 함수를 정의합니다.
 window.onload = function () {
