@@ -28,6 +28,7 @@ export function sidebar(routes, handleNavigation) {
       homeImage.src = '../../images/icon/house-solid.svg';
       homeImage.alt = 'Home';
       homeImage.setAttribute('href', route);
+      homeImage.classList.add('image-home');
 
       homeIcon.appendChild(homeImage);
       link.appendChild(homeIcon);
@@ -42,6 +43,7 @@ export function sidebar(routes, handleNavigation) {
       gameImage.src = '../../images/icon/gamepad-solid.svg';
       gameImage.alt = 'Game';
       gameImage.setAttribute('href', route);
+      gameImage.classList.add('image-game');
 
       gameIcon.appendChild(gameImage);
       link.appendChild(gameIcon);
@@ -56,6 +58,7 @@ export function sidebar(routes, handleNavigation) {
       tournamentImage.src = '../../images/icon/trophy-solid.svg';
       tournamentImage.alt = 'Tournament';
       tournamentImage.setAttribute('href', route);
+      tournamentImage.classList.add('image-tournament');
 
       tournamentIcon.appendChild(tournamentImage);
       link.appendChild(tournamentIcon);
