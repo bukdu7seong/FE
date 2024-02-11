@@ -5,7 +5,7 @@ import { pageProfile } from './pages/profile.js';
 import { pageGame } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
 import { SetComponent } from '../lib/render.js';
-import { getBoard, setBoard } from './components/pong.js';
+import { getBoard, setBoard, cleanUp } from './components/pong.js';
 
 const routes = {
   '/profile': { name: 'Profile', page: pageProfile, component: [] },
@@ -28,7 +28,7 @@ window.onload = function () {
     '../images/profile/profile_04.jpg',
   ];
   // 랜덤 인덱스를 생성합니다.
-  var index = Math.floor(Math.random() * images.length);
+  let index = Math.floor(Math.random() * images.length);
   // 이미지 요소의 src 속성을 랜덤 이미지로 설정합니다.
   // console.log(document.getElementById('randomImage'));
   document.getElementById('randomImage').src = images[index];
@@ -39,10 +39,9 @@ window.onload = function () {
   상태 관리 요소를 하나 추가해야 할 것 같다.
 */
 // game에서만 적용되게 해야 함
-
 function moveWindow() {
-  var playerOption1 = document.getElementById('player1');
-  var playerOption2 = document.getElementById('player2');
+  let playerOption1 = document.getElementById('player1');
+  let playerOption2 = document.getElementById('player2');
   if (window.innerWidth <= 1112) {
     playerOption1.textContent = '1';
     playerOption2.textContent = '2';
@@ -52,21 +51,24 @@ function moveWindow() {
   }
 }
 
-window.removeEventListener('resize', moveWindow);
-
+window.removeEventListener('resize', moveWindow); // 사실 이렇게 이벤트 리스너를 정말로 해제해야 하는지 레퍼런스를 찾아봐야 할 듯
 window.addEventListener('resize', moveWindow);
 
 // 임시로 Player2 div를 누르면 게임이 시작되게 설정
 // 페이지가 바뀔 때 로딩되면서 이벤트가 설정되어야 하는데... 임시로 일단 window 클릭 이벤트로 체크
-window.onclick = function () {
-  if (document.getElementById('player2')) {
-    document.getElementById('player2').addEventListener('click', function () {
-      const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
-      while (gameBox.firstChild) {
-        gameBox.removeChild(gameBox.firstChild);
-      } // game-box div의 자식 요소들을 모두 삭제
-      gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
-      setBoard(); // 게임에 필요한 요소들을 설정
-    });
+window.onclick = function (event) {
+  const clickedElement = event.target;
+  const className = clickedElement.className;
+
+  // popstate 시에도 cleanUp 되어야 함. 역시 상태 관리가 필요함...
+  if (className.startsWith('image')) {
+    cleanUp();
+  } else if (className.startsWith('player')) {
+    const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
+    while (gameBox.firstChild) {
+      gameBox.removeChild(gameBox.firstChild);
+    } // game-box div의 자식 요소들을 모두 삭제
+    gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
+    setBoard(); // 게임에 필요한 요소들을 설정
   }
 };
