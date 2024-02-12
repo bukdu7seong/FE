@@ -15,8 +15,7 @@ function onLoginSubmit(event) {
   const username = loginInput.value;
   localStorage.setItem(USERNAME_KEY, username);
   //   greeting.innerText = 'Hello ' + username;
-  greeting.innerText = `Hello ${username}`;
-  greeting.classList.remove(HIDDEN_CLASSNAME);
+  paintGreeting(username);
 
   console.log(event);
   console.log('username: ', username);
@@ -36,19 +35,25 @@ function onLoginSubmit(event) {
   //     });
 }
 
-function handleLinkClick(event) {
-  event.preventDefault();
-  console.dir(event);
-}
+// function handleLinkClick(event) {
+//   event.preventDefault();
+//   console.dir(event);
+// }
 
-loginForm.addEventListener('submit', onLoginSubmit); // addEventListener안에 있는 함수는 직접 실행하지 않고, 브라우저가 실행 해줌.
-link.addEventListener('click', handleLinkClick); // handleLinckClick()이 아니라 handleLinkClick으로 넣어야함. ->
-// event의 종류는 여러가지가 있음. console.log(event)를 찍어보면 어떤 이벤트인지 확인할 수 있음.
+// link.addEventListener('click', handleLinkClick); // handleLinckClick()이 아니라 handleLinkClick으로 넣어야함. ->
+// // event의 종류는 여러가지가 있음. console.log(event)를 찍어보면 어떤 이벤트인지 확인할 수 있음.
+
+function paintGreeting(username) {
+  greeting.innerText = `Hello ${username}`;
+  greeting.classList.remove(HIDDEN_CLASSNAME);
+}
 
 const saveUsername = localStorage.getItem(USERNAME_KEY);
 
 if (saveUsername === null) {
   // show the form
+  loginForm.classList.remove(HIDDEN_CLASSNAME);
+  loginForm.addEventListener('submit', onLoginSubmit); // addEventListener안에 있는 함수는 직접 실행하지 않고, 브라우저가 실행 해줌.
 } else {
-  // show the greeting
+  paintGreeting(saveUsername);
 }
