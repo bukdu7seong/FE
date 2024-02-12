@@ -35,12 +35,46 @@ Route(routes);
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
 store.subscribe(updateUI);
 
+function checkWindowSize() {
+  const gameBox = document.getElementsByClassName('game-box')[0];
+  if (!gameBox) {
+    return;
+  }
+
+  if (window.innerWidth <= 940 || window.innerHeight <= 660) {
+    gameBox.style.pointerEvents = 'none';
+  } else {
+    gameBox.style.pointerEvents = 'auto';
+  }
+
+  // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
+  const gameBoard = document.getElementsByClassName('board')[0];
+  if (!gameBoard) {
+    return;
+  }
+
+  if (window.innerWidth <= 940 || window.innerHeight <= 660) {
+    console.log('small...');
+  } else {
+    //
+  }
+}
+
 function init() {
   window.onload = function () {
     // window.onload -> 브라우저가 새로고침 될 때마다 실행
     checkLogin(store, routes, Navigate);
+    checkWindowSize(); // 페이지 로드 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
     defaultProfile();
   };
+
+  // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
+  window.addEventListener('resize', checkWindowSize);
+
+  // navigation 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
+  const observer = new MutationObserver(checkWindowSize);
+  const config = { attributes: true, childList: true, subtree: true };
+  observer.observe(document.body, config);
 
   // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
   window.addEventListener('popstate', () => {
