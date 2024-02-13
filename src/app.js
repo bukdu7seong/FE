@@ -12,7 +12,7 @@ import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
-import { getBoard, setBoard } from './components/pong.js';
+import { getBoard, setBoard, cleanUp } from './components/pong.js';
 // state
 import { store } from '../lib/state/store.js';
 import { updateProfile } from '../lib/state/update.js';

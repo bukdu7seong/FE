@@ -17,6 +17,8 @@ let isPlayer1MovingUp;
 let isPlayer1MovingDown;
 let isPlayer2MovingUp;
 let isPlayer2MovingDown;
+let paddleFrame;
+let ballFrame;
 
 let mode = 'normal';
 // let mode = 'speed';
@@ -157,7 +159,7 @@ function moveBall(dy, dx) {
   ball.style.left = currentLeft + dx + 'px';
 
   ball_coord = ball.getBoundingClientRect();
-  requestAnimationFrame(() => {
+  ballFrame = requestAnimationFrame(() => {
     moveBall(dy, dx);
   });
 }
@@ -201,7 +203,7 @@ function movePaddles() {
   }
   paddle_1_coord = paddle_1.getBoundingClientRect();
   paddle_2_coord = paddle_2.getBoundingClientRect();
-  requestAnimationFrame(movePaddles);
+  paddleFrame = requestAnimationFrame(movePaddles);
 }
 
 // 초기화: requestAnimationFrame 호출
@@ -242,6 +244,51 @@ export function getBoard() {
   return page;
 }
 
+function startGame(e) {
+  if (e.key == 'Enter' && gameState == 'ready') {
+    for (let obstacle of obstacles) {
+      obstacle.remove();
+    }
+    obstacles = [];
+
+    // 추가: 여러 개의 장애물 다시 생성
+    for (let i = 0; i < numObstacle; i++) {
+      createObstacle();
+    }
+
+    gameState = 'play';
+    message.innerHTML = 'Game Started';
+    message.style.left = 42 + 'vw';
+    let dy = 0;
+    let dx = getRandomDirection() * speed;
+    moveBall(dy, dx);
+  }
+}
+
+function keyUp(e) {
+  if (e.key === 'w') {
+    isPlayer1MovingUp = false;
+  } else if (e.key === 's') {
+    isPlayer1MovingDown = false;
+  } else if (e.key === 'ArrowUp') {
+    isPlayer2MovingUp = false;
+  } else if (e.key === 'ArrowDown') {
+    isPlayer2MovingDown = false;
+  }
+}
+
+function keyDown(e) {
+  if (e.key === 'w') {
+    isPlayer1MovingUp = true;
+  } else if (e.key === 's') {
+    isPlayer1MovingDown = true;
+  } else if (e.key === 'ArrowUp') {
+    isPlayer2MovingUp = true;
+  } else if (e.key === 'ArrowDown') {
+    isPlayer2MovingDown = true;
+  }
+}
+
 export function setBoard() {
   gameState = 'ready';
   paddle_1 = document.querySelector('.paddle_1');
@@ -264,52 +311,21 @@ export function setBoard() {
   isPlayer2MovingUp = false;
   isPlayer2MovingDown = false;
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key == 'Enter' && gameState == 'ready') {
-      for (let obstacle of obstacles) {
-        obstacle.remove();
-      }
-      obstacles = [];
+  document.addEventListener('keydown', startGame);
+  document.addEventListener('keydown', keyDown);
+  document.addEventListener('keyup', keyUp);
 
-      // 추가: 여러 개의 장애물 다시 생성
-      for (let i = 0; i < numObstacle; i++) {
-        createObstacle();
-      }
+  movePaddles();
+}
 
-      gameState = 'play';
-      message.innerHTML = 'Game Started';
-      // message.style.left = 42 + 'vw';
-      requestAnimationFrame(() => {
-        let dy = 0;
-        let dx = getRandomDirection() * speed;
-        moveBall(dy, dx);
-      });
-    }
-  });
+export function cleanUp() {
+  cancelAnimationFrame(paddleFrame);
+  cancelAnimationFrame(ballFrame);
+  paddleFrame = 0;
+  ballFrame = 0;
+  // 위 moveBall 함수들의 frame도 취소해야 함
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'w') {
-      isPlayer1MovingUp = true;
-    } else if (e.key === 's') {
-      isPlayer1MovingDown = true;
-    } else if (e.key === 'ArrowUp') {
-      isPlayer2MovingUp = true;
-    } else if (e.key === 'ArrowDown') {
-      isPlayer2MovingDown = true;
-    }
-  });
-
-  document.addEventListener('keyup', (e) => {
-    if (e.key === 'w') {
-      isPlayer1MovingUp = false;
-    } else if (e.key === 's') {
-      isPlayer1MovingDown = false;
-    } else if (e.key === 'ArrowUp') {
-      isPlayer2MovingUp = false;
-    } else if (e.key === 'ArrowDown') {
-      isPlayer2MovingDown = false;
-    }
-  });
-
-  requestAnimationFrame(movePaddles);
+  document.removeEventListener('keydown', startGame);
+  document.removeEventListener('keydown', keyDown);
+  document.removeEventListener('keyup', keyUp);
 }
