@@ -18,10 +18,13 @@ let isPlayer1MovingDown;
 let isPlayer2MovingUp;
 let isPlayer2MovingDown;
 
-// let mode = 'normal';
-let mode = 'speed';
+let mode = 'normal';
+// let mode = 'speed';
 let speed = mode == 'normal' ? 10 : 20;
-const numObstacle = 15;
+const numObstacle = 5;
+
+const INITNAL_PADDLE_TOP = 10;
+const PADDLE_SPEED = 4.2;
 
 let obstacles = [];
 
@@ -133,11 +136,26 @@ function moveBall(dy, dx) {
     ball_coord = initial_ball_coord;
     ball.style = initial_ball.style;
     message.innerHTML = 'Press Enter to Play Pong';
-    message.style.left = 38 + 'vw';
+    //message.style.left = 38 + 'vw';
     return;
   }
-  ball.style.top = ball_coord.top + dy + 'px';
-  ball.style.left = ball_coord.left + dx + 'px';
+
+  const currentTop = parseFloat(
+    ball.style.top ? ball.style.top : board_coord.height / 2 - 15
+  );
+  const currentLeft = parseFloat(
+    ball.style.left ? ball.style.left : board_coord.width / 2 - 15
+  );
+
+  // alert(
+  //   `${ball_coord.top}, ${ball_coord.left} // ${currentTop}, ${currentLeft}`
+  // );
+  // 317 302 232 224
+  // 332 327 232 234
+
+  ball.style.top = currentTop + dy + 'px';
+  ball.style.left = currentLeft + dx + 'px';
+
   ball_coord = ball.getBoundingClientRect();
   requestAnimationFrame(() => {
     moveBall(dy, dx);
@@ -146,32 +164,40 @@ function moveBall(dy, dx) {
 
 function movePaddles() {
   if (isPlayer1MovingUp) {
-    paddle_1.style.top =
-      Math.max(
-        board_coord.top,
-        paddle_1_coord.top - window.innerHeight * 0.01
-      ) + 'px';
+    const currentTop = parseFloat(
+      paddle_1.style.top ? paddle_1.style.top : INITNAL_PADDLE_TOP
+    );
+    const newTop = currentTop - PADDLE_SPEED;
+    paddle_1.style.top = Math.max(INITNAL_PADDLE_TOP, newTop) + 'px';
   }
   if (isPlayer1MovingDown) {
+    const currentTop = parseFloat(
+      paddle_1.style.top ? paddle_1.style.top : INITNAL_PADDLE_TOP
+    );
+    const newTop = currentTop + PADDLE_SPEED;
     paddle_1.style.top =
       Math.min(
-        board_coord.bottom - paddle_common.height,
-        paddle_1_coord.top + window.innerHeight * 0.01
-      ) + 'px'; // 임시로 변경
-  }
-  if (isPlayer2MovingUp) {
-    paddle_2.style.top =
-      Math.max(
-        board_coord.top,
-        paddle_2_coord.top - window.innerHeight * 0.01
+        board_coord.height - paddle_common.height - INITNAL_PADDLE_TOP,
+        newTop
       ) + 'px';
   }
+  if (isPlayer2MovingUp) {
+    const currentTop = parseFloat(
+      paddle_2.style.top ? paddle_2.style.top : INITNAL_PADDLE_TOP
+    );
+    const newTop = currentTop - PADDLE_SPEED;
+    paddle_2.style.top = Math.max(INITNAL_PADDLE_TOP, newTop) + 'px';
+  }
   if (isPlayer2MovingDown) {
+    const currentTop = parseFloat(
+      paddle_2.style.top ? paddle_2.style.top : INITNAL_PADDLE_TOP
+    );
+    const newTop = currentTop + PADDLE_SPEED;
     paddle_2.style.top =
       Math.min(
-        board_coord.bottom - paddle_common.height,
-        paddle_2_coord.top + window.innerHeight * 0.01
-      ) + 'px'; // 임시로 변경
+        board_coord.height - paddle_common.height - INITNAL_PADDLE_TOP,
+        newTop
+      ) + 'px';
   }
   paddle_1_coord = paddle_1.getBoundingClientRect();
   paddle_2_coord = paddle_2.getBoundingClientRect();
@@ -251,7 +277,7 @@ export function setBoard() {
 
       gameState = 'play';
       message.innerHTML = 'Game Started';
-      message.style.left = 42 + 'vw';
+      // message.style.left = 42 + 'vw';
       requestAnimationFrame(() => {
         let dy = 0;
         let dx = getRandomDirection() * speed;
