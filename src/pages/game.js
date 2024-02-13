@@ -9,13 +9,10 @@ export function pageGame() {
             <p class="header-pong">PONG</p>
             <p class="header-classic">CLASSIC</p>
             <div class="player-container">
-              <div class="player-option" id="player1">1 PLAYER</div>
+              <div class="player-option" id="player1">PLAYER 1</div>
               <div class="divider"></div>
-              <div class="player-option" id="player2">2 PLAYERS</div>
+              <div class="player-option" id="player2">PLAYER 2</div>
             </div>
-            <footer>
-              <p>DEVELOPED BY TWISTED BY RAT</p>
-            </footer>
           </div>
         </div>
       `;

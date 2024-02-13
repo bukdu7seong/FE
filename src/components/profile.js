@@ -1,3 +1,4 @@
+// 이 함수는 프로필 박스를 만들어서 반환합니다.
 export function profile(name = 'Guest') {
   const profileBox = document.createElement('div');
   profileBox.setAttribute('class', 'profile-box');
