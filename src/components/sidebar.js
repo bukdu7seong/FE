@@ -1,78 +1,75 @@
-import { Render } from '../../lib/render.js';
-/*
- * @description: 라우터 객체를 받아서 사이드 바를 생성한다.
- * @param: routes - 라우터 객체 (라우터 객체의 객체)
- * @param: handleNavigation - 라우터 함수
- * @return: sidebar - HTML 형식의 네비게이션 바
- */
-export function sidebar(routes, handleNavigation) {
+import { Render } from '../../lib/router/render.js';
+
+/* 
+  <div class="side-bar">
+    <div class="menu-top">
+      <div class="menu-item game">
+        <i class="icon-game">
+          <img src="../../images/icon/gamepad-solid.svg" alt="Game" route="game">
+*/
+// 이 함수는 라우터 객체를 받아서, 해당 객체의 페이지를 렌더링한다.
+export function sidebar(routes, Navigate) {
   const sidebar = document.createElement('div');
   sidebar.setAttribute('class', 'side-bar');
 
-  for (const route in routes) {
-    // const link = document.createElement('a');
-    // link.setAttribute('href', route);
-    // link.innerText = routes[route].name;
-    // sidebar.appendChild(link);
+  const menuTop = document.createElement('div');
+  menuTop.setAttribute('class', 'menu-top');
 
-    const link = document.createElement('div');
-    // 으악...
-    if (routes[route].name === 'Profile') {
-      link.classList.add('menu-item');
-      link.classList.add('home');
+  const icons = {
+    Profile: 'house-solid',
+    Game: 'gamepad-solid',
+    Tournament: 'trophy-solid',
+    Logout: 'sign-out-solid',
+  };
 
-      const homeIcon = document.createElement('i');
-      homeIcon.classList.add('icon-home');
+  let logoutItem = null; // logout 아이템을 저장할 변수
 
-      const homeImage = document.createElement('img');
-      homeImage.src = '../../images/icon/house-solid.svg';
-      homeImage.alt = 'Home';
-      homeImage.setAttribute('href', route);
-      homeImage.classList.add('image-home');
+  /*
+  <div class="menu-item game">
+    <i class="icon-game">
+      <img src="../../images/icon/gamepad-solid.svg" alt="Game" route="game">
+  */
+  function createIcon(name, route) {
+    const menuItem = document.createElement('div');
+    menuItem.className = `menu-item ${name.toLowerCase()}`;
 
-      homeIcon.appendChild(homeImage);
-      link.appendChild(homeIcon);
-    } else if (routes[route].name === 'Game') {
-      link.classList.add('menu-item');
-      link.classList.add('game');
+    const icon = document.createElement('i');
+    icon.className = `icon-${name.toLowerCase()}`;
 
-      const gameIcon = document.createElement('i');
-      gameIcon.classList.add('icon-game');
+    const image = document.createElement('img');
+    image.src = `../../images/icon/${icons[name]}.svg`;
+    image.alt = name;
+    image.setAttribute('route', route);
 
-      const gameImage = document.createElement('img');
-      gameImage.src = '../../images/icon/gamepad-solid.svg';
-      gameImage.alt = 'Game';
-      gameImage.setAttribute('href', route);
-      gameImage.classList.add('image-game');
-
-      gameIcon.appendChild(gameImage);
-      link.appendChild(gameIcon);
-    } else if (routes[route].name === 'Tournament') {
-      link.classList.add('menu-item');
-      link.classList.add('tournament');
-
-      const tournamentIcon = document.createElement('i');
-      tournamentIcon.classList.add('icon-tournament');
-
-      const tournamentImage = document.createElement('img');
-      tournamentImage.src = '../../images/icon/trophy-solid.svg';
-      tournamentImage.alt = 'Tournament';
-      tournamentImage.setAttribute('href', route);
-      tournamentImage.classList.add('image-tournament');
-
-      tournamentIcon.appendChild(tournamentImage);
-      link.appendChild(tournamentIcon);
-    } else {
-      // skip
-    }
-
-    sidebar.appendChild(link);
+    icon.appendChild(image);
+    menuItem.appendChild(icon);
+    return menuItem;
   }
 
+  // routes 객체 순회 및 아이콘 생성
+  // Object.entries()를 사용하면, 객체를 배열로 변환할 수 있다. forEach()를 사용하면, 배열을 순회할 수 있다. route, { name }으로 구조분해할당을 사용하면, 객체의 속성을 변수로 사용할 수 있다. name은 routes 객체의 name 속성을 가져온다.
+  Object.entries(routes).forEach(([route, { name }]) => {
+    if (icons[name]) {
+      const menuItem = createIcon(name, route);
+      if (name.toLowerCase() === 'logout') {
+        logoutItem = menuItem; // logout 아이템 저장
+      } else {
+        menuTop.appendChild(menuItem); // 나머지는 menuTop에 추가
+      }
+    }
+  });
+
+  sidebar.appendChild(menuTop); // menuTop을 sidebar에 추가
+
+  if (logoutItem) {
+    sidebar.appendChild(logoutItem); // logout 아이템을 맨 아래에 추가
+  }
+
+  // 클릭 이벤트 리스너
   sidebar.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (e.target.tagName === 'IMG') {
-      const target = handleNavigation(routes, e.target.getAttribute('href'));
+    const targetImg = e.target.closest('img[route]');
+    if (targetImg) {
+      const target = Navigate(routes, targetImg.getAttribute('route'));
       Render(target);
     }
   });

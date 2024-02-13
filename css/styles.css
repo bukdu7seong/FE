@@ -1,13 +1,14 @@
 /* styles.css */
 @font-face {
   font-family: 'Symtext';
-  src: url('fonts/symtext/Symtext.ttf') format('truetype');
+  src: url('fonts/Symtext.ttf') format('truetype');
 }
 
 * {
+  border: 0;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
@@ -29,8 +30,9 @@ body {
 .side-bar {
   flex-shrink: 0; /* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 */
   height: 100vh; /* 전체 높이를 차지하도록 설정 */
-  /* width: 8vw; 사이드바의 너비 -> flex-shrink가 적용되지 않음 */
+  width: 8vw;
   min-width: 75px; /* 사이드바의 최소 너비 */
+  max-width: 150px; /* 사이드바의 최대 너비 */
   background-color: #282828; /* 사이드바 배경색 */
   display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
   flex-direction: column; /* 자식 요소들을 세로로 나열 */
@@ -52,25 +54,15 @@ body {
 .home,
 .games,
 .tournament,
-.settings {
+.logout {
   background-color: transparent;
 }
-
-/* 
-.games {
-  background-color: #4caf50;
-}
-
-.tournament {
-  background-color: transparent;
-} */
 
 .home,
-.settings {
+.logout {
   margin-bottom: 40px;
 }
 
-/* ---------------------------------------------- */
 /* 사이드바 제외 */
 .main-box {
   background-color: #131313;
@@ -78,7 +70,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1; /* flex가 같은 비율로 공간 차지 */
+  flex: 1;
 }
 
 /* 프로필 */
@@ -113,8 +105,8 @@ body {
 
 /* 게임 인터페이스 화면 전체 */
 .game-box {
-  position: relative;
   display: flex;
+  position: relative;
   flex-direction: column;
   background-color: black;
   font-family: 'Symtext', cursive;
@@ -123,6 +115,22 @@ body {
   height: 70vh;
   width: 80vw;
   text-align: center;
+}
+
+@media only screen and (max-width: 940px), only screen and (max-height: 660px) {
+  .game-box::after {
+    content: 'Screen is too small to play Pong!';
+    display: block;
+    background-color: gray;
+    color: rgb(242, 242, 242);
+    text-align: center;
+    font-size: 24px;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 /* 화면 상단  PONG/n CLASSIC */
@@ -149,10 +157,12 @@ body {
 }
 
 .player-option {
-  margin: 0 90px;
-  font-size: 6vh;
+  cursor: pointer;
+  margin: 0 6vw;
+  font-size: calc((3vh + 3vw) / 2);
   min-width: 0; /* 최소 너비를 0으로 설정하여 내용에 관계없이 동일한 너비를 가지도록 함 */
-  flex: 1 1 50%; /* flex-grow, flex-shrink, flex-basis */
+  flex: 1 1 0; /* flex-grow, flex-shrink, flex-basis */
+  padding: 3vw;
   text-align: center;
   white-space: nowrap;
 }
@@ -161,6 +171,8 @@ body {
   width: 4px; /* divider의 너비 설정 */
   height: 40vh; /* divider의 높이 설정 */
   margin-right: 15px;
+  flex: 0 0 4px;
+  /* margin-right: 15px; */
   flex-shrink: 0;
   background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
   background-size: 4px 96px; /* 점선의 크기와 간격 설정 */
@@ -193,71 +205,33 @@ footer {
   border: 1px solid #888;
   width: 80%; /* 모달 너비 */
 }
-/* 
-.close-button {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-} */
-
-/* .game-box {
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  font-family: 'Symtext', cursive;
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
-  width: 80vw;
-  text-align: center;
-} */
 
 /* 현재는 임의로 CSS를 설정한 상황 
  * 반응형으로 변경하기 위해 고정값을 모두 대체해야 한다.
 */
+
 .board {
-  height: 70vh;
+  height: 85vh;
   width: 80vw;
+  /* background-image: linear-gradient(to right, #5c6e91, #839b97); */
   background-color: black; /* 검은색 배경으로 변경 */
   border-radius: 14px;
+  display: flex;
   position: relative;
+  justify-content: center;
+  /* background-color: black; 검은색 배경으로 변경
+  border-radius: 14px;
+  position: relative; */
 }
 
 .ball {
   height: 30px;
   width: 30px;
-  border-radius: 50%;
-  position: fixed;
+  /* border-radius: 50%; */
+  /* position: fixed;
+  top: calc(50%);
+  left: calc(50%); */
+  position: absolute;
   top: calc(50% - 15px);
   left: calc(50% - 15px);
 }
@@ -266,69 +240,86 @@ footer {
   height: 100%;
   width: 100%;
   border-radius: 100px;
-  animation: spinBall 0.1s linear infinite;
+  background: rgb(242, 242, 242);
+  /* animation: spinBall 0.1s linear infinite;
   box-shadow: inset 0 0 18px #fff, inset 6px 0 18px violet,
     inset -6px 0 18px #0ff, inset 6px 0 30px violet, inset -6px 0 30px #0ff,
-    0 0 18px #fff, -4px 0 18px violet, 4px 0 18px #0ff;
+    0 0 18px #fff, -4px 0 18px violet, 4px 0 18px #0ff; */
 }
 
-@keyframes spinBall {
+/* @keyframes spinBall {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
+} */
 
 .paddle {
   height: 100px;
   width: 18px;
-  border-radius: 50%;
-  position: fixed;
+  /* border-radius: 50%; */
 }
 
 .paddle_1 {
-  top: calc(7.5vh + 55px);
-  left: calc(15% + 30px);
-  box-shadow: inset 0 0 18px #fff, inset -6px 0 18px #f3bad6,
+  top: 10px;
+  left: 10px;
+  background: rgb(242, 242, 242);
+  position: absolute;
+  /* box-shadow: inset 0 0 18px #fff, inset -6px 0 18px #f3bad6,
     inset 6px 0 18px #0ff, inset -6px 0 30px #f3bad6, inset 6px 0 30px #0ff,
-    0 0 18px #fff, 4px 0 18px #f3bad6, -4px 0 18px #0ff;
+    0 0 18px #fff, 4px 0 18px #f3bad6, -4px 0 18px #0ff; */
 }
 
 .paddle_2 {
-  top: calc(85vh + 7.5vh - 100px - 55px);
-  right: calc(1% + 30px);
-  box-shadow: inset 0 0 18px #fff, inset 6px 0 18px #f3bad6,
+  top: 1%;
+  right: 1%;
+  background: rgb(242, 242, 242);
+  position: absolute;
+  /* box-shadow: inset 0 0 18px #fff, inset 6px 0 18px #f3bad6,
     inset -6px 0 18px #0ff, inset 6px 0 30px #f3bad6, inset -6px 0 30px #0ff,
-    0 0 18px #fff, -4px 0 18px #f3bad6, 4px 0 18px #0ff;
+    0 0 18px #fff, -4px 0 18px #f3bad6, 4px 0 18px #0ff; */
 }
 
 .player_1_score {
-  height: 50px;
-  width: 50px;
+  /* height: 50px;
+  width: 50px; */
   color: chartreuse;
-  position: fixed;
-  left: 30vw;
-  margin-top: 30px;
+  position: absolute;
+  left: 20%;
+  margin: 30px;
 }
 
 .player_2_score {
-  height: 50px;
-  width: 50px;
+  /* height: 50px;
+  width: 50px; */
   color: chartreuse;
-  position: fixed;
-  left: 70vw;
-  margin-top: 30px;
+  position: absolute;
+  right: 20%;
+  margin: 30px;
 }
 
 .message {
-  position: fixed;
+  position: absolute;
   /* color: #48426d; */
   height: 10vh;
   width: 30vw;
-  color: #c9cbff;
-  left: 38vw;
-  margin: 30px auto auto auto;
+  color: rgb(242, 242, 242);
+  /* left: 38vw; */
+  margin: 30px;
 }
+
+/*
+.board .divider {
+  width: 4px;
+height: calc(100% - 12vh);
+top: 12vh;
+position: absolute;
+margin-right: 0px;
+flex-shrink: 0;
+background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
+background-size: 4px 96px;
+}
+*/
 
 .obstacle {
   width: 30px;
