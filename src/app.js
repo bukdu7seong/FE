@@ -2,6 +2,7 @@
 import { Route } from '../lib/router/router.js';
 import { SetComponent } from '../lib/router/setcomponent.js';
 import { Navigate } from '../lib/router/navigate.js';
+import { Render } from '../lib/router/render.js';
 // pages
 import { pageLogin } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
