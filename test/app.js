@@ -7,6 +7,7 @@ const link = document.querySelector('a');
 
 const HIDDEN_CLASSNAME = 'hidden';
 const USERNAME_KEY = 'username';
+
 function onLoginSubmit(event) {
   // event -> 리스너로 전달받은
   event.preventDefault(); // 브라우저의 기본 동작(새로고침)을 안하게 함. username이 새로고침 되면서 지워지기 때문.
@@ -14,26 +15,42 @@ function onLoginSubmit(event) {
 
   const username = loginInput.value;
   localStorage.setItem(USERNAME_KEY, username);
-  //   greeting.innerText = 'Hello ' + username;
   paintGreeting(username);
 
   console.log(event);
   console.log('username: ', username);
 
-  //   fetch('/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ login, password }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.status === 'ok') {
-  //         window.location.pathname = '/profile';
-  //       }
-  //     });
+  fetch('/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  })
+    .then((res) => res.json()) // res.json()은 promise를 반환함.
+    .then((data) => {
+    //   if (data.status === 'ok') {
+    //     window.location.pathname = '/profile';
+    //   } else if (data.status === 'fail') {
+    //     // 실패 경고
+    //     window.location.pathname = '/login';
+    //   } else {
+    //     Navigate('/404'); // 이거 맞나
+    //   }
+    });
+  /* Todo.
+토큰 저장 로직
+로그인 실패 시 로직
+*/
 }
+
+/*
+42 로그인
+요청
+ㄹ
+ㄹ
+code
+email 다르면 회원가입 백엔드?
 
 // function handleLinkClick(event) {
 //   event.preventDefault();
@@ -48,7 +65,7 @@ function paintGreeting(username) {
   greeting.classList.remove(HIDDEN_CLASSNAME);
 }
 
-const saveUsername = localStorage.getItem(USERNAME_KEY);
+const saveUsername = localStorage.getItem(USERNAME_KEY); // 토큰으로 바꾸기
 
 if (saveUsername === null) {
   // show the form
