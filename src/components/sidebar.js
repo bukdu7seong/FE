@@ -1,5 +1,5 @@
 import { Render } from '../../lib/router/render.js';
-
+import { Navigate } from '../../lib/router/navigate.js';
 /* 
   <div class="side-bar">
     <div class="menu-top">
@@ -8,7 +8,7 @@ import { Render } from '../../lib/router/render.js';
           <img src="../../images/icon/gamepad-solid.svg" alt="Game" route="game">
 */
 // 이 함수는 라우터 객체를 받아서, 해당 객체의 페이지를 렌더링한다.
-export function sidebar(routes, Navigate) {
+export function sidebar(routes) {
   const sidebar = document.createElement('div');
   sidebar.setAttribute('class', 'side-bar');
 

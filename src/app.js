@@ -4,7 +4,7 @@ import { SetComponent } from '../lib/router/setcomponent.js';
 import { Navigate } from '../lib/router/navigate.js';
 import { Render } from '../lib/router/render.js';
 // pages
-import { pageLogin } from './pages/login.js';
+import { pageLogIn } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
 import { pageGame } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
@@ -14,13 +14,14 @@ import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
 import { getBoard, setBoard } from './components/pong.js';
 // state
-import { store, updateUI } from '../lib/state/store.js';
+import { store } from '../lib/state/store.js';
+import { updateProfile } from '../lib/state/update.js';
 import { checkLogin } from '../lib/state/check_login.js';
-import { defaultProfile } from '../lib/state/default_profile.js';
+import { defaultProfile } from './utils/default_profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 const routes = {
-  '/login': { name: 'Login', page: pageLogin, component: [] },
+  '/login': { name: 'Login', page: pageLogIn, component: [] },
   '/profile': { name: 'Profile', page: pageProfile, component: [] },
   '/game': { name: 'Game', page: pageGame, component: [] },
   '/tournament': { name: 'Tournament', page: pageTournament, component: [] },
@@ -64,9 +65,22 @@ function checkWindowSize() {
 function init() {
   window.onload = function () {
     // window.onload -> 브라우저가 새로고침 될 때마다 실행
-    checkLogin(store, routes, Navigate);
-    checkWindowSize(); // 페이지 로드 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
-    defaultProfile();
+    // SetComponent -> routes 객체의 모든 속성에 component 속성을 추가
+    Route(routes);
+    if (
+      window.location.pathname === '/' ||
+      window.location.pathname === '/login'
+    ) {
+      SetComponent(routes);
+    } else {
+      SetComponent(routes, sidebar(routes), profile('junyojeo'));
+      // defaultProfile -> 프로필 정보가 없을 때 기본 프로필을 생성
+      defaultProfile();
+    }
+    // store.subscribe() -> 상태가 변경될 때마다 실행
+    store.subscribe(updateProfile);
+    // checkLogin -> 로그인 상태 확인
+    checkLogin(routes);
   };
 
   // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화

@@ -1,4 +1,4 @@
-// 
+// 404
 export function PageNotFound() {
   const page = document.createElement('div');
   page.setAttribute('class', 'container');
