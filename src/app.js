@@ -16,7 +16,7 @@ import { getBoard, setBoard } from './components/pong.js';
 import { store } from '../lib/state/store.js';
 import { updateProfile } from '../lib/state/update.js';
 import { checkLogin } from '../lib/state/check_login.js';
-import { defaultProfile } from '../lib/state/default_profile.js';
+import { defaultProfile } from './utils/default_profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 const routes = {
