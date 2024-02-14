@@ -89,6 +89,10 @@ export default class PingPong {
     }
     this.movePaddles();
     this.moveBall();
+    this.obstacles.forEach(obstacle => {
+      moveObstacle(obstacle, areaBounds);
+    });
+
   }
 
   createObstacle() {
@@ -158,4 +162,36 @@ export default class PingPong {
     this.message.style.left = '30vw';
   }
 }
+
+
+function moveObstacle(obstacle, areaBounds) {
+  // 장애물의 속도와 방향 설정
+  const speed = 2; // 움직임 속도
+  let dx = Math.random() < 0.5 ? speed : -speed;
+  let dy = Math.random() < 0.5 ? speed : -speed;
+
+  function animate() {
+    let rect = obstacle.getBoundingClientRect();
+
+    // 영역의 경계에 도달하면 방향 변경
+    if (rect.left <= areaBounds.left || rect.right >= areaBounds.right) {
+      dx = -dx;
+    }
+    if (rect.top <= areaBounds.top || rect.bottom >= areaBounds.bottom) {
+      dy = -dy;
+    }
+
+    // 장애물 위치 업데이트
+    obstacle.style.left = obstacle.offsetLeft + dx + 'px';
+    obstacle.style.top = obstacle.offsetTop + dy + 'px';
+
+    requestAnimationFrame(animate); // 다음 애니메이션 프레임 요청
+  }
+
+  animate(); // 애니메이션 시작
+}
+
+// 각 장애물에 대해 움직임 함수 호출
+const obstacles = document.querySelectorAll('.obstacle');
+const areaBounds = document.querySelector('.board').getBoundingClientRect();
 
