@@ -126,6 +126,8 @@ export default class PingPong {
           if (this.mode === 'object') {
             this.removeAllObstacles();
           }
+          this.player1.resetPosition();
+          this.player2.resetPosition();
           this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
           this.gameState = 'end';
           this.onGameEnd();
