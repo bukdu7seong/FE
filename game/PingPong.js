@@ -9,6 +9,12 @@ const KEY_CODES = {
   MOVE_DOWN_PLAYER2: 'ArrowDown',
 };
 
+const GameMode ={
+  NORMAL: 'normal',
+  SPEED: 'speed',
+  OBJECT: 'object',
+}
+
 export const GameState = {
   READY: 'ready',
   PLAY: 'play',
@@ -44,7 +50,7 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === 'normal' ? 10 : 20;
+    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
@@ -97,7 +103,7 @@ export default class PingPong {
     this.obstacles = [];
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
-    if (this.mode === 'object') {
+    if (this.mode === GameMode.OBJECT) {
       for (let i = 0; i < this.numObstacle; i++) {
         const obstacle = new Obstacle(this.board, this.boardCoord);
         this.obstacles.push(obstacle);
@@ -136,7 +142,7 @@ export default class PingPong {
     setTimeout(() => {
         if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
           this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
-          if (this.mode === 'object') {
+          if (this.mode === GameMode.OBJECT) {
             this.removeAllObstacles();
           }
           this.player1.resetPosition();
