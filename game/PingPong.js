@@ -6,12 +6,19 @@ const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
   MOVE_DOWN_PLAYER1: 'KeyS',
   MOVE_UP_PLAYER2: 'ArrowUp',
-  MOVE_DOWN_PLAYER2: 'ArrowDown'
+  MOVE_DOWN_PLAYER2: 'ArrowDown',
+};
+
+export const GameState = {
+  READY: 'ready',
+  PLAY: 'play',
+  END: 'end',
+  OVER: 'over',
 };
 
 export default class PingPong {
   constructor(mode, player1Name, player2Name) {
-    this.gameState = 'ready';
+    this.state = GameState.READY;
     this.board = document.querySelector('.board');
     this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
@@ -78,13 +85,13 @@ export default class PingPong {
   }
 
   initGameState() {
-    this.gameState = 'ready';
+    this.state = GameState.READY;
     this.message.innerHTML = 'Press Enter to Play Pong';
     this.message.style.left = '38vw';
   }
 
   gameStart() {
-    this.gameState = 'play';
+    this.state = GameState.PLAY;
     this.message.innerHTML = 'Game Started';
     this.message.style.left = '42vw';
     this.obstacles = [];
@@ -106,7 +113,7 @@ export default class PingPong {
     if (this.player1.isMovingDown) this.player1.moveDown(this.boardCoord);
     if (this.player2.isMovingUp) this.player2.moveUp(this.boardCoord);
     if (this.player2.isMovingDown) this.player2.moveDown(this.boardCoord);
-    if (this.gameState === 'play') requestAnimationFrame(this.movePaddles.bind(this));
+    if (this.state === GameState.PLAY) requestAnimationFrame(this.movePaddles.bind(this));
   }
 
   getRandomDirection() {
@@ -129,14 +136,14 @@ export default class PingPong {
     setTimeout(() => {
         if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
           this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
-          this.endGame(this.winner);
           if (this.mode === 'object') {
             this.removeAllObstacles();
           }
           this.player1.resetPosition();
           this.player2.resetPosition();
           this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
-          this.gameState = 'end';
+          this.message.innerHTML = `${this.winner} Wins!`;
+          this.state = GameState.END;
           this.onGameEnd();
         } else {
           // 목표 점수에 도달하지 않았다면 게임 재시작
@@ -149,11 +156,5 @@ export default class PingPong {
   removeAllObstacles() {
     this.obstacles.forEach(obstacle => obstacle.remove());
     this.obstacles = []; // 장애물 배열도 비웁니다.
-  }
-
-  endGame(winner) {
-    this.gameState = 'over';
-    this.message.innerHTML = `${winner} Wins!`;
-    this.message.style.left = '30vw';
   }
 }

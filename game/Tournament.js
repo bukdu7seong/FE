@@ -1,4 +1,4 @@
-import PingPong from './PingPong.js';
+import PingPong, { GameState } from './PingPong.js';
 
 const GameStage = {
   SEMI_A: 1,
@@ -24,7 +24,7 @@ export default class Tournament {
         this.semiFinalA.onGameEnd = () => this.play();
         this.semiFinalA.gameStart();
       }
-      if (this.semiFinalA.gameState === 'end') {
+      if (this.semiFinalA.state === GameState.END) {
         this.finalist.push(this.semiFinalA.winner);
         this.stage = GameStage.SEMI_B;
         alert('semiA end');
@@ -36,7 +36,7 @@ export default class Tournament {
         this.semiFinalB.onGameEnd = () => this.play();
         this.semiFinalB.gameStart();
       }
-      if (this.semiFinalB.gameState === 'end') {
+      if (this.semiFinalB.state === GameState.END) {
         this.finalist.push(this.semiFinalB.winner);
         this.stage = GameStage.FINAL;
         alert('semiB end');
@@ -48,7 +48,7 @@ export default class Tournament {
         this.final.onGameEnd = () => this.play();
         this.final.gameStart();
       }
-      if (this.final.gameState === 'end') {
+      if (this.final.state === 'end') {
         alert('final end');
       }
     }
