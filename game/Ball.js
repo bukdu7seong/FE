@@ -44,7 +44,7 @@ export default class Ball {
     let ndy = dy;
     let ndx = dx;
     let dir = null;
-    let obstacle = CollisionDetector.ballObstaclesCollision(this, pingPong.obstacles);
+    const obstacle = CollisionDetector.ballObstaclesCollision(this, pingPong.obstacles);
     if (obstacle) {
       if (CollisionDetector.ballObstacleLeftCollision(this, obstacle) || CollisionDetector.ballObstacleRightCollision(this, obstacle)) {
         dir = this.getReflectVector(obstacle);

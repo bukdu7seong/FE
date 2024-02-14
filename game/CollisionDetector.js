@@ -13,7 +13,7 @@ export default class CollisionDetector {
 
   static ballObstaclesCollision(ball, obstacles) {
     for (let i = 0; i < obstacles.length; i++) {
-      const obstacle = obstacles[i].getBoundingClientRect();
+      const obstacle = obstacles[i].element.getBoundingClientRect();
       if (obstacle.left <= ball.coord.right && ball.coord.left <= obstacle.right && obstacle.top <= ball.coord.bottom && ball.coord.top <= obstacle.bottom) return obstacle;
     }
     return null;

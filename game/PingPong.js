@@ -1,5 +1,6 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
+import Obstacle from './Obstacle.js';
 
 export default class PingPong {
   constructor(mode, player1Name, player2Name) {
@@ -84,33 +85,12 @@ export default class PingPong {
     this.player2.updateScoreHtml();
     if (this.mode === 'object') {
       for (let i = 0; i < this.numObstacle; i++) {
-        this.createObstacle();
+        const obstacle = new Obstacle(this.board, this.boardCoord);
+        this.obstacles.push(obstacle);
       }
     }
     this.movePaddles();
     this.moveBall();
-    this.obstacles.forEach(obstacle => {
-      moveObstacle(obstacle, areaBounds);
-    });
-
-  }
-
-  createObstacle() {
-    let obstacle = document.createElement('div');
-    obstacle.className = 'obstacle';
-    this.board.appendChild(obstacle);
-
-    const marginWidth = this.board.clientWidth * 0.1;
-    const marginHeight = this.board.clientHeight * 0.1;
-
-    // 장애물이 생성될 수 있는 영역 계산 (보드 크기의 80%)
-    const availableWidth = this.board.clientWidth * 0.8;
-    const availableHeight = this.board.clientHeight * 0.8;
-
-    // 장애물의 위치를 무작위로 결정 (중앙 80% 영역 내)
-    obstacle.style.top = (Math.random() * availableHeight + marginHeight) + 'px';
-    obstacle.style.left = (Math.random() * availableWidth + marginWidth) + 'px'
-    this.obstacles.push(obstacle);
   }
 
   movePaddles() {
@@ -143,7 +123,7 @@ export default class PingPong {
           this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
           this.endGame(this.winner);
           if (this.mode === 'object') {
-            this.obstacles.forEach(obstacle => obstacle.remove());
+            this.removeAllObstacles();
           }
           this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
           this.gameState = 'end';
@@ -156,42 +136,14 @@ export default class PingPong {
     );
   }
 
+  removeAllObstacles() {
+    this.obstacles.forEach(obstacle => obstacle.remove());
+    this.obstacles = []; // 장애물 배열도 비웁니다.
+  }
+
   endGame(winner) {
     this.gameState = 'over';
     this.message.innerHTML = `${winner} Wins!`;
     this.message.style.left = '30vw';
   }
 }
-
-
-function moveObstacle(obstacle, areaBounds) {
-  // 장애물의 속도와 방향 설정
-  const speed = 2; // 움직임 속도
-  let dx = Math.random() < 0.5 ? speed : -speed;
-  let dy = Math.random() < 0.5 ? speed : -speed;
-
-  function animate() {
-    let rect = obstacle.getBoundingClientRect();
-
-    // 영역의 경계에 도달하면 방향 변경
-    if (rect.left <= areaBounds.left || rect.right >= areaBounds.right) {
-      dx = -dx;
-    }
-    if (rect.top <= areaBounds.top || rect.bottom >= areaBounds.bottom) {
-      dy = -dy;
-    }
-
-    // 장애물 위치 업데이트
-    obstacle.style.left = obstacle.offsetLeft + dx + 'px';
-    obstacle.style.top = obstacle.offsetTop + dy + 'px';
-
-    requestAnimationFrame(animate); // 다음 애니메이션 프레임 요청
-  }
-
-  animate(); // 애니메이션 시작
-}
-
-// 각 장애물에 대해 움직임 함수 호출
-const obstacles = document.querySelectorAll('.obstacle');
-const areaBounds = document.querySelector('.board').getBoundingClientRect();
-
