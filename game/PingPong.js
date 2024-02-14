@@ -36,11 +36,11 @@ export default class PingPong {
 
   initEventListeners() {
     document.addEventListener('keydown', (e) => {
-      switch (e.key) {
-        case 'w':
+      switch (e.code) {
+        case 'KeyW':
           this.player1.isMovingUp = true;
           break;
-        case 's':
+        case 'KeyS':
           this.player1.isMovingDown = true;
           break;
         case 'ArrowUp':
@@ -53,11 +53,11 @@ export default class PingPong {
     });
 
     document.addEventListener('keyup', (e) => {
-      switch (e.key) {
-        case 'w':
+      switch (e.code) {
+        case 'KeyW':
           this.player1.isMovingUp = false;
           break;
-        case 's':
+        case 'KeyS':
           this.player1.isMovingDown = false;
           break;
         case 'ArrowUp':
@@ -92,6 +92,7 @@ export default class PingPong {
     this.movePaddles();
     this.moveBall();
   }
+
 
   movePaddles() {
     if (this.player1.isMovingUp) this.player1.moveUp(this.boardCoord);
