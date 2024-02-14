@@ -125,19 +125,22 @@ export default class PingPong {
       this.player1.updateScore();
     }
     this.ball.init();
-    if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
-      this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
-      this.endGame(this.winner);
-      if (this.mode === 'object') {
-        this.obstacles.forEach(obstacle => obstacle.remove());
-      }
-      this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
-      this.gameState = 'end';
-      this.onGameEnd();
-    } else {
-      // 목표 점수에 도달하지 않았다면 게임 재시작
-      this.moveBall();
-    }
+    setTimeout(() => {
+        if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
+          this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
+          this.endGame(this.winner);
+          if (this.mode === 'object') {
+            this.obstacles.forEach(obstacle => obstacle.remove());
+          }
+          this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
+          this.gameState = 'end';
+          this.onGameEnd();
+        } else {
+          // 목표 점수에 도달하지 않았다면 게임 재시작
+          this.moveBall();
+        }
+      }, 0
+    );
   }
 
   endGame(winner) {
