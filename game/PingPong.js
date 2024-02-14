@@ -2,6 +2,13 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 
+const KEY_CODES = {
+  MOVE_UP_PLAYER1: 'KeyW',
+  MOVE_DOWN_PLAYER1: 'KeyS',
+  MOVE_UP_PLAYER2: 'ArrowUp',
+  MOVE_DOWN_PLAYER2: 'ArrowDown'
+};
+
 export default class PingPong {
   constructor(mode, player1Name, player2Name) {
     this.gameState = 'ready';
@@ -37,16 +44,16 @@ export default class PingPong {
   initEventListeners() {
     document.addEventListener('keydown', (e) => {
       switch (e.code) {
-        case 'KeyW':
+        case KEY_CODES.MOVE_UP_PLAYER1:
           this.player1.isMovingUp = true;
           break;
-        case 'KeyS':
+        case KEY_CODES.MOVE_DOWN_PLAYER1:
           this.player1.isMovingDown = true;
           break;
-        case 'ArrowUp':
+        case KEY_CODES.MOVE_UP_PLAYER2:
           this.player2.isMovingUp = true;
           break;
-        case 'ArrowDown':
+        case KEY_CODES.MOVE_DOWN_PLAYER2:
           this.player2.isMovingDown = true;
           break;
       }
@@ -54,16 +61,16 @@ export default class PingPong {
 
     document.addEventListener('keyup', (e) => {
       switch (e.code) {
-        case 'KeyW':
+        case KEY_CODES.MOVE_UP_PLAYER1:
           this.player1.isMovingUp = false;
           break;
-        case 'KeyS':
+        case KEY_CODES.MOVE_DOWN_PLAYER1:
           this.player1.isMovingDown = false;
           break;
-        case 'ArrowUp':
+        case KEY_CODES.MOVE_UP_PLAYER2:
           this.player2.isMovingUp = false;
           break;
-        case 'ArrowDown':
+        case KEY_CODES.MOVE_DOWN_PLAYER2:
           this.player2.isMovingDown = false;
           break;
       }
