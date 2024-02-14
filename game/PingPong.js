@@ -95,8 +95,17 @@ export default class PingPong {
     let obstacle = document.createElement('div');
     obstacle.className = 'obstacle';
     this.board.appendChild(obstacle);
-    obstacle.style.top = Math.random() * (this.board.clientHeight - 20) + 'px';
-    obstacle.style.left = Math.random() * (this.board.clientWidth - 20) + 'px';
+
+    const marginWidth = this.board.clientWidth * 0.1;
+    const marginHeight = this.board.clientHeight * 0.1;
+
+    // 장애물이 생성될 수 있는 영역 계산 (보드 크기의 80%)
+    const availableWidth = this.board.clientWidth * 0.8;
+    const availableHeight = this.board.clientHeight * 0.8;
+
+    // 장애물의 위치를 무작위로 결정 (중앙 80% 영역 내)
+    obstacle.style.top = (Math.random() * availableHeight + marginHeight) + 'px';
+    obstacle.style.left = (Math.random() * availableWidth + marginWidth) + 'px'
     this.obstacles.push(obstacle);
   }
 
