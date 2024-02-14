@@ -4,9 +4,14 @@ export default class Player {
     this.scoreElement = scoreElement;
     this.score = 0;
     this.playerName = playerName;
+    this.initialTop = paddleElement.style.top;
     this.isMovingUp = false;
     this.isMovingDown = false;
     this.paddleCoord = this.paddle.getBoundingClientRect();
+  }
+
+  resetPosition() {
+    this.paddle.style.top = this.initialTop;
   }
 
   moveUp(boardCoord) {
