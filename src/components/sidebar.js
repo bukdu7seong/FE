@@ -1,5 +1,6 @@
-import { Render } from '../../lib/router/render.js';
-import { Navigate } from '../../lib/router/navigate.js';
+import { renderAll } from '../../lib/router/render.js';
+import { navigate } from '../../lib/router/navigate.js';
+import { route } from '../../lib/router/router.js';
 /* 
   <div class="side-bar">
     <div class="menu-top">
@@ -69,8 +70,7 @@ export function sidebar(routes) {
   sidebar.addEventListener('click', (e) => {
     const targetImg = e.target.closest('img[route]');
     if (targetImg) {
-      const target = Navigate(routes, targetImg.getAttribute('route'));
-      Render(target);
+      route(routes, targetImg.getAttribute('route'));
     }
   });
 
