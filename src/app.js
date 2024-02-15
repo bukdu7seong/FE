@@ -1,8 +1,12 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { Route } from '../lib/router/router.js';
-import { SetComponent } from '../lib/router/setcomponent.js';
-import { Navigate } from '../lib/router/navigate.js';
-import { Render } from '../lib/router/render.js';
+import { firstRoute, route } from '../lib/router/router.js';
+import { initComponent } from '../lib/router/component.js';
+import { navigate } from '../lib/router/navigate.js';
+import {
+  renderPage,
+  renderComponent,
+  renderAll,
+} from '../lib/router/render.js';
 // pages
 import { pageLogIn } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
@@ -14,7 +18,7 @@ import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
 import { getBoard, setBoard, cleanUp } from './components/pong.js';
 // state
-import { store } from '../lib/state/store.js';
+import { store, routeState } from '../lib/state/store.js';
 import { updateProfile } from '../lib/state/update.js';
 import { checkLogin } from '../lib/state/check_login.js';
 import { defaultProfile } from './utils/default_profile.js';
@@ -29,13 +33,13 @@ const routes = {
 };
 
 // SetComponent -> routes 객체의 component 배열에 속성 추가
-SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
+// SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
 // 나머지 페이지에도 컴포넌트 추가
-Route(routes);
+// Route(routes);
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
-// store.subscribe(updateUI);
+// store.subscribe(updateUI); -> access token 체크할 때 쓰면 좋을 듯!!
 
 function checkWindowSize() {
   const gameBox = document.getElementsByClassName('game-box')[0];
@@ -63,18 +67,35 @@ function checkWindowSize() {
 }
 
 function init() {
+  // 로그인 체크 로직
+  // 1. local storage에 토큰이 있는지 확인
+  // 2. 토큰이 있다면, 유효한 토큰인지 확인
+  // 3. 유효한 토큰일 경우, store에 로그인 상태를 true로 변경
+  // 3-1. 유효하지 않은 토큰일 경우, store에 로그인 상태를 false로 변경
+  // 4. store의 로그인 상태에 따라 페이지 렌더링
+  store.setState({ isLoggedIn: false });
+
+  // 뭔가... 깔끔하게 고칠 수 있을 것 같은데...
+  // 만약 로그인 안했다면 로그인 페이지로 이동, 했다면 경로에 따라 이동
+  // 즉 로그인 안했으면 로그인 페이지로 강제 리다이렉트 해야 함.
+  // 또한 로그인 페이지에선 컴포넌트를 설정하지 않아야 함.
+  // 음... 구상 중...
+  // onload에서는 사용자가 페이지에 최초 접속했을 때, 로그인에 따라 페이지를 렌더링하는 역할을 해야 할 것 같다.
   window.onload = function () {
     // window.onload -> 브라우저가 새로고침 될 때마다 실행
     // SetComponent -> routes 객체의 모든 속성에 component 속성을 추가
-    Route(routes);
     if (
       window.location.pathname === '/' ||
       window.location.pathname === '/login'
     ) {
-      SetComponent(routes);
+      // initComponent(routes);
+      // firstRoute(routes);
+      route(routes, window.location.pathname, false);
     } else {
-      SetComponent(routes, sidebar(routes), profile('junyojeo'));
+      initComponent(routes, sidebar(routes), profile());
       // defaultProfile -> 프로필 정보가 없을 때 기본 프로필을 생성
+      // firstRoute(routes);
+      route(routes, window.location.pathname, false);
       defaultProfile();
     }
     // store.subscribe() -> 상태가 변경될 때마다 실행
@@ -93,27 +114,27 @@ function init() {
 
   // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
   window.addEventListener('popstate', () => {
-    const target = Navigate(routes, window.location.pathname, false);
-    Render(target);
+    route(routes, window.location.pathname, false);
   });
 
-  // 게임 시작 버튼을 클릭하면 게임을 시작
   window.onclick = function (event) {
+    const currentRoute = routeState.getState();
     const clickedElement = event.target;
     const className = clickedElement.className;
 
-    console.log(className);
+    if (currentRoute.currentRoute.name === 'Game') {
+      console.log('hello, this is game page');
+    } else if (currentRoute.currentRoute.name === 'Tournament') {
+      console.log('hello, this is tournament page');
+    }
 
-    // popstate 시에도 cleanUp 되어야 함. 역시 상태 관리가 필요함...
     if (className.startsWith('image')) {
       cleanUp();
     } else if (className.startsWith('player')) {
-      const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
-      while (gameBox.firstChild) {
-        gameBox.removeChild(gameBox.firstChild);
-      } // game-box div의 자식 요소들을 모두 삭제
-      gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
-      setBoard(); // 게임에 필요한 요소들을 설정
+      document.getElementById('player2').addEventListener('click', function () {
+        renderPage(getBoard(), 'game-box');
+        setBoard();
+      });
     }
   };
 }

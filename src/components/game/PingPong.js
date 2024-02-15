@@ -1,9 +1,30 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
+import Obstacle from './Obstacle.js';
+
+const KEY_CODES = {
+  MOVE_UP_PLAYER1: 'KeyW',
+  MOVE_DOWN_PLAYER1: 'KeyS',
+  MOVE_UP_PLAYER2: 'ArrowUp',
+  MOVE_DOWN_PLAYER2: 'ArrowDown',
+};
+
+const GameMode ={
+  NORMAL: 'normal',
+  SPEED: 'speed',
+  OBJECT: 'object',
+}
+
+export const GameState = {
+  READY: 'ready',
+  PLAY: 'play',
+  END: 'end',
+  OVER: 'over',
+};
 
 export default class PingPong {
   constructor(mode, player1Name, player2Name) {
-    this.gameState = 'ready';
+    this.state = GameState.READY;
     this.board = document.querySelector('.board');
     this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
@@ -29,40 +50,40 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === 'normal' ? 10 : 20;
+    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
   initEventListeners() {
     document.addEventListener('keydown', (e) => {
-      switch (e.key) {
-        case 'w':
+      switch (e.code) {
+        case KEY_CODES.MOVE_UP_PLAYER1:
           this.player1.isMovingUp = true;
           break;
-        case 's':
+        case KEY_CODES.MOVE_DOWN_PLAYER1:
           this.player1.isMovingDown = true;
           break;
-        case 'ArrowUp':
+        case KEY_CODES.MOVE_UP_PLAYER2:
           this.player2.isMovingUp = true;
           break;
-        case 'ArrowDown':
+        case KEY_CODES.MOVE_DOWN_PLAYER2:
           this.player2.isMovingDown = true;
           break;
       }
     });
 
     document.addEventListener('keyup', (e) => {
-      switch (e.key) {
-        case 'w':
+      switch (e.code) {
+        case KEY_CODES.MOVE_UP_PLAYER1:
           this.player1.isMovingUp = false;
           break;
-        case 's':
+        case KEY_CODES.MOVE_DOWN_PLAYER1:
           this.player1.isMovingDown = false;
           break;
-        case 'ArrowUp':
+        case KEY_CODES.MOVE_UP_PLAYER2:
           this.player2.isMovingUp = false;
           break;
-        case 'ArrowDown':
+        case KEY_CODES.MOVE_DOWN_PLAYER2:
           this.player2.isMovingDown = false;
           break;
       }
@@ -70,42 +91,35 @@ export default class PingPong {
   }
 
   initGameState() {
-    this.gameState = 'ready';
+    this.state = GameState.READY;
     this.message.innerHTML = 'Press Enter to Play Pong';
     this.message.style.left = '38vw';
   }
 
   gameStart() {
-    this.gameState = 'play';
+    this.state = GameState.PLAY;
     this.message.innerHTML = 'Game Started';
     this.message.style.left = '42vw';
     this.obstacles = [];
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
-    if (this.mode === 'object') {
+    if (this.mode === GameMode.OBJECT) {
       for (let i = 0; i < this.numObstacle; i++) {
-        this.createObstacle();
+        const obstacle = new Obstacle(this.board, this.boardCoord);
+        this.obstacles.push(obstacle);
       }
     }
     this.movePaddles();
     this.moveBall();
   }
 
-  createObstacle() {
-    let obstacle = document.createElement('div');
-    obstacle.className = 'obstacle';
-    this.board.appendChild(obstacle);
-    obstacle.style.top = Math.random() * (this.board.clientHeight - 20) + 'px';
-    obstacle.style.left = Math.random() * (this.board.clientWidth - 20) + 'px';
-    this.obstacles.push(obstacle);
-  }
 
   movePaddles() {
     if (this.player1.isMovingUp) this.player1.moveUp(this.boardCoord);
     if (this.player1.isMovingDown) this.player1.moveDown(this.boardCoord);
     if (this.player2.isMovingUp) this.player2.moveUp(this.boardCoord);
     if (this.player2.isMovingDown) this.player2.moveDown(this.boardCoord);
-    if (this.gameState === 'play') requestAnimationFrame(this.movePaddles.bind(this));
+    if (this.state === GameState.PLAY) requestAnimationFrame(this.movePaddles.bind(this));
   }
 
   getRandomDirection() {
@@ -125,25 +139,28 @@ export default class PingPong {
       this.player1.updateScore();
     }
     this.ball.init();
-    if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
-      this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
-      this.endGame(this.winner);
-      if (this.mode === 'object') {
-        this.obstacles.forEach(obstacle => obstacle.remove());
-      }
-      this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
-      this.gameState = 'end';
-      this.onGameEnd();
-    } else {
-      // 목표 점수에 도달하지 않았다면 게임 재시작
-      this.moveBall();
-    }
+    setTimeout(() => {
+        if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
+          this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
+          if (this.mode === GameMode.OBJECT) {
+            this.removeAllObstacles();
+          }
+          this.player1.resetPosition();
+          this.player2.resetPosition();
+          this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
+          this.message.innerHTML = `${this.winner} Wins!`;
+          this.state = GameState.END;
+          this.onGameEnd();
+        } else {
+          // 목표 점수에 도달하지 않았다면 게임 재시작
+          this.moveBall();
+        }
+      }, 0
+    );
   }
 
-  endGame(winner) {
-    this.gameState = 'over';
-    this.message.innerHTML = `${winner} Wins!`;
-    this.message.style.left = '30vw';
+  removeAllObstacles() {
+    this.obstacles.forEach(obstacle => obstacle.remove());
+    this.obstacles = []; // 장애물 배열도 비웁니다.
   }
 }
-
