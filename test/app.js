@@ -1,56 +1,94 @@
-const loginForm = document.querySelector('#login-form');
-const loginInput = document.querySelector('#login-form input');
-const loginButton = document.querySelector('#login-form button');
+const loginForm = document.querySelector('#form-signin');
+const emailInput = document.querySelector('#form-signin input[type="email"]');
+const passwordInput = document.querySelector(
+  '#form-signin input[type="password"]'
+);
 const greeting = document.querySelector('#greeting');
+const errorMessage = document.querySelector('#error-message');
 
-const link = document.querySelector('a');
+// const loginButton = document.querySelector('#form-signin button');
+// const link = document.querySelector('a');
 
 const HIDDEN_CLASSNAME = 'hidden';
-const USERNAME_KEY = 'username';
+const USERNAME_KEY = 'email';
 
 function onLoginSubmit(event) {
-  // event -> 리스너로 전달받은
-  event.preventDefault(); // 브라우저의 기본 동작(새로고침)을 안하게 함. username이 새로고침 되면서 지워지기 때문.
-  loginForm.classList.add(HIDDEN_CLASSNAME);
+  event.preventDefault();
 
-  const username = loginInput.value;
-  localStorage.setItem(USERNAME_KEY, username);
-  paintGreeting(username);
+  const email = emailInput.value;
+  const password = passwordInput.value;
 
-  console.log(event);
-  console.log('username: ', username);
+  // 테스트를 위해 fetch 대신에 직접 Promise를 반환하는 가짜 fetch 함수를 사용
+  const fakeFetch = (url, options) => {
+    return new Promise((resolve, reject) => {
+      // 가짜 응답 객체
+      const fakeResponse = {
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            userId: 1,
+            accessToken: 'veryL0oooooOooO0000OongJWTv4lue',
+            '2fa': false, // true나 false로 테스트 조건 변경 가능
+          }),
+        headers: {
+          get: (header) => {
+            if (header === 'Location') {
+              return '/profile';
+            }
+          },
+        },
+      };
+      // 성공 상태를 모방
+      resolve(fakeResponse);
+    });
+  };
 
-  fetch('/login', {
+  fakeFetch('/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ nickname, password }),
   })
-    .then((res) => res.json()) // res.json()은 promise를 반환함.
+    .then((response) => {
+      console.log('response: ', response);
+      if (response.status === 200) {
+        return response.json();
+      } else if (response.status === 301) {
+        window.location.href = response.headers.get('Location');
+      } else if (response.status === 401) {
+        throw new Error(
+          'Full authentication is required to access this resource'
+        );
+      } else if (response.status === 500) {
+        throw new Error('Internal Server Error');
+      }
+    })
     .then((data) => {
-    //   if (data.status === 'ok') {
-    //     window.location.pathname = '/profile';
-    //   } else if (data.status === 'fail') {
-    //     // 실패 경고
-    //     window.location.pathname = '/login';
-    //   } else {
-    //     Navigate('/404'); // 이거 맞나
-    //   }
-    });
-  /* Todo.
-토큰 저장 로직
-로그인 실패 시 로직
-*/
-}
-
-/*
+      console.log('data: ', data);
+      if (data) {
+        // sessionStorage.setItem('userId', data.userId);
+        sessionStorage.setItem('accessToken', data.accessToken);
+        if (data['2fa']) {
+          // 2FA 처리 로직
+          /*
 42 로그인
 요청
 ㄹ
 ㄹ
 code
 email 다르면 회원가입 백엔드?
+*/
+        } else {
+          window.location.pathname = '/profile';
+        }
+      }
+    })
+    .catch((error) => {
+      errorMessage.textContent = error.message;
+      errorMessage.classList.remove(HIDDEN_CLASSNAME);
+    });
+}
 
 // function handleLinkClick(event) {
 //   event.preventDefault();
@@ -60,17 +98,10 @@ email 다르면 회원가입 백엔드?
 // link.addEventListener('click', handleLinkClick); // handleLinckClick()이 아니라 handleLinkClick으로 넣어야함. ->
 // // event의 종류는 여러가지가 있음. console.log(event)를 찍어보면 어떤 이벤트인지 확인할 수 있음.
 
-function paintGreeting(username) {
-  greeting.innerText = `Hello ${username}`;
-  greeting.classList.remove(HIDDEN_CLASSNAME);
-}
-
-const saveUsername = localStorage.getItem(USERNAME_KEY); // 토큰으로 바꾸기
-
-if (saveUsername === null) {
-  // show the form
+const savedToken = sessionStorage.getItem('accessToken'); // 'accessToken'을 문자열로 수정
+if (!savedToken) {
   loginForm.classList.remove(HIDDEN_CLASSNAME);
-  loginForm.addEventListener('submit', onLoginSubmit); // addEventListener안에 있는 함수는 직접 실행하지 않고, 브라우저가 실행 해줌.
+  loginForm.addEventListener('submit', onLoginSubmit);
 } else {
-  paintGreeting(saveUsername);
+  paintGreeting(savedToken);
 }
