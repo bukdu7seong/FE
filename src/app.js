@@ -35,7 +35,7 @@ Route(routes);
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
-store.subscribe(updateUI);
+// store.subscribe(updateUI);
 
 function checkWindowSize() {
   const gameBox = document.getElementsByClassName('game-box')[0];
@@ -98,16 +98,22 @@ function init() {
   });
 
   // 게임 시작 버튼을 클릭하면 게임을 시작
-  window.onclick = function () {
-    if (document.getElementById('player2')) {
-      document.getElementById('player2').addEventListener('click', function () {
-        const gameBox = document.getElementsByClassName('game-box')[0];
-        while (gameBox.firstChild) {
-          gameBox.removeChild(gameBox.firstChild);
-        }
-        gameBox.appendChild(getBoard());
-        setBoard();
-      });
+  window.onclick = function (event) {
+    const clickedElement = event.target;
+    const className = clickedElement.className;
+
+    console.log(className);
+
+    // popstate 시에도 cleanUp 되어야 함. 역시 상태 관리가 필요함...
+    if (className.startsWith('image')) {
+      cleanUp();
+    } else if (className.startsWith('player')) {
+      const gameBox = document.getElementsByClassName('game-box')[0]; // game-box div를 호출
+      while (gameBox.firstChild) {
+        gameBox.removeChild(gameBox.firstChild);
+      } // game-box div의 자식 요소들을 모두 삭제
+      gameBox.appendChild(getBoard()); // game-box div에 board div를 추가
+      setBoard(); // 게임에 필요한 요소들을 설정
     }
   };
 }

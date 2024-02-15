@@ -236,7 +236,6 @@ export function getBoard() {
     <div class="player_1_score">0</div>
     <div class="player_2_score">0</div>
     <div class="message">Press Enter to Play Pong</div>
-    <div class="divider"></div>
   `;
 
   page.innerHTML = content;
@@ -258,7 +257,7 @@ function startGame(e) {
 
     gameState = 'play';
     message.innerHTML = 'Game Started';
-    message.style.left = 42 + 'vw';
+    // message.style.left = 42 + 'vw';
     let dy = 0;
     let dx = getRandomDirection() * speed;
     moveBall(dy, dx);

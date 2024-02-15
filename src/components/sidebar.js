@@ -40,6 +40,7 @@ export function sidebar(routes) {
     image.src = `../../images/icon/${icons[name]}.svg`;
     image.alt = name;
     image.setAttribute('route', route);
+    image.classList.add(`image-${name.toLowerCase()}`);
 
     icon.appendChild(image);
     menuItem.appendChild(icon);
