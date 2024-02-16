@@ -20,7 +20,7 @@ export default class Obstacle {
   }
 
   move() {
-    const speed = 2;
+    const speed = 1;
     let dx = Math.random() < 0.5 ? speed : -speed;
     let dy = Math.random() < 0.5 ? speed : -speed;
 
