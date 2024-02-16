@@ -1,11 +1,14 @@
 import CollisionDetector from './CollisionDetector.js';
 
+const BALL_RADIUS = 15;
+
 export default class Ball {
   constructor(element, initialCoord, speed) {
-    this.element = element;  // 공의 DOM 요소
-    this.coord = initialCoord;  // 초기 좌표
+    this.element = element; // 공의 DOM 요소
+    this.coord = initialCoord; // 초기 좌표
     this.initialCoord = initialCoord;
-    this.speed = speed;  // 공의 속도
+    this.speed = speed; // 공의 속도
+    this.ballFrame = null;
   }
 
   // 현재 공의 위치 정보를 반환하는 메서드
@@ -34,7 +37,7 @@ export default class Ball {
   }
 
   outOfBoard(boardCoord) {
-    return (this.leftOut(boardCoord) || this.rightOut(boardCoord));
+    return this.leftOut(boardCoord) || this.rightOut(boardCoord);
   }
 
   getNextCoordinate(dy, dx, pingPong) {
@@ -44,15 +47,25 @@ export default class Ball {
     let ndy = dy;
     let ndx = dx;
     let dir = null;
-    const obstacle = CollisionDetector.ballObstaclesCollision(this, pingPong.obstacles);
+    const obstacle = CollisionDetector.ballObstaclesCollision(
+      this,
+      pingPong.obstacles
+    );
     if (obstacle) {
-      if (CollisionDetector.ballObstacleLeftCollision(this, obstacle) || CollisionDetector.ballObstacleRightCollision(this, obstacle)) {
+      if (
+        CollisionDetector.ballObstacleLeftCollision(this, obstacle) ||
+        CollisionDetector.ballObstacleRightCollision(this, obstacle)
+      ) {
         dir = this.getReflectVector(obstacle);
       }
     } else if (CollisionDetector.ballPlayer1Collision(this, pingPong.player1)) {
-      dir = this.getReflectVector(pingPong.player1.paddle.getBoundingClientRect());
+      dir = this.getReflectVector(
+        pingPong.player1.paddle.getBoundingClientRect()
+      );
     } else if (CollisionDetector.ballPlayer2Collision(this, pingPong.player2)) {
-      dir = this.getReflectVector(pingPong.player2.paddle.getBoundingClientRect());
+      dir = this.getReflectVector(
+        pingPong.player2.paddle.getBoundingClientRect()
+      );
     }
     if (dir != null) {
       const sign = dx > 0 ? -1 : 1;
@@ -72,10 +85,20 @@ export default class Ball {
       pingPong.updatePlayersScore();
       return; // 승리 조건을 만족하면 이동을 중단합니다.
     }
+    const currentTop = parseFloat(
+      this.element.style.top
+        ? this.element.style.top
+        : pingPong.boardCoord.height / 2 - BALL_RADIUS
+    );
+    const currentLeft = parseFloat(
+      this.element.style.left
+        ? this.element.style.left
+        : pingPong.boardCoord.width / 2 - BALL_RADIUS
+    );
     const nextCoord = this.getNextCoordinate(dy, dx, pingPong);
-    this.updateStyle(this.coord.top + nextCoord.y, this.coord.left + nextCoord.x);
+    this.updateStyle(currentTop + nextCoord.y, currentLeft + nextCoord.x);
     this.coord = this.getCoord();
-    requestAnimationFrame(() => {
+    this.ballFrame = requestAnimationFrame(() => {
       this.move(nextCoord.y, nextCoord.x, pingPong);
     });
   }

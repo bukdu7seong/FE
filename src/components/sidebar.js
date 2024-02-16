@@ -41,6 +41,7 @@ export function sidebar(routes) {
     image.src = `../../images/icon/${icons[name]}.svg`;
     image.alt = name;
     image.setAttribute('route', route);
+    image.classList.add(`image-${name.toLowerCase()}`);
 
     icon.appendChild(image);
     menuItem.appendChild(icon);
@@ -61,10 +62,7 @@ export function sidebar(routes) {
   });
 
   sidebar.appendChild(menuTop); // menuTop을 sidebar에 추가
-
-  if (logoutItem) {
-    sidebar.appendChild(logoutItem); // logout 아이템을 맨 아래에 추가
-  }
+  sidebar.appendChild(logoutItem);
 
   // 클릭 이벤트 리스너
   sidebar.addEventListener('click', (e) => {
