@@ -16,12 +16,14 @@ import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/sidebar.js';
 import { profile } from './components/profile.js';
-import { getBoard, setBoard, cleanUp } from './components/pong.js';
 // state
-import { store, routeState } from '../lib/state/store.js';
+import { store, routeState, gameState } from '../lib/state/store.js';
 import { updateProfile } from '../lib/state/update.js';
 import { checkLogin } from '../lib/state/check_login.js';
 import { defaultProfile } from './utils/default_profile.js';
+import PingPong from './components/game/PingPong.js';
+import { pageBoard } from './pages/pong.js';
+import Tournament from './components/game/Tournament.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 const routes = {
@@ -104,6 +106,7 @@ function init() {
     checkLogin(routes);
   };
 
+  /* ****************** resize 관련 코드 *******************************/
   // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
   window.addEventListener('resize', checkWindowSize);
 
@@ -111,11 +114,18 @@ function init() {
   const observer = new MutationObserver(checkWindowSize);
   const config = { attributes: true, childList: true, subtree: true };
   observer.observe(document.body, config);
+  /* *************************************************************** */
 
+  /* ********************** 뒤로가기 코드 *******************************/
   // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
   window.addEventListener('popstate', () => {
     route(routes, window.location.pathname, false);
   });
+  /* *************************************************************** */
+
+  // routeState.subscribe((state) => {
+  //   gameState.setState('end');
+  // });
 
   window.onclick = function (event) {
     const currentRoute = routeState.getState();
@@ -123,18 +133,23 @@ function init() {
     const className = clickedElement.className;
 
     if (currentRoute.currentRoute.name === 'Game') {
-      console.log('hello, this is game page');
-    } else if (currentRoute.currentRoute.name === 'Tournament') {
-      console.log('hello, this is tournament page');
-    }
+      if (className !== 'player-option') {
+        return;
+      } // 임시로...
 
-    if (className.startsWith('image')) {
-      cleanUp();
-    } else if (className.startsWith('player')) {
-      document.getElementById('player2').addEventListener('click', function () {
-        renderPage(getBoard(), 'game-box');
-        setBoard();
-      });
+      renderPage(pageBoard(), 'game-box');
+      // 현재 로그인한 사용자와 상대방의 이름을 넘겨줘야 한다.
+      const pongGame = new PingPong('object', 'salee2', 'gychoi');
+      pongGame.startGame();
+    } else if (currentRoute.currentRoute.name === 'Tournament') {
+      if (className !== 'player-option') {
+        return;
+      } // 임시로...
+
+      renderPage(pageBoard(), 'game-box');
+      const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
+      const tournament = new Tournament('object', playerNames);
+      tournament.startTournament();
     }
   };
 }

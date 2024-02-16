@@ -1,3 +1,6 @@
+const INITIAL_PADDLE_TOP = 10;
+const PADDLE_SPEED = 4.2 * 2;
+
 export default class Player {
   constructor(paddleElement, scoreElement, playerName) {
     this.paddle = paddleElement;
@@ -15,12 +18,24 @@ export default class Player {
   }
 
   moveUp(boardCoord) {
-    this.paddle.style.top = Math.max(boardCoord.top, this.paddleCoord.top - window.innerHeight * 0.01) + 'px';
+    const currentTop = parseFloat(
+      this.paddle.style.top ? this.paddle.style.top : INITIAL_PADDLE_TOP
+    );
+    const newTop = currentTop - PADDLE_SPEED;
+    this.paddle.style.top = Math.max(INITIAL_PADDLE_TOP, newTop) + 'px';
     this.paddleCoord = this.paddle.getBoundingClientRect();
   }
 
   moveDown(boardCoord) {
-    this.paddle.style.top = Math.min(boardCoord.bottom - this.paddle.getBoundingClientRect().height, this.paddleCoord.top + window.innerHeight * 0.01) + 'px';
+    const currentTop = parseFloat(
+      this.paddle.style.top ? this.paddle.style.top : INITIAL_PADDLE_TOP
+    );
+    const newTop = currentTop + PADDLE_SPEED;
+    this.paddle.style.top =
+      Math.min(
+        boardCoord.height - this.paddleCoord.height - INITIAL_PADDLE_TOP,
+        newTop
+      ) + 'px';
     this.paddleCoord = this.paddle.getBoundingClientRect();
   }
 
@@ -31,5 +46,10 @@ export default class Player {
 
   updateScoreHtml() {
     this.scoreElement.innerHTML = this.score;
+  }
+
+  initScore() {
+    this.score = 0;
+    this.updateScoreHtml();
   }
 }
