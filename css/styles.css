@@ -84,7 +84,7 @@ body {
 }
 
 /* 프로필 */
-.profile-box {
+.user-box {
   background-color: #131313;
   position: absolute;
   top: 0;
@@ -97,7 +97,7 @@ body {
 }
 
 /* 프로필 이미지 */
-.profile-image {
+.user-image {
   display: flex;
   width: 50px;
   height: 50px;
@@ -107,7 +107,7 @@ body {
 }
 
 /* 프로필 닉네임 */
-.profile-nickname {
+.user-nickname {
   color: white;
   font-size: 24px;
   white-space: nowrap; /* 닉네임이 한 줄로 표시되도록 설정 */
