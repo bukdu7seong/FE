@@ -12,7 +12,7 @@ import { pageSwitch } from './pages/switch.js';
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
 // state
-import { store, routeState, userState } from '../lib/state/store.js';
+import { globalState, routeState, userState } from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
 // game
 import PingPong from './components/game/PingPong.js';
@@ -64,7 +64,8 @@ function init() {
   // 3. 유효한 토큰일 경우, store에 로그인 상태를 true로 변경
   // 3-1. 유효하지 않은 토큰일 경우, store에 로그인 상태를 false로 변경
   // 4. store의 로그인 상태에 따라 페이지 렌더링
-  store.setState({ isLoggedIn: false });
+  globalState.setState({ isLoggedIn: false });
+  // if is Logged In -> globalState.setState({ isLoggedIn: true });
 
   /* ****************** 최초 접속 시 설정 *******************************/
   window.onload = function () {
@@ -75,11 +76,9 @@ function init() {
     initComponent(routes['/tournament'], sidebar(routes), userBox());
 
     userState.subscribe(updateUserBox);
+    // globasState.subscribe(checkLogin);
 
     route(routes, getDefaultRoute(window.location.pathname, routes), false);
-
-    // checkLogin -> 로그인 상태 확인
-    // checkLogin(routes);
   };
   /* *************************************************************** */
 
