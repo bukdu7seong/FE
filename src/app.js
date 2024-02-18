@@ -12,9 +12,8 @@ import { pageSwitch } from './pages/switch.js';
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
 // state
-import { store, routeState } from '../lib/state/store.js';
-import { updateProfile } from '../lib/state/update.js';
-import { defaultProfile } from './utils/default_profile.js';
+import { store, routeState, userState } from '../lib/state/store.js';
+import { updateUserBox } from '../lib/state/update.js';
 // game
 import PingPong from './components/game/PingPong.js';
 import { pageBoard } from './pages/pong.js';
@@ -69,14 +68,16 @@ function init() {
 
   /* ****************** 최초 접속 시 설정 *******************************/
   window.onload = function () {
+    // userBox에 들어갈 유저의 이름을 설정해야 한다.
+    // userBox(login한 유저의 이름) 이런 식으로...
     initComponent(routes['/profile'], sidebar(routes), userBox());
     initComponent(routes['/game'], sidebar(routes), userBox());
     initComponent(routes['/tournament'], sidebar(routes), userBox());
-    route(routes, getDefaultRoute(window.location.pathname, routes), false);
-    defaultProfile();
 
-    // store.subscribe() -> 상태가 변경될 때마다 실행
-    store.subscribe(updateProfile);
+    userState.subscribe(updateUserBox);
+
+    route(routes, getDefaultRoute(window.location.pathname, routes), false);
+
     // checkLogin -> 로그인 상태 확인
     // checkLogin(routes);
   };
@@ -106,24 +107,28 @@ function init() {
     const clickedElement = event.target;
     const className = clickedElement.className;
 
-    if (currentRoute.currentRoute.name === 'Game') {
-      if (className !== 'player-option') {
-        return;
-      } // 임시로...
-
-      renderPage(pageBoard(), 'game-box');
-      // 현재 로그인한 사용자와 상대방의 이름을 넘겨줘야 한다.
-      const pongGame = new PingPong('object', 'salee2', 'gychoi');
-      pongGame.startGame();
-    } else if (currentRoute.currentRoute.name === 'Tournament') {
-      if (className !== 'player-option') {
-        return;
-      } // 임시로...
-
-      renderPage(pageBoard(), 'game-box');
-      const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
-      const tournament = new Tournament('object', playerNames);
-      tournament.startTournament();
+    switch (currentRoute.currentRoute.name) {
+      case 'Profile':
+        console.log('profile');
+        break;
+      case 'Game':
+        if (className === 'player-option') {
+          renderPage(pageBoard(), 'game-box');
+          // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
+          const pongGame = new PingPong('object', 'salee2', 'gychoi');
+          pongGame.startGame();
+        }
+        break;
+      case 'Tournament':
+        if (className === 'player-option') {
+          renderPage(pageBoard(), 'game-box');
+          const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
+          const tournament = new Tournament('object', playerNames);
+          tournament.startTournament();
+        }
+        break;
+      default:
+        break;
     }
   };
 }
