@@ -5,7 +5,7 @@ import { renderPage } from '../lib/render/render.js';
 // pages
 import { pageLogIn } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
-import { pageGame } from './pages/game.js';
+import { pageGame, pageBoard } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
 import { pageSwitch } from './pages/switch.js';
 // components
@@ -16,7 +16,6 @@ import { globalState, routeState, userState } from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
 // game
 import PingPong from './components/game/PingPong.js';
-import { pageBoard } from './pages/pong.js';
 import Tournament from './components/game/Tournament.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
@@ -112,6 +111,7 @@ function init() {
         break;
       case 'Game':
         if (className === 'player-option') {
+          // modal을 클릭하는 것으로 변경해야 한다.
           renderPage(pageBoard(), 'game-box');
           // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
           const pongGame = new PingPong('object', 'salee2', 'gychoi');
