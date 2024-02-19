@@ -107,9 +107,6 @@ export default class PingPong {
       this.player2.paddle = document.querySelector('.paddle_2');
       this.ball.initialCoord = this.ball.getCoord();
       this.obstacles.forEach(obstacle => {
-        if (obstacle.animationFrameId) {
-          cancelAnimationFrame(obstacle.animationFrameId);
-        }
         obstacle.areaBounds = this.boardCoord;
         obstacle.initPosition();
       });
