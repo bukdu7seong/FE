@@ -129,21 +129,21 @@ body {
   text-align: center;
 }
 
-@media only screen and (max-width: 940px), only screen and (max-height: 660px) {
-  .game-box::after {
-    content: 'Screen is too small to play Pong!';
-    display: block;
-    background-color: gray;
-    color: rgb(242, 242, 242);
-    text-align: center;
-    font-size: 24px;
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
+/*@media only screen and (max-width: 940px), only screen and (max-height: 660px) {*/
+/*  .game-box::after {*/
+/*    content: 'Screen is too small to play Pong!';*/
+/*    display: block;*/
+/*    background-color: gray;*/
+/*    color: rgb(242, 242, 242);*/
+/*    text-align: center;*/
+/*    font-size: 24px;*/
+/*    padding: 10px;*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*  }*/
+/*}*/
 
 /* 화면 상단  PONG/n CLASSIC */
 .header-pong {
