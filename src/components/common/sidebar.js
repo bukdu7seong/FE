@@ -1,6 +1,6 @@
-import { renderAll } from '../../lib/router/render.js';
-import { navigate } from '../../lib/router/navigate.js';
-import { route } from '../../lib/router/router.js';
+import { renderAll } from '../../../lib/render/render.js';
+import { navigate } from '../../../lib/router/navigate.js';
+import { route } from '../../../lib/router/router.js';
 /* 
   <div class="side-bar">
     <div class="menu-top">
@@ -41,6 +41,7 @@ export function sidebar(routes) {
     image.src = `../../images/icon/${icons[name]}.svg`;
     image.alt = name;
     image.setAttribute('route', route);
+    image.classList.add(`image-${name.toLowerCase()}`);
 
     icon.appendChild(image);
     menuItem.appendChild(icon);
@@ -61,10 +62,7 @@ export function sidebar(routes) {
   });
 
   sidebar.appendChild(menuTop); // menuTop을 sidebar에 추가
-
-  if (logoutItem) {
-    sidebar.appendChild(logoutItem); // logout 아이템을 맨 아래에 추가
-  }
+  sidebar.appendChild(logoutItem);
 
   // 클릭 이벤트 리스너
   sidebar.addEventListener('click', (e) => {
