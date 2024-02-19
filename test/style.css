@@ -17,3 +17,7 @@ body {
 .hidden {
   display: none;
 }
+
+.login {
+  color: #fefdfe;
+}
