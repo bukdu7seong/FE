@@ -85,7 +85,7 @@ function init() {
     // window.onload -> 브라우저가 새로고침 될 때마다 실행
     // SetComponent -> routes 객체의 모든 속성에 component 속성을 추가
     if (
-      window.location.pathname === '/' ||
+      window.location.pathname === '/' || // 로그인 되어있는지도 확인해야 함.
       window.location.pathname === '/login'
     ) {
       // initComponent(routes);
