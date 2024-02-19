@@ -37,7 +37,7 @@ export default class Obstacle {
       this.element.style.left = this.element.offsetLeft + dx + 'px';
       this.element.style.top = this.element.offsetTop + dy + 'px';
 
-      requestAnimationFrame(animate);
+      this.animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();

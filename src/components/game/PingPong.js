@@ -29,17 +29,18 @@ export default class PingPong {
     this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
     this.mode = mode;
-    this.numObstacle = 4;
+    this.numObstacle = 15;
     this.obstacles = [];
     this.paddleFrame = null;
     this.keyEnterHandler = null;
     this.keyDownHandler = null;
     this.keyUpHandler = null;
+    this.resize = null;
     this.initPlayers(player1Name, player2Name);
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2;
+    this.scoreToWin = 2000;
     this.onGameEnd = null;
   }
 
@@ -100,9 +101,24 @@ export default class PingPong {
       }
     };
 
+    this.resize = () => {
+      this.boardCoord = this.board.getBoundingClientRect();
+      this.player1.paddle = document.querySelector('.paddle_1');
+      this.player2.paddle = document.querySelector('.paddle_2');
+      this.ball.initialCoord = this.ball.getCoord();
+      this.obstacles.forEach(obstacle => {
+        if (obstacle.animationFrameId) {
+          cancelAnimationFrame(obstacle.animationFrameId);
+        }
+        obstacle.areaBounds = this.boardCoord;
+        obstacle.initPosition();
+      });
+    };
+
     document.addEventListener('keydown', this.keyEnterHandler);
     document.addEventListener('keydown', this.keyDownHandler);
     document.addEventListener('keyup', this.keyUpHandler);
+    window.addEventListener('resize', this.resize);
   }
 
   initGameState() {
