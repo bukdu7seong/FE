@@ -6,26 +6,52 @@ export function pageLogIn() {
   //   <button id="logoutButton" style="display:none;">로그아웃</button>
   // `;
   const content = `
-  <body class="d-flex align-items-center py-4 bg-body-tertiary">
-    <main class="form-signin w-100 m-auto">
-      <form>
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-        <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-        </div>
-        <div class="form-check my-0.8">
-        </div>
-        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-      </form>
-    </main>
-    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
-  	  `;
+      <div class="form-signin text-center">
+        <p class="login fw-bold">Log in</p>
+        <form id="login-form">
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="floatingInput"
+              placeholder="name@example.com"
+              required
+            />
+            <label for="floatingInput" class="text-secondary">이메일 주소</label>
+          </div>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingPassword"
+              placeholder="Password"
+              required
+            />
+            <label for="floatingPassword" class="text-secondary">비밀번호</label>
+          </div>
+          <p class="text-secondary">
+            <a
+              id="sign-up"
+              href="/sign-up"
+              style="text-decoration: none; color: turquoise"
+              >Sign up</a
+            >
+            with 42 Authenticator to continue.
+          </p>
+          <button type="submit" class="btn btn-outline-light form-signin">
+            Sign in
+          </button>
+          <button
+            type="button"
+            id="42-OAuth-Button"
+            class="btn btn-outline-light form-signin"
+          >
+            42 OAuth
+          </button>
+        </form>
+      </div>
+  	`;
+
   page.innerHTML = content;
   return page;
 }

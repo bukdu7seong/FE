@@ -1,7 +1,7 @@
 // [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
 function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
-  return fetch('https://localhost/api/login', {
+  return fetch('https://localhost:8000/api/login/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
