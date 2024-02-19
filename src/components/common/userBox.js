@@ -5,7 +5,6 @@ export function userBox(name = 'Guest') {
 
   const userImage = document.createElement('img');
   userImage.setAttribute('class', 'user-image');
-  userImage.setAttribute('id', 'randomImage');
   userImage.alt = 'User Image';
   userBox.appendChild(userImage);
 

@@ -1,29 +1,21 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { firstRoute, route } from '../lib/router/router.js';
-import { initComponent } from '../lib/router/component.js';
-import { navigate } from '../lib/router/navigate.js';
-import {
-  renderPage,
-  renderComponent,
-  renderAll,
-} from '../lib/render/render.js';
+import { getDefaultRoute, route } from '../lib/router/router.js';
+import { initComponent } from '../lib/render/component.js';
+import { renderPage } from '../lib/render/render.js';
 // pages
 import { pageLogIn } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
-import { pageGame } from './pages/game.js';
+import { pageGame, pageBoard } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
 import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
 // state
-import { store, routeState, gameState } from '../lib/state/store.js';
-import { updateProfile } from '../lib/state/update.js';
-import { checkLogin } from '../lib/state/check_login.js';
-import { defaultProfile } from './utils/default_profile.js';
+import { globalState, routeState, userState } from '../lib/state/state.js';
+import { updateUserBox } from '../lib/state/update.js';
 // game
 import PingPong from './components/game/PingPong.js';
-import { pageBoard } from './pages/pong.js';
 import Tournament from './components/game/Tournament.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
@@ -34,11 +26,6 @@ const routes = {
   '/tournament': { name: 'Tournament', page: pageTournament, component: [] },
   '/logout': { name: 'Logout', page: pageSwitch, component: [] },
 };
-
-// SetComponent -> routes 객체의 component 배열에 속성 추가
-// SetComponent(routes, sidebar(routes, Navigate), profile('junyojeo'));
-// 나머지 페이지에도 컴포넌트 추가
-// Route(routes);
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
@@ -76,81 +63,71 @@ function init() {
   // 3. 유효한 토큰일 경우, store에 로그인 상태를 true로 변경
   // 3-1. 유효하지 않은 토큰일 경우, store에 로그인 상태를 false로 변경
   // 4. store의 로그인 상태에 따라 페이지 렌더링
-  store.setState({ isLoggedIn: false });
+  globalState.setState({ isLoggedIn: false });
+  // if is Logged In -> globalState.setState({ isLoggedIn: true });
 
-  // 뭔가... 깔끔하게 고칠 수 있을 것 같은데...
-  // 만약 로그인 안했다면 로그인 페이지로 이동, 했다면 경로에 따라 이동
-  // 즉 로그인 안했으면 로그인 페이지로 강제 리다이렉트 해야 함.
-  // 또한 로그인 페이지에선 컴포넌트를 설정하지 않아야 함.
-  // 음... 구상 중...
-  // onload에서는 사용자가 페이지에 최초 접속했을 때, 로그인에 따라 페이지를 렌더링하는 역할을 해야 할 것 같다.
+  /* ****************** 최초 접속 시 설정 *******************************/
   window.onload = function () {
-    // window.onload -> 브라우저가 새로고침 될 때마다 실행
-    // SetComponent -> routes 객체의 모든 속성에 component 속성을 추가
-    if (
-      window.location.pathname === '/' ||
-      window.location.pathname === '/login'
-    ) {
-      // initComponent(routes);
-      // firstRoute(routes);
-      route(routes, window.location.pathname, false);
-    } else {
-      initComponent(routes, sidebar(routes), userBox());
-      // defaultProfile -> 프로필 정보가 없을 때 기본 프로필을 생성
-      // firstRoute(routes);
-      route(routes, window.location.pathname, false);
-      defaultProfile();
-    }
-    // store.subscribe() -> 상태가 변경될 때마다 실행
-    store.subscribe(updateProfile);
-    // checkLogin -> 로그인 상태 확인
-    checkLogin(routes);
-  };
+    // userBox에 들어갈 유저의 이름을 설정해야 한다.
+    // userBox(login한 유저의 이름) 이런 식으로...
+    initComponent(routes['/profile'], sidebar(routes), userBox());
+    initComponent(routes['/game'], sidebar(routes), userBox());
+    initComponent(routes['/tournament'], sidebar(routes), userBox());
 
-  /* ****************** resize 관련 코드 *******************************/
+    userState.subscribe(updateUserBox);
+    // globasState.subscribe(checkLogin);
+
+    route(routes, getDefaultRoute(window.location.pathname, routes), false);
+  };
+  /* *************************************************************** */
+
+  /* ****************** 반응형 이벤트 관련 *******************************/
+  /* ********************** resize ***********************************/
   // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
   window.addEventListener('resize', checkWindowSize);
 
   // navigation 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
+  // 네비게이션 시 발생할 이벤트를 정의하므로, 단순 페이지 리사이즈 말고도 여러 방식으로 사용할 수 있을듯.
   const observer = new MutationObserver(checkWindowSize);
   const config = { attributes: true, childList: true, subtree: true };
   observer.observe(document.body, config);
-  /* *************************************************************** */
 
-  /* ********************** 뒤로가기 코드 *******************************/
+  /* *********************** 뒤로가기 **********************************/
   // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
   window.addEventListener('popstate', () => {
     route(routes, window.location.pathname, false);
   });
   /* *************************************************************** */
 
-  // routeState.subscribe((state) => {
-  //   gameState.setState('end');
-  // });
-
+  /* *************** 페이지 내 화면 클릭 시 동작 정의 ***********************/
   window.onclick = function (event) {
     const currentRoute = routeState.getState();
     const clickedElement = event.target;
     const className = clickedElement.className;
 
-    if (currentRoute.currentRoute.name === 'Game') {
-      if (className !== 'player-option') {
-        return;
-      } // 임시로...
-
-      renderPage(pageBoard(), 'game-box');
-      // 현재 로그인한 사용자와 상대방의 이름을 넘겨줘야 한다.
-      const pongGame = new PingPong('object', 'salee2', 'gychoi');
-      pongGame.startGame();
-    } else if (currentRoute.currentRoute.name === 'Tournament') {
-      if (className !== 'player-option') {
-        return;
-      } // 임시로...
-
-      renderPage(pageBoard(), 'game-box');
-      const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
-      const tournament = new Tournament('object', playerNames);
-      tournament.startTournament();
+    switch (currentRoute.currentRoute.name) {
+      case 'Profile':
+        console.log('profile');
+        break;
+      case 'Game':
+        if (className === 'player-option') {
+          // modal을 클릭하는 것으로 변경해야 한다.
+          renderPage(pageBoard(), 'game-box');
+          // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
+          const pongGame = new PingPong('object', 'salee2', 'gychoi');
+          pongGame.startGame();
+        }
+        break;
+      case 'Tournament':
+        if (className === 'player-option') {
+          renderPage(pageBoard(), 'game-box');
+          const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
+          const tournament = new Tournament('object', playerNames);
+          tournament.startTournament();
+        }
+        break;
+      default:
+        break;
     }
   };
 }
