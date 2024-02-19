@@ -17,10 +17,15 @@ function onLoginSubmit(event) {
 
   const email = emailInput.value;
   const password = passwordInput.value;
-
+  Promise;
   // 테스트를 위해 fetch 대신에 직접 Promise를 반환하는 가짜 fetch 함수를 사용
   const fakeFetch = (url, options) => {
+    // function(매개변수) {}, (매개변수) => { 함수 본문 }
     return new Promise((resolve, reject) => {
+      // const response = {
+      // 	status: 200,
+      // 	json: () => Promise.resolve({ userId: 1, accessToken: 'veryL0oooo', '2fa': false, }),})
+
       // 가짜 응답 객체
       const fakeResponse = {
         status: 200,
@@ -31,6 +36,7 @@ function onLoginSubmit(event) {
             '2fa': false, // true나 false로 테스트 조건 변경 가능
           }),
         headers: {
+          // 301을 받았을 때 Location이라는 헤더가 있으면 그 값을 반환하도록 설정.
           get: (header) => {
             if (header === 'Location') {
               return '/profile';
@@ -51,6 +57,7 @@ function onLoginSubmit(event) {
     body: JSON.stringify({ nickname, password }),
   })
     .then((response) => {
+      //
       console.log('response: ', response);
       if (response.status === 200) {
         return response.json();
@@ -65,6 +72,7 @@ function onLoginSubmit(event) {
       }
     })
     .then((data) => {
+      //
       console.log('data: ', data);
       if (data) {
         // sessionStorage.setItem('userId', data.userId);
