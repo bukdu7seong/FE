@@ -4,7 +4,7 @@ export function pageProfile() {
   const content = `
         <div class="side-bar"></div>
         <div class="main-box">
-          <div class="profile-box"></div>
+          <div class="user-box"></div>
           <h1>Profile</h1>
           <p>Welcome to the profile page.</p>
         </div>

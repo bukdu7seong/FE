@@ -6,7 +6,7 @@ import {
   renderPage,
   renderComponent,
   renderAll,
-} from '../lib/router/render.js';
+} from '../lib/render/render.js';
 // pages
 import { pageLogIn } from './pages/login.js';
 import { pageProfile } from './pages/profile.js';
@@ -14,13 +14,14 @@ import { pageGame } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
 import { pageSwitch } from './pages/switch.js';
 // components
-import { sidebar } from './components/sidebar.js';
-import { profile } from './components/profile.js';
+import { sidebar } from './components/common/sidebar.js';
+import { userBox } from './components/common/userBox.js';
 // state
 import { store, routeState, gameState } from '../lib/state/store.js';
 import { updateProfile } from '../lib/state/update.js';
 import { checkLogin } from '../lib/state/check_login.js';
 import { defaultProfile } from './utils/default_profile.js';
+// game
 import PingPong from './components/game/PingPong.js';
 import { pageBoard } from './pages/pong.js';
 import Tournament from './components/game/Tournament.js';
@@ -94,7 +95,7 @@ function init() {
       // firstRoute(routes);
       route(routes, window.location.pathname, false);
     } else {
-      initComponent(routes, sidebar(routes), profile());
+      initComponent(routes, sidebar(routes), userBox());
       // defaultProfile -> 프로필 정보가 없을 때 기본 프로필을 생성
       // firstRoute(routes);
       route(routes, window.location.pathname, false);
