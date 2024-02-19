@@ -1,7 +1,24 @@
 // [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
 function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
-  return fetch('https://localhost:8000/api/login/', {
+  console.log('username:', credentials.username);
+  console.log('password:', credentials.password);
+  return fetch('http://localhost:8000/account/login/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+}
+
+// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+function requestSignup(credentials) {
+  // URL: localhost?/api/login -> 수정 필요
+  console.log('username:', credentials.username);
+  console.log('username:', credentials.email);
+  console.log('password:', credentials.password);
+  return fetch('http://localhost:8000/account/login/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -47,21 +64,23 @@ function twoFA() {
 }
 
 // [회원가입 버튼] 클릭 시 회원가입 페이지로 이동
-function handleSignUpClick(event) {
+function handleSignUpClick() {
   document.getElementById('sign-up').addEventListener('click', function (e) {
     e.preventDefault(); // 기본 동작 막기
     // sign-up 페이지로 이동
     const target = navigate('sign-up', '/sign-up');
     renderAll(target);
-    // 여기선
+    // 여기선]
+    // 라우팅
+    //
   });
 }
 
 // [로그인 버튼] 클릭 시 로그인 요청
-function handleSignInClick(event) {
-  // 이벤트 핸들러
+function handleSignInClick() {
   const loginForm = document.getElementById('login-form');
 
+  // [유저] ID와 PASSWORD 입력
   loginForm.addEventListener('submit', function (e) {
     e.preventDefault(); // 폼 제출 기본 이벤트 막기 (새로고침 방지) 보통 폼 제출, 링크 클릭 시 새로고침이 일어나는데 이를 막기 위해 사용
     console.log('로그인 버튼 클릭');
@@ -70,8 +89,10 @@ function handleSignInClick(event) {
     const username = document.getElementById('floatingInput').value;
     const password = document.getElementById('floatingPassword').value;
 
-    // [유저] ID와 PASSWORD 입력
-    const credentials = { username: username, password: password };
+    const credentials = {
+      username: username,
+      password: password,
+    };
 
     // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
     requestLogin(credentials)
@@ -113,7 +134,7 @@ function handleSignInClick(event) {
 }
 
 // DOM이 로드되면 실행
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
   handleSignInClick(); // 로그인 버튼 클릭 시 로그인 요청
 
   handleSignUpClick();
