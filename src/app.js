@@ -11,12 +11,12 @@ import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
-// state
-import { globalState, routeState, userState } from '../lib/state/state.js';
-import { updateUserBox } from '../lib/state/update.js';
 // game
 import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
+// state       
+import { globalState, routeState, userState } from '../lib/state/state.js';
+import { updateUserBox } from '../lib/state/update.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 const routes = {
