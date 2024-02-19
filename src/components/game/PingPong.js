@@ -9,14 +9,14 @@ const KEY_CODES = {
   MOVE_DOWN_PLAYER2: 'ArrowDown',
 };
 
-const GameMode ={
+const GameMode = {
   NORMAL: 'normal',
   SPEED: 'speed',
   OBJECT: 'object',
-}
+};
 
 export const GameState = {
-  READY: 'ready',
+  READY: 'ready' || '',
   PLAY: 'play',
   END: 'end',
   OVER: 'over',
@@ -29,13 +29,18 @@ export default class PingPong {
     this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
     this.mode = mode;
-    this.numObstacle = 15;
+    this.numObstacle = 4;
     this.obstacles = [];
+    this.paddleFrame = null;
+    this.keyEnterHandler = null;
+    this.keyDownHandler = null;
+    this.keyUpHandler = null;
     this.initPlayers(player1Name, player2Name);
     this.initBall();
     this.initEventListeners();
     this.initGameState();
     this.scoreToWin = 2;
+    this.onGameEnd = null;
   }
 
   initPlayers(player1Name, player2Name) {
@@ -50,12 +55,18 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
+    const ballSpeed = this.mode === GameMode.NORMAL ? 4.2 : 8.4;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
   initEventListeners() {
-    document.addEventListener('keydown', (e) => {
+    this.keyEnterHandler = (e) => {
+      if (e.code === 'Enter' && this.state === GameState.READY) {
+        this.gameStart();
+      }
+    };
+
+    this.keyDownHandler = (e) => {
       switch (e.code) {
         case KEY_CODES.MOVE_UP_PLAYER1:
           this.player1.isMovingUp = true;
@@ -70,9 +81,9 @@ export default class PingPong {
           this.player2.isMovingDown = true;
           break;
       }
-    });
+    };
 
-    document.addEventListener('keyup', (e) => {
+    this.keyUpHandler = (e) => {
       switch (e.code) {
         case KEY_CODES.MOVE_UP_PLAYER1:
           this.player1.isMovingUp = false;
@@ -87,19 +98,25 @@ export default class PingPong {
           this.player2.isMovingDown = false;
           break;
       }
-    });
+    };
+
+    document.addEventListener('keydown', this.keyEnterHandler);
+    document.addEventListener('keydown', this.keyDownHandler);
+    document.addEventListener('keyup', this.keyUpHandler);
   }
 
   initGameState() {
     this.state = GameState.READY;
     this.message.innerHTML = 'Press Enter to Play Pong';
-    this.message.style.left = '38vw';
+  }
+
+  startGame() {
+    this.movePaddles();
   }
 
   gameStart() {
     this.state = GameState.PLAY;
     this.message.innerHTML = 'Game Started';
-    this.message.style.left = '42vw';
     this.obstacles = [];
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
@@ -109,17 +126,16 @@ export default class PingPong {
         this.obstacles.push(obstacle);
       }
     }
-    this.movePaddles();
     this.moveBall();
   }
-
 
   movePaddles() {
     if (this.player1.isMovingUp) this.player1.moveUp(this.boardCoord);
     if (this.player1.isMovingDown) this.player1.moveDown(this.boardCoord);
     if (this.player2.isMovingUp) this.player2.moveUp(this.boardCoord);
     if (this.player2.isMovingDown) this.player2.moveDown(this.boardCoord);
-    if (this.state === GameState.PLAY) requestAnimationFrame(this.movePaddles.bind(this));
+    if (this.state === GameState.READY || GameState.PLAY)
+      this.paddleFrame = requestAnimationFrame(this.movePaddles.bind(this));
   }
 
   getRandomDirection() {
@@ -138,29 +154,57 @@ export default class PingPong {
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
+
+    // 왜 init만으로 안될까?
     this.ball.init();
-    setTimeout(() => {
-        if (this.player1.score >= this.scoreToWin || this.player2.score >= this.scoreToWin) {
-          this.winner = this.player1.score >= this.scoreToWin ? this.player1.playerName : this.player2.playerName;
-          if (this.mode === GameMode.OBJECT) {
-            this.removeAllObstacles();
-          }
-          this.player1.resetPosition();
-          this.player2.resetPosition();
-          this.ball.updateStyle(this.ball.initialCoord.top, this.ball.initialCoord.left);
-          this.message.innerHTML = `${this.winner} Wins!`;
-          this.state = GameState.END;
-          this.onGameEnd();
-        } else {
-          // 목표 점수에 도달하지 않았다면 게임 재시작
-          this.moveBall();
-        }
-      }, 0
+    this.ball.updateStyle(
+      this.boardCoord.height / 2 - this.ball.coord.height / 2,
+      this.boardCoord.width / 2 - this.ball.coord.width / 2
     );
+    setTimeout(() => {
+      if (
+        this.player1.score >= this.scoreToWin ||
+        this.player2.score >= this.scoreToWin
+      ) {
+        this.winner =
+          this.player1.score >= this.scoreToWin
+            ? this.player1.playerName
+            : this.player2.playerName;
+        if (this.mode === GameMode.OBJECT) {
+          this.removeAllObstacles();
+        }
+        // this.player1.resetPosition();
+        // this.player2.resetPosition();
+        // this.ball.updateStyle(
+        //   this.ball.initialCoord.top,
+        //   this.ball.initialCoord.left
+        // );
+        this.message.innerHTML = `${this.winner} Wins!`;
+        this.state = GameState.END;
+        if (this.onGameEnd) {
+          this.player1.initScore();
+          this.player2.initScore();
+          this.onGameEnd();
+        }
+        this.cleanUp();
+      } else {
+        // 목표 점수에 도달하지 않았다면 게임 재시작
+        this.moveBall();
+      }
+    }, 0);
   }
 
   removeAllObstacles() {
-    this.obstacles.forEach(obstacle => obstacle.remove());
+    this.obstacles.forEach((obstacle) => obstacle.remove());
     this.obstacles = []; // 장애물 배열도 비웁니다.
+  }
+
+  cleanUp() {
+    cancelAnimationFrame(this.paddleFrame);
+    cancelAnimationFrame(this.ball.ballFrame);
+
+    document.removeEventListener('keydown', this.keyEnterHandler);
+    document.removeEventListener('keydown', this.keyDownHandler);
+    document.removeEventListener('keyup', this.keyUpHandler);
   }
 }
