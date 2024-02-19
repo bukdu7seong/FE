@@ -14,19 +14,19 @@ function requestLogin(credentials) {
 
 // [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
 function requestSignup(credentials) {
-	// URL: localhost?/api/login -> 수정 필요
-	console.log('username:', credentials.username);
-	console.log('username:', credentials.email);
-	console.log('password:', credentials.password);
-	return fetch('http://localhost:8000/account/login/', {
-	  method: 'POST',
-	  headers: {
-		'Content-Type': 'application/json',
-	  },
-	  body: JSON.stringify(credentials),
-	});
-  }
-  
+  // URL: localhost?/api/login -> 수정 필요
+  console.log('username:', credentials.username);
+  console.log('username:', credentials.email);
+  console.log('password:', credentials.password);
+  return fetch('http://localhost:8000/account/login/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+}
+
 // [2FA]
 function twoFA() {
   // DOMContentLoaded -> DOM이 로드되면 실행
@@ -71,8 +71,8 @@ function handleSignUpClick() {
     const target = navigate('sign-up', '/sign-up');
     renderAll(target);
     // 여기선]
-	// 라우팅
-	// 
+    // 라우팅
+    //
   });
 }
 
@@ -134,7 +134,7 @@ function handleSignInClick() {
 }
 
 // DOM이 로드되면 실행
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
   handleSignInClick(); // 로그인 버튼 클릭 시 로그인 요청
 
   handleSignUpClick();
