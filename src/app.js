@@ -43,30 +43,30 @@ const routes = {
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
 // store.subscribe(updateUI); -> access token 체크할 때 쓰면 좋을 듯!!
 
-// function checkWindowSize() {
-//   const gameBox = document.getElementsByClassName('game-box')[0];
-//   if (!gameBox) {
-//     return;
-//   }
-//
-//   if (window.innerWidth <= 940 || window.innerHeight <= 660) {
-//     gameBox.style.pointerEvents = 'none';
-//   } else {
-//     gameBox.style.pointerEvents = 'auto';
-//   }
-//
-//   // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
-//   const gameBoard = document.getElementsByClassName('board')[0];
-//   if (!gameBoard) {
-//     return;
-//   }
-//
-//   if (window.innerWidth <= 940 || window.innerHeight <= 660) {
-//     console.log('small...');
-//   } else {
-//     //
-//   }
-// }
+function checkWindowSize() {
+  const gameBox = document.getElementsByClassName('game-box')[0];
+  if (!gameBox) {
+    return;
+  }
+
+  if (window.innerWidth <= 380 || window.innerHeight <= 280) {
+    gameBox.style.pointerEvents = 'none';
+  } else {
+    gameBox.style.pointerEvents = 'auto';
+  }
+
+  // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
+  const gameBoard = document.getElementsByClassName('board')[0];
+  if (!gameBoard) {
+    return;
+  }
+
+  // if (window.innerWidth <= 940 || window.innerHeight <= 660) {
+  //   console.log('small...');
+  // } else {
+  //   //
+  // }
+}
 
 function init() {
   // 로그인 체크 로직
@@ -108,7 +108,7 @@ function init() {
 
   /* ****************** resize 관련 코드 *******************************/
   // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
-  // window.addEventListener('resize', checkWindowSize);
+  window.addEventListener('resize', checkWindowSize);
 
   // navigation 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
   // const observer = new MutationObserver(checkWindowSize);
