@@ -147,7 +147,7 @@ export default class PingPong {
       if (e.code === 'Enter' && this.state === GameState.PAUSED) {
         this.state = GameState.PLAY;
         this.movePaddles();
-        this.moveBall();
+        this.ball.move(this.ball.y, this.ball.x, this);
         this.obstacles.forEach(obstacle => {
           obstacle.move();
         });
