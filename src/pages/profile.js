@@ -29,6 +29,65 @@ const playerProfile = `
   </div>
 `;
 
+const playerHistory = `
+  <div class="history-title">
+    <span>Recent History</span>
+  </div>
+  <div class="history-list">
+    <ul>
+      <li>
+        <div class="history-item">
+          <div class="history-icon">
+            <img src="../images/icon/hand-thumbs-up-fill.svg" alt="hand thumbs up">
+          </div>
+          <div class="history-user-info">
+            <div class="history-user-photo">
+              <img src="../images/profile/default.png" alt="history user photo">
+            </div>
+            <div class="history-info-wrapper">
+              <div class="history-user-name">
+                <span>User Name</span>
+              </div>
+              <div class="history-game-mode">
+                <span>Speed Mode</span>
+              </div>
+            </div>
+          </div>
+          <div class="history-time">
+            <span>13:42 1.1</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="history-item">
+          <div class="history-icon">
+            <img src="../images/icon/hand-thumbs-down-fill.svg" alt="hand thumbs up">
+          </div>
+          <div class="history-user-info">
+            <div class="history-user-photo">
+              <img src="../images/profile/default.png" alt="history user photo">
+            </div>
+            <div class="history-info-wrapper">
+              <div class="history-user-name">
+                <span>User Name</span>
+              </div>
+              <div class="history-game-mode">
+                <span>Speed Mode</span>
+              </div>
+            </div>
+          </div>
+          <div class="history-time">
+            <span>13:42 1.1</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="history-view-all">
+    <button class="history-view-all-btn">View all</button>
+  </div>
+`;
+
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -41,6 +100,7 @@ export function pageProfile() {
               ${playerProfile}
             </div>
             <div class="player-history">
+              ${playerHistory}
             </div>      
             <div class="friend-list">
             </div>
