@@ -11,7 +11,7 @@ export function pageLogIn() {
         <form id="login-form">
           <div class="form-floating mb-3">
             <input
-              type="email"
+              type="text"
               class="form-control"
               id="floatingInput"
               placeholder="name@example.com"
