@@ -124,9 +124,9 @@ export default class PingPong {
       let newBallTop = ballTopRatio * this.boardCoord.height;
       let newBallLeft = ballLeftRatio * this.boardCoord.width;
 
-      // 보드의 경계를 넘어가지 않도록 조정
-      newBallTop = Math.max(0, Math.min(newBallTop, this.boardCoord.height - this.ball.radius * 2));
-      newBallLeft = Math.max(0, Math.min(newBallLeft, this.boardCoord.width - this.ball.radius * 2));
+      // 경계 검사 로직을 최적화
+      newBallTop = Math.max(this.ball.radius, Math.min(newBallTop, this.boardCoord.height - this.ball.radius * 2));
+      newBallLeft = Math.max(this.ball.radius, Math.min(newBallLeft, this.boardCoord.width - this.ball.radius * 2));
 
       // 볼의 위치 업데이트
       this.ball.updateStyle(newBallTop, newBallLeft);
