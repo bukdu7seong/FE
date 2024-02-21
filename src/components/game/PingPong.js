@@ -113,6 +113,10 @@ export default class PingPong {
         obstacle.areaBounds = this.boardCoord;
         obstacle.initPosition();
       });
+      const BALL_RADIUS = 15;
+      const boardCenterTop = this.boardCoord.top + this.boardCoord.height / 2 - BALL_RADIUS;
+      const boardCenterLeft = this.boardCoord.left + this.boardCoord.width / 2 - BALL_RADIUS;
+      this.ball.updateStyle(boardCenterTop, boardCenterLeft);
     };
 
     this.pause = () => {
