@@ -30,7 +30,9 @@ body {
 /* 전체 화면 */
 .full-screen {
   display: flex;
-  width: 100vw; /* 전체 너비를 차지하도록 설정 */
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
 }
 
 /* 사이드바 */
@@ -107,7 +109,7 @@ body {
 }
 
 /* 유저 닉네임 */
-.user-nickname {
+.user-name {
   color: white;
   font-size: 24px;
   white-space: nowrap; /* 닉네임이 한 줄로 표시되도록 설정 */
