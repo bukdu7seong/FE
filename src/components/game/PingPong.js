@@ -114,8 +114,11 @@ export default class PingPong {
         obstacle.initPosition();
       });
       const BALL_RADIUS = 15;
-      const boardCenterTop = this.boardCoord.top + this.boardCoord.height / 2 - BALL_RADIUS;
-      const boardCenterLeft = this.boardCoord.left + this.boardCoord.width / 2 - BALL_RADIUS;
+      // 보드의 중앙 위치 계산
+      const boardCenterTop = this.boardCoord.height / 2 - BALL_RADIUS;
+      const boardCenterLeft = this.boardCoord.width / 2 - BALL_RADIUS;
+
+      // 보드 내에서 볼의 위치를 업데이트
       this.ball.updateStyle(boardCenterTop, boardCenterLeft);
     };
 
