@@ -111,9 +111,9 @@ function init() {
   // window.addEventListener('resize', checkWindowSize);
 
   // navigation 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
-  const observer = new MutationObserver(checkWindowSize);
-  const config = { attributes: true, childList: true, subtree: true };
-  observer.observe(document.body, config);
+  // const observer = new MutationObserver(checkWindowSize);
+  // const config = { attributes: true, childList: true, subtree: true };
+  // observer.observe(document.body, config);
   /* *************************************************************** */
 
   /* ********************** 뒤로가기 코드 *******************************/
