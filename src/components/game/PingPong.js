@@ -116,13 +116,17 @@ export default class PingPong {
       this.boardCoord = this.board.getBoundingClientRect();
 
       // 볼의 현재 위치를 비율로 계산
-      const ballCurrentCoord = this.ball.getCoord();
-      const ballTopRatio = (ballCurrentCoord.top - oldBoardCoord.top) / oldBoardCoord.height;
-      const ballLeftRatio = (ballCurrentCoord.left - oldBoardCoord.left) / oldBoardCoord.width;
+      const ballCurrentRect = this.ball.getCoord();
+      const ballTopRatio = (ballCurrentRect.top - oldBoardCoord.top) / oldBoardCoord.height;
+      const ballLeftRatio = (ballCurrentRect.left - oldBoardCoord.left) / oldBoardCoord.width;
 
       // 새 보드 크기에 따라 볼의 위치를 계산
-      const newBallTop = ballTopRatio * this.boardCoord.height;
-      const newBallLeft = ballLeftRatio * this.boardCoord.width;
+      let newBallTop = ballTopRatio * this.boardCoord.height;
+      let newBallLeft = ballLeftRatio * this.boardCoord.width;
+
+      // 보드의 경계를 넘어가지 않도록 조정
+      newBallTop = Math.max(0, Math.min(newBallTop, this.boardCoord.height - this.ball.radius * 2));
+      newBallLeft = Math.max(0, Math.min(newBallLeft, this.boardCoord.width - this.ball.radius * 2));
 
       // 볼의 위치 업데이트
       this.ball.updateStyle(newBallTop, newBallLeft);

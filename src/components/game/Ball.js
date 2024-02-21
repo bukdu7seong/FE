@@ -1,7 +1,5 @@
 import CollisionDetector from './CollisionDetector.js';
 
-const BALL_RADIUS = 15;
-
 export default class Ball {
   constructor(element, initialCoord, speed) {
     this.element = element; // 공의 DOM 요소
@@ -9,6 +7,7 @@ export default class Ball {
     this.initialCoord = initialCoord;
     this.speed = speed; // 공의 속도
     this.ballFrame = null;
+    this.radius = 15;
   }
 
   // 현재 공의 위치 정보를 반환하는 메서드
@@ -88,12 +87,12 @@ export default class Ball {
     const currentTop = parseFloat(
       this.element.style.top
         ? this.element.style.top
-        : pingPong.boardCoord.height / 2 - BALL_RADIUS
+        : pingPong.boardCoord.height / 2 - this.radius
     );
     const currentLeft = parseFloat(
       this.element.style.left
         ? this.element.style.left
-        : pingPong.boardCoord.width / 2 - BALL_RADIUS
+        : pingPong.boardCoord.width / 2 - this.radius
     );
     const nextCoord = this.getNextCoordinate(dy, dx, pingPong);
     this.updateStyle(currentTop + nextCoord.y, currentLeft + nextCoord.x);
