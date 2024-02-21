@@ -31,30 +31,30 @@ const routes = {
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
 // store.subscribe(updateUI); -> access token 체크할 때 쓰면 좋을 듯!!
 
-function checkWindowSize() {
-  const gameBox = document.getElementsByClassName('game-box')[0];
-  if (!gameBox) {
-    return;
-  }
+// function checkWindowSize() {
+//   const gameBox = document.getElementsByClassName('game-box')[0];
+//   if (!gameBox) {
+//     return;
+//   }
 
-  if (window.innerWidth <= 940 || window.innerHeight <= 660) {
-    gameBox.style.pointerEvents = 'none';
-  } else {
-    gameBox.style.pointerEvents = 'auto';
-  }
+//   if (window.innerWidth <= 940 || window.innerHeight <= 660) {
+//     gameBox.style.pointerEvents = 'none';
+//   } else {
+//     gameBox.style.pointerEvents = 'auto';
+//   }
 
-  // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
-  const gameBoard = document.getElementsByClassName('board')[0];
-  if (!gameBoard) {
-    return;
-  }
+//   // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
+//   const gameBoard = document.getElementsByClassName('board')[0];
+//   if (!gameBoard) {
+//     return;
+//   }
 
-  if (window.innerWidth <= 940 || window.innerHeight <= 660) {
-    console.log('small...');
-  } else {
-    //
-  }
-}
+//   if (window.innerWidth <= 940 || window.innerHeight <= 660) {
+//     console.log('small...');
+//   } else {
+//     //
+//   }
+// }
 
 function init() {
   // 로그인 체크 로직
@@ -84,13 +84,13 @@ function init() {
   /* ****************** 반응형 이벤트 관련 *******************************/
   /* ********************** resize ***********************************/
   // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
-  window.addEventListener('resize', checkWindowSize);
+  // window.addEventListener('resize', checkWindowSize);
 
   // navigation 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
   // 네비게이션 시 발생할 이벤트를 정의하므로, 단순 페이지 리사이즈 말고도 여러 방식으로 사용할 수 있을듯.
-  const observer = new MutationObserver(checkWindowSize);
-  const config = { attributes: true, childList: true, subtree: true };
-  observer.observe(document.body, config);
+  // const observer = new MutationObserver(checkWindowSize);
+  // const config = { attributes: true, childList: true, subtree: true };
+  // observer.observe(document.body, config);
 
   /* *********************** 뒤로가기 **********************************/
   // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
