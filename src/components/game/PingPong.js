@@ -105,7 +105,6 @@ export default class PingPong {
     };
 
     this.resize = () => {
-      this.boardCoord = this.board.getBoundingClientRect();
       this.player1.paddle = document.querySelector('.paddle_1');
       this.player2.paddle = document.querySelector('.paddle_2');
       this.ball.initialCoord = this.ball.getCoord();
@@ -113,13 +112,20 @@ export default class PingPong {
         obstacle.areaBounds = this.boardCoord;
         obstacle.initPosition();
       });
-      const BALL_RADIUS = 15;
-      // 보드의 중앙 위치 계산
-      const boardCenterTop = this.boardCoord.height / 2 - BALL_RADIUS;
-      const boardCenterLeft = this.boardCoord.width / 2 - BALL_RADIUS;
+      const oldBoardCoord = this.boardCoord;
+      this.boardCoord = this.board.getBoundingClientRect();
 
-      // 보드 내에서 볼의 위치를 업데이트
-      this.ball.updateStyle(boardCenterTop, boardCenterLeft);
+      // 볼의 현재 위치를 비율로 계산
+      const ballCurrentCoord = this.ball.getCoord();
+      const ballTopRatio = (ballCurrentCoord.top - oldBoardCoord.top) / oldBoardCoord.height;
+      const ballLeftRatio = (ballCurrentCoord.left - oldBoardCoord.left) / oldBoardCoord.width;
+
+      // 새 보드 크기에 따라 볼의 위치를 계산
+      const newBallTop = ballTopRatio * this.boardCoord.height;
+      const newBallLeft = ballLeftRatio * this.boardCoord.width;
+
+      // 볼의 위치 업데이트
+      this.ball.updateStyle(newBallTop, newBallLeft);
     };
 
     this.pause = () => {
