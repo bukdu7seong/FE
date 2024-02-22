@@ -5,8 +5,6 @@ import { routes } from '../app.js';
 export function checkLogin() {
   const accessToken = sessionStorage.getItem('accessToken');
 
-  console.log(accessToken);
-
   // need to validate access token
   if (accessToken) {
     globalState.setState({ isLoggedIn: true });

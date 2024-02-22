@@ -92,9 +92,8 @@ function init() {
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       routeState.subscribe(checkLogin);
-      routeState.ping();
 
-      route(routes, getDefaultPath(window.location.pathname, routes), true);
+      route(routes, getDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */
 
