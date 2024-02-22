@@ -9,7 +9,7 @@ export function userBox(name = 'Guest') {
   userBox.appendChild(userImage);
 
   const userName = document.createElement('div');
-  userName.setAttribute('class', 'user-nickname');
+  userName.setAttribute('class', 'user-name');
   userName.innerText = `Welcome, ${name}`;
   userBox.appendChild(userName);
 
