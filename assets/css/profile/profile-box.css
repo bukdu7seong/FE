@@ -10,6 +10,7 @@
   height: 90vh; /* 뷰포트 높이에 맞춤 */
   width: 90vw; /* 뷰포트 너비에 맞춤 */
   background-color: green; /* 배경색 설정 */
+  border: 1px solid red; /* 경계선을 확인하기 위해 추가 */
 }
 
 /* 왼쪽 컬럼 스타일링 */
@@ -25,10 +26,11 @@
 
 /* 오른쪽 컬럼 스타일링 - 빈 공간 */
 .blank-div {
-  position: inherit;
-  height: calc(33.3333% - 20px); /* 오른쪽 열의 높이 */
-  margin: 10px; /* 요소들 사이의 간격 */
-  background-color: transparent;
+  display: flex;
+  position: relative;
+  min-width: 50%;
+  min-height: 10%;
+  border: 1px solid #000; /* 경계선을 확인하기 위해 추가 */
 }
 
 /* 오른쪽 컬럼 스타일링 */
