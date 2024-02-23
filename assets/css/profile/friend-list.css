@@ -48,8 +48,10 @@
   background-color: red;
 }
 
-.firend-photo {
-  margin: 2vw;
+.friend-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .friend-photo {
@@ -86,6 +88,7 @@
 
 .friend-view-all {
   text-align: center;
+  margin-top: 1vh;
   margin-left: auto;
 }
 

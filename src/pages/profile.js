@@ -97,11 +97,13 @@ const friendList = `
       <li>
         <div class="friend-list-item">
           <div class="login-status login"></div>
-          <div class="friend-photo">
-            <img src="../images/profile/default.png" alt="friend photo">
-          </div>
-          <div class="friend-name">
-            <span>Default Friend</span>
+          <div class="friend-info">
+            <div class="friend-photo">
+              <img src="../images/profile/default.png" alt="friend photo">
+            </div>
+            <div class="friend-name">
+              <span>Default Friend</span>
+            </div>
           </div>
           <div class="friend-profile">
             <button class="friend-profile-btn">Profile</button>
@@ -111,11 +113,13 @@ const friendList = `
       <li>
         <div class="friend-list-item">
           <div class="login-status logout"></div>
-          <div class="friend-photo">
-            <img src="../images/profile/default.png" alt="friend photo">
-          </div>
-          <div class="friend-name">
-            <span>Default Friend</span>
+          <div class="friend-info">
+            <div class="friend-photo">
+              <img src="../images/profile/default.png" alt="friend photo">
+            </div>
+            <div class="friend-name">
+              <span>Default Friend</span>
+            </div>
           </div>
           <div class="friend-profile">
             <button class="friend-profile-btn">Profile</button>
