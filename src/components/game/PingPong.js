@@ -144,10 +144,23 @@ export default class PingPong {
         this.state = GameState.PLAY;
         this.movePaddles();
         this.moveBall();
-        this.obstacles.forEach(obstacle => {
-          obstacle.move();
-        });
-
+        if (this.mode === GameMode.OBJECT) {
+          this.obstacles.forEach(obstacle => {
+            obstacle.areaBounds = this.boardCoord;
+            obstacle.initPosition();
+            obstacle.show();
+          });
+          if (this.obstacles.length === 0) {
+            for (let i = 0; i < this.numObstacle; i++) {
+              const obstacle = new Obstacle(this.board, this.boardCoord);
+              this.obstacles.push(obstacle);
+            }
+          } else {
+            this.obstacles.forEach(obstacle => {
+              obstacle.move();
+            });
+          }
+        }
       }
     };
 

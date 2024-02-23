@@ -46,4 +46,12 @@ export default class Obstacle {
   remove() {
     this.element.remove();
   }
+
+  hide(){
+    this.element.style.display = 'none';
+  }
+
+  show(){
+    this.element.style.display = 'block';
+  }
 }
