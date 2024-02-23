@@ -11,7 +11,7 @@ export function pageLogIn() {
 				placeholder="name@example.com"
 				required
 			/>
-			<label for="floatingInput" class="text-secondary">이메일 주소</label>
+			<label for="floatingInput" class="text-secondary">아이디</label>
 			</div>
 			<div class="form-floating">
 			<input

@@ -20,7 +20,7 @@ function requestLogin(credentials) {
 function requestSignup(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
-  console.log('username:', credentials.email);
+  console.log('email:', credentials.email);
   console.log('password:', credentials.password);
   return fetch('http://localhost:8000/account/login/', {
     method: 'POST',

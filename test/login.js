@@ -1,4 +1,4 @@
-// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+// [프론트 -> 백] 로그인 요청
 async function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
@@ -12,9 +12,8 @@ async function requestLogin(credentials) {
   });
 }
 
-// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+// [프론트 -> 백] 회원가입 요청
 async function requestSignup(credentials) {
-  // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
   console.log('username:', credentials.email);
   console.log('password:', credentials.password);
@@ -43,8 +42,8 @@ function twoFA() {
         'Content-Type': 'application/json',
       },
     })
-	.then((response) => response.json())
-	.then((data) => {
+      .then((response) => response.json())
+      .then((data) => {
         const url = data.url;
         window.location.href = url;
       });

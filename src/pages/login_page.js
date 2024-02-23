@@ -5,13 +5,13 @@ export function pageLogIn() {
 		<form id="login-form">
 			<div class="form-floating mb-3">
 			<input
-				type="email"
+				type="text"
 				class="form-control"
 				id="floatingInput"
 				placeholder="name@example.com"
 				required
 			/>
-			<label for="floatingInput" class="text-secondary">이메일 주소</label>
+			<label for="floatingInput" class="text-secondary">아이디</label>
 			</div>
 			<div class="form-floating">
 			<input
