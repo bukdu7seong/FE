@@ -1,0 +1,82 @@
+/* 게임 플레이 화면 */
+.board {
+  height: 85vh;
+  width: 80vw;
+  background-color: black; /* 검은색 배경으로 변경 */
+  border-radius: 14px;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+/* 공 */
+.ball {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  top: calc(50% - 15px);
+  left: calc(50% - 15px);
+}
+
+/* 공 효과 */
+.ball_effect {
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  background: rgb(242, 242, 242);
+}
+
+/* 패들 */
+.paddle {
+  height: 100px;
+  width: 18px;
+}
+
+/* 패들 1 */
+.paddle_1 {
+  top: 10px;
+  left: 10px;
+  background: rgb(242, 242, 242);
+  position: absolute;
+}
+
+/* 패들 2 */
+.paddle_2 {
+  top: 1%;
+  right: 1%;
+  background: rgb(242, 242, 242);
+  position: absolute;
+}
+
+/* 점수 1 */
+.player_1_score {
+  color: chartreuse;
+  position: absolute;
+  left: 20%;
+  margin: 30px;
+}
+
+/* 점수 2 */
+.player_2_score {
+  color: chartreuse;
+  position: absolute;
+  right: 20%;
+  margin: 30px;
+}
+
+/* 메시지 */
+.message {
+  position: absolute;
+  height: 10vh;
+  width: 30vw;
+  color: rgb(242, 242, 242);
+  margin: 30px;
+}
+
+/* 장애물 */
+.obstacle {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
+}

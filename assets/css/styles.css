@@ -1,0 +1,34 @@
+/* 폰트 */
+@font-face {
+  font-family: 'Symtext';
+  src: url('../fonts/Symtext.ttf') format('truetype');
+}
+
+/* 기본 스타일 */
+* {
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 전체 스타일 */
+body {
+  background: #171717;
+  color: #faf2dd;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 숨김 클래스 */
+.hidden {
+  display: none;
+}
+
+/* 전체 화면 */
+.full-screen {
+  display: flex;
+  width: 100vw;
+}

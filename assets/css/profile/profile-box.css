@@ -1,0 +1,42 @@
+/* 프로필 박스 스타일링 */
+.profile-box {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap; /* 요소들이 다음 줄로 넘어갈 수 있도록 설정 */
+  align-items: stretch;
+  top: 3vh; /* 상단에서 10vh만큼 떨어진 위치에 표시 */
+  height: 90vh; /* 뷰포트 높이에 맞춤 */
+  width: 90vw; /* 뷰포트 너비에 맞춤 */
+  background-color: green; /* 배경색 설정 */
+}
+
+/* 왼쪽 컬럼 스타일링 */
+.player-profile,
+.player-history,
+.friend-list {
+  display: inherit;
+  position: inherit;
+  margin: 5px; /* 요소들 사이의 간격 */
+  background-color: darkgreen;
+  border: 1px solid #000; /* 경계선을 확인하기 위해 추가 */
+}
+
+/* 오른쪽 컬럼 스타일링 - 빈 공간 */
+.blank-div {
+  position: inherit;
+  height: calc(33.3333% - 20px); /* 오른쪽 열의 높이 */
+  margin: 10px; /* 요소들 사이의 간격 */
+  background-color: transparent;
+}
+
+/* 오른쪽 컬럼 스타일링 */
+.friend-request,
+.setting {
+  position: inherit;
+  height: calc(33.3333% - 20px); /* 오른쪽 열의 높이 */
+  margin: 10px; /* 요소들 사이의 간격 */
+  background-color: #333333; /* 진한 회색 */
+  border: 1px solid #000; /* 경계선을 확인하기 위해 추가 */
+}
