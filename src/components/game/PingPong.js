@@ -108,10 +108,6 @@ export default class PingPong {
       this.player1.paddle = document.querySelector('.paddle_1');
       this.player2.paddle = document.querySelector('.paddle_2');
       this.ball.initialCoord = this.ball.getCoord();
-      this.obstacles.forEach(obstacle => {
-        obstacle.areaBounds = this.boardCoord;
-        obstacle.initPosition();
-      });
 
       this.boardCoord = this.board.getBoundingClientRect();
       const boardCenterTop = this.boardCoord.height / 2 - this.ball.radius;
@@ -137,6 +133,7 @@ export default class PingPong {
           cancelAnimationFrame(obstacle.animationFrameId);
         }
       });
+      this.obstacles.forEach(obstacle => obstacle.hide());
     };
 
     this.resume = (e) => {
@@ -167,7 +164,7 @@ export default class PingPong {
     document.addEventListener('keydown', this.keyEnterHandler);
     document.addEventListener('keydown', this.keyDownHandler);
     document.addEventListener('keyup', this.keyUpHandler);
-    // window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', this.resize);
     window.addEventListener('resize', this.pause);
     document.addEventListener('keydown', this.resume);
   }
