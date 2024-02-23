@@ -1,10 +1,6 @@
 export function pageLogIn() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  // const content = `
-  //   <button id="loginButton">로그인</button>
-  //   <button id="logoutButton" style="display:none;">로그아웃</button>
-  // `;
   const content = `
       <div class="form-signin text-center">
         <p class="login fw-bold">Log in</p>
