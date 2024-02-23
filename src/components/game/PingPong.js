@@ -112,24 +112,20 @@ export default class PingPong {
         obstacle.areaBounds = this.boardCoord;
         obstacle.initPosition();
       });
-      const oldBoardCoord = this.boardCoord;
+
       this.boardCoord = this.board.getBoundingClientRect();
+      const boardCenterTop = this.boardCoord.height / 2 - this.ball.radius;
+      const boardCenterLeft = this.boardCoord.width / 2 - this.ball.radius;
 
-      // 볼의 현재 위치를 비율로 계산
-      const ballCurrentRect = this.ball.getCoord();
-      const ballTopRatio = (ballCurrentRect.top - oldBoardCoord.top) / oldBoardCoord.height;
-      const ballLeftRatio = (ballCurrentRect.left - oldBoardCoord.left) / oldBoardCoord.width;
-
-      // 새 보드 크기에 따라 볼의 위치를 계산
-      let newBallTop = ballTopRatio * this.boardCoord.height;
-      let newBallLeft = ballLeftRatio * this.boardCoord.width;
-
-      // 경계 검사 로직을 최적화
-      newBallTop = Math.max(this.ball.radius, Math.min(newBallTop, this.boardCoord.height - this.ball.radius * 2));
-      newBallLeft = Math.max(this.ball.radius, Math.min(newBallLeft, this.boardCoord.width - this.ball.radius * 2));
-
-      // 볼의 위치 업데이트
-      this.ball.updateStyle(newBallTop, newBallLeft);
+      // 보드 내에서 볼의 위치를 업데이트
+      this.ball.updateStyle(boardCenterTop, boardCenterLeft);
+      // 패들의 높이를 계산 (예시: 패들의 높이가 100px라고 가정)
+      const paddleHeight = 100;  // 실제 패들의 높이에 맞게 조정 필요
+      // 보드 중앙에 패들을 위치시키기 위한 top 값 계산
+      const paddleTopPosition = (this.boardCoord.height / 2) - (paddleHeight / 2);
+      // 패들 위치 업데이트
+      this.player1.paddle.style.top = `${paddleTopPosition}px`;
+      this.player2.paddle.style.top = `${paddleTopPosition}px`;
     };
 
     this.pause = () => {
@@ -147,17 +143,18 @@ export default class PingPong {
       if (e.code === 'Enter' && this.state === GameState.PAUSED) {
         this.state = GameState.PLAY;
         this.movePaddles();
-        this.ball.move(this.ball.y, this.ball.x, this);
+        this.moveBall();
         this.obstacles.forEach(obstacle => {
           obstacle.move();
         });
+
       }
     };
 
     document.addEventListener('keydown', this.keyEnterHandler);
     document.addEventListener('keydown', this.keyDownHandler);
     document.addEventListener('keyup', this.keyUpHandler);
-    window.addEventListener('resize', this.resize);
+    // window.addEventListener('resize', this.resize);
     window.addEventListener('resize', this.pause);
     document.addEventListener('keydown', this.resume);
   }

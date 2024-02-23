@@ -8,8 +8,6 @@ export default class Ball {
     this.speed = speed; // 공의 속도
     this.ballFrame = null;
     this.radius = 15;
-    this.y;
-    this.x;
   }
 
   // 현재 공의 위치 정보를 반환하는 메서드
@@ -71,8 +69,8 @@ export default class Ball {
     }
     if (dir != null) {
       const sign = dx > 0 ? -1 : 1;
-      this.y = ndy = dir.y * this.speed;
-      this.x = ndx = dir.x * this.speed * sign;
+      ndy = dir.y * this.speed;
+      ndx = dir.x * this.speed * sign;
     }
     return { y: ndy, x: ndx };
   }
