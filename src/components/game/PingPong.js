@@ -68,6 +68,9 @@ export default class PingPong {
       if (e.code === 'Enter' && this.state === GameState.READY) {
         this.gameStart();
       }
+      if (e.code === 'Escape') {
+        this.pause();
+      }
     };
 
     this.keyDownHandler = (e) => {
