@@ -88,6 +88,47 @@ const playerHistory = `
   </div>
 `;
 
+const friendList = `
+  <div class="friend-title">
+    <span>Friends</span>
+  </div>
+  <div class="friend-list-list">
+    <ul>
+      <li>
+        <div class="friend-list-item">
+          <div class="login-status login"></div>
+          <div class="friend-photo">
+            <img src="../images/profile/default.png" alt="friend photo">
+          </div>
+          <div class="friend-name">
+            <span>Default Friend</span>
+          </div>
+          <div class="friend-profile">
+            <button class="friend-profile-btn">Profile</button>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="friend-list-item">
+          <div class="login-status logout"></div>
+          <div class="friend-photo">
+            <img src="../images/profile/default.png" alt="friend photo">
+          </div>
+          <div class="friend-name">
+            <span>Default Friend</span>
+          </div>
+          <div class="friend-profile">
+            <button class="friend-profile-btn">Profile</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="friend-view-all">
+    <button class="friend-view-all-btn">View all</button>
+  </div>
+`;
+
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -103,6 +144,7 @@ export function pageProfile() {
               ${playerHistory}
             </div>      
             <div class="friend-list">
+              ${friendList}
             </div>
             <div class="blank-div"></div>
             <div class="friend-request">

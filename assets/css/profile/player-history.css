@@ -107,11 +107,13 @@
 }
 
 .history-view-all-btn {
-  padding: 1vh;
+  padding: 1vw;
+  width: 9vw;
   border: none;
   border-radius: 10px;
   border: 1px solid #fff;
   background: #000;
   color: #fff;
+  font-size: 1.8vw;
   cursor: pointer;
 }
