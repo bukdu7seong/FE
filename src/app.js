@@ -2,7 +2,8 @@
 import { getDefaultPath, route } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
-import { pageLogIn } from './pages/login.js';
+import { pageLogIn } from './pages/login/sign_in.js';
+import { pageSignUp } from './pages/login/sign_up.js';
 import { pageProfile } from './pages/profile.js';
 import { pageGame, pageBoard } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
@@ -10,18 +11,25 @@ import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
-import { login } from './components/login/login.js';
-// state
-import { globalState, routeState, userState } from '../lib/state/state.js';
-import { updateUserBox } from '../lib/state/update.js';
+import { login } from './components/login/sign_in.js';
+import { signup } from './components/login/sign_up.js';
 // game
 import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
+// state
+import { globalState, routeState, userState } from '../lib/state/state.js';
+import { updateUserBox } from '../lib/state/update.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
   '/login': { name: 'Login', page: pageLogIn, component: [], onRender: null },
+  '/signup': {
+    name: 'Signup',
+    page: pageSignUp,
+    component: [],
+    onRender: null,
+  },
   '/profile': {
     name: 'Profile',
     page: pageProfile,
@@ -89,6 +97,7 @@ function init() {
       setComponent(routes['/tournament'], sidebar(routes), userBox());
 
       setOnRender(routes['/login'], login);
+      setOnRender(routes['/signup'], signup);
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       routeState.subscribe(checkLogin);

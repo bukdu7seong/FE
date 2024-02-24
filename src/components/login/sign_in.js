@@ -2,7 +2,7 @@ import { route } from '../../../lib/router/router.js';
 import { globalState } from '../../../lib/state/state.js';
 import { routes } from '../../app.js';
 
-// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+// [프론트 -> 백] 로그인 요청
 async function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
@@ -16,11 +16,10 @@ async function requestLogin(credentials) {
   });
 }
 
-// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+// [프론트 -> 백] 회원가입 요청
 async function requestSignup(credentials) {
-  // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
-  console.log('username:', credentials.email);
+  console.log('email:', credentials.email);
   console.log('password:', credentials.password);
   return await fetch('http://localhost:8000/account/login/', {
     method: 'POST',
@@ -31,16 +30,15 @@ async function requestSignup(credentials) {
   });
 }
 
-// [2FA]
-function twoFA() {
-  // 42OAuth
+// [42OAuth]
+function OAuth_42() {
   // DOMContentLoaded -> DOM이 로드되면 실행
   const button = document.getElementById('42-OAuth-Button');
   button.addEventListener('click', async function (e) {
     e.preventDefault(); // 폼의 기본 제출 동작을 막음
     console.log('42 Authenticator 버튼 클릭');
 
-    // 42 서버로 2FA 코드 전송
+    // [2FA] 42 서버로 2FA 코드 전송
     await fetch('http://localhost:8000/account/42oauth', {
       method: 'GET',
       headers: {
@@ -60,8 +58,9 @@ function handleSignUpClick() {
   document.getElementById('sign-up').addEventListener('click', function (e) {
     e.preventDefault(); // 기본 동작 막기
     // sign-up 페이지로 이동
-    const target = navigate('sign-up', '/sign-up');
-    renderAll(target);
+    route(routes, '/signup');
+    // const target = navigate('sign-up', '/sign-up');
+    // renderAll(target);
     // 여기선 라우팅만 하고, 실제로 페이지를 렌더링하는 부분은 따로 있어야 함
   });
 }
@@ -87,14 +86,13 @@ function handleSignInClick() {
     // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
     requestLogin(credentials)
       .then((response) => {
-        console.log(response);
         // 새로운 유저인 경우 301 상태 코드와 함께 프로필 페이지로 리다이렉트
         if (response.status === 301) {
           // 백엔드 서버에서 Location 헤더를 설정해주면, 해당 위치로 리다이렉트.
           if (response.headers.has('Location')) {
             window.location.href = response.headers.get('Location');
           } else {
-            // console.error('Location 헤더가 없어서 리다이렉트를 못 해.');
+            console.error('Location 헤더가 없어서 리다이렉트를 못 해.');
           }
           return;
         }
@@ -115,7 +113,6 @@ function handleSignInClick() {
           globalState.setState({ isLoggedIn: true });
           // user state 업데이트 필요
           route(routes, '/profile');
-          // window.location.href = '/profile'; // 로그인 성공 후 프로필 페이지로 리다이렉트
         } else {
           throw new Error('로그인 실패: JWT 토큰이 없어요.');
         }
@@ -135,14 +132,5 @@ export function login() {
 
   handleSignUpClick();
 
-  twoFA(); // 2FA 코드 입력 및 인증 처리
+  OAuth_42(); // 2FA 코드 입력 및 인증 처리
 }
-
-// // DOM이 로드되면 실행
-// document.addEventListener('DOMContentLoaded', () => {
-//   handleSignInClick(); // 로그인 버튼 클릭 시 로그인 요청
-
-//   handleSignUpClick();
-
-//   twoFA(); // 2FA 코드 입력 및 인증 처리
-// });
