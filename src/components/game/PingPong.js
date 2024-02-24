@@ -43,7 +43,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2000;
+    this.scoreToWin = 2;
     this.onGameEnd = null;
   }
 
