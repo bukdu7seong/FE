@@ -6,13 +6,13 @@ const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
   MOVE_DOWN_PLAYER1: 'KeyS',
   MOVE_UP_PLAYER2: 'ArrowUp',
-  MOVE_DOWN_PLAYER2: 'ArrowDown',
+  MOVE_DOWN_PLAYER2: 'ArrowDown'
 };
 
 const GameMode = {
   NORMAL: 'normal',
   SPEED: 'speed',
-  OBJECT: 'object',
+  OBJECT: 'object'
 };
 
 export const GameState = {
@@ -20,6 +20,7 @@ export const GameState = {
   PLAY: 'play',
   END: 'end',
   OVER: 'over',
+  PAUSED: 'paused'
 };
 
 export default class PingPong {
@@ -29,17 +30,20 @@ export default class PingPong {
     this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
     this.mode = mode;
-    this.numObstacle = 4;
+    this.numObstacle = 15;
     this.obstacles = [];
     this.paddleFrame = null;
     this.keyEnterHandler = null;
     this.keyDownHandler = null;
     this.keyUpHandler = null;
+    this.resize = null;
+    this.pause = null;
+    this.resume = null;
     this.initPlayers(player1Name, player2Name);
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2;
+    this.scoreToWin = 2000;
     this.onGameEnd = null;
   }
 
@@ -63,6 +67,9 @@ export default class PingPong {
     this.keyEnterHandler = (e) => {
       if (e.code === 'Enter' && this.state === GameState.READY) {
         this.gameStart();
+      }
+      if (e.code === 'Escape') {
+        this.pause();
       }
     };
 
@@ -100,9 +107,69 @@ export default class PingPong {
       }
     };
 
+    this.resize = () => {
+      this.player1.paddle = document.querySelector('.paddle_1');
+      this.player2.paddle = document.querySelector('.paddle_2');
+      this.ball.initialCoord = this.ball.getCoord();
+
+      this.boardCoord = this.board.getBoundingClientRect();
+      const boardCenterTop = this.boardCoord.height / 2 - this.ball.radius;
+      const boardCenterLeft = this.boardCoord.width / 2 - this.ball.radius;
+
+      // 보드 내에서 볼의 위치를 업데이트
+      this.ball.updateStyle(boardCenterTop, boardCenterLeft);
+      // 패들의 높이를 계산 (예시: 패들의 높이가 100px라고 가정)
+      const paddleHeight = 100;  // 실제 패들의 높이에 맞게 조정 필요
+      // 보드 중앙에 패들을 위치시키기 위한 top 값 계산
+      const paddleTopPosition = (this.boardCoord.height / 2) - (paddleHeight / 2);
+      // 패들 위치 업데이트
+      this.player1.paddle.style.top = `${paddleTopPosition}px`;
+      this.player2.paddle.style.top = `${paddleTopPosition}px`;
+    };
+
+    this.pause = () => {
+      this.state = GameState.PAUSED;  // GameState에 PAUSED 상태 추가 필요
+      cancelAnimationFrame(this.paddleFrame);
+      cancelAnimationFrame(this.ball.ballFrame);
+      this.obstacles.forEach(obstacle => {
+        if (obstacle.animationFrameId) {
+          cancelAnimationFrame(obstacle.animationFrameId);
+        }
+      });
+      this.obstacles.forEach(obstacle => obstacle.hide());
+    };
+
+    this.resume = (e) => {
+      if (e.code === 'Enter' && this.state === GameState.PAUSED) {
+        this.state = GameState.PLAY;
+        this.movePaddles();
+        this.moveBall();
+        if (this.mode === GameMode.OBJECT) {
+          this.obstacles.forEach(obstacle => {
+            obstacle.areaBounds = this.boardCoord;
+            obstacle.initPosition();
+            obstacle.show();
+          });
+          if (this.obstacles.length === 0) {
+            for (let i = 0; i < this.numObstacle; i++) {
+              const obstacle = new Obstacle(this.board, this.boardCoord);
+              this.obstacles.push(obstacle);
+            }
+          } else {
+            this.obstacles.forEach(obstacle => {
+              obstacle.move();
+            });
+          }
+        }
+      }
+    };
+
     document.addEventListener('keydown', this.keyEnterHandler);
     document.addEventListener('keydown', this.keyDownHandler);
     document.addEventListener('keyup', this.keyUpHandler);
+    window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', this.pause);
+    document.addEventListener('keydown', this.resume);
   }
 
   initGameState() {
