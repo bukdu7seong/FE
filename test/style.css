@@ -17,3 +17,21 @@ body {
 .hidden {
   display: none;
 }
+
+.login {
+  color: #fefdfe;
+}
+
+/* .app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+.full-screen {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
