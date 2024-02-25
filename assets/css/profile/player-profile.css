@@ -93,6 +93,8 @@
 .win-rate,
 .win,
 .loss {
+  display: inline-flex;
+  flex-direction: column;
   text-align: center;
 }
 .win-rate span,
