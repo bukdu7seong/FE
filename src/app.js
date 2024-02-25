@@ -162,22 +162,24 @@ function init() {
         return;
       } // 임시로...
 
+      const player2Name = document.getElementById('player-name').value;
+      const gameModes = document.getElementsByName('gameMode');
+      let selectedMode;
+
+      for (const mode of gameModes) {
+        if (mode.checked) {
+          selectedMode = mode.id; // This will be 'normalMode', 'speedMode', or 'objectMode'
+          break;
+        }
+      }
 
       hideModal();
       renderPage(pageBoard(), 'game-box');
+
       // 현재 로그인한 사용자와 상대방의 이름을 넘겨줘야 한다.
       // Get the player's name
-      // const player2Name = document.getElementById('player-name');
-      // if (player2Name) {
-      //   console.log('Element exists in the DOM');
-      //   // 여기서 추가 작업을 수행합니다.
-      // } else {
-      //   console.log('Element does not exist in the DOM');
-      // }
-      // console.log(player2Name);
 
-
-      const pongGame = new PingPong('object', 'salee2', 'test');
+      const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
       pongGame.startGame();
     } else if (currentRoute.currentRoute.name === 'Tournament') {
       if (className !== 'player-option') {
@@ -193,5 +195,3 @@ function init() {
 }
 
 init();
-
-

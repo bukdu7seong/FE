@@ -45,20 +45,20 @@ export function pageGame() {
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="normalMode" checked>
-                                <label class="form-check-label" for="normalMode">
+                                <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
+                                <label class="form-check-label" for="normal">
                                     Normal Mode
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="speedMode">
-                                <label class="form-check-label" for="speedMode">
+                                <input class="form-check-input" type="radio" name="gameMode" id="speed">
+                                <label class="form-check-label" for="speed">
                                     Speed Mode
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="objectMode">
-                                <label class="form-check-label" for="objectMode">
+                                <input class="form-check-input" type="radio" name="gameMode" id="object">
+                                <label class="form-check-label" for="object">
                                     Object Mode
                                 </label>
                             </div>
