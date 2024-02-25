@@ -11,13 +11,14 @@ export function pageGame() {
             <div class="player-container">
               <div class="player-option" id="player1">PLAYER 1</div>
               <div class="divider"></div>
-              <div class="player-option" id="player2">PLAYER 2</div>
-            </div>
-          </div>
-          
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameSettingModal">Open modal for
-    game stetting
+              <div class="player-option" id="player2">
+                       <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"> PLAYER 2
 </button>
+            
+              </div>
+            </div>
+          
+ 
 
 
 <div class="modal fade" id="gameSettingModal" tabindex="-1" aria-labelledby="gameSettingModalLabel" aria-hidden="true">
@@ -66,11 +67,13 @@ export function pageGame() {
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-md btn-success w-100">START</button>
+      <button type="button" id="startGameButton" class="btn btn-md btn-success w-100">START</button>
+
             </div>
         </div>
     </div>
 </div>
+          </div>
           
         </div>
       `;
