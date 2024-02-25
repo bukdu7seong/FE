@@ -73,6 +73,44 @@ export function pageGame() {
         </div>
     </div>
 </div>
+
+
+
+<!-- Score Modal -->
+<div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+                <h1 class="modal-title fs-1 w-100 text-center" id="scoreModalLabel">SCORE</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Winner section -->
+                <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
+                    <span class="badge bg-success rounded-pill px-3 me-2">WIN</span>
+                    <img src="1.jpg" class="rounded-circle me-2" alt="Anna Clarke" style="width: 50px; height: 50px;">
+                    <span class="fw-bold flex-grow-1">Anna Clarke</span>
+                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
+                </div>
+                <!-- Loser section -->
+                <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
+                    <span class="badge bg-secondary rounded-pill px-3 me-2">LOSE</span>
+                    <div class="bg-light rounded-circle me-2" style="width: 50px; height: 50px;"></div>
+                    <span class="fw-bold flex-grow-1">Player 2</span>
+                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill">SAVE SCORE</button>
+                <button type="button" class="btn btn-lg btn-success w-100 rounded-pill">START</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
           </div>
           
         </div>

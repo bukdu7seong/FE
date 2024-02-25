@@ -59,7 +59,7 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === GameMode.NORMAL ? 4.2 : 8.4;
+    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
@@ -128,7 +128,7 @@ export default class PingPong {
     };
 
     this.pause = () => {
-      this.state = GameState.PAUSED;  // GameState에 PAUSED 상태 추가 필요
+      this.state = GameState.PAUSED;
       cancelAnimationFrame(this.paddleFrame);
       cancelAnimationFrame(this.ball.ballFrame);
       this.obstacles.forEach(obstacle => {
@@ -216,11 +216,15 @@ export default class PingPong {
   }
 
   updatePlayersScore() {
+    // if (this.state !== GameState.PLAY) {
+    //   return
+    // }
     if (this.ball.leftOut(this.boardCoord)) {
       this.player2.updateScore();
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
+    // this.state = GameState.READY;
 
     // 왜 init만으로 안될까?
     this.ball.init();
@@ -248,6 +252,43 @@ export default class PingPong {
         // );
         this.message.innerHTML = `${this.winner} Wins!`;
         this.state = GameState.END;
+        console.log('game end');
+
+// 모달 요소 선택
+        const scoreModalElement = document.getElementById('scoreModal');
+
+// 모달 인스턴스 생성
+        const scoreModal = new bootstrap.Modal(scoreModalElement);
+
+// 게임 종료 시 모달 표시
+        if (this.state === GameState.END) {
+          // 모달을 표시합니다.
+          scoreModal.show();
+        }
+
+        // 게임 결과 전송
+
+        // fetch('https://example.com/api/endpoint', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ key: 'value' })
+        // })
+        //   .then(response => {
+        //     if (!response.ok) {
+        //       throw new Error('Network response was not ok ' + response.statusText);
+        //     }
+        //     return response.json(); // 여기서 응답을 JSON으로 변환
+        //   })
+        //   .then(data => {
+        //     console.log(data); // 변환된 데이터를 사용
+        //   })
+        //   .catch(error => {
+        //     console.error('Fetching error:', error);
+        //   });
+
+
         if (this.onGameEnd) {
           this.player1.initScore();
           this.player2.initScore();
