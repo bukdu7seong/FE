@@ -88,6 +88,30 @@ const playerHistory = `
   </div>
 `;
 
+const setting = `
+    <div class="setting-option">
+      <label for="2fa">2FA authentication options</label>
+      <label class="toggle">
+        <input id="2fa" class="toggle-checkbox" type="checkbox" checked>
+        <div class="toggle-switch"></div>
+      </label>
+    </div>
+    <div class="setting-option">
+      <label for="language">Select language</label>
+      <button class="language-btn" id="language">
+        <img src="../images/icon/globe2.svg" alt="language">
+      </button>
+    </div>
+    <div class="setting-option">
+      <label for="change-password">Change password</label>
+      <button class="change-password-btn" id="change-password">Change password</button>
+    </div>
+    <div class="setting-option">
+      <label for="unsubscribe">Unsubscribe</label>
+      <button class="unsubscribe-btn" id="unsubscribe">Unsubscribe</button>
+    </div>
+`;
+
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -108,6 +132,7 @@ export function pageProfile() {
             <div class="friend-request">
             </div>
             <div class="setting">
+              ${setting}
             </div>
           </div>
         </div>

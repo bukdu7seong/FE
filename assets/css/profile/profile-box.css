@@ -23,6 +23,14 @@
   border: 1px solid #000; /* 경계선을 확인하기 위해 추가 */
 }
 
+.setting {
+  display: inherit;
+  position: inherit;
+  margin: 5px; /* 요소들 사이의 간격 */
+  background-color: darkgreen;
+  border: 1px solid #000;
+}
+
 /* 오른쪽 컬럼 스타일링 - 빈 공간 */
 .blank-div {
   position: inherit;
@@ -32,8 +40,7 @@
 }
 
 /* 오른쪽 컬럼 스타일링 */
-.friend-request,
-.setting {
+.friend-request {
   position: inherit;
   height: calc(33.3333% - 20px); /* 오른쪽 열의 높이 */
   margin: 10px; /* 요소들 사이의 간격 */
