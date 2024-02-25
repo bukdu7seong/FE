@@ -68,6 +68,18 @@ function checkWindowSize() {
   // }
 }
 
+function hideModal() {
+  const modal = document.getElementById('gameSettingModal');
+  if (modal) {
+    modal.style.display = 'none';
+    // If Bootstrap adds a backdrop, you might need to remove it manually.
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      backdrop.style.display = 'none';
+    }
+  }
+}
+
 function init() {
   // 로그인 체크 로직
   // 1. local storage에 토큰이 있는지 확인
@@ -127,19 +139,45 @@ function init() {
   //   gameState.setState('end');
   // });
 
+  // document.getElementById('startGameButton').addEventListener('click', function() {
+  //   const player2Name = document.getElementById('player-name').value;
+  //
+  //   hideModal();
+  //   renderPage(pageBoard(), 'game-box');
+  //   const pongGame = new PingPong('object', 'salee2', player2Name);
+  //   pongGame.startGame();
+  // });
+
+  // This function should be called after the modal is added to the DOM
+
+
   window.onclick = function (event) {
     const currentRoute = routeState.getState();
     const clickedElement = event.target;
     const className = clickedElement.className;
+    const elementId = clickedElement.id;
 
     if (currentRoute.currentRoute.name === 'Game') {
-      if (className !== 'player-option') {
+      if (elementId !== 'startGameButton') {
         return;
       } // 임시로...
 
+
+      hideModal();
       renderPage(pageBoard(), 'game-box');
       // 현재 로그인한 사용자와 상대방의 이름을 넘겨줘야 한다.
-      const pongGame = new PingPong('object', 'salee2', 'gychoi');
+      // Get the player's name
+      // const player2Name = document.getElementById('player-name');
+      // if (player2Name) {
+      //   console.log('Element exists in the DOM');
+      //   // 여기서 추가 작업을 수행합니다.
+      // } else {
+      //   console.log('Element does not exist in the DOM');
+      // }
+      // console.log(player2Name);
+
+
+      const pongGame = new PingPong('object', 'salee2', 'test');
       pongGame.startGame();
     } else if (currentRoute.currentRoute.name === 'Tournament') {
       if (className !== 'player-option') {
@@ -155,3 +193,5 @@ function init() {
 }
 
 init();
+
+
