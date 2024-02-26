@@ -1,6 +1,6 @@
-import { renderAll } from '../../lib/router/render.js';
-import { navigate } from '../../lib/router/navigate.js';
-import { route } from '../../lib/router/router.js';
+import { renderAll } from '../../../lib/render/render.js';
+import { navigate } from '../../../lib/router/navigate.js';
+import { route } from '../../../lib/router/router.js';
 /* 
   <div class="side-bar">
     <div class="menu-top">

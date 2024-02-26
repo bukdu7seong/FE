@@ -9,5 +9,8 @@ export function defaultProfile() {
   // 랜덤 숫자 생성
   var index = Math.floor(Math.random() * images.length);
   // 선택된 이미지로 randomImage의 src 속성을 업데이트
-  document.getElementById('randomImage').src = images[index];
+  if (!document.getElementsByClassName('user-image')[0]) {
+    return;
+  }
+  document.getElementByClassName('user-image')[0].src = images[index];
 }
