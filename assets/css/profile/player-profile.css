@@ -9,6 +9,7 @@
   border-radius: 50%;
   overflow: hidden;
   width: 100%;
+  max-width: min(40vw, 40vh);
   aspect-ratio: 1/1;
 }
 
@@ -24,11 +25,13 @@
 
 .profile-name {
   display: flex;
-  justify-content: space-between;
+  position: relative;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .profile-name span {
+  padding-right: 1vw;
   font-size: 3vw;
   color: #fff;
 }
@@ -37,32 +40,34 @@
   background: transparent;
   cursor: pointer;
   filter: invert(100%);
+  margin-left: auto;
 }
 
 .edit-profile-btn img {
-  width: 25px;
-  height: 25px;
+  width: min(3.5vw, 3.5vh);
+  height: min(3.5vw, 3.5vh);
 }
 
 .photo-upload button {
-  font-size: 1.5vw; /* 버튼 글자 크기 */
+  font-size: min(1.5vw, 1.5vh); /* 버튼 글자 크기 */
   color: #fff; /* 글자 색상 */
   background-color: transparent; /* 배경 색상 */
   cursor: pointer; /* 마우스 오버 시 커서 변경 */
-  padding-left: 25px;
+  padding-left: min(3vw, 3vh); /* 버튼 내부 여백 */
   position: relative;
 }
 .photo-upload button::before {
   content: '';
-  height: 16px;
-  width: 16px;
+  width: min(2vw, 2vh);
+  height: min(2vw, 2vh);
   position: absolute;
   left: 3px;
   top: 50%;
   filter: invert(100%);
   transform: translateY(-50%); /* Y축 기준으로 -50% 만큼 이동하여 중앙 정렬 */
-  background: url('../images/icon/camera-fill.svg') no-repeat center center;
-  background-size: 20px 20px; /* 아이콘 크기 조절 */
+  background: url('../../../images/icon/camera-fill.svg') no-repeat center
+    center;
+  background-size: contain;
 }
 
 .profile-stats {
@@ -70,15 +75,15 @@
   flex-direction: row;
   justify-content: space-around; /* 내부 요소들 간격 조정 */
   position: relative;
-  width: 30vw;
+  width: min(30vw, 30vh);
   height: auto;
   background: #000;
-  border-radius: 10px;
+  border-radius: 15px;
   color: #fff; /* 글자 색깔 */
-  padding: 1vw;
+  padding: min(1vw, 1vh); /* 내부 여백 */
   margin-top: 10px;
   align-items: center;
-  border: 8px solid #333;
+  border: 6px solid #333;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
@@ -88,16 +93,18 @@
 .win-rate,
 .win,
 .loss {
+  display: inline-flex;
+  flex-direction: column;
   text-align: center;
 }
 .win-rate span,
 .win span,
 .loss span {
-  font-size: 2vw; /* 숫자 크기 */
+  font-size: min(2vw, 2vh); /* 숫자 크기 */
 }
 .win-rate label,
 .win label,
 .loss label {
   display: block;
-  font-size: 1vw; /* 라벨 글자 크기 */
+  font-size: min(1vw, 1vh); /* 라벨 크기 */
 }
