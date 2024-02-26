@@ -126,8 +126,40 @@ export function pageBoard() {
             </div>
 
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill">SAVE SCORE</button>
-                <button type="button" class="btn btn-lg btn-success w-100 rounded-pill">START</button>
+                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal">SAVE SCORE</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="email2faModal" aria-hidden="true" aria-labelledby="email2faModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="emailVerificationForm">
+                    <!-- Email address input -->
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()">Send Verification Code</button>
+                    </div>
+
+                    <!-- Verification code input -->
+                    <div class="mb-3 mt-3">
+                        <label for="verificationCodeInput" class="form-label">Verification Code</label>
+                        <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Submit Verification Code</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
