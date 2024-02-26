@@ -7,7 +7,7 @@ async function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
   console.log('password:', credentials.password);
-  return await fetch('http://localhost:8000/account/login/', {
+  return await fetch('http://localhost:8000/api/account/signin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ async function requestSignup(credentials) {
   console.log('username:', credentials.username);
   console.log('email:', credentials.email);
   console.log('password:', credentials.password);
-  return await fetch('http://localhost:8000/account/login/', {
+  return await fetch('http://localhost:8000/api/account/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,19 +86,11 @@ function handleSignInClick() {
     // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
     requestLogin(credentials)
       .then((response) => {
-        // 새로운 유저인 경우 301 상태 코드와 함께 프로필 페이지로 리다이렉트
-        if (response.status === 301) {
-          // 백엔드 서버에서 Location 헤더를 설정해주면, 해당 위치로 리다이렉트.
-          if (response.headers.has('Location')) {
-            window.location.href = response.headers.get('Location');
-          } else {
-            console.error('Location 헤더가 없어서 리다이렉트를 못 해.');
-          }
-          return;
-        }
-        if (response.ok) {
-          // 존재하는 유저인 경우 응답 처리
+        if (response.status === 200) {
           return response.json();
+        }
+        if (response.status === 301) {
+          return route(routes, response.headers.get('/profile'));
         }
         throw new Error('로그인 실패'); // -> catch로 이동
       })
