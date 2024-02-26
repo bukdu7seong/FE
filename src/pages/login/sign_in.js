@@ -1,10 +1,6 @@
 export function pageLogIn() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  // const content = `
-  //   <button id="loginButton">로그인</button>
-  //   <button id="logoutButton" style="display:none;">로그아웃</button>
-  // `;
   const content = `
       <div class="form-signin text-center">
         <p class="login fw-bold">Log in</p>
@@ -17,7 +13,7 @@ export function pageLogIn() {
               placeholder="name@example.com"
               required
             />
-            <label for="floatingInput" class="text-secondary">이메일 주소</label>
+            <label for="floatingInput" class="text-secondary">아이디</label>
           </div>
           <div class="form-floating">
             <input
