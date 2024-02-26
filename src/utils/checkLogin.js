@@ -1,6 +1,6 @@
-import { redirectRoute } from '../../lib/router/router.js';
+import { route } from '../../lib/router/router.js';
 import { globalState } from '../../lib/state/state.js';
-import { routes } from '../app.js';
+import { routes } from '../../lib/router/router.js';
 
 export function checkLogin() {
   const accessToken = sessionStorage.getItem('accessToken');
@@ -10,6 +10,6 @@ export function checkLogin() {
     globalState.setState({ isLoggedIn: true });
   } else {
     globalState.setState({ isLoggedIn: false });
-    redirectRoute(routes, '/login');
+    route(routes, '/login', true, false);
   }
 }
