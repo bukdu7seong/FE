@@ -73,16 +73,15 @@ function checkWindowSize() {
 }
 
 function hideModal() {
-  const modal = document.getElementById('gameSettingModal');
-  if (modal) {
-    modal.style.display = 'none';
-    // If Bootstrap adds a backdrop, you might need to remove it manually.
-    const backdrop = document.querySelector('.modal-backdrop');
-    if (backdrop) {
-      backdrop.style.display = 'none';
+  const modalElement = document.getElementById('gameSettingModal');
+  if (modalElement) {
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if (modalInstance) {
+      modalInstance.hide();
     }
   }
 }
+
 
 function init() {
   // 로그인 체크 로직
