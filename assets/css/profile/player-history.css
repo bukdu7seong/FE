@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  max-width: 50%;
+  width: 100%;
 }
 
 .history-title {
@@ -16,9 +16,8 @@
 }
 
 .history-list {
-  align-content: flex-start;
+  /* align-content: flex-start; */
   width: 100%;
-  height: auto;
 }
 
 .history-list ul {
@@ -64,7 +63,6 @@
 
 .history-user-photo {
   /* overflow: hidden; */
-  width: 100%;
   max-width: min(5vw, 5vh);
   margin: min(2vw, 2vh);
   aspect-ratio: 1/1;
@@ -105,7 +103,7 @@
 }
 
 .history-time span {
-  font-size: min(1vw, 1vh);
+  font-size: min(1.2vw, 1.2vh);
   color: #999;
 }
 
@@ -116,13 +114,12 @@
 
 .history-view-all-btn {
   padding: 1vw;
-  width: 9vw;
+  max-width: 9vw;
   border: none;
   border-radius: 10px;
   border: 1px solid #fff;
   background: #000;
   color: #fff;
-  font-size: 1.8vw;
   cursor: pointer;
   font-size: min(2vw, 2vh);
 }

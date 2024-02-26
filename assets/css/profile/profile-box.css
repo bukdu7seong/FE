@@ -1,12 +1,8 @@
 /* 프로필 박스 스타일링 */
 .profile-box {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: wrap; /* 요소들이 다음 줄로 넘어갈 수 있도록 설정 */
-  align-items: stretch;
-  top: 3vh; /* 상단에서 10vh만큼 떨어진 위치에 표시 */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 3개의 열을 생성 */
+  grid-template-rows: repeat(3, 1fr); /* 3개의 행을 생성 */
   height: 90vh; /* 뷰포트 높이에 맞춤 */
   width: 90vw; /* 뷰포트 너비에 맞춤 */
   background-color: green; /* 배경색 설정 */
@@ -15,9 +11,10 @@
 /* 왼쪽 컬럼 스타일링 */
 .player-profile,
 .player-history,
-.friend-list .friend-request,
+.friend-list,
+.friend-request,
 .setting {
-  margin: 5px; /* 요소들 사이의 간격 */
+  /* align-self: start; */
   background-color: darkgreen;
   border: 1px solid #000; /* 경계선을 확인하기 위해 추가 */
 }
