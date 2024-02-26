@@ -1,5 +1,6 @@
 .friend-list {
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
@@ -11,7 +12,7 @@
 }
 
 .friend-title span {
-  font-size: 3vw;
+  font-size: min(3vw, 3vh);
   color: #fff;
 }
 
@@ -31,7 +32,7 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  height: 10vh;
+  height: min(8vw, 8vh);
   background: #333;
   border-radius: 10px;
   border: 1px solid #444;

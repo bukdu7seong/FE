@@ -11,13 +11,14 @@
 }
 
 .history-title span {
-  font-size: 3vw;
+  font-size: min(3vw, 3vh);
   color: #fff;
 }
 
 .history-list {
   /* align-content: flex-start; */
   width: 100%;
+  height: 60%;
 }
 
 .history-list ul {
@@ -31,7 +32,6 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  height: 10vh;
   background: #333;
   border-radius: 10px;
   color: #fff;
@@ -41,8 +41,8 @@
 .history-icon {
   display: flex;
   justify-content: center;
-  width: 20%;
-  height: 80%;
+  width: 5vw;
+  height: 5vh;
   margin-left: min(1vw, 1vh);
   background: #000;
   border-radius: 10px;
@@ -64,7 +64,7 @@
 .history-user-photo {
   /* overflow: hidden; */
   max-width: min(5vw, 5vh);
-  margin: min(2vw, 2vh);
+  margin: min(1.5vw, 1.5vh);
   aspect-ratio: 1/1;
 }
 
