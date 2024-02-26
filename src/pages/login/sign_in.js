@@ -3,8 +3,8 @@ export function pageLogIn() {
   page.setAttribute('class', 'full-screen');
   const content = `
       <div class="form-signin text-center">
-        <p class="login fw-bold">Log in</p>
-        <form id="login-form">
+        <p class="signin fw-bold">Log in</p>
+        <form id="signin-form">
           <div class="form-floating mb-3">
             <input
               type="text"

@@ -1,18 +1,11 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { getDefaultPath, route } from '../lib/router/router.js';
+import { getDefaultPath, route, routes } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
-// pages
-import { pageLogIn } from './pages/login/sign_in.js';
-import { pageSignUp } from './pages/login/sign_up.js';
-import { pageProfile } from './pages/profile.js';
-import { pageGame, pageBoard } from './pages/game.js';
-import { pageTournament } from './pages/tournament.js';
-import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
-import { login } from './components/login/sign_in.js';
-import { signup } from './components/login/sign_up.js';
+import { signIn } from './components/login/sign_in.js';
+import { signUp } from './components/login/sign_up.js';
 // game
 import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
@@ -20,36 +13,6 @@ import { checkLogin } from './utils/checkLogin.js';
 // state
 import { globalState, routeState, userState } from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
-
-// { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
-export const routes = {
-  '/login': { name: 'Login', page: pageLogIn, component: [], onRender: null },
-  '/signup': {
-    name: 'Signup',
-    page: pageSignUp,
-    component: [],
-    onRender: null,
-  },
-  '/profile': {
-    name: 'Profile',
-    page: pageProfile,
-    component: [],
-    onRender: null,
-  },
-  '/game': { name: 'Game', page: pageGame, component: [], onRender: null },
-  '/tournament': {
-    name: 'Tournament',
-    page: pageTournament,
-    component: [],
-    onRender: null,
-  },
-  '/logout': {
-    name: 'Logout',
-    page: pageSwitch,
-    component: [],
-    onRender: null,
-  },
-};
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
@@ -96,13 +59,15 @@ function init() {
       setComponent(routes['/game'], sidebar(routes), userBox());
       setComponent(routes['/tournament'], sidebar(routes), userBox());
 
-      setOnRender(routes['/login'], login);
-      setOnRender(routes['/signup'], signup);
+      setOnRender(routes['/login'], signIn);
+      setOnRender(routes['/signup'], signUp);
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       routeState.subscribe(checkLogin);
 
-      route(routes, getDefaultPath(window.location.pathname, routes));
+      //페이지 테스트 하기 위해서 여기서 기본 페이지를 라우팅 하면 됩니다.
+      route(routes, '/signup', true, false);
+      //   route(routes, getDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */
 

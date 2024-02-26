@@ -21,8 +21,6 @@ function OAuth_42() {
   button.addEventListener('click', async function (e) {
     e.preventDefault(); // 폼의 기본 제출 동작을 막음
     console.log('42 Authenticator 버튼 클릭');
-
-    // [2FA] 42 서버로 2FA 코드 전송
     await fetch('http://localhost:8000/api/account/42oauth/', {
       method: 'GET',
       headers: {
@@ -39,15 +37,15 @@ function OAuth_42() {
 
 // [42 code] 백엔드로 전송
 async function postCode(code) {
-  await fetch('http://localhost:8000/api/login/code/', {
+  await fetch('http://localhost:8000/api/code/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ code: code }),
   }).then((response) => {
+    console.log('postCode:', response);
     if (response.status === 200) {
-      console.log('postCode:', response);
       return response.json();
     }
   });
@@ -63,7 +61,6 @@ async function fetchLocation() {
   }).then((response) => {
     console.log('fetchLocation:', response);
     if (response.status === 200) {
-      // 그리고 응답 코드를 api/login/code로 보내기
       postCode(response);
     }
   });
@@ -97,7 +94,8 @@ function handleSignInClick() {
           }
           // 301 location
           if (response.status === 301) {
-            return route(routes, '/2fa', true, false);
+            route(routes, '/signup', true, false);
+            return fetchLocation();
           }
           // 400 Bad Request
           throw new Error('400'); // -> catch로 이동
@@ -127,7 +125,7 @@ function handleSignInClick() {
     });
 }
 
-export function login() {
+export function signIn() {
   handleSignInClick();
   handleSignUpClick();
   OAuth_42();
