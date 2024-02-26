@@ -16,10 +16,8 @@
 /* 왼쪽 컬럼 스타일링 */
 .player-profile,
 .player-history,
-.friend-list {
-  display: inherit;
-  position: inherit;
-  margin: 5px; /* 요소들 사이의 간격 */
+.friend-list,
+.friend-request {
   background-color: darkgreen;
   border: 1px solid #000; /* 경계선을 확인하기 위해 추가 */
 }
@@ -34,7 +32,6 @@
 }
 
 /* 오른쪽 컬럼 스타일링 */
-.friend-request,
 .setting {
   position: inherit;
   height: calc(33.3333% - 20px); /* 오른쪽 열의 높이 */

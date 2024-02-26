@@ -72,11 +72,12 @@
 .friend-profile {
   text-align: center;
   margin-left: auto;
+  margin-right: 1vw;
 }
 
 .friend-profile-btn {
   padding: 1vw;
-  width: 9vw;
+  width: 8vw;
   border: none;
   border-radius: 10px;
   border: 1px solid #fff;

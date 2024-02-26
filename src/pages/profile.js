@@ -133,6 +133,70 @@ const friendList = `
   </div>
 `;
 
+const friendRequest = `
+  <div class="friend-request-title">
+    <span>Friend Request</div>
+  </div>
+  <div class="friend-request-list">
+    <ul>
+      <li>
+        <div class="friend-request-item">
+          <div class="friend-request-info">
+            <div class="friend-request-photo">
+              <img src="../images/profile/default.png" alt="friend request photo">
+            </div>
+            <div class="friend-request-name">
+              <span>Default Friend</span>
+            </div>
+          </div>
+          <div class="friend-request-btn">
+            <button class="accept">
+              <img src="../images/icon/check-lg.svg" alt="accept">
+            </button>
+            <button class="decline">
+              <img src="../images/icon/x-lg.svg" alt="decline">
+            </button>
+          </div>
+          <div class="friend-request-profile">
+            <button class="friend-request-profile-btn">Profile</button>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="friend-request-item">
+          <div class="friend-request-info">
+            <div class="friend-request-photo">
+              <img src="../images/profile/default.png" alt="friend request photo">
+            </div>
+            <div class="friend-request-name">
+              <span>Default Friend</span>
+            </div>
+          </div>
+          <div class="friend-request-btn">
+            <button class="accept">
+              <img src="../images/icon/check-lg.svg" alt="accept">
+            </button>
+            <button class="decline">
+              <img src="../images/icon/x-lg.svg" alt="decline">
+            </button>
+          </div>
+          <div class="friend-request-profile">
+            <button class="friend-request-profile-btn">Profile</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="friend-request-btn-wrapper">
+    <div class="invite-friends">
+      <button class="invite-friends-btn">Invite friends</button>
+    </div>
+    <div class="friend-request-view-all">
+      <button class="friend-request-view-all-btn">View all</button>
+    </div>
+  </div>
+`;
+
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -152,6 +216,7 @@ export function pageProfile() {
             </div>
             <div class="blank-div"></div>
             <div class="friend-request">
+              ${friendRequest}
             </div>
             <div class="setting">
             </div>
