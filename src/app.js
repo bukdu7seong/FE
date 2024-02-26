@@ -103,7 +103,7 @@ function init() {
       setOnRender(routes['/login'], login);
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
-      routeState.subscribe(checkLogin);
+      // routeState.subscribe(checkLogin);
 
       route(routes, getDefaultPath(window.location.pathname, routes));
     };
@@ -146,19 +146,24 @@ function init() {
           //   pongGame.startGame();
           // }
           if (elementId === 'startGameButton') {
+            console.log('here');
             const player2Name = document.getElementById('player-name').value;
             const gameModes = document.getElementsByName('gameMode');
+            console.log(gameModes);
             let selectedMode;
             for (const mode of gameModes) {
+              console.log("MODE: ", mode);
               if (mode.checked) {
                 selectedMode = mode.id; // This will be 'normalMode', 'speedMode', or 'objectMode'
                 break;
               }
+            }
               hideModal();
+              console.log(player2Name);
+              console.log(selectedMode);
               renderPage(pageBoard(), 'game-box');
               const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
               pongGame.startGame();
-            }
           }
           break;
         case 'Tournament':
@@ -177,5 +182,7 @@ function init() {
     console.log('app.js: ', e);
   }
 }
+
+
 
 init();

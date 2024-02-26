@@ -257,14 +257,17 @@ export default class PingPong {
 // 모달 요소 선택
         const scoreModalElement = document.getElementById('scoreModal');
 
+        console.log(scoreModalElement);
 // 모달 인스턴스 생성
         const scoreModal = new bootstrap.Modal(scoreModalElement);
 
+        scoreModal.show();
+
+
 // 게임 종료 시 모달 표시
-        if (this.state === GameState.END) {
+//         if (this.state === GameState.END) {
           // 모달을 표시합니다.
-          scoreModal.show();
-        }
+        // }
 
         // 게임 결과 전송
 
