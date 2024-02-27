@@ -30,5 +30,7 @@ body {
 /* 전체 화면 */
 .full-screen {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
 }

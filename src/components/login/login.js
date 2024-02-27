@@ -2,11 +2,24 @@ import { route } from '../../../lib/router/router.js';
 import { globalState } from '../../../lib/state/state.js';
 import { routes } from '../../app.js';
 
+const DEV = true;
+
 // [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
 function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
   console.log('password:', credentials.password);
+
+  if (DEV) {
+    return fetch('http://localhost:8000/api/account/devlogin/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
+  }
+
   return fetch('http://localhost:8000/account/login/', {
     method: 'POST',
     headers: {
