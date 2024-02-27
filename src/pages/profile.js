@@ -84,7 +84,7 @@ const playerHistory = `
     </ul>
   </div>
   <div class="history-view-all">
-    <button class="history-view-all-btn">View all</button>
+    <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;
 
@@ -106,7 +106,7 @@ const friendList = `
             </div>
           </div>
           <div class="friend-profile">
-            <button class="friend-profile-btn">Profile</button>
+            <button type="button" class="btn btn-outline-light">Profile</button>
           </div>
         </div>
       </li>
@@ -122,14 +122,14 @@ const friendList = `
             </div>
           </div>
           <div class="friend-profile">
-            <button class="friend-profile-btn">Profile</button>
+            <button type="button" class="btn btn-outline-light">Profile</button>
           </div>
         </div>
       </li>
     </ul>
   </div>
   <div class="friend-view-all">
-    <button class="friend-view-all-btn">View all</button>
+    <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;
 
@@ -150,15 +150,15 @@ const friendRequest = `
             </div>
           </div>
           <div class="friend-request-btn">
-            <button class="accept">
+            <button type="button" class="btn btn-success">
               <img src="../images/icon/check-lg.svg" alt="accept">
             </button>
-            <button class="decline">
+            <button type="button" class="btn btn-danger">
               <img src="../images/icon/x-lg.svg" alt="decline">
             </button>
           </div>
           <div class="friend-request-profile">
-            <button class="friend-request-profile-btn">Profile</button>
+            <button type="button" class="btn btn-outline-light">Profile</button>
           </div>
         </div>
       </li>
@@ -173,15 +173,15 @@ const friendRequest = `
             </div>
           </div>
           <div class="friend-request-btn">
-            <button class="accept">
+            <button type="button" class="btn btn-success">
               <img src="../images/icon/check-lg.svg" alt="accept">
             </button>
-            <button class="decline">
+            <button type="button" class="btn btn-danger">
               <img src="../images/icon/x-lg.svg" alt="decline">
             </button>
           </div>
           <div class="friend-request-profile">
-            <button class="friend-request-profile-btn">Profile</button>
+            <button type="button" class="btn btn-outline-light">Profile</button>
           </div>
         </div>
       </li>
@@ -189,10 +189,10 @@ const friendRequest = `
   </div>
   <div class="friend-request-btn-wrapper">
     <div class="invite-friends">
-      <button class="invite-friends-btn">Invite friends</button>
+      <button type="button" class="btn btn-success">Invite friends</button>
     </div>
     <div class="friend-request-view-all">
-      <button class="friend-request-view-all-btn">View all</button>
+      <button type="button" class="btn btn-outline-light">View all</button>
     </div>
   </div>
 `;
@@ -213,11 +213,11 @@ const setting = `
     </div>
     <div class="setting-option">
       <label for="change-password">Change password</label>
-      <button class="change-password-btn" id="change-password">Change password</button>
+      <button type="button" class="btn btn-success" id="change-password">Change password</button>
     </div>
     <div class="setting-option">
       <label for="unsubscribe">Unsubscribe</label>
-      <button class="unsubscribe-btn" id="unsubscribe">Unsubscribe</button>
+      <button type="button" class="btn btn-danger" id="unsubscribe">Unsubscribe</button>
     </div>
 `;
 
