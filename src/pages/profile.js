@@ -207,9 +207,14 @@ const setting = `
     </div>
     <div class="setting-option">
       <label for="language">Select language</label>
-      <button class="language-btn" id="language">
+      <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
         <img src="../images/icon/globe2.svg" alt="language">
       </button>
+      <ul class="dropdown-menu dropdown-menu-dark language-list">
+        <li class="dropdown-item" id="lang-ko">Korean</li>
+        <li class="dropdown-item" id="lang-en">English</li>
+        <li class="dropdown-item" id="lang-fr">French</li>
+      </ul>
     </div>
     <div class="setting-option">
       <label for="change-password">Change password</label>
