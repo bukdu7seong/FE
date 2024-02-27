@@ -41,7 +41,8 @@
 
 .login-status {
   border-radius: 50%;
-  width: 1vw;
+  width: 5px;
+  height: 5px;
   aspect-ratio: 1/1;
   margin: min(1vw, 1vh);
 }
