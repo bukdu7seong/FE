@@ -271,25 +271,29 @@ export default class PingPong {
 
         // 게임 결과 전송
 
-        // fetch('https://example.com/api/endpoint', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ key: 'value' })
-        // })
-        //   .then(response => {
-        //     if (!response.ok) {
-        //       throw new Error('Network response was not ok ' + response.statusText);
-        //     }
-        //     return response.json(); // 여기서 응답을 JSON으로 변환
-        //   })
-        //   .then(data => {
-        //     console.log(data); // 변환된 데이터를 사용
-        //   })
-        //   .catch(error => {
-        //     console.error('Fetching error:', error);
-        //   });
+        fetch('http://localhost:8000/api/games/results', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MDIwMTQ3LCJpYXQiOjE3MDkwMTgzNDcsImp0aSI6ImEzOWNmMWNmZGRlZDQ1YjFiNzBiYmMwMDNiZjVjMTczIiwidXNlcl9pZCI6NH0.97NfEseNpfFUKbrQWTKAb7mUTMJR7yVzHmi9QyZL_Ss'},
+          body: JSON.stringify({
+            'winner': 'salee2@student.42seoul.kr',
+            'loser': 'null',
+            'game_mode': this.mode
+          })
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json(); // 여기서 응답을 JSON으로 변환
+          })
+          .then(data => {
+            console.log(data); // 변환된 데이터를 사용
+          })
+          .catch(error => {
+            console.error('Fetching error:', error);
+          });
 
 
         if (this.onGameEnd) {
