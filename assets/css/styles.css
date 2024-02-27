@@ -34,3 +34,26 @@ body {
   align-items: center;
   width: 100vw;
 }
+
+/* Bootstrap 오버로딩 스타일 */
+
+.btn.btn-outline-light {
+  background-color: #131313;
+}
+.btn.btn-outline-light:hover {
+  background-color: white;
+}
+
+.setting-option .btn.btn-success {
+  background-color: #198754;
+}
+.setting-option .btn.btn-success:hover {
+  background-color: #157347;
+}
+
+.setting-option .btn.btn-danger {
+  background-color: #dc3545;
+}
+.setting-option .btn.btn-danger:hover {
+  background-color: #bb2d3b;
+}
