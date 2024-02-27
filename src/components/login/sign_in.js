@@ -1,4 +1,5 @@
-import { route, routes, goToProfile } from '../../../lib/router/router.js';
+import { route, routes } from '../../../lib/router/router.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 
 // [프론트 -> 백] 로그인 요청
 async function requestLogin(credentials) {
@@ -73,9 +74,6 @@ function handleSignInClick() {
     .getElementById('signin-form')
     .addEventListener('submit', function (e) {
       e.preventDefault(); // 폼 제출 기본 이벤트 막기 (새로고침 방지) 보통 폼 제출, 링크 클릭 시 새로고침이 일어나는데 이를 막기 위해 사용
-      console.log('로그인 버튼 클릭');
-
-      // 입력된 이메일과 비밀번호 가져오기
       const username = document.getElementById('floatingInput').value;
       const password = document.getElementById('floatingPassword').value;
 
@@ -87,40 +85,27 @@ function handleSignInClick() {
       // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
       requestLogin(credentials)
         .then((response) => {
-          console.log(response);
-          // 200 profile
-          if (response.status === 200) {
-            return goToProfile();
-          }
-          // 301 location
+          console.log('123response:', response);
           if (response.status === 301) {
-            route(routes, '/signup', true, false);
-            return fetchLocation();
-          }
-          // 400 Bad Request
-          throw new Error('400'); // -> catch로 이동
-        })
-        .then((data) => {
-          // [백 -> 프론트] 생성된 JWT 토큰을 프론트로 전송
-          console.log('data:', data);
-          //   if (data && data.access) {
-          //     // [프론트] 받은 JWT 토큰을 sessionStorage에 저장
-          //     sessionStorage.setItem('accessToken', data.access);
-          //     // [유저] 인증된 상태에서 서비스 사용
-          //     console.log('로그인 성공, JWT 토큰 저장.');
-          //     globalState.setState({ isLoggedIn: true });
-          //     // user state 업데이트 필요
-          //     route(routes, '/profile');
-          //   } else {
-          //     throw new Error('로그인 실패: JWT 토큰이 없어요.');
-          //   }
-        })
-        .catch((error) => {
-          if (error.status === 400) {
-            console.error('400 Bad Request:', error);
+            userState.setState({
+              isLoggedIn: true,
+              accessToken: response.body.access,
+              refreshToken: response.body.refresh,
+            });
+            sessionStorage.setItem('accessToken', response.body.access);
+            route(routes, '/profile', true, false);
           } else {
-            console.error('로그인 요청 실패:', error);
+            throw new Error(`${response.status} - ${response.message}`);
           }
+        })
+        .catch((e) => {
+          console.error('로그인 요청 실패:', e);
+
+          const errorMessageDiv = document.getElementById(
+            'login-error-message'
+          );
+          errorMessageDiv.textContent =
+            '로그인에 실패했습니다. 다시 시도해주세요.';
         });
     });
 }
@@ -147,8 +132,5 @@ async function requestSignup(credentials) {
 
 // [회원가입 버튼] 클릭 시 회원가입 페이지로 이동
 function handleSignUpClick() {
-  document.getElementById('sign-up').addEventListener('click', function (e) {
-    e.preventDefault();
-    route(routes, '/signup');
-  });
+  route(routes, '/signup');
 }

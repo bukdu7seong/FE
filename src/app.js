@@ -66,7 +66,7 @@ function init() {
       routeState.subscribe(checkLogin);
 
       //페이지 테스트 하기 위해서 여기서 기본 페이지를 라우팅 하면 됩니다.
-      route(routes, '/signup', true, false);
+      route(routes, '/login', true, false);
       //   route(routes, getDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */

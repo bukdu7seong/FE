@@ -25,6 +25,7 @@ export function pageLogIn() {
             />
             <label for="floatingPassword" class="text-secondary">비밀번호</label>
           </div>
+		  <div id="login-error-message" style="color: #ff6b6b;"></div>
           <p class="text-secondary">
             <a
               id="sign-up"
