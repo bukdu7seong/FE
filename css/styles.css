@@ -178,7 +178,7 @@ body {
   text-align: center;
 }
 
-@media only screen and (max-width: 940px), only screen and (max-height: 660px) {
+@media only screen and (max-width: 380px), only screen and (max-height: 280px) {
   .game-box::after {
     content: 'Screen is too small to play Pong!';
     display: block;

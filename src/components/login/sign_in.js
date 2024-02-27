@@ -1,8 +1,26 @@
-// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+import { route } from '../../../lib/router/router.js';
+import { globalState } from '../../../lib/state/state.js';
+import { routes } from '../../app.js';
+
+const DEV = true;
+
+// [프론트 -> 백] 로그인 요청
 async function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
   console.log('password:', credentials.password);
+
+  // for development test
+  if (DEV) {
+    return fetch('http://localhost:8000/api/account/devlogin/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
+  }
+
   return await fetch('http://localhost:8000/account/login/', {
     method: 'POST',
     headers: {
@@ -12,11 +30,10 @@ async function requestLogin(credentials) {
   });
 }
 
-// [프론트 -> 백] 로그인 요청과 함께 nickname과 password 전달
+// [프론트 -> 백] 회원가입 요청
 async function requestSignup(credentials) {
-  // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
-  console.log('username:', credentials.email);
+  console.log('email:', credentials.email);
   console.log('password:', credentials.password);
   return await fetch('http://localhost:8000/account/login/', {
     method: 'POST',
@@ -27,24 +44,23 @@ async function requestSignup(credentials) {
   });
 }
 
-// [2FA]
-function twoFA() {
-  // 42OAuth
+// [42OAuth]
+function OAuth_42() {
   // DOMContentLoaded -> DOM이 로드되면 실행
   const button = document.getElementById('42-OAuth-Button');
   button.addEventListener('click', async function (e) {
     e.preventDefault(); // 폼의 기본 제출 동작을 막음
     console.log('42 Authenticator 버튼 클릭');
 
-    // 42 서버로 2FA 코드 전송
+    // [2FA] 42 서버로 2FA 코드 전송
     await fetch('http://localhost:8000/account/42oauth', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-	.then((response) => response.json())
-	.then((data) => {
+      .then((response) => response.json())
+      .then((data) => {
         const url = data.url;
         window.location.href = url;
       });
@@ -56,8 +72,9 @@ function handleSignUpClick() {
   document.getElementById('sign-up').addEventListener('click', function (e) {
     e.preventDefault(); // 기본 동작 막기
     // sign-up 페이지로 이동
-    const target = navigate('sign-up', '/sign-up');
-    renderAll(target);
+    route(routes, '/signup');
+    // const target = navigate('sign-up', '/sign-up');
+    // renderAll(target);
     // 여기선 라우팅만 하고, 실제로 페이지를 렌더링하는 부분은 따로 있어야 함
   });
 }
@@ -101,12 +118,17 @@ function handleSignInClick() {
       })
       .then((data) => {
         // [백 -> 프론트] 생성된 JWT 토큰을 프론트로 전송
+        console.log(data);
         if (data && data.access) {
           // [프론트] 받은 JWT 토큰을 sessionStorage에 저장
           sessionStorage.setItem('accessToken', data.access);
           // [유저] 인증된 상태에서 서비스 사용
           console.log('로그인 성공, JWT 토큰 저장.');
-          window.location.href = '/profile'; // 로그인 성공 후 프로필 페이지로 리다이렉트
+          globalState.setState({ isLoggedIn: true });
+          // user state 업데이트 필요
+          route(routes, '/profile');
+        } else {
+          throw new Error('로그인 실패: JWT 토큰이 없어요.');
         }
       })
       .catch((error) => {
@@ -119,11 +141,10 @@ function handleSignInClick() {
   });
 }
 
-// DOM이 로드되면 실행
-document.addEventListener('DOMContentLoaded', () => {
+export function login() {
   handleSignInClick(); // 로그인 버튼 클릭 시 로그인 요청
 
   handleSignUpClick();
 
-  twoFA(); // 2FA 코드 입력 및 인증 처리
-});
+  OAuth_42(); // 2FA 코드 입력 및 인증 처리
+}
