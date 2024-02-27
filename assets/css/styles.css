@@ -41,7 +41,7 @@ body {
   background-color: #131313;
 }
 .btn.btn-outline-light:hover {
-  background-color: white;
+  background-color: #faf2dd;
 }
 
 .setting-option .btn.btn-success {
@@ -56,4 +56,31 @@ body {
 }
 .setting-option .btn.btn-danger:hover {
   background-color: #bb2d3b;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+.modal-content {
+  background-color: #171717;
+  color: #faf2dd; /* 색깔 이쁜데? */
+  border: 1px solid green;
+  padding: 10px;
+}
+.modal-body input {
+  background-color: #171717;
+  color: #faf2dd;
+  border: 1px solid #faf2dd;
+}
+.modal-body input::placeholder {
+  color: gray;
+}
+.modal-body input:focus {
+  background-color: #171717;
+  color: #faf2dd;
+  outline: none;
+  box-shadow: none;
+}
+.modal-footer {
+  border-top: none;
 }

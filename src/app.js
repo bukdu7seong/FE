@@ -20,6 +20,7 @@ import { checkLogin } from './utils/checkLogin.js';
 // state
 import { globalState, routeState, userState } from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
+import { profile } from './components/profile/profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
@@ -98,6 +99,7 @@ function init() {
 
       setOnRender(routes['/login'], login);
       setOnRender(routes['/signup'], signup);
+      setOnRender(routes['/profile'], profile);
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       routeState.subscribe(checkLogin);

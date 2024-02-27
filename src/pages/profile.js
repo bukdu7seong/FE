@@ -5,7 +5,7 @@ const playerProfile = `
   <div class="profile-info">
     <div class="profile-name">
       <span>Player name</span>
-      <button class="edit-profile-btn">
+      <button class="edit-profile-btn" id="changeUserName">
         <img src="../images/icon/pencil-fill.svg" alt="edit profile">
       </button>
     </div>
