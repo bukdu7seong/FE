@@ -93,3 +93,31 @@ body {
   color: #faf2dd;
   border: 1px solid green;
 }
+
+/* Toast */
+.toast-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast .btn-close {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+#successToast .toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #198754;
+  color: white;
+}
+
+#failureToast .toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dc3545;
+  color: white;
+}

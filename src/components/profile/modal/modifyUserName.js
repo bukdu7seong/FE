@@ -1,5 +1,8 @@
-const modalHTML = `
-<div class="modal fade" id="changeUserNameModal">
+import { validateInput } from '../../../utils/validateInput.js';
+import { successToast } from '../toast/success.js';
+
+function modalHTML(modalId) {
+  return `<div class="modal fade" id="${modalId}">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,7 +10,8 @@ const modalHTML = `
       </div>
       <div class="modal-body">
         <input type="text" class="form-control" id="newUsername"
-        required minlength="2" maxlength="10" placeholder="Enter new username">
+        required maxlength="10" placeholder="Enter new username (maximum length: 10)">
+        <div id="error-message" class="text-danger"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -17,13 +21,15 @@ const modalHTML = `
   </div>
 </div>
 `;
+}
 
-export class changeUserName {
+export class changeUserNameModal {
   constructor(modalId = 'changeUserNameModal') {
-    this.modalHTML = modalHTML;
+    this.modalHTML = modalHTML(modalId);
     this.modalId = modalId;
     this.inputData = '';
     this.modalInstance = null;
+    this.successToast = null;
     this.initModal();
   }
 
@@ -35,31 +41,45 @@ export class changeUserName {
     );
 
     this.modalInstance._element.addEventListener(
-      'shown.bs.modal',
-      this.handleShow.bind(this)
-    );
-
-    this.modalInstance._element.addEventListener(
       'hidden.bs.modal',
       this.handleHidden.bind(this)
     );
 
-    // https://getbootstrap.kr/docs/5.3/components/modal/#%eb%8b%a4%ec%96%91%ed%95%9c-%eb%aa%a8%eb%8b%ac-%ec%bd%98%ed%85%90%ec%b8%a0
-    document
-      .querySelector('.modal-footer .btn-primary')
+    this.modalInstance._element
+      .querySelector('.btn-primary')
       .addEventListener('click', this.checkInput.bind(this));
   }
 
   checkInput() {
-    this.inputData = document.getElementById('newUsername').value;
-    console.log('INPUT:', this.inputData);
-    this.hide();
+    this.inputData =
+      this.modalInstance._element.querySelector('#newUsername').value;
+
+    if (!validateInput(this.inputData)) {
+      this.modalInstance._element.querySelector('#error-message').textContent =
+        'Only alphanumeric characters are allowed.';
+    } else if (this.inputData.length === 0) {
+      this.modalInstance._element.querySelector('#error-message').textContent =
+        'Please enter a username.';
+    } else {
+      this.callAPI();
+      this.popToast();
+      this.hide();
+    }
   }
 
-  handleShow() {
-    const inputField = document.getElementById('newUsername');
-    inputField.value = '';
-    this.inputData = '';
+  callAPI() {
+    // API 호출
+    // api ....
+    console.log(this.inputData);
+  }
+
+  popToast() {
+    this.successToast = new successToast('Successfully changed username!');
+    this.successToast.show();
+    setTimeout(() => {
+      this.successToast.hide();
+      this.successToast = null;
+    }, 3000);
   }
 
   handleHidden() {
