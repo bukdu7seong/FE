@@ -45,7 +45,7 @@
   display: inline-block;
   background: #ccc;
   border-radius: 16px;
-  width: min(6vw, 6vh);
+  width: min(8vw, 8vh);
   height: min(4vw, 4vh);
   position: relative;
   vertical-align: middle;
@@ -75,7 +75,7 @@
   background: #56c080;
 }
 .toggle-checkbox:checked + .toggle-switch:before {
-  left: min(2vw, 2vh);
+  left: min(4vw, 4vh);
 }
 .toggle-checkbox {
   position: absolute;
@@ -95,7 +95,7 @@
   filter: invert(100%);
 }
 
-.setting-option .change-password-btn {
+/* .setting-option .change-password-btn {
   background-color: green;
   color: white;
   border: none;
@@ -117,4 +117,4 @@
   font-size: min(2vw, 2vh);
   cursor: pointer;
   border-radius: 15px;
-}
+} */
