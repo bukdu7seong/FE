@@ -215,7 +215,32 @@ export default class PingPong {
     this.ball.move(dy, dx, this);
   }
 
-  updatePlayersScore() {
+  async fetchGameResults() {
+    try {
+      const response = await fetch('http://localhost:8000/api/games/results', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTA4NjI5LCJpYXQiOjE3MDkxMDY4MjksImp0aSI6ImE0ZjYyNDYwN2Y2OTQyMGZhZWNiNWFlODMyYjRlOGY5IiwidXNlcl9pZCI6MX0.6IDmPXI5eUTvsp6DzxJhe-_0rF8d3_BjTX2l4DaDsnY',
+        },
+        body: JSON.stringify({
+          'winner': 'jwee@student.42seoul.kr',
+          'game_mode': this.mode
+        })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+
+      const data = await response.json();
+      return data.gameId; // JSON 결과에서 gameId 반환
+    } catch (error) {
+      console.error('Fetching error:', error);
+      return null; // 오류 발생 시 null 반환
+    }
+  }
+
+  async updatePlayersScore() {
     // if (this.state !== GameState.PLAY) {
     //   return
     // }
@@ -232,7 +257,7 @@ export default class PingPong {
       this.boardCoord.height / 2 - this.ball.coord.height / 2,
       this.boardCoord.width / 2 - this.ball.coord.width / 2
     );
-    setTimeout(() => {
+    setTimeout(async () => {
       if (
         this.player1.score >= this.scoreToWin ||
         this.player2.score >= this.scoreToWin
@@ -254,46 +279,18 @@ export default class PingPong {
         this.state = GameState.END;
         console.log('game end');
 
-// 모달 요소 선택
         const scoreModalElement = document.getElementById('scoreModal');
-
-        console.log(scoreModalElement);
-// 모달 인스턴스 생성
         const scoreModal = new bootstrap.Modal(scoreModalElement);
-
         scoreModal.show();
 
+        let gameId;
+        try {
+          gameId = await this.fetchGameResults(); // await 키워드 사용
+        } catch (error) {
+          console.error('Error in fetchGameResults:', error);
+        }
 
-// 게임 종료 시 모달 표시
-//         if (this.state === GameState.END) {
-          // 모달을 표시합니다.
-        // }
-
-        // 게임 결과 전송
-
-        fetch('http://localhost:8000/api/games/results', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MDIwMTQ3LCJpYXQiOjE3MDkwMTgzNDcsImp0aSI6ImEzOWNmMWNmZGRlZDQ1YjFiNzBiYmMwMDNiZjVjMTczIiwidXNlcl9pZCI6NH0.97NfEseNpfFUKbrQWTKAb7mUTMJR7yVzHmi9QyZL_Ss'},
-          body: JSON.stringify({
-            'winner': 'salee2@student.42seoul.kr',
-            'loser': 'null',
-            'game_mode': this.mode
-          })
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json(); // 여기서 응답을 JSON으로 변환
-          })
-          .then(data => {
-            console.log(data); // 변환된 데이터를 사용
-          })
-          .catch(error => {
-            console.error('Fetching error:', error);
-          });
+        console.log('here: ', gameId);
 
 
         if (this.onGameEnd) {
