@@ -1,5 +1,5 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { getDefaultPath, route, routes } from '../lib/router/router.js';
+import { route, routes } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
@@ -11,7 +11,7 @@ import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
 // state
-import { globalState, routeState, userState } from '../lib/state/state.js';
+import { routeState, userState } from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
@@ -62,7 +62,7 @@ function init() {
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp);
 
-      userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
+        userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       routeState.subscribe(checkLogin);
 
       //페이지 테스트 하기 위해서 여기서 기본 페이지를 라우팅 하면 됩니다.

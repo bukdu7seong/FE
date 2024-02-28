@@ -1,7 +1,49 @@
-// const username = document.getElementById('usernameInput').value;
-// const password = document.getElementById('passwordInput').value;
-// const email = document.getElementById('emailInput').value;
-
 export function signUp() {
-  //   handleSignUpClick(); // 회원가입 버튼 클릭 시 회원가입 요청
+  document
+    .getElementById('form-signup')
+    .addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+      const email = document.getElementById('emailInput').value;
+      const image = document.getElementById('imageInput').files[0];
+
+      const formData = new FormData(); // 파일 업로드가 필요한 경우, FormData 사용
+      formData.append('username', username);
+      formData.append('password', password);
+      formData.append('image', image);
+
+      console.log('formData:', formData);
+      async function requestSignUp() {
+        return await fetch('http://localhost:8000/api/account/signup', {
+          method: 'POST',
+          body: formData, // JSON 대신 formData 사용
+        })
+          .then((response) => {
+            console.log('response:', response);
+            if (response.status === 201) {
+              //   상태관리 함수에
+              userState.setState({
+                username: response.headers.get('access_token'),
+                access_token: response.headers.get('refresh_token'),
+                refresh_token: response.headers.get('user_id'),
+              });
+              // 쿠키에 저장하고, 프로필 페이지로 이동
+
+              console.log('response:', response);
+              return response.json();
+            }
+            throw Error(response.status);
+          })
+          .catch((e) => {
+            //400_BAD_REQUEST
+            if (e.status === 400) {
+              console.log('BAD_REQUEST', e);
+            } else {
+              console.log('UNSUPPORTED_MEDIA_TYPE', e);
+            }
+          });
+      }
+    });
 }

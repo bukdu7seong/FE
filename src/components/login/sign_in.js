@@ -18,11 +18,11 @@ async function requestLogin(credentials) {
 // [42 OAuth]
 function OAuth_42() {
   // DOMContentLoaded -> DOM이 로드되면 실행
-  const button = document.getElementById('42-OAuth-Button');
-  button.addEventListener('click', async function (e) {
+  const oAuth = document.getElementById('42-OAuth-Button');
+  oAuth.addEventListener('click', async function (e) {
     e.preventDefault(); // 폼의 기본 제출 동작을 막음
     console.log('42 Authenticator 버튼 클릭');
-    await fetch('http://localhost:8000/api/account/42oauth/', {
+    await fetch('http://localhost:8000/api/account/42oauth', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,38 +36,38 @@ function OAuth_42() {
   });
 }
 
-// [42 code] 백엔드로 전송
-async function postCode(code) {
-  await fetch('http://localhost:8000/api/code/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code: code }),
-  }).then((response) => {
-    console.log('postCode:', response);
-    if (response.status === 200) {
-      return response.json();
-    }
-  });
-}
+// // [42 code] 백엔드로 전송
+// async function postCode(code) {
+//   await fetch('http://localhost:8000/api/code/', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ code: code }),
+//   }).then((response) => {
+//     console.log('postCode:', response);
+//     if (response.status === 200) {
+//       return response.json();
+//     }
+//   });
+// }
 
-// [42 code] 요청
-async function fetchLocation() {
-  await fetch('https://api.intra.42.fr/oauth/authorize', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => {
-    console.log('fetchLocation:', response);
-    if (response.status === 200) {
-      postCode(response);
-    }
-  });
-}
+// // [42 code] 요청
+// async function fetchLocation() {
+//   await fetch('https://api.intra.42.fr/oauth/authorize', {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   }).then((response) => {
+//     console.log('fetchLocation:', response);
+//     if (response.status === 200) {
+//       postCode(response);
+//     }
+//   });
+// }
 
-// [로그인 버튼] 클릭 시 로그인 요청
+// [로그인 버튼]
 function handleSignInClick() {
   // [유저] ID와 PASSWORD 입력
   document
@@ -110,27 +110,16 @@ function handleSignInClick() {
     });
 }
 
+// [회원가입 버튼]
+function handleSignUpClick() {
+  const signUp = document.getElementById('sign-up');
+  signUp.addEventListener('click', function () {
+    route(routes, '/signup', true, false);
+  });
+}
+
 export function signIn() {
   handleSignInClick();
   handleSignUpClick();
   OAuth_42();
-}
-
-// [프론트 -> 백] 회원가입 요청
-async function requestSignup(credentials) {
-  console.log('username:', credentials.username);
-  console.log('email:', credentials.email);
-  console.log('password:', credentials.password);
-  return await fetch('http://localhost:8000/api/account/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-  });
-}
-
-// [회원가입 버튼] 클릭 시 회원가입 페이지로 이동
-function handleSignUpClick() {
-  route(routes, '/signup');
 }
