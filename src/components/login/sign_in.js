@@ -17,10 +17,9 @@ async function requestLogin(credentials) {
 
 // [42 OAuth]
 function OAuth_42() {
-  // DOMContentLoaded -> DOM이 로드되면 실행
   const oAuth = document.getElementById('42-OAuth-Button');
   oAuth.addEventListener('click', async function (e) {
-    e.preventDefault(); // 폼의 기본 제출 동작을 막음
+    e.preventDefault();
     console.log('42 Authenticator 버튼 클릭');
     await fetch('http://localhost:8000/api/account/42oauth', {
       method: 'GET',
@@ -28,10 +27,12 @@ function OAuth_42() {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
-        const url = data.url;
-        window.location.href = url;
+        console.log('data:', data);
+        // window.location.href = data.url;
       });
   });
 }
@@ -114,7 +115,7 @@ function handleSignInClick() {
 function handleSignUpClick() {
   const signUp = document.getElementById('sign-up');
   signUp.addEventListener('click', function () {
-    route(routes, '/signup', true, false);
+    route(routes, '/signup');
   });
 }
 

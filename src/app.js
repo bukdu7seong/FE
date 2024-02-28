@@ -62,7 +62,7 @@ function init() {
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp);
 
-        userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
+      userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       routeState.subscribe(checkLogin);
 
       //페이지 테스트 하기 위해서 여기서 기본 페이지를 라우팅 하면 됩니다.
