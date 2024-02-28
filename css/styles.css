@@ -35,6 +35,47 @@ body {
   width: 100vw;
 }
 
+/* 사이드바 반응형 */
+@media (max-width: 768px) {
+  .side-bar {
+    width: 6vw; /* 화면이 작을 때 사이드바 너비 줄이기 */
+    min-width: 50px; /* 최소 너비 조정 */
+  }
+
+  .menu-item {
+    width: 35px; /* 아이콘 크기 줄이기 */
+    height: 35px;
+    margin: 50px 0; /* 아이콘 간격 조정 */
+  }
+
+  .home,
+  .games,
+  .tournament,
+  .logout {
+    margin-bottom: 20px; /* 아이콘 예외 간격 조정 */
+  }
+}
+
+@media (max-width: 480px) {
+  .side-bar {
+    width: 15vw; /* 더 작은 화면에서 사이드바 너비 더 줄이기 */
+    min-width: 45px; /* 최소 너비 더 조정 */
+  }
+
+  .menu-item {
+    width: 30px; /* 더 작은 화면에서 아이콘 크기 더 줄이기 */
+    height: 30px;
+    margin: 40px 0; /* 더 작은 화면에서 아이콘 간격 더 조정 */
+  }
+
+  .home,
+  .games,
+  .tournament,
+  .logout {
+    margin-bottom: 15px; /* 더 작은 화면에서 아이콘 예외 간격 더 조정 */
+  }
+}
+
 /* 사이드바 */
 .side-bar {
   flex-shrink: 0; /* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 */
