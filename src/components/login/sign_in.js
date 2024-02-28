@@ -32,7 +32,7 @@ function OAuth_42() {
       })
       .then((data) => {
         console.log('data:', data);
-        // window.location.href = data.url;
+        window.location.href = data.url;
       });
   });
 }
