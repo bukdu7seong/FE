@@ -1,5 +1,5 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { getDefaultPath, route } from '../lib/router/router.js';
+import { firstRoute, getDefaultPath, route } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
 import { pageLogIn } from './pages/login/sign_in.js';
@@ -19,36 +19,36 @@ import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
 // state
 import { globalState, routeState, userState } from '../lib/state/state.js';
-import { updateUserBox } from '../lib/state/update.js';
+import { updateUserBox, updateUserInfo } from './utils/update.js';
 import { profile } from './components/profile/profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
-  '/login': { name: 'Login', page: pageLogIn, component: [], onRender: null },
+  '/login': { name: 'Login', page: pageLogIn, component: [], onRender: [] },
   '/signup': {
     name: 'Signup',
     page: pageSignUp,
     component: [],
-    onRender: null,
+    onRender: [],
   },
   '/profile': {
     name: 'Profile',
     page: pageProfile,
     component: [],
-    onRender: null,
+    onRender: [],
   },
-  '/game': { name: 'Game', page: pageGame, component: [], onRender: null },
+  '/game': { name: 'Game', page: pageGame, component: [], onRender: [] },
   '/tournament': {
     name: 'Tournament',
     page: pageTournament,
     component: [],
-    onRender: null,
+    onRender: [],
   },
   '/logout': {
     name: 'Logout',
     page: pageSwitch,
     component: [],
-    onRender: null,
+    onRender: [],
   },
 };
 
@@ -99,12 +99,14 @@ function init() {
 
       setOnRender(routes['/login'], login);
       setOnRender(routes['/signup'], signup);
-      setOnRender(routes['/profile'], profile);
+      setOnRender(routes['/profile'], profile, updateUserBox);
+      setOnRender(routes['/game'], updateUserBox);
+      setOnRender(routes['/tournament'], updateUserBox);
 
-      userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
+      userState.subscribe(updateUserInfo);
       routeState.subscribe(checkLogin);
 
-      route(routes, getDefaultPath(window.location.pathname, routes));
+      firstRoute(routes, getDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */
 
