@@ -31,7 +31,9 @@ export class successToast {
 
   handleHidden() {
     this.toastInstance._element.remove();
-    document.getElementById('successToast').remove();
+    if (document.getElementById('successToast')) {
+      document.getElementById('successToast').remove();
+    }
   }
 
   show() {

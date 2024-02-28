@@ -31,7 +31,9 @@ export class failureToast {
 
   handleHidden() {
     this.toastInstance._element.remove();
-    document.getElementById('failureToast').remove();
+    if (document.getElementById('failureToast')) {
+      document.getElementById('failureToast').remove();
+    }
   }
 
   show() {
