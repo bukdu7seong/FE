@@ -134,7 +134,7 @@ function init() {
 
       switch (currentRoute.currentRoute.name) {
         case 'Profile':
-          console.log('profile');
+          // console.log('profile');
           break;
         case 'Game':
           if (className === 'player-option') {
