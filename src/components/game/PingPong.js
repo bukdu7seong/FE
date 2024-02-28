@@ -221,7 +221,7 @@ export default class PingPong {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ...',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
         },
         body: JSON.stringify({
           'winner': 'jwee@student.42seoul.kr',
@@ -239,6 +239,34 @@ export default class PingPong {
       return null; // 오류 발생 시 null 반환
     }
   }
+
+  async sendPatchRequest(gameId) {
+    const data = {
+      "player2": "jwee2@student.42seoul.kr",
+    };
+
+    try {
+      const response = await fetch('http://localhost:8000/api/games/result/' + gameId + '/', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log('Response data:', responseData);
+      // 여기서 응답 데이터 처리
+    } catch (error) {
+      console.error('Error in sending PATCH request:', error);
+    }
+  }
+
 
   async updatePlayersScore() {
     // if (this.state !== GameState.PLAY) {
@@ -300,6 +328,7 @@ export default class PingPong {
           // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
         });
 
+        await this.sendPatchRequest(gameId);
 
         if (this.onGameEnd) {
           this.player1.initScore();
