@@ -7,8 +7,3 @@ services:
       - '4242:80'
     volumes:
       - ../:/usr/share/nginx/html
-
-  backend:
-    build: ./testBackend
-    ports:
-      - '3000:3000'
