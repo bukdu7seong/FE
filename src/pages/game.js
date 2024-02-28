@@ -150,7 +150,6 @@ export function pageBoard() {
                     <div class="d-grid gap-2">
                         <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()">Send Verification Code</button>
                     </div>
-
                     <!-- Verification code input -->
                     <div class="mb-3 mt-3">
                         <label for="verificationCodeInput" class="form-label">Verification Code</label>
@@ -169,5 +168,38 @@ export function pageBoard() {
 
   page.innerHTML = content;
 
+
+  function loadScript() {
+    let script = document.createElement('script');
+    script.src = 'src/pages/sendVerificationEmail.js'; // 스크립트 파일 경로
+    document.body.appendChild(script); // <head>에 스크립트 추가
+  }
+
+  loadScript(); // 스크립트 로드 함수 호출
+
+
   return page;
+}
+
+async function verifyCodeWithServer(code) {
+  try {
+    const response = await fetch('YOUR_SERVER_ENDPOINT', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code: code }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Server response was not ok.');
+    }
+
+    const data = await response.json();
+    // 검증 결과에 따라 추가 작업 수행
+    // 예: 사용자에게 성공 또는 실패 메시지 표시
+  } catch (error) {
+    console.error('Error verifying code:', error);
+    // 오류 처리
+  }
 }
