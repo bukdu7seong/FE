@@ -221,7 +221,7 @@ export default class PingPong {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTA4NjI5LCJpYXQiOjE3MDkxMDY4MjksImp0aSI6ImE0ZjYyNDYwN2Y2OTQyMGZhZWNiNWFlODMyYjRlOGY5IiwidXNlcl9pZCI6MX0.6IDmPXI5eUTvsp6DzxJhe-_0rF8d3_BjTX2l4DaDsnY',
+          'Authorization': 'Bearer ...',
         },
         body: JSON.stringify({
           'winner': 'jwee@student.42seoul.kr',
@@ -291,6 +291,14 @@ export default class PingPong {
         }
 
         console.log('here: ', gameId);
+
+        document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {
+          event.preventDefault(); // 폼의 기본 제출 동작 방지
+          const verificationCode = document.getElementById('verificationCodeInput').value;
+          // 여기에서 verificationCode를 사용
+          console.log('Entered Verification Code:', verificationCode);
+          // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
+        });
 
 
         if (this.onGameEnd) {
