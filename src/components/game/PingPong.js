@@ -43,7 +43,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2;
+    this.scoreToWin = 2000;
     this.onGameEnd = null;
     window.addEventListener('popstate', this.handlePopState.bind(this));
     this.timeoutId = null;
@@ -272,18 +272,12 @@ export default class PingPong {
 
   async updatePlayersScore() {
 
-    if (this.state !== GameState.PLAY) {
-      return
-    }
-
     if (this.ball.leftOut(this.boardCoord)) {
       this.player2.updateScore();
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
-    // this.state = GameState.READY;
-
-    // 왜 init만으로 안될까?
+    this.ball.hide();
     this.ball.init();
     this.ball.updateStyle(
       this.boardCoord.height / 2 - this.ball.coord.height / 2,
@@ -346,6 +340,7 @@ export default class PingPong {
         this.cleanUp();
       } else {
         // 목표 점수에 도달하지 않았다면 게임 재시작
+        this.ball.show();
         this.moveBall();
       }
     }, 0);
