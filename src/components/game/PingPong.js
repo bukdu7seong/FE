@@ -45,6 +45,8 @@ export default class PingPong {
     this.initGameState();
     this.scoreToWin = 2;
     this.onGameEnd = null;
+    window.addEventListener('popstate', this.handlePopState.bind(this));
+    this.timeoutId = null;
   }
 
   initPlayers(player1Name, player2Name) {
@@ -269,9 +271,11 @@ export default class PingPong {
 
 
   async updatePlayersScore() {
-    // if (this.state !== GameState.PLAY) {
-    //   return
-    // }
+
+    if (this.state !== GameState.PLAY) {
+      return
+    }
+
     if (this.ball.leftOut(this.boardCoord)) {
       this.player2.updateScore();
     } else if (this.ball.rightOut(this.boardCoord)) {
@@ -308,8 +312,10 @@ export default class PingPong {
         console.log('game end');
 
         const scoreModalElement = document.getElementById('scoreModal');
-        const scoreModal = new bootstrap.Modal(scoreModalElement);
-        scoreModal.show();
+        if (scoreModalElement) {
+          const scoreModal = new bootstrap.Modal(scoreModalElement);
+          scoreModal.show();
+        }
 
         let gameId;
         try {
@@ -320,13 +326,15 @@ export default class PingPong {
 
         console.log('here: ', gameId);
 
-        document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {
-          event.preventDefault(); // 폼의 기본 제출 동작 방지
-          const verificationCode = document.getElementById('verificationCodeInput').value;
-          // 여기에서 verificationCode를 사용
-          console.log('Entered Verification Code:', verificationCode);
-          // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
-        });
+        const emailVerificationForm = document.getElementById('emailVerificationForm');
+        if (emailVerificationForm) {
+          emailVerificationForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const verificationCode = document.getElementById('verificationCodeInput').value;
+            console.log('Entered Verification Code:', verificationCode);
+            // 서버로 검증 코드 전송 로직 추가
+          });
+        }
 
         await this.sendPatchRequest(gameId);
 
@@ -348,12 +356,33 @@ export default class PingPong {
     this.obstacles = []; // 장애물 배열도 비웁니다.
   }
 
+
+  handlePopState() {
+    this.cleanUp(); // 페이지 이동 시 클린업 작업 수행
+  }
+
   cleanUp() {
+    console.log('cleanUp()');
+    if (this.timeoutId !== null) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = null; // 타이머 ID 초기화
+    }
+
+    this.state = GameState.END;
+    // Cancel any animation frames
     cancelAnimationFrame(this.paddleFrame);
     cancelAnimationFrame(this.ball.ballFrame);
 
+    // Remove key event listeners
     document.removeEventListener('keydown', this.keyEnterHandler);
     document.removeEventListener('keydown', this.keyDownHandler);
     document.removeEventListener('keyup', this.keyUpHandler);
+
+    // Remove resize event listener
+    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('resize', this.pause);
+
+    // If any other custom event listeners were added, remove them here as well
   }
+
 }
