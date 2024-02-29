@@ -1,5 +1,10 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { firstRoute, getDefaultPath, route } from '../lib/router/router.js';
+import {
+  firstRoute,
+  setDefaultPath,
+  routeByState,
+  route,
+} from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
 import { pageLogIn } from './pages/login/sign_in.js';
@@ -106,7 +111,7 @@ function init() {
       userState.subscribe(updateUserInfo);
       routeState.subscribe(checkLogin);
 
-      firstRoute(routes, getDefaultPath(window.location.pathname, routes));
+      firstRoute(routes, setDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */
 
@@ -124,11 +129,12 @@ function init() {
     /* *********************** 뒤로가기 **********************************/
     // window.addEventListener() -> 브라우저의 이벤트를 수신하는 함수
     window.addEventListener('popstate', () => {
-      route(routes, window.location.pathname, false);
+      route(routes, routeByState(), false);
     });
     /* *************************************************************** */
 
     /* *************** 페이지 내 화면 클릭 시 동작 정의 ***********************/
+    // game, tournament도 onRender에 함수를 호출하게 하면 될 것 같다. 버튼으로 만들고...
     window.onclick = function (event) {
       const currentRoute = routeState.getState();
       const clickedElement = event.target;
