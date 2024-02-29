@@ -1,0 +1,22 @@
+.dash {
+  color: white;
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.icon-2fa {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+  fill: white;
+}
+
+.btn-outline-light {
+  border-radius: 50px;
+}

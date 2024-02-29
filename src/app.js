@@ -59,7 +59,7 @@ function init() {
       setComponent(routes['/tournament'], sidebar(routes), userBox());
 
       setOnRender(routes['/login'], signIn);
-      setOnRender(routes['/signup'], signUp);
+      setOnRender(routes['/signup'], signUp); // 페이지 로딩 시, 실행할 함수를 설정
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       //   routeState.subscribe(checkLogin);
@@ -107,7 +107,7 @@ function init() {
           if (className === 'player-option') {
             // modal을 클릭하는 것으로 변경해야 한다.
             renderPage(pageBoard(), 'game-box');
-			gameState.setState({ gameType: '' });
+            gameState.setState({ gameType: '' });
             // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
             const pongGame = new PingPong('object', 'salee2', 'gychoi');
             pongGame.startGame();
