@@ -12,10 +12,15 @@ import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
 import { login } from './components/login/login.js';
 // state
-import { globalState, routeState, userState } from '../lib/state/state.js';
+import {
+  gameState,
+  globalState,
+  routeState,
+  userState,
+} from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
 // game
-import PingPong from './components/game/PingPong.js';
+import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
 
@@ -82,7 +87,6 @@ function hideModal() {
   }
 }
 
-
 function init() {
   // 로그인 체크 로직
   // 1. local storage에 토큰이 있는지 확인
@@ -103,14 +107,15 @@ function init() {
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       // routeState.subscribe(checkLogin);
+      gameState.subscribe(setGameCondition);
 
       route(routes, getDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */
 
-  /* ****************** resize 관련 코드 *******************************/
-  // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
-  window.addEventListener('resize', checkWindowSize);
+    /* ****************** resize 관련 코드 *******************************/
+    // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
+    // window.addEventListener('resize', checkWindowSize);
 
     // navigation 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
     // 네비게이션 시 발생할 이벤트를 정의하므로, 단순 페이지 리사이즈 말고도 여러 방식으로 사용할 수 있을듯.
@@ -154,10 +159,16 @@ function init() {
                 break;
               }
             }
-              hideModal();
-              renderPage(pageBoard(), 'game-box');
-              const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
-              pongGame.startGame();
+            hideModal();
+            renderPage(pageBoard(), 'game-box');
+            gameState.setState(
+              {
+                currentGame: new PingPong(selectedMode, 'salee2', player2Name),
+              },
+              false
+            );
+            gameState.setState({ currentGameStatus: 'start' }, false);
+            gameState.getState().currentGame.startGame();
           }
           break;
         case 'Tournament':
@@ -176,7 +187,5 @@ function init() {
     console.log('app.js: ', e);
   }
 }
-
-
 
 init();

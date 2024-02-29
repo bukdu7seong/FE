@@ -1,18 +1,19 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
+import { gameState } from '../../../lib/state/state.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
   MOVE_DOWN_PLAYER1: 'KeyS',
   MOVE_UP_PLAYER2: 'ArrowUp',
-  MOVE_DOWN_PLAYER2: 'ArrowDown'
+  MOVE_DOWN_PLAYER2: 'ArrowDown',
 };
 
 const GameMode = {
   NORMAL: 'normal',
   SPEED: 'speed',
-  OBJECT: 'object'
+  OBJECT: 'object',
 };
 
 export const GameState = {
@@ -20,7 +21,7 @@ export const GameState = {
   PLAY: 'play',
   END: 'end',
   OVER: 'over',
-  PAUSED: 'paused'
+  PAUSED: 'paused',
 };
 
 export default class PingPong {
@@ -121,9 +122,9 @@ export default class PingPong {
       // 보드 내에서 볼의 위치를 업데이트
       this.ball.updateStyle(boardCenterTop, boardCenterLeft);
       // 패들의 높이를 계산 (예시: 패들의 높이가 100px라고 가정)
-      const paddleHeight = 100;  // 실제 패들의 높이에 맞게 조정 필요
+      const paddleHeight = 100; // 실제 패들의 높이에 맞게 조정 필요
       // 보드 중앙에 패들을 위치시키기 위한 top 값 계산
-      const paddleTopPosition = (this.boardCoord.height / 2) - (paddleHeight / 2);
+      const paddleTopPosition = this.boardCoord.height / 2 - paddleHeight / 2;
       // 패들 위치 업데이트
       this.player1.paddle.style.top = `${paddleTopPosition}px`;
       this.player2.paddle.style.top = `${paddleTopPosition}px`;
@@ -133,12 +134,12 @@ export default class PingPong {
       this.state = GameState.PAUSED;
       cancelAnimationFrame(this.paddleFrame);
       cancelAnimationFrame(this.ball.ballFrame);
-      this.obstacles.forEach(obstacle => {
+      this.obstacles.forEach((obstacle) => {
         if (obstacle.animationFrameId) {
           cancelAnimationFrame(obstacle.animationFrameId);
         }
       });
-      this.obstacles.forEach(obstacle => obstacle.hide());
+      this.obstacles.forEach((obstacle) => obstacle.hide());
     };
 
     this.resume = (e) => {
@@ -147,7 +148,7 @@ export default class PingPong {
         this.movePaddles();
         this.moveBall();
         if (this.mode === GameMode.OBJECT) {
-          this.obstacles.forEach(obstacle => {
+          this.obstacles.forEach((obstacle) => {
             obstacle.areaBounds = this.boardCoord;
             obstacle.initPosition();
             obstacle.show();
@@ -158,7 +159,7 @@ export default class PingPong {
               this.obstacles.push(obstacle);
             }
           } else {
-            this.obstacles.forEach(obstacle => {
+            this.obstacles.forEach((obstacle) => {
               obstacle.move();
             });
           }
@@ -223,12 +224,13 @@ export default class PingPong {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
         },
         body: JSON.stringify({
-          'winner': 'jwee@student.42seoul.kr',
-          'game_mode': this.mode
-        })
+          winner: 'jwee@student.42seoul.kr',
+          game_mode: this.mode,
+        }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
@@ -244,18 +246,22 @@ export default class PingPong {
 
   async sendPatchRequest(gameId) {
     const data = {
-      "player2": "jwee2@student.42seoul.kr",
+      player2: 'jwee2@student.42seoul.kr',
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/games/result/' + gameId + '/', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        'http://localhost:8000/api/games/result/' + gameId + '/',
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -269,9 +275,7 @@ export default class PingPong {
     }
   }
 
-
   async updatePlayersScore() {
-
     if (this.ball.leftOut(this.boardCoord)) {
       this.player2.updateScore();
     } else if (this.ball.rightOut(this.boardCoord)) {
@@ -320,15 +324,17 @@ export default class PingPong {
 
         console.log('here: ', gameId);
 
-        const emailVerificationForm = document.getElementById('emailVerificationForm');
-        if (emailVerificationForm) {
-          emailVerificationForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const verificationCode = document.getElementById('verificationCodeInput').value;
+        document
+          .getElementById('emailVerificationForm')
+          .addEventListener('submit', function (event) {
+            event.preventDefault(); // 폼의 기본 제출 동작 방지
+            const verificationCode = document.getElementById(
+              'verificationCodeInput'
+            ).value;
+            // 여기에서 verificationCode를 사용
             console.log('Entered Verification Code:', verificationCode);
-            // 서버로 검증 코드 전송 로직 추가
+            // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
           });
-        }
 
         await this.sendPatchRequest(gameId);
 
@@ -350,7 +356,6 @@ export default class PingPong {
     this.obstacles.forEach((obstacle) => obstacle.remove());
     this.obstacles = []; // 장애물 배열도 비웁니다.
   }
-
 
   handlePopState() {
     this.cleanUp(); // 페이지 이동 시 클린업 작업 수행
@@ -379,5 +384,16 @@ export default class PingPong {
 
     // If any other custom event listeners were added, remove them here as well
   }
+}
 
+export function setGameCondition() {
+  const currentGame = gameState.getState().currentGame;
+
+  if (!currentGame) {
+    return;
+  }
+
+  currentGame.cleanUp();
+  gameState.setState({ currentGame: null });
+  gameState.setState({ currentGameStatus: 'idle' });
 }
