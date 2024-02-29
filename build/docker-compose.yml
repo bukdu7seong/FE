@@ -7,8 +7,3 @@ services:
       - '4242:80'
     volumes:
       - ../:/usr/share/nginx/html
-
-  websocket:
-    build: ./socketTest
-    ports:
-      - '8080:8080'
