@@ -1,5 +1,5 @@
 // app.js는 브라우저가 새로고침 될 때마다 실행.
-import { route, routes } from '../lib/router/router.js';
+import { route, routes, getDefaultPath } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
@@ -9,9 +9,8 @@ import { signUp } from './components/login/sign_up.js';
 // game
 import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
-import { checkLogin } from './utils/checkLogin.js';
 // state
-import { routeState, userState } from '../lib/state/state.js';
+import { gameState, routeState, userState } from '../lib/state/state.js';
 import { updateUserBox } from '../lib/state/update.js';
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
@@ -63,11 +62,16 @@ function init() {
       setOnRender(routes['/signup'], signUp);
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
-      routeState.subscribe(checkLogin);
+      //   routeState.subscribe(checkLogin);
 
+      console.log('onload');
       //페이지 테스트 하기 위해서 여기서 기본 페이지를 라우팅 하면 됩니다.
-      route(routes, '/login', true, false);
-      //   route(routes, getDefaultPath(window.location.pathname, routes));
+      if (window.location.pathname === '/') {
+        route(routes, getDefaultPath(), true, false);
+      } else {
+        localStorage.setItem('code', window.location.search);
+        route(routes, window.location.pathname, true, false);
+      }
     };
     /* *************************************************************** */
 
@@ -103,6 +107,7 @@ function init() {
           if (className === 'player-option') {
             // modal을 클릭하는 것으로 변경해야 한다.
             renderPage(pageBoard(), 'game-box');
+			gameState.setState({ gameType: '' });
             // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
             const pongGame = new PingPong('object', 'salee2', 'gychoi');
             pongGame.startGame();
