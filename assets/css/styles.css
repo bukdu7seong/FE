@@ -37,6 +37,7 @@ body {
 
 /* Bootstrap 오버로딩 스타일 */
 
+/* Button */
 .btn.btn-outline-light {
   background-color: #131313;
 }
@@ -58,6 +59,7 @@ body {
   background-color: #bb2d3b;
 }
 
+/* Modal */
 .modal-header {
   border-bottom: none;
 }
@@ -83,4 +85,11 @@ body {
 }
 .modal-footer {
   border-top: none;
+}
+
+/* Dropdown */
+.dropdown-menu-dark {
+  background-color: #171717;
+  color: #faf2dd;
+  border: 1px solid green;
 }
