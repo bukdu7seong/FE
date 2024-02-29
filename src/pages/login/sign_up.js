@@ -25,6 +25,16 @@ export function pageSignUp() {
 			  />
 			  <label for="passwordInput" class="text-secondary">비밀번호</label>
 			</div>
+			<div class="form-floating mb-3">
+			  <input
+				type="email"
+				class="form-control"
+				id="emailInput"
+				placeholder="name@example.com"
+				required
+			  />
+			  <label for="emailInput" class="text-secondary">이메일</label>
+			</div>
 			<div class="mb-3">
 			  <label for="imageInput" class="form-label text-secondary">프로필 이미지 선택</label>
 			  <input
@@ -33,6 +43,10 @@ export function pageSignUp() {
 				id="imageInput"
 				accept="image/*"
 			  />
+			</div>
+			<div class="form-group">
+				<input type="checkbox" id="agree" name="agree">
+				<label for="agree"><a href="privacy_policy.html" target="_blank">개인정보 처리방침</a>에 동의합니다.</label>
 			</div>
 			<button type="submit" class="btn btn-outline-light form-signup">
 			  Sign Up
