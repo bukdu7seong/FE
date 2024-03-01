@@ -161,14 +161,8 @@ function init() {
             }
             hideModal();
             renderPage(pageBoard(), 'game-box');
-            gameState.setState(
-              {
-                currentGame: new PingPong(selectedMode, 'salee2', player2Name),
-              },
-              false
-            );
-            gameState.setState({ currentGameStatus: 'start' }, false);
-            gameState.getState().currentGame.startGame();
+            const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
+            pongGame.startGame();
           }
           break;
         case 'Tournament':
