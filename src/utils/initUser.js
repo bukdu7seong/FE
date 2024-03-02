@@ -2,10 +2,10 @@ import { globalState, userState } from '../../lib/state/state.js';
 
 // API를 통해 받아와야 하지만 일단은 임시적인 부분.
 const tempImages = [
-  '../../images/profile/profile_01.jpg',
-  '../../images/profile/profile_02.jpg',
-  '../../images/profile/profile_03.jpg',
-  '../../images/profile/profile_04.jpg',
+  '../../assets/images/profile/profile_01.jpg',
+  '../../assets/images/profile/profile_02.jpg',
+  '../../assets/images/profile/profile_03.jpg',
+  '../../assets/images/profile/profile_04.jpg',
 ];
 const tempData = {
   userImageUrl: tempImages[Math.floor(Math.random() * tempImages.length)],

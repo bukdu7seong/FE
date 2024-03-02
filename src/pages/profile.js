@@ -1,12 +1,12 @@
 const playerProfile = `
   <div class="profile-photo">
-    <img src="../images/profile/default.png" alt="profile photo">
+    <img src="../assets/images/profile/default.png" alt="profile photo">
   </div>
   <div class="profile-info">
     <div class="profile-name">
       <span>Player name</span>
       <button class="edit-profile-btn" id="changeUserName">
-        <img src="../images/icon/pencil-fill.svg" alt="edit profile">
+        <img src="../assets/images/icon/pencil-fill.svg" alt="edit profile">
       </button>
     </div>
     <div class="photo-upload">
@@ -38,11 +38,11 @@ const playerHistory = `
       <li>
         <div class="history-item">
           <div class="history-icon">
-            <img src="../images/icon/hand-thumbs-up-fill.svg" alt="hand thumbs up">
+            <img src="../assets/images/icon/hand-thumbs-up-fill.svg" alt="hand thumbs up">
           </div>
           <div class="history-user-info">
             <div class="history-user-photo">
-              <img src="../images/profile/default.png" alt="history user photo">
+              <img src="../assets/images/profile/default.png" alt="history user photo">
             </div>
             <div class="history-info-wrapper">
               <div class="history-user-name">
@@ -61,11 +61,11 @@ const playerHistory = `
       <li>
         <div class="history-item">
           <div class="history-icon">
-            <img src="../images/icon/hand-thumbs-down-fill.svg" alt="hand thumbs up">
+            <img src="../assets/images/icon/hand-thumbs-down-fill.svg" alt="hand thumbs up">
           </div>
           <div class="history-user-info">
             <div class="history-user-photo">
-              <img src="../images/profile/default.png" alt="history user photo">
+              <img src="../assets/images/profile/default.png" alt="history user photo">
             </div>
             <div class="history-info-wrapper">
               <div class="history-user-name">
@@ -99,7 +99,7 @@ const friendList = `
           <div class="login-status login"></div>
           <div class="friend-info">
             <div class="friend-photo">
-              <img src="../images/profile/default.png" alt="friend photo">
+              <img src="../assets/images/profile/default.png" alt="friend photo">
             </div>
             <div class="friend-name">
               <span>Default Friend</span>
@@ -115,7 +115,7 @@ const friendList = `
           <div class="login-status logout"></div>
           <div class="friend-info">
             <div class="friend-photo">
-              <img src="../images/profile/default.png" alt="friend photo">
+              <img src="../assets/images/profile/default.png" alt="friend photo">
             </div>
             <div class="friend-name">
               <span>Default Friend</span>
@@ -143,7 +143,7 @@ const friendRequest = `
         <div class="friend-request-item">
           <div class="friend-request-info">
             <div class="friend-request-photo">
-              <img src="../images/profile/default.png" alt="friend request photo">
+              <img src="../assets/images/profile/default.png" alt="friend request photo">
             </div>
             <div class="friend-request-name">
               <span>Default Friend</span>
@@ -151,10 +151,10 @@ const friendRequest = `
           </div>
           <div class="friend-request-btn">
             <button type="button" class="btn btn-success">
-              <img src="../images/icon/check-lg.svg" alt="accept">
+              <img src="../assets/images/icon/check-lg.svg" alt="accept">
             </button>
             <button type="button" class="btn btn-danger">
-              <img src="../images/icon/x-lg.svg" alt="decline">
+              <img src="../assets/images/icon/x-lg.svg" alt="decline">
             </button>
           </div>
           <div class="friend-request-profile">
@@ -166,7 +166,7 @@ const friendRequest = `
         <div class="friend-request-item">
           <div class="friend-request-info">
             <div class="friend-request-photo">
-              <img src="../images/profile/default.png" alt="friend request photo">
+              <img src="../assets/images/profile/default.png" alt="friend request photo">
             </div>
             <div class="friend-request-name">
               <span>Default Friend</span>
@@ -174,10 +174,10 @@ const friendRequest = `
           </div>
           <div class="friend-request-btn">
             <button type="button" class="btn btn-success">
-              <img src="../images/icon/check-lg.svg" alt="accept">
+              <img src="../assets/images/icon/check-lg.svg" alt="accept">
             </button>
             <button type="button" class="btn btn-danger">
-              <img src="../images/icon/x-lg.svg" alt="decline">
+              <img src="../assets/images/icon/x-lg.svg" alt="decline">
             </button>
           </div>
           <div class="friend-request-profile">
@@ -208,7 +208,7 @@ const setting = `
     <div class="setting-option">
       <label for="language">Select language</label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
-        <img src="../images/icon/globe2.svg" alt="language">
+        <img src="../assets/images/icon/globe2.svg" alt="language">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
         <li class="dropdown-item" id="lang-ko">Korean</li>
