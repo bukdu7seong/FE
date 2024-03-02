@@ -1,3 +1,5 @@
+import { gameState } from '../../lib/state/state.js';
+
 export function pageGame() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -77,14 +79,32 @@ export function pageGame() {
       `;
   page.innerHTML = content;
 
+  gameState.setState({ currentGameStatus: 'idle' });
   let gameBox = page.querySelector('#game');
-  let gameSettingModalButton = page.querySelector('button[data-bs-toggle="modal"]');
+  let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
+    keyboard: false
+  });
+  let startGameButton = page.querySelector('#startGameButton');
 
-  gameBox.addEventListener('click', function() {
-    gameSettingModalButton.click(); // 내부 버튼의 클릭 이벤트를 트리거합니다.
+  startGameButton.addEventListener('click', function() {
+    gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
+    gameSettingModal.hide(); // 모달을 숨깁니다.
   });
 
-  // 이벤트 리스너 제거?
+  // game-box 클릭 이벤트
+  gameBox.addEventListener('click', function() {
+    if (gameState.getState().currentGameStatus === 'idle') {
+      gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
+    }
+  });
+
+  // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
+  function removeGameBoxListener() {
+    gameBox.removeEventListener('click', function() {
+      gameSettingModal.show();
+    });
+  }
+
   return page;
 }
 
