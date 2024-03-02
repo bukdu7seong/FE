@@ -44,7 +44,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2000;
+    this.scoreToWin = 2;
     this.onGameEnd = null;
     window.addEventListener('popstate', this.handlePopState.bind(this));
     this.timeoutId = null;
@@ -288,7 +288,7 @@ export default class PingPong {
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
-    this.ball.hide();
+    // this.ball.hide();
     this.ball.init();
     this.ball.updateStyle(
       this.boardCoord.height / 2 - this.ball.coord.height / 2,
@@ -322,28 +322,28 @@ export default class PingPong {
           scoreModal.show();
         }
 
-        let gameId;
-        try {
-          gameId = await this.fetchGameResults(); // await 키워드 사용
-        } catch (error) {
-          console.error('Error in fetchGameResults:', error);
-        }
+        // let gameId;
+        // try {
+        //   gameId = await this.fetchGameResults(); // await 키워드 사용
+        // } catch (error) {
+        //   console.error('Error in fetchGameResults:', error);
+        // }
 
-        console.log('here: ', gameId);
+        // console.log('here: ', gameId);
 
-        document
-          .getElementById('emailVerificationForm')
-          .addEventListener('submit', function (event) {
-            event.preventDefault(); // 폼의 기본 제출 동작 방지
-            const verificationCode = document.getElementById(
-              'verificationCodeInput'
-            ).value;
-            // 여기에서 verificationCode를 사용
-            console.log('Entered Verification Code:', verificationCode);
-            // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
-          });
-
-        await this.sendPatchRequest(gameId);
+        // document
+        //   .getElementById('emailVerificationForm')
+        //   .addEventListener('submit', function (event) {
+        //     event.preventDefault(); // 폼의 기본 제출 동작 방지
+        //     const verificationCode = document.getElementById(
+        //       'verificationCodeInput'
+        //     ).value;
+        //     // 여기에서 verificationCode를 사용
+        //     console.log('Entered Verification Code:', verificationCode);
+        //     // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
+        //   });
+        //
+        // await this.sendPatchRequest(gameId);
 
         if (this.onGameEnd) {
           this.player1.initScore();
@@ -379,6 +379,7 @@ export default class PingPong {
     // Cancel any animation frames
     cancelAnimationFrame(this.paddleFrame);
     cancelAnimationFrame(this.ball.ballFrame);
+    this.ball.init();
 
     // Remove key event listeners
     document.removeEventListener('keydown', this.keyEnterHandler);

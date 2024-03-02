@@ -70,20 +70,20 @@ export function pageTournament() {
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="normalMode" checked>
-                                <label class="form-check-label" for="normalMode">
+                                <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
+                                <label class="form-check-label" for="normal">
                                     Normal Mode
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="speedMode">
-                                <label class="form-check-label" for="speedMode">
+                                <input class="form-check-input" type="radio" name="gameMode" id="speed">
+                                <label class="form-check-label" for="speed">
                                     Speed Mode
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="objectMode">
-                                <label class="form-check-label" for="objectMode">
+                                <input class="form-check-input" type="radio" name="gameMode" id="object">
+                                <label class="form-check-label" for="object">
                                     Object Mode
                                 </label>
                             </div>
@@ -100,6 +100,36 @@ export function pageTournament() {
 
           </div>
         </div>
+        
+        <div class="modal fade" id="tournamentRoundModal" tabindex="-1" aria-labelledby="tournamentRoundModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="tournamentRoundModalLabel">TOURNAMENT ROUND 1</h5>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-center">
+                        <div class="h6">Player 1</div>
+                        <input type="text" class="form-control bg-secondary text-white" id="player1-name" value="joyoujeo" readonly>
+                    </div>
+                    <div class="text-center">
+                        <div class="h6">Player 2</div>
+                        <input type="text" class="form-control bg-secondary text-white" id="player2-name" value="gychoi" readonly>
+                    </div>
+                </div>
+                <div class="text-center my-3">
+                    <h6>Are you ready?</h6>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-lg btn-success" id="startRoundButton">START</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
       `;
   page.innerHTML = content;
 
@@ -108,9 +138,9 @@ export function pageTournament() {
   let tournamentSettingModal = new bootstrap.Modal(page.querySelector('#tournamentSettingModal'), {
     keyboard: false
   });
-  let startGameButton = page.querySelector('#startTournamentButton');
+  let startTournamentButton = page.querySelector('#startTournamentButton');
 
-  startGameButton.addEventListener('click', function() {
+  startTournamentButton.addEventListener('click', function() {
     gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
     tournamentSettingModal.hide(); // 모달을 숨깁니다.
   });
@@ -123,7 +153,6 @@ export function pageTournament() {
   });
 
   // 이벤트 리스너 제거?
-
 
   return page;
 }

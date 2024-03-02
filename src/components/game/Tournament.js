@@ -30,6 +30,10 @@ export default class Tournament {
           this.playerNames[1]
         );
         this.semiFinalA.onGameEnd = () => this.tournamentStart();
+
+        // 라운드1에 대한 정보로 모달 표시
+        showTournamentRoundModal(1, this.playerNames[0], this.playerNames[1]);
+
         this.semiFinalA.startGame();
       }
       if (this.semiFinalA.state === GameState.END) {
@@ -47,6 +51,9 @@ export default class Tournament {
           this.playerNames[3]
         );
         this.semiFinalB.onGameEnd = () => this.tournamentStart();
+        // 라운드2에 대한 정보로 모달 표시
+        showTournamentRoundModal(2, this.playerNames[2], this.playerNames[3]);
+
         this.semiFinalB.startGame();
       }
       if (this.semiFinalB.state === GameState.END) {
@@ -64,6 +71,9 @@ export default class Tournament {
           this.finalist[1]
         );
         this.final.onGameEnd = () => this.tournamentStart();
+        // 라운드3에 대한 정보로 모달 표시
+        showTournamentRoundModal(3, this.finalist[0], this.finalist[1]);
+
         this.final.startGame();
       }
       if (this.final.state === 'end') {
@@ -71,4 +81,17 @@ export default class Tournament {
       }
     }
   }
+}
+
+function showTournamentRoundModal(round, player1, player2) {
+  // 라운드 정보 업데이트
+  document.getElementById('tournamentRoundModalLabel').textContent = 'TOURNAMENT ROUND ' + round;
+
+  // 플레이어 이름 업데이트
+  document.getElementById('player1-name').value = player1;
+  document.getElementById('player2-name').value = player2;
+
+  // 모달 표시
+  let tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'));
+  tournamentRoundModal.show();
 }
