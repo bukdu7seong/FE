@@ -108,7 +108,6 @@ function init() {
       setOnRender(routes['/game'], updateUserBox);
       setOnRender(routes['/tournament'], updateUserBox);
 
-      userState.subscribe(updateUserInfo);
       routeState.subscribe(checkLogin);
 
       firstRoute(routes, setDefaultPath(window.location.pathname, routes));
