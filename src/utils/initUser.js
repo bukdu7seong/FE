@@ -1,4 +1,5 @@
 import { globalState, userState } from '../../lib/state/state.js';
+import { connectWebSocket } from './connectSocket.js';
 
 // API를 통해 받아와야 하지만 일단은 임시적인 부분.
 const tempImages = [
@@ -12,7 +13,7 @@ const tempData = {
   userName: 'Guest',
 }; // getUserData() 로 대체해야 함
 
-export function initUserInfo() {
+export async function initUserInfo() {
   const loginState = globalState.getState().isLoggedIn;
   if (!loginState) {
     return;
@@ -23,14 +24,27 @@ export function initUserInfo() {
   const userData = tempData;
 
   // user data를 받아오고 나서, 유효성 검증을 해야 한다
-  // XSS 공격 방지 필요
+  // XSS 공격 방지 필요: username, userImageUrl(base64)
 
   userState.setState(
     {
       userImageUrl: userData.userImageUrl,
       userName: userData.userName,
-      userSocket: new WebSocket('ws://localhost:8080'),
     },
     false
   );
+
+  connectWebSocket()
+    .then((webSocket) => {
+      userState.setState(
+        {
+          userSocket: webSocket,
+        },
+        false
+      );
+      console.log('Websocket connected:', webSocket);
+    })
+    .catch((error) => {
+      console.error('Websocket failed:', error);
+    });
 }
