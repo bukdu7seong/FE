@@ -70,9 +70,6 @@ export function pageGame() {
     </div>
 </div>
 
-
-
-
           </div>
           
         </div>
@@ -99,11 +96,14 @@ export function pageGame() {
   });
 
   // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
-  function removeGameBoxListener() {
-    gameBox.removeEventListener('click', function() {
-      gameSettingModal.show();
-    });
-  }
+  // function removeGameBoxListener() {
+  //   gameBox.removeEventListener('click', function() {
+  //     gameSettingModal.show();
+  //   });
+  // }
+
+  page.appendChild(createScoreModal());
+  page.appendChild(createEmail2faModal());
 
   return page;
 }
@@ -111,6 +111,15 @@ export function pageGame() {
 export function pageBoard() {
   const page = document.createElement('div');
   page.setAttribute('class', 'board');
+  let scoreModalElement = createScoreModal();
+  page.appendChild(scoreModalElement);
+  // let scoreModal = new bootstrap.Modal(document.getElementById('scoreModal'));
+
+  let email2faModalElement = createEmail2faModal();
+  page.appendChild(email2faModalElement);
+  // let email2faModal = new bootstrap.Modal(document.getElementById('email2faModal'));
+
+
   const content = `
       <div class="ball">
         <div class="ball_effect"></div>
@@ -121,75 +130,9 @@ export function pageBoard() {
       <div class="player_2_score">0</div>
       <div class="message">Press Enter to Play Pong</div>
       
-<!-- Score Modal -->
-<div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header border-0">
-                <h1 class="modal-title fs-1 w-100 text-center" id="scoreModalLabel">SCORE</h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <!-- Winner section -->
-                <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-success rounded-pill px-3 me-2">WIN</span>
-                    <img src="1.jpg" class="rounded-circle me-2" alt="Anna Clarke" style="width: 50px; height: 50px;">
-                    <span class="fw-bold flex-grow-1">Anna Clarke</span>
-                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
-                </div>
-                <!-- Loser section -->
-                <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-secondary rounded-pill px-3 me-2">LOSE</span>
-                    <div class="bg-light rounded-circle me-2" style="width: 50px; height: 50px;"></div>
-                    <span class="fw-bold flex-grow-1">Player 2</span>
-                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
-                </div>
-            </div>
-
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal">SAVE SCORE</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="email2faModal" aria-hidden="true" aria-labelledby="email2faModalLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="emailVerificationForm">
-                    <!-- Email address input -->
-                    <div class="mb-3">
-                        <label for="emailInput" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()">Send Verification Code</button>
-                    </div>
-                    <!-- Verification code input -->
-                    <div class="mb-3 mt-3">
-                        <label for="verificationCodeInput" class="form-label">Verification Code</label>
-                        <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">Submit Verification Code</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
     `;
 
   page.innerHTML = content;
-
 
   function loadScript() {
     let script = document.createElement('script');
@@ -225,3 +168,84 @@ async function verifyCodeWithServer(code) {
     // 오류 처리
   }
 }
+
+
+function createScoreModal() {
+  const scoreModal = document.createElement('div');
+  scoreModal.className = 'modal fade';
+  scoreModal.id = 'scoreModal';
+  scoreModal.tabIndex = -1;
+  scoreModal.setAttribute('aria-labelledby', 'scoreModalLabel');
+  scoreModal.setAttribute('aria-hidden', 'true');
+  scoreModal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+                <h1 class="modal-title fs-1 w-100 text-center" id="scoreModalLabel">SCORE</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Winner section -->
+                <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
+                    <span class="badge bg-success rounded-pill px-3 me-2">WIN</span>
+                    <img src="1.jpg" class="rounded-circle me-2" alt="Anna Clarke" style="width: 50px; height: 50px;">
+                    <span class="fw-bold flex-grow-1">Anna Clarke</span>
+                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
+                </div>
+                <!-- Loser section -->
+                <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
+                    <span class="badge bg-secondary rounded-pill px-3 me-2">LOSE</span>
+                    <div class="bg-light rounded-circle me-2" style="width: 50px; height: 50px;"></div>
+                    <span class="fw-bold flex-grow-1">Player 2</span>
+                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal">SAVE SCORE</button>
+            </div>
+      </div>
+    </div>`;
+  return scoreModal;
+}
+
+function createEmail2faModal() {
+  const email2faModal = document.createElement('div');
+  email2faModal.className = 'modal fade';
+  email2faModal.id = 'email2faModal';
+  email2faModal.tabIndex = -1;
+  email2faModal.setAttribute('aria-labelledby', 'email2faModalLabel');
+  email2faModal.setAttribute('aria-hidden', 'true');
+  email2faModal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+<div class="modal-header">
+                <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="emailVerificationForm">
+                    <!-- Email address input -->
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()">Send Verification Code</button>
+                    </div>
+                    <!-- Verification code input -->
+                    <div class="mb-3 mt-3">
+                        <label for="verificationCodeInput" class="form-label">Verification Code</label>
+                        <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Submit Verification Code</button>
+                    </div>
+                </form>
+            </div>
+      </div>
+    </div>`;
+  return email2faModal;
+}
+
