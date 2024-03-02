@@ -5,22 +5,16 @@ export function pageGame() {
         <div class="side-bar"></div>
         <div class="main-box">
           <div class="user-box"></div>
-          <div class="game-box">
+          <div class="game-box" id='game'>
             <p class="header-pong">PONG</p>
             <p class="header-classic">CLASSIC</p>
             <div class="player-container">
               <div class="player-option" id="player1">PLAYER 1</div>
               <div class="divider"></div>
-              <div class="player-option" id="player2">
-                       <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"> PLAYER 2
-</button>
-            
-              </div>
+              <div class="player-option" id="player2">PLAYER 2</div>
             </div>
-          
- 
-
-
+            
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
 <div class="modal fade" id="gameSettingModal" tabindex="-1" aria-labelledby="gameSettingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -83,6 +77,14 @@ export function pageGame() {
       `;
   page.innerHTML = content;
 
+  let gameBox = page.querySelector('#game');
+  let gameSettingModalButton = page.querySelector('button[data-bs-toggle="modal"]');
+
+  gameBox.addEventListener('click', function() {
+    gameSettingModalButton.click(); // 내부 버튼의 클릭 이벤트를 트리거합니다.
+  });
+
+  // 이벤트 리스너 제거?
   return page;
 }
 
