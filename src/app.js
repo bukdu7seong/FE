@@ -23,8 +23,8 @@ import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
 // state
-import { globalState, routeState, userState } from '../lib/state/state.js';
-import { updateUserBox, updateUserInfo } from './utils/updateUser.js';
+import { routeState, userState } from '../lib/state/state.js';
+import { updateUserBox } from './utils/updateUser.js';
 import { profile } from './components/profile/profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
@@ -108,6 +108,7 @@ function init() {
       setOnRender(routes['/game'], updateUserBox);
       setOnRender(routes['/tournament'], updateUserBox);
 
+      userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);
 
       firstRoute(routes, setDefaultPath(window.location.pathname, routes));

@@ -22,7 +22,8 @@ export function initUserInfo() {
   // const userData = getUserData();
   const userData = tempData;
 
-  // 음... API 호출이 너무 빈번하지만 일단은 이렇게 처리.
+  // user data를 받아오고 나서, 유효성 검증을 해야 한다
+  // XSS 공격 방지 필요
 
   userState.setState(
     {

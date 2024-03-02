@@ -1,3 +1,4 @@
+import { updateUserName } from '../../../utils/updateUser.js';
 import { validateInput } from '../../../utils/validateInput.js';
 import { successToast } from '../toast/success.js';
 
@@ -61,16 +62,18 @@ export class changeUserNameModal {
       this.modalInstance._element.querySelector('#error-message').textContent =
         'Please enter a username.';
     } else {
-      this.callAPI();
+      this.changeName();
       this.popToast();
       this.hide();
     }
   }
 
-  callAPI() {
-    // API 호출
-    // api ....
-    console.log(this.inputData);
+  changeName() {
+    updateUserName(this.inputData);
+    const profileName = document.querySelector('.profile-name span');
+    if (profileName) {
+      profileName.innerHTML = `${this.inputData}`;
+    }
   }
 
   popToast() {
