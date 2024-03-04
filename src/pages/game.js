@@ -88,12 +88,22 @@ export function pageGame() {
     gameSettingModal.hide(); // 모달을 숨깁니다.
   });
 
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      // 'Escape' 키가 눌렸을 때의 조건
+      if (gameState.getState().currentGameStatus === 'idle') {
+        gameSettingModal.hide(); // 모달을 숨깁니다.
+      }
+    }
+  });
+
   // game-box 클릭 이벤트
   gameBox.addEventListener('click', function() {
     if (gameState.getState().currentGameStatus === 'idle') {
       gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
     }
   });
+
 
   // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
   // function removeGameBoxListener() {

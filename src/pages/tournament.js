@@ -145,6 +145,15 @@ export function pageTournament() {
     tournamentSettingModal.hide(); // 모달을 숨깁니다.
   });
 
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      // 'Escape' 키가 눌렸을 때의 조건
+      if (gameState.getState().currentGameStatus === 'idle') {
+        tournamentSettingModal.hide(); // 모달을 숨깁니다.
+      }
+    }
+  });
+
   // game-box 클릭 이벤트
   gameBox.addEventListener('click', function() {
     if (gameState.getState().currentGameStatus === 'idle') {
