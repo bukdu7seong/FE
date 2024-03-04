@@ -43,7 +43,6 @@ export default class Tournament {
         this.finalist.push(this.semiFinalA.winner);
         this.stage = GameStage.SEMI_B;
         this.semiFinalA.initGameState();
-        alert('semiA end');
       }
     }
     if (this.stage === GameStage.SEMI_B) {
@@ -66,7 +65,6 @@ export default class Tournament {
         this.finalist.push(this.semiFinalB.winner);
         this.stage = GameStage.FINAL;
         this.semiFinalB.initGameState();
-        alert('semiB end');
       }
     }
     if (this.stage === GameStage.FINAL) {
@@ -86,7 +84,13 @@ export default class Tournament {
         this.final.startGame();
       }
       if (this.final.state === 'end') {
-        alert('final end');
+        const tournamentWinnerModalElement = document.getElementById('tournamentWinnerModal');
+        console.log(this.final.winner);
+        document.getElementById('winner-name').value = this.final.winner;
+        if (tournamentWinnerModalElement) {
+          const scoreModal = new bootstrap.Modal(tournamentWinnerModalElement);
+          scoreModal.show();
+        }
       }
     }
   }
@@ -103,10 +107,6 @@ function showTournamentRoundModal(round, player1, player2) {
   // 모달 표시
   let tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'));
   tournamentRoundModal.show();
-
-  // document.addEventListener('keydown', function(event) {
-  //     event.preventDefault(); // ESC 키를 제외한 모든 키 입력 방지
-  // });
 
   document.getElementById('startRoundButton').addEventListener('click', function() {
     tournamentRoundModal.hide();
