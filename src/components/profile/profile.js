@@ -1,10 +1,9 @@
-import { changeUserNameModal } from './modal/modifyUserName.js';
+import { changeUserNameModal } from './modal/changeUserName.js';
 
-const modals = ['changeUserName'];
+const MODALS = ['changeUserName'];
 
-// API 받아서 페이지 갱신하는 함수도 만들어야 한다.
-export function profile() {
-  modals.forEach((modalId) => {
+function setModal() {
+  MODALS.forEach((modalId) => {
     const modalTrigger = document.getElementById(modalId);
     modalTrigger.addEventListener('click', () => {
       let modal = null;
@@ -20,4 +19,13 @@ export function profile() {
       modal.show();
     });
   });
+}
+
+function setHistoryList() {
+  // API 받아서 페이지 갱신하는 함수도 만들어야 한다.
+}
+
+// API 받아서 페이지 갱신하는 함수도 만들어야 한다.
+export function profile() {
+  setModal();
 }
