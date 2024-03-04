@@ -163,5 +163,45 @@ export function pageTournament() {
 
   // 이벤트 리스너 제거?
 
+  page.appendChild(createTournamentWinnerModal());
   return page;
+}
+
+
+function createTournamentWinnerModal(winnerName) {
+  const tournamentWinnerModal = document.createElement('div');
+  tournamentWinnerModal.className = 'modal fade';
+  tournamentWinnerModal.id = 'tournamentWinnerModal';
+  tournamentWinnerModal.tabIndex = -1;
+  tournamentWinnerModal.setAttribute('aria-labelledby', 'tournamentWinnerModalLabel');
+  tournamentWinnerModal.setAttribute('aria-hidden', 'true');
+  tournamentWinnerModal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="tournamentWinnerModalLabel">TOURNAMENT WINNER!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <h6>Player</h6>
+                    <input type="text" class="form-control bg-secondary text-white mb-4" id="winner-name" readonly>
+                    <h6>Do you want to try again?</h6>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-lg btn-success" id="restartGameButton">START</button>
+                </div>
+            </div>
+        </div>`;
+
+  // winnerName 값을 winner-name 입력 필드에 설정
+  tournamentWinnerModal.querySelector("#winner-name").value = winnerName;
+
+  tournamentWinnerModal.querySelector("#restartGameButton").addEventListener("click", function() {
+    // START 버튼 클릭 시 모달 닫기
+    const modal = tournamentWinnerModal;
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.hide();
+  });
+
+  return tournamentWinnerModal;
 }
