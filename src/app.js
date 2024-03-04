@@ -149,6 +149,7 @@ function init() {
           //   const pongGame = new PingPong('object', 'salee2', 'gychoi');
           //   pongGame.startGame();
           // }
+          console.log("GAME");
           if (elementId === 'startGameButton') {
             const player2Name = document.getElementById('player-name').value;
             const gameModes = document.getElementsByName('gameMode');
@@ -162,10 +163,13 @@ function init() {
             hideModal();
             renderPage(pageBoard(), 'game-box');
             const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
+            gameState.setState({ currentGame: pongGame  }, false);
+            gameState.setState({ currentGameStatus: 'start' }, false);
             pongGame.startGame();
           }
           break;
         case 'Tournament':
+          // console.log("TOURNAMENT");
           if (elementId === 'startTournamentButton') {
 
             const player1Name = document.getElementById('player1-name').value;

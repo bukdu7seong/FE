@@ -1,4 +1,5 @@
 import PingPong, { GameState } from './PingPong.js';
+import { gameState } from '../../../lib/state/state.js';
 
 const GameStage = {
   SEMI_A: 1,
@@ -31,6 +32,8 @@ export default class Tournament {
         );
         this.semiFinalA.onGameEnd = () => this.tournamentStart();
 
+        gameState.setState({ currentGame: this.semiFinalA  }, false);
+        gameState.setState({ currentGameStatus: 'start' }, false);
         // 라운드1에 대한 정보로 모달 표시
         showTournamentRoundModal(1, this.playerNames[0], this.playerNames[1]);
 
@@ -51,6 +54,9 @@ export default class Tournament {
           this.playerNames[3]
         );
         this.semiFinalB.onGameEnd = () => this.tournamentStart();
+
+        gameState.setState({ currentGame: this.semiFinalB  }, false);
+        gameState.setState({ currentGameStatus: 'start' }, false);
         // 라운드2에 대한 정보로 모달 표시
         showTournamentRoundModal(2, this.playerNames[2], this.playerNames[3]);
 
@@ -72,6 +78,9 @@ export default class Tournament {
         );
         this.final.onGameEnd = () => this.tournamentStart();
         // 라운드3에 대한 정보로 모달 표시
+
+        gameState.setState({ currentGame: this.final  }, false);
+        gameState.setState({ currentGameStatus: 'start' }, false);
         showTournamentRoundModal(3, this.finalist[0], this.finalist[1]);
 
         this.final.startGame();
@@ -94,6 +103,10 @@ function showTournamentRoundModal(round, player1, player2) {
   // 모달 표시
   let tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'));
   tournamentRoundModal.show();
+
+  // document.addEventListener('keydown', function(event) {
+  //     event.preventDefault(); // ESC 키를 제외한 모든 키 입력 방지
+  // });
 
   document.getElementById('startRoundButton').addEventListener('click', function() {
     tournamentRoundModal.hide();

@@ -185,13 +185,6 @@ export default class PingPong {
   }
 
   gameStart() {
-    gameState.setState(
-      {
-        currentGame: this
-      },
-      false
-    );
-    gameState.setState({ currentGameStatus: 'start' }, false);
     this.state = GameState.PLAY;
     this.message.innerHTML = 'Game Started';
     this.obstacles = [];
