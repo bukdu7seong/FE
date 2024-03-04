@@ -94,4 +94,8 @@ function showTournamentRoundModal(round, player1, player2) {
   // 모달 표시
   let tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'));
   tournamentRoundModal.show();
+
+  document.getElementById('startRoundButton').addEventListener('click', function() {
+    tournamentRoundModal.hide();
+  });
 }
