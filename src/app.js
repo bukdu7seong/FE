@@ -166,10 +166,26 @@ function init() {
           }
           break;
         case 'Tournament':
-          if (className === 'player-option') {
+          if (elementId === 'startTournamentButton') {
+
+            const player1Name = document.getElementById('player1-name').value;
+            const player2Name = document.getElementById('player2-name').value;
+            const player3Name = document.getElementById('player3-name').value;
+            const player4Name = document.getElementById('player4-name').value;
+
+            // 게임 모드 가져오기
+            const gameModes = document.getElementsByName('gameMode');
+            let selectedMode = '';
+            for (const mode of gameModes) {
+              if (mode.checked) {
+                selectedMode = mode.id;
+                break;
+              }
+            }
+            
             renderPage(pageBoard(), 'game-box');
-            const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
-            const tournament = new Tournament('object', playerNames);
+            const playerNames = [player1Name, player2Name, player3Name, player4Name];
+            const tournament = new Tournament(selectedMode, playerNames);
             tournament.startTournament();
           }
           break;
