@@ -149,7 +149,6 @@ function init() {
           //   const pongGame = new PingPong('object', 'salee2', 'gychoi');
           //   pongGame.startGame();
           // }
-          console.log("GAME");
           if (elementId === 'startGameButton') {
             const player2Name = document.getElementById('player-name').value;
             const gameModes = document.getElementsByName('gameMode');
@@ -169,7 +168,6 @@ function init() {
           }
           break;
         case 'Tournament':
-          // console.log("TOURNAMENT");
           if (elementId === 'startTournamentButton') {
 
             const player1Name = document.getElementById('player1-name').value;
