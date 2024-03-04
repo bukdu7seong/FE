@@ -34,17 +34,17 @@ export async function initUserInfo() {
     false
   );
 
-  connectWebSocket()
-    .then((webSocket) => {
-      userState.setState(
-        {
-          userSocket: webSocket,
-        },
-        false
-      );
-      console.log('Websocket connected:', webSocket);
-    })
-    .catch((error) => {
-      console.error('Websocket failed:', error);
-    });
+  // connectWebSocket()
+  //   .then((webSocket) => {
+  //     userState.setState(
+  //       {
+  //         userSocket: webSocket,
+  //       },
+  //       false
+  //     );
+  //     console.log('Websocket connected:', webSocket);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Websocket failed:', error);
+  //   });
 }
