@@ -72,14 +72,14 @@ const friendRequest = `
 
 const setting = `
     <div class="setting-option">
-      <label for="2fa">2FA authentication options</label>
+      <label class="name" for="2fa">2FA authentication options</label>
       <label class="toggle">
         <input id="2fa" class="toggle-checkbox" type="checkbox" checked>
         <div class="toggle-switch"></div>
       </label>
     </div>
     <div class="setting-option">
-      <label for="language">Select language</label>
+      <label class="name" for="language">Select language</label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
         <img src="../assets/images/icon/globe2.svg" alt="language">
       </button>
@@ -90,11 +90,11 @@ const setting = `
       </ul>
     </div>
     <div class="setting-option">
-      <label for="change-password">Change password</label>
+      <label class="name" for="change-password">Change password</label>
       <button type="button" class="btn btn-success" id="change-password">Change password</button>
     </div>
     <div class="setting-option">
-      <label for="unsubscribe">Unsubscribe</label>
+      <label class="name" for="unsubscribe">Unsubscribe</label>
       <button type="button" class="btn btn-danger" id="unsubscribe">Unsubscribe</button>
     </div>
 `;

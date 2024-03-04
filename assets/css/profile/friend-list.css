@@ -1,6 +1,5 @@
 .friend-list {
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
@@ -17,8 +16,11 @@
 }
 
 .friend-list-list {
-  /* align-content: flex-start; */
   width: 100%;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+  min-height: min(8vw, 8vh);
 }
 
 .friend-list-list ul {
@@ -27,16 +29,28 @@
   margin: 0;
 }
 
+.friend-list-list li {
+  position: relative;
+  border-radius: 10px;
+}
+.friend-list-list li::after {
+  position: absolute;
+  content: '';
+  top: 100%;
+  left: 5%;
+  right: 5%;
+  border-bottom: 1px solid gray;
+}
+.friend-list-list li:last-child::after {
+  border-bottom: none;
+}
+
 .friend-list-item {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   height: min(8vw, 8vh);
-  background: #333;
-  border-radius: 10px;
-  border: 1px solid #444;
-  color: #fff;
 }
 
 .login-status {
