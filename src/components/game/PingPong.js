@@ -68,9 +68,6 @@ export default class PingPong {
 
   initEventListeners() {
     this.keyEnterHandler = (e) => {
-      if (e.code === 'Enter' && this.state === GameState.READY) {
-        this.gameStart();
-      }
       if (e.code === 'Escape') {
         this.pause();
       }
@@ -182,15 +179,15 @@ export default class PingPong {
 
   startGame() {
     this.movePaddles();
+    this.gameStart();
   }
 
   gameStart() {
     this.state = GameState.PLAY;
     this.message.innerHTML = 'Game Started';
-    this.obstacles = [];
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
-    if (this.mode === GameMode.OBJECT) {
+    if (this.mode === GameMode.OBJECT && this.obstacles.length === 0) {
       for (let i = 0; i < this.numObstacle; i++) {
         const obstacle = new Obstacle(this.board, this.boardCoord);
         this.obstacles.push(obstacle);
@@ -346,8 +343,7 @@ export default class PingPong {
         this.cleanUp();
       } else {
         // 목표 점수에 도달하지 않았다면 게임 재시작
-        this.ball.show();
-        this.moveBall();
+        this.gameStart();
       }
     }, 0);
   }
