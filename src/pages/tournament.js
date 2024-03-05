@@ -168,7 +168,7 @@ export function pageTournament() {
 }
 
 
-function createTournamentWinnerModal(winnerName) {
+function createTournamentWinnerModal() {
   const tournamentWinnerModal = document.createElement('div');
   tournamentWinnerModal.className = 'modal fade';
   tournamentWinnerModal.id = 'tournamentWinnerModal';
@@ -188,18 +188,16 @@ function createTournamentWinnerModal(winnerName) {
                     <h6>Do you want to try again?</h6>
                 </div>
                 <div class="modal-footer border-0 justify-content-center">
-                    <button type="button" class="btn btn-lg btn-success" id="restartGameButton">START</button>
+                    <button type="button" class="btn btn-lg btn-success" id="restartGameButton">OK</button>
                 </div>
             </div>
         </div>`;
 
-  // winnerName 값을 winner-name 입력 필드에 설정
-  tournamentWinnerModal.querySelector("#winner-name").value = winnerName;
 
+  // 모달 인스턴스 생성
   tournamentWinnerModal.querySelector("#restartGameButton").addEventListener("click", function() {
-    // START 버튼 클릭 시 모달 닫기
-    const modal = tournamentWinnerModal;
-    const modalInstance = new bootstrap.Modal(modal);
+    const modalElement = document.getElementById('tournamentWinnerModal');
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
     modalInstance.hide();
   });
 
