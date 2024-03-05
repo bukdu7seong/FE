@@ -1,4 +1,4 @@
-import { route } from '../../../lib/router/router.js';
+import { firstRoute, route } from '../../../lib/router/router.js';
 import { globalState } from '../../../lib/state/state.js';
 import { routes } from '../../app.js';
 
@@ -126,7 +126,7 @@ function handleSignInClick() {
           console.log('로그인 성공, JWT 토큰 저장.');
           globalState.setState({ isLoggedIn: true });
           // user state 업데이트 필요
-          route(routes, '/profile');
+          firstRoute(routes, '/profile');
         } else {
           throw new Error('로그인 실패: JWT 토큰이 없어요.');
         }
