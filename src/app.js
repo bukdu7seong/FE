@@ -128,9 +128,7 @@ function init() {
     window.addEventListener('popstate', () => {
       route(routes, window.location.pathname, false);
     });
-    /* *************************************************************** */
-
-    /* *************** 페이지 내 화면 클릭 시 동작 정의 ***********************/
+    
     window.onclick = function (event) {
       const currentRoute = routeState.getState();
       const clickedElement = event.target;
