@@ -1,7 +1,7 @@
-import { globalState, userState } from '../../../../lib/state/state.js';
+import { globalState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { failureToast } from '../toast/failure.js';
-import { validateInput } from '../../../utils/validateInput.js';
+import { getBase64 } from '../../../utils/getBase64.js';
 
 function modalHTML(modalId) {
   return `
@@ -9,11 +9,10 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5">Change Username</h1>
+            <h1 class="modal-title fs-5">Change Profile Image</h1>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control" id="newUsername"
-            required maxlength="10" placeholder="Enter new username (maximum length: 10)">
+            <input type="file" id="newProfileImage" accept="image/*" required>
             <div id="error-message" class="text-danger"></div>
           </div>
           <div class="modal-footer">
@@ -26,18 +25,18 @@ function modalHTML(modalId) {
   `;
 }
 
-async function updateUserName(name) {
+async function updateUserImage(image) {
   try {
     const accessToken = sessionStorage.getItem('accessToken');
+    const base64Image = await getBase64(image);
     const response = await fetch(
-      'http://localhost:8000/api/account/change-username/',
+      'http://localhost:8000/api/account/update-image/',
       {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ new_username: name }),
+        body: JSON.stringify({ image: base64Image }), //base64로 변환해야 함
       }
     );
 
@@ -46,10 +45,11 @@ async function updateUserName(name) {
         globalState.setState({ isLoggedIn: false });
         throw new Error('Unauthorized access token. Please login again.');
       } else {
-        throw new Error('Failed to change username.');
+        throw new Error('Failed to change profile image.');
       }
     } else {
-      userState.setState({ userName: name });
+      const data = await response.json();
+      userState.setState({ userImage: data.image });
     }
   } catch (error) {
     const toast = new failureToast(error.message);
@@ -60,11 +60,11 @@ async function updateUserName(name) {
   }
 }
 
-export class changeUserNameModal {
-  constructor(modalId = 'changeUserNameModal') {
+export class changeUserImageModal {
+  constructor(modalId = 'changeUserImageModal') {
     this.modalHTML = modalHTML(modalId);
     this.modalId = modalId;
-    this.inputData = '';
+    this.inputFile = null;
     this.modalInstance = null;
     this.successToast = null;
     this.initModal();
@@ -88,37 +88,30 @@ export class changeUserNameModal {
   }
 
   checkInput() {
-    this.inputData =
-      this.modalInstance._element.querySelector('#newUsername').value;
+    this.inputFile =
+      this.modalInstance._element.querySelector('#newProfileImage').files[0];
 
-    if (!validateInput(this.inputData)) {
+    if (!this.inputFile) {
       this.modalInstance._element.querySelector('#error-message').textContent =
-        'Only alphanumeric characters are allowed.';
-    } else if (this.inputData.length === 0) {
-      this.modalInstance._element.querySelector('#error-message').textContent =
-        'Please enter a username.';
+        'Please select an image.';
     } else {
-      this.changeName();
+      this.changeImage();
       this.popToast();
       this.hide();
     }
   }
 
-  changeName() {
-    updateUserName(this.inputData);
-    const profileName = document.querySelector('.profile-name span');
-    if (profileName) {
-      profileName.innerHTML = `${this.inputData}`;
-    }
+  changeImage() {
+    updateUserImage(this.inputFile);
   }
 
   popToast() {
-    this.successToast = new successToast('Successfully changed username!');
+    this.successToast = new successToast('Successfully changed image!');
     this.successToast.show();
     setTimeout(() => {
       this.successToast.hide();
       this.successToast = null;
-    }, 3000);
+    }, 4242);
   }
 
   handleHidden() {

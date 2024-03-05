@@ -4,25 +4,25 @@ const playerProfile = `
   </div>
   <div class="profile-info">
     <div class="profile-name">
-      <span>Player name</span>
+      <span>-</span>
       <button class="edit-profile-btn" id="changeUserName">
         <img src="../assets/images/icon/pencil-fill.svg" alt="edit profile">
       </button>
     </div>
-    <div class="photo-upload">
+    <div class="photo-upload" id="changeUserImage">
       <button class="upload-photo-btn">Choose a photo for your profile</button>
     </div>
     <div class="profile-stats">
       <div class="win-rate">
-        <span>80%</span>
+        <span>-</span>
         <label>RATE</label>
       </div>
       <div class="win">
-        <span>10</span>
+        <span>-</span>
         <label>WIN</label>
       </div>
       <div class="loss">
-        <span>2</span>
+        <span>-</span>
         <label>LOSS</label>
       </div>
     </div>

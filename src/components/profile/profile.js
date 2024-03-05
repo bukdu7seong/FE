@@ -1,5 +1,6 @@
 import { userState } from '../../../lib/state/state.js';
 import { changeDateFormat } from '../../utils/date.js';
+import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
 import {
   testFriendData,
@@ -7,7 +8,7 @@ import {
   testRequestData,
 } from './testData.js';
 
-const MODALS = ['changeUserName'];
+const MODALS = ['changeUserName', 'changeUserImage'];
 
 function setModal() {
   MODALS.forEach((modalId) => {
@@ -19,6 +20,9 @@ function setModal() {
         case 'changeUserName':
           modal = new changeUserNameModal();
           break;
+        case 'changeUserImage':
+          modal = new changeUserImageModal();
+          break;
         default:
           break;
       }
@@ -26,6 +30,35 @@ function setModal() {
       modal.show();
     });
   });
+}
+
+function setProfile() {
+  const userData = userState.getState();
+  const profileName = document.querySelector('.profile-name span');
+  const profileImage = document.querySelector('.profile-photo img');
+  const profileStats = document.querySelector('.profile-stats');
+
+  if (profileName) {
+    profileName.innerHTML = `${userData.userName}`;
+  }
+
+  if (profileImage) {
+    if (!userData.userImage) {
+      profileImage.src = '../../assets/images/profile/default.png';
+    } else {
+      profileImage.src = userData.userImage;
+    }
+  }
+
+  if (profileStats) {
+    const winRate = profileStats.querySelector('.win-rate span');
+    const win = profileStats.querySelector('.win span');
+    const loss = profileStats.querySelector('.loss span');
+
+    winRate.textContent = `${userData.WinRate}%`;
+    win.textContent = `${userData.Wins}`;
+    loss.textContent = `${userData.Losses}`;
+  }
 }
 
 function setHistoryList() {
@@ -152,6 +185,7 @@ function setRequestList() {
 // API 받아서 페이지 갱신하는 함수도 만들어야 한다.
 export function profile() {
   setModal();
+  setProfile();
   setHistoryList();
   setFriendList();
   setRequestList();
