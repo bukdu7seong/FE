@@ -24,7 +24,7 @@ import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
 // state
 import { routeState, userState } from '../lib/state/state.js';
-import { updateUserBox } from './utils/updateUser.js';
+import { updateUserBox } from './utils/updateUserBox.js';
 import { profile } from './components/profile/profile.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정

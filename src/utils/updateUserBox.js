@@ -1,11 +1,5 @@
 import { userState } from '../../lib/state/state.js';
 
-export function updateUserName(name) {
-  // API를 백엔드에 보내야 한다.
-  // const response = changeUserNameApi(name);
-  userState.setState({ userName: name });
-}
-
 export function updateUserBox() {
   const userBox = document.getElementsByClassName('user-box')[0];
   if (
@@ -18,7 +12,13 @@ export function updateUserBox() {
 
   const userData = userState.getState();
 
-  userBox.querySelector('.user-image').src = userData.userImage;
+  if (!userData.userImage) {
+    userBox.querySelector('.user-image').src =
+      '../../assets/images/profile/default.png';
+  } else {
+    userBox.querySelector('.user-image').src = userData.userImage;
+  }
+
   userBox.querySelector('.user-name').textContent =
     'Welcome, ' + userData.userName;
 }
