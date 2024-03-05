@@ -18,7 +18,7 @@ export function updateUserBox() {
 
   const userData = userState.getState();
 
-  userBox.querySelector('.user-image').src = userData.userImageUrl;
+  userBox.querySelector('.user-image').src = userData.userImage;
   userBox.querySelector('.user-name').textContent =
     'Welcome, ' + userData.userName;
 }
