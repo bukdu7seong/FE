@@ -65,6 +65,8 @@
 }
 
 .friend-request-photo {
+  display: flex;
+  align-items: center;
   max-width: min(5vw, 5vh);
   margin: min(1vw, 1vh);
   aspect-ratio: 1/1;
@@ -77,8 +79,13 @@
   object-fit: cover;
 }
 
+.friend-request-name {
+  display: flex;
+  align-items: center;
+}
+
 .friend-request-name span {
-  font-size: min(2vw, 2vh);
+  font-size: min(2.3vw, 2.3vh);
   color: #fff;
 }
 
@@ -90,14 +97,13 @@
   margin-right: min(0.5vw, 0.5vh);
 }
 
-.friend-request-btn button {
+.friend-request-btn .btn {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: min(0.5vw, 0.5vh);
   border-radius: 10px;
-  width: min(4vw, 4vh);
-  height: min(4vw, 4vh);
+  padding: min(1vw, 1vh);
   border: none;
   cursor: pointer;
 }
@@ -107,6 +113,7 @@
   filter: invert(100%);
   object-fit: contain;
   margin: auto;
+  align-self: center;
 }
 
 /* .friend-request-btn button.accept {

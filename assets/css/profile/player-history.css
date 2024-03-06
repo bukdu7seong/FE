@@ -62,6 +62,8 @@
 }
 
 .history-user-photo {
+  display: flex;
+  align-items: center;
   /* overflow: hidden; */
   max-width: min(5vw, 5vh);
   margin: min(1.5vw, 1.5vh);
@@ -87,12 +89,12 @@
 }
 
 .history-user-name span {
-  font-size: min(2vw, 2vh);
+  font-size: min(2.3vw, 2.3vh);
   color: #fff;
 }
 
 .history-game-mode span {
-  font-size: min(1.2vw, 1.2vh);
+  font-size: min(1.5vw, 1.5vh);
   color: #fff;
 }
 
@@ -103,7 +105,7 @@
 }
 
 .history-time span {
-  font-size: min(1.2vw, 1.2vh);
+  font-size: min(1.5vw, 1.5vh);
   color: #999;
 }
 

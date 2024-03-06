@@ -73,7 +73,7 @@
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 .toggle-checkbox:checked + .toggle-switch {
-  background: #56c080;
+  background: #28a745;
 }
 .toggle-checkbox:checked + .toggle-switch:before {
   left: min(4vw, 4vh);

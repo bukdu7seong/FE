@@ -46,10 +46,10 @@ body {
 }
 
 .setting-option .btn.btn-success {
-  background-color: #198754;
+  background-color: #28a745;
 }
 .setting-option .btn.btn-success:hover {
-  background-color: #157347;
+  background-color: #198754;
 }
 
 .setting-option .btn.btn-danger {
