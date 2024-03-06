@@ -31,7 +31,7 @@ function handleOAuthClick() {
         return response.json();
       })
       .then((data) => {
-        console.log('data.url:', data.url);
+        // console.log('data.url:', data.url);
         window.location.href = data.url;
       });
   });
@@ -59,6 +59,7 @@ function handleSignInClick() {
             userState.setState({
               isLoggedIn: true,
             });
+
             setCookie(response);
 
             route(routes, '/profile', true, false);

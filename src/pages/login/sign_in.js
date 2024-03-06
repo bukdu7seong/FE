@@ -29,7 +29,6 @@ export function pageLogIn() {
           <p class="text-secondary">
             <a
               id="sign-up"
-              href="/sign-up"
               style="text-decoration: none; color: turquoise"
               >Sign up</a
             >
