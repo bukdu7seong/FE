@@ -18,17 +18,15 @@ import {
   routeState,
   userState,
 } from '../lib/state/state.js';
-import { updateUserBox } from '../lib/state/update.js';
-import { login } from './components/login/sign_in.js';
-import { signup } from './components/login/sign_up.js';
 // game
 import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
-// state
-import { globalState, routeState, userState } from '../lib/state/state.js';
+// utils
 import { updateUserBox } from '../lib/state/update.js';
 import { profile } from './components/profile/profile.js';
+import { login } from './components/login/sign_in.js';
+import { signup } from './components/login/sign_up.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
