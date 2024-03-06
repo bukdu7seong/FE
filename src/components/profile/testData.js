@@ -6,7 +6,7 @@ export const testHistoryData = {
   previous: null,
   results: [
     {
-      id: 1,
+      id: 2,
       player1: 'user1',
       player2: 'user2',
       winner: 'user1',
@@ -16,7 +16,7 @@ export const testHistoryData = {
       played_at: '2023-04-01 12:00:00',
     },
     {
-      id: 2,
+      id: 3,
       player1: 'user1',
       player2: 'user3',
       winner: 'user1',

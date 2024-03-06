@@ -1,5 +1,6 @@
 import { userState } from '../../../lib/state/state.js';
 import { changeDateFormat } from '../../utils/date.js';
+import { escapeHtml } from '../../utils/validateInput.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
 import {
@@ -39,7 +40,7 @@ function setProfile() {
   const profileStats = document.querySelector('.profile-stats');
 
   if (profileName) {
-    profileName.innerHTML = `${userData.userName}`;
+    profileName.textContent = `${userData.userName}`;
   }
 
   if (profileImage) {
@@ -75,31 +76,59 @@ function setHistoryList() {
       const historyItem = document.createElement('li');
       const iconThumb =
         result.winner === userState.getState().userName ? 'up' : 'down';
-      const userImg = `data:image/png;base64,${result.player2_img}`;
+      const userImgSrc = `data:image/png;base64,${result.player2_img}`;
 
-      historyItem.innerHTML = `
-        <div class="history-item">
-          <div class="history-icon">
-            <img src="../assets/images/icon/hand-thumbs-${iconThumb}-fill.svg" alt="hand thumbs ${iconThumb}">
-          </div>
-          <div class="history-user-info">
-            <div class="history-user-photo">
-              <img src=${userImg} alt="history user photo">
-            </div>
-            <div class="history-info-wrapper">
-              <div class="history-user-name">
-                <span>${result.player2}</span>
-              </div>
-              <div class="history-game-mode">
-                <span>${result.game_mode}</span>
-              </div>
-            </div>
-          </div>
-          <div class="history-time">
-            <span>${changeDateFormat(result.played_at)}</span>
-          </div>
-        </div>
-      `;
+      const historyItemDiv = document.createElement('div');
+      historyItemDiv.classList.add('history-item');
+
+      // Icon
+      const historyIconDiv = document.createElement('div');
+      historyIconDiv.classList.add('history-icon');
+      const iconImg = document.createElement('img');
+      iconImg.src = `../assets/images/icon/hand-thumbs-${iconThumb}-fill.svg`;
+      iconImg.alt = `hand thumbs ${iconThumb}`;
+      historyIconDiv.appendChild(iconImg);
+
+      // User Info
+      const historyUserInfoDiv = document.createElement('div');
+      historyUserInfoDiv.classList.add('history-user-info');
+      const historyUserPhotoDiv = document.createElement('div');
+      historyUserPhotoDiv.classList.add('history-user-photo');
+      const userImg = document.createElement('img');
+      userImg.src = userImgSrc;
+      userImg.alt = 'history user photo';
+      historyUserPhotoDiv.appendChild(userImg);
+
+      const historyInfoWrapperDiv = document.createElement('div');
+      historyInfoWrapperDiv.classList.add('history-info-wrapper');
+
+      const historyUserNameDiv = document.createElement('div');
+      historyUserNameDiv.classList.add('history-user-name');
+      const userNameSpan = document.createElement('span');
+      userNameSpan.textContent = escapeHtml(result.player2);
+      historyUserNameDiv.appendChild(userNameSpan);
+
+      const historyGameModeDiv = document.createElement('div');
+      historyGameModeDiv.classList.add('history-game-mode');
+      const gameModeSpan = document.createElement('span');
+      gameModeSpan.textContent = escapeHtml(result.game_mode);
+      historyGameModeDiv.appendChild(gameModeSpan);
+
+      // Time
+      const historyTimeDiv = document.createElement('div');
+      historyTimeDiv.classList.add('history-time');
+      const timeSpan = document.createElement('span');
+      timeSpan.textContent = changeDateFormat(escapeHtml(result.played_at));
+      historyTimeDiv.appendChild(timeSpan);
+
+      historyInfoWrapperDiv.appendChild(historyUserNameDiv);
+      historyInfoWrapperDiv.appendChild(historyGameModeDiv);
+      historyUserInfoDiv.appendChild(historyUserPhotoDiv);
+      historyUserInfoDiv.appendChild(historyInfoWrapperDiv);
+      historyItemDiv.appendChild(historyIconDiv);
+      historyItemDiv.appendChild(historyUserInfoDiv);
+      historyItemDiv.appendChild(historyTimeDiv);
+      historyItem.appendChild(historyItemDiv);
       historyList.appendChild(historyItem);
     });
   }
@@ -117,24 +146,49 @@ function setFriendList() {
 
     firstTwoResults.forEach((result) => {
       const friendItem = document.createElement('li');
-      const friendImg = `data:image/png;base64,${result.user_img}`;
+      const friendImgSrc = `data:image/png;base64,${result.user_img}`;
 
-      friendItem.innerHTML = `
-        <div class="friend-list-item">
-          <div class="login-status login"></div>
-          <div class="friend-info">
-            <div class="friend-photo">
-              <img src=${friendImg} alt="friend photo">
-            </div>
-            <div class="friend-name">
-              <span>${result.username}</span>
-            </div>
-          </div>
-          <div class="friend-profile">
-            <button type="button" class="btn btn-outline-light">Profile</button>
-          </div>
-        </div>
-      `;
+      // Friend List Item
+      const friendListItemDiv = document.createElement('div');
+      friendListItemDiv.classList.add('friend-list-item');
+
+      // Login Status
+      const loginStatusDiv = document.createElement('div');
+      loginStatusDiv.classList.add('login-status', 'login');
+
+      // Friend Info
+      const friendInfoDiv = document.createElement('div');
+      friendInfoDiv.classList.add('friend-info');
+
+      const friendPhotoDiv = document.createElement('div');
+      friendPhotoDiv.classList.add('friend-photo');
+      const friendPhotoImg = document.createElement('img');
+      friendPhotoImg.src = friendImgSrc;
+      friendPhotoImg.alt = 'friend photo';
+      friendPhotoDiv.appendChild(friendPhotoImg);
+
+      const friendNameDiv = document.createElement('div');
+      friendNameDiv.classList.add('friend-name');
+      const friendNameSpan = document.createElement('span');
+      friendNameSpan.textContent = escapeHtml(result.username);
+      friendNameDiv.appendChild(friendNameSpan);
+
+      // Friend Profile
+      const friendProfileDiv = document.createElement('div');
+      friendProfileDiv.classList.add('friend-profile');
+      const friendProfileBtn = document.createElement('button');
+      friendProfileBtn.type = 'button';
+      friendProfileBtn.classList.add('btn', 'btn-outline-light');
+      friendProfileBtn.id = escapeHtml(result.id.toString());
+      friendProfileBtn.textContent = 'Profile';
+
+      friendInfoDiv.appendChild(friendPhotoDiv);
+      friendInfoDiv.appendChild(friendNameDiv);
+      friendListItemDiv.appendChild(loginStatusDiv);
+      friendListItemDiv.appendChild(friendInfoDiv);
+      friendListItemDiv.appendChild(friendProfileDiv);
+      friendProfileDiv.appendChild(friendProfileBtn);
+      friendItem.appendChild(friendListItemDiv);
       friendList.appendChild(friendItem);
     });
   }
@@ -152,31 +206,67 @@ function setRequestList() {
 
     firstTwoResults.forEach((result) => {
       const requestItem = document.createElement('li');
-      const requestImg = `data:image/png;base64,${result.user_img}`;
+      const requestImgSrc = `data:image/png;base64,${result.user_img}`;
 
-      requestItem.innerHTML = `
-          <div class="friend-request-item">
-            <div class="friend-request-info">
-              <div class="friend-request-photo">
-                <img src=${requestImg} alt="friend request photo">
-              </div>
-              <div class="friend-request-name">
-                <span>${result.username}</span>
-              </div>
-            </div>
-            <div class="friend-request-btn">
-              <button type="button" class="btn btn-success">
-                <img src="../assets/images/icon/check-lg.svg" alt="accept">
-              </button>
-              <button type="button" class="btn btn-danger">
-                <img src="../assets/images/icon/x-lg.svg" alt="decline">
-              </button>
-            </div>
-            <div class="friend-request-profile">
-              <button type="button" class="btn btn-outline-light">Profile</button>
-            </div>
-          </div>
-        `;
+      // Friend Request Item
+      const friendRequestItemDiv = document.createElement('div');
+      friendRequestItemDiv.className = 'friend-request-item';
+
+      // Friend Request Info
+      const friendRequestInfoDiv = document.createElement('div');
+      friendRequestInfoDiv.className = 'friend-request-info';
+
+      const friendRequestPhotoDiv = document.createElement('div');
+      friendRequestPhotoDiv.className = 'friend-request-photo';
+      const friendRequestPhotoImg = document.createElement('img');
+      friendRequestPhotoImg.src = requestImgSrc;
+      friendRequestPhotoImg.alt = 'friend request photo';
+      friendRequestPhotoDiv.appendChild(friendRequestPhotoImg);
+
+      const friendRequestNameDiv = document.createElement('div');
+      friendRequestNameDiv.className = 'friend-request-name';
+      const friendRequestNameSpan = document.createElement('span');
+      friendRequestNameSpan.textContent = escapeHtml(result.username);
+      friendRequestNameDiv.appendChild(friendRequestNameSpan);
+
+      // Friend Request Buttons
+      const friendRequestBtnDiv = document.createElement('div');
+      friendRequestBtnDiv.className = 'friend-request-btn';
+
+      const acceptButton = document.createElement('button');
+      acceptButton.type = 'button';
+      acceptButton.className = 'btn btn-success';
+      const acceptImg = document.createElement('img');
+      acceptImg.src = '../assets/images/icon/check-lg.svg';
+      acceptImg.alt = 'accept';
+      acceptButton.appendChild(acceptImg);
+
+      const declineButton = document.createElement('button');
+      declineButton.type = 'button';
+      declineButton.className = 'btn btn-danger';
+      const declineImg = document.createElement('img');
+      declineImg.src = '../assets/images/icon/x-lg.svg';
+      declineImg.alt = 'decline';
+      declineButton.appendChild(declineImg);
+
+      // Friend Request Profile
+      const friendRequestProfileDiv = document.createElement('div');
+      friendRequestProfileDiv.className = 'friend-request-profile';
+      const profileButton = document.createElement('button');
+      profileButton.type = 'button';
+      profileButton.className = 'btn btn-outline-light';
+      profileButton.id = escapeHtml(result.id.toString());
+      profileButton.textContent = 'Profile';
+      friendRequestProfileDiv.appendChild(profileButton);
+
+      friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
+      friendRequestInfoDiv.appendChild(friendRequestNameDiv);
+      friendRequestBtnDiv.appendChild(acceptButton);
+      friendRequestBtnDiv.appendChild(declineButton);
+      friendRequestItemDiv.appendChild(friendRequestInfoDiv);
+      friendRequestItemDiv.appendChild(friendRequestBtnDiv);
+      friendRequestItemDiv.appendChild(friendRequestProfileDiv);
+      requestItem.appendChild(friendRequestItemDiv);
       requestList.appendChild(requestItem);
     });
   }
