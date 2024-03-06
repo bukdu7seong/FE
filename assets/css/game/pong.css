@@ -34,18 +34,22 @@
 
 /* 패들 1 */
 .paddle_1 {
-  top: 10px;
+  top: calc(50% - 50px); /* 중앙 정렬 */
   left: 10px;
   background: rgb(242, 242, 242);
   position: absolute;
+  height: 100px;
+  width: 18px;
 }
 
 /* 패들 2 */
 .paddle_2 {
-  top: 1%;
-  right: 1%;
+  top: calc(50% - 50px); /* 중앙 정렬 */
+  right: 10px;
   background: rgb(242, 242, 242);
   position: absolute;
+  height: 100px;
+  width: 18px;
 }
 
 /* 점수 1 */

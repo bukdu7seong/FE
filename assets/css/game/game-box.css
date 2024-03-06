@@ -12,6 +12,22 @@
   text-align: center;
 }
 
+@media only screen and (max-width: 380px), only screen and (max-height: 280px) {
+  .game-box::after {
+    content: 'Screen is too small to play Pong!';
+    display: block;
+    background-color: gray;
+    color: rgb(242, 242, 242);
+    text-align: center;
+    font-size: 24px;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* 화면 상단  PONG/n CLASSIC */
 .header-pong {
   font-size: 12vh;
@@ -58,4 +74,11 @@
   flex-shrink: 0;
   background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
   background-size: 4px 96px; /* 점선의 크기와 간격 설정 */
+}
+
+/* 게임 화면 하단 */
+footer {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
 }
