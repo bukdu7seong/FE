@@ -1,28 +1,28 @@
 const playerProfile = `
   <div class="profile-photo">
-    <img src="../images/profile/default.png" alt="profile photo">
+    <img src="../assets/images/profile/default.png" alt="profile photo">
   </div>
   <div class="profile-info">
     <div class="profile-name">
-      <span>Player name</span>
+      <span>-</span>
       <button class="edit-profile-btn" id="changeUserName">
-        <img src="../images/icon/pencil-fill.svg" alt="edit profile">
+        <img src="../assets/images/icon/pencil-fill.svg" alt="edit profile">
       </button>
     </div>
-    <div class="photo-upload">
+    <div class="photo-upload" id="changeUserImage">
       <button class="upload-photo-btn">Choose a photo for your profile</button>
     </div>
     <div class="profile-stats">
       <div class="win-rate">
-        <span>80%</span>
+        <span>-</span>
         <label>RATE</label>
       </div>
       <div class="win">
-        <span>10</span>
+        <span>-</span>
         <label>WIN</label>
       </div>
       <div class="loss">
-        <span>2</span>
+        <span>-</span>
         <label>LOSS</label>
       </div>
     </div>
@@ -34,54 +34,7 @@ const playerHistory = `
     <span>Recent History</span>
   </div>
   <div class="history-list">
-    <ul>
-      <li>
-        <div class="history-item">
-          <div class="history-icon">
-            <img src="../images/icon/hand-thumbs-up-fill.svg" alt="hand thumbs up">
-          </div>
-          <div class="history-user-info">
-            <div class="history-user-photo">
-              <img src="../images/profile/default.png" alt="history user photo">
-            </div>
-            <div class="history-info-wrapper">
-              <div class="history-user-name">
-                <span>User Name</span>
-              </div>
-              <div class="history-game-mode">
-                <span>Speed Mode</span>
-              </div>
-            </div>
-          </div>
-          <div class="history-time">
-            <span>13:42 1.1</span>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="history-item">
-          <div class="history-icon">
-            <img src="../images/icon/hand-thumbs-down-fill.svg" alt="hand thumbs up">
-          </div>
-          <div class="history-user-info">
-            <div class="history-user-photo">
-              <img src="../images/profile/default.png" alt="history user photo">
-            </div>
-            <div class="history-info-wrapper">
-              <div class="history-user-name">
-                <span>User Name</span>
-              </div>
-              <div class="history-game-mode">
-                <span>Speed Mode</span>
-              </div>
-            </div>
-          </div>
-          <div class="history-time">
-            <span>13:42 1.1</span>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <ul></ul>
   </div>
   <div class="history-view-all">
     <button type="button" class="btn btn-outline-light">View all</button>
@@ -93,40 +46,7 @@ const friendList = `
     <span>Friends</span>
   </div>
   <div class="friend-list-list">
-    <ul>
-      <li>
-        <div class="friend-list-item">
-          <div class="login-status login"></div>
-          <div class="friend-info">
-            <div class="friend-photo">
-              <img src="../images/profile/default.png" alt="friend photo">
-            </div>
-            <div class="friend-name">
-              <span>Default Friend</span>
-            </div>
-          </div>
-          <div class="friend-profile">
-            <button type="button" class="btn btn-outline-light">Profile</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="friend-list-item">
-          <div class="login-status logout"></div>
-          <div class="friend-info">
-            <div class="friend-photo">
-              <img src="../images/profile/default.png" alt="friend photo">
-            </div>
-            <div class="friend-name">
-              <span>Default Friend</span>
-            </div>
-          </div>
-          <div class="friend-profile">
-            <button type="button" class="btn btn-outline-light">Profile</button>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <ul></ul>
   </div>
   <div class="friend-view-all">
     <button type="button" class="btn btn-outline-light">View all</button>
@@ -138,54 +58,7 @@ const friendRequest = `
     <span>Friend Request</span>
   </div>
   <div class="friend-request-list">
-    <ul>
-      <li>
-        <div class="friend-request-item">
-          <div class="friend-request-info">
-            <div class="friend-request-photo">
-              <img src="../images/profile/default.png" alt="friend request photo">
-            </div>
-            <div class="friend-request-name">
-              <span>Default Friend</span>
-            </div>
-          </div>
-          <div class="friend-request-btn">
-            <button type="button" class="btn btn-success">
-              <img src="../images/icon/check-lg.svg" alt="accept">
-            </button>
-            <button type="button" class="btn btn-danger">
-              <img src="../images/icon/x-lg.svg" alt="decline">
-            </button>
-          </div>
-          <div class="friend-request-profile">
-            <button type="button" class="btn btn-outline-light">Profile</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="friend-request-item">
-          <div class="friend-request-info">
-            <div class="friend-request-photo">
-              <img src="../images/profile/default.png" alt="friend request photo">
-            </div>
-            <div class="friend-request-name">
-              <span>Default Friend</span>
-            </div>
-          </div>
-          <div class="friend-request-btn">
-            <button type="button" class="btn btn-success">
-              <img src="../images/icon/check-lg.svg" alt="accept">
-            </button>
-            <button type="button" class="btn btn-danger">
-              <img src="../images/icon/x-lg.svg" alt="decline">
-            </button>
-          </div>
-          <div class="friend-request-profile">
-            <button type="button" class="btn btn-outline-light">Profile</button>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <ul></ul>
   </div>
   <div class="friend-request-btn-wrapper">
     <div class="invite-friends">
@@ -199,16 +72,16 @@ const friendRequest = `
 
 const setting = `
     <div class="setting-option">
-      <label for="2fa">2FA authentication options</label>
+      <label class="name" for="2fa">2FA authentication options</label>
       <label class="toggle">
         <input id="2fa" class="toggle-checkbox" type="checkbox" checked>
         <div class="toggle-switch"></div>
       </label>
     </div>
     <div class="setting-option">
-      <label for="language">Select language</label>
+      <label class="name" for="language">Select language</label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
-        <img src="../images/icon/globe2.svg" alt="language">
+        <img src="../assets/images/icon/globe2.svg" alt="language">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
         <li class="dropdown-item" id="lang-ko">Korean</li>
@@ -217,11 +90,11 @@ const setting = `
       </ul>
     </div>
     <div class="setting-option">
-      <label for="change-password">Change password</label>
+      <label class="name" for="change-password">Change password</label>
       <button type="button" class="btn btn-success" id="change-password">Change password</button>
     </div>
     <div class="setting-option">
-      <label for="unsubscribe">Unsubscribe</label>
+      <label class="name" for="unsubscribe">Unsubscribe</label>
       <button type="button" class="btn btn-danger" id="unsubscribe">Unsubscribe</button>
     </div>
 `;

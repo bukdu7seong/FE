@@ -38,7 +38,7 @@ export function sidebar(routes) {
     icon.className = `icon-${name.toLowerCase()}`;
 
     const image = document.createElement('img');
-    image.src = `../../images/icon/${icons[name]}.svg`;
+    image.src = `../../assets/images/icon/${icons[name]}.svg`;
     image.alt = name;
     image.setAttribute('route', route);
     image.classList.add(`image-${name.toLowerCase()}`);

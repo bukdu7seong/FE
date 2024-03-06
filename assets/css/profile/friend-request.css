@@ -17,6 +17,10 @@
 
 .friend-request-list {
   width: 100%;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+  min-height: min(8vw, 8vh);
 }
 
 .friend-request-list ul {
@@ -25,16 +29,30 @@
   margin: 0;
 }
 
+.friend-request-list li {
+  position: relative;
+  border-radius: 10px;
+}
+.friend-request-list li::after {
+  position: absolute;
+  content: '';
+  top: 100%;
+  left: 5%;
+  right: 5%;
+  border-bottom: 1px solid gray;
+}
+.friend-request-list li:last-child::after {
+  border-bottom: none;
+}
+
 .friend-request-item {
   display: flex;
+  position: relative;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   height: min(8vw, 8vh);
-  background: #333;
-  border-radius: 10px;
-  border: 1px solid #444;
-  color: #fff;
 }
 
 .friend-request-info {
@@ -43,6 +61,7 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  margin-left: min(2vw, 2vh);
 }
 
 .friend-request-photo {

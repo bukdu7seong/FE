@@ -32,8 +32,9 @@
   border-bottom: none;
 }
 
-.setting-option label {
+.setting-option .name {
   font-size: min(2vw, 2vh);
+  margin-left: min(2vw, 2vh);
 }
 
 .toggle {
