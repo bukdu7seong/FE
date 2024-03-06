@@ -28,7 +28,9 @@ function modalHTML(modalId) {
 async function updateUserImage(image) {
   try {
     const accessToken = sessionStorage.getItem('accessToken');
-    const base64Image = await getBase64(image);
+    const formData = new FormData();
+    formData.append('image', image);
+
     const response = await fetch(
       'http://localhost:8000/api/account/update-image/',
       {
@@ -36,7 +38,7 @@ async function updateUserImage(image) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ image: base64Image }), //base64로 변환해야 함
+        body: formData,
       }
     );
 
