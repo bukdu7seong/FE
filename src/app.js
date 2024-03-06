@@ -16,16 +16,17 @@ import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
-import { login } from './components/login/sign_in.js';
-import { signup } from './components/login/sign_up.js';
+// state
+import { gameState, routeState, userState } from '../lib/state/state.js';
 // game
-import PingPong from './components/game/PingPong.js';
+import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './utils/checkLogin.js';
-// state
-import { routeState, userState } from '../lib/state/state.js';
+// utils
 import { updateUserBox } from './utils/updateUserBox.js';
 import { profile } from './components/profile/profile.js';
+import { login } from './components/login/sign_in.js';
+import { signup } from './components/login/sign_up.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
@@ -61,30 +62,40 @@ export const routes = {
 // 상태가 변경될 때마다 구독자(updateUI 함수를 뜻함)에게 알림을 보내는 역할
 // store.subscribe(updateUI); -> access token 체크할 때 쓰면 좋을 듯!!
 
-// function checkWindowSize() {
-//   const gameBox = document.getElementsByClassName('game-box')[0];
-//   if (!gameBox) {
-//     return;
-//   }
+function checkWindowSize() {
+  const gameBox = document.getElementsByClassName('game-box')[0];
+  if (!gameBox) {
+    return;
+  }
 
-//   if (window.innerWidth <= 940 || window.innerHeight <= 660) {
-//     gameBox.style.pointerEvents = 'none';
-//   } else {
-//     gameBox.style.pointerEvents = 'auto';
-//   }
+  if (window.innerWidth <= 380 || window.innerHeight <= 280) {
+    gameBox.style.pointerEvents = 'none';
+  } else {
+    gameBox.style.pointerEvents = 'auto';
+  }
 
-//   // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
-//   const gameBoard = document.getElementsByClassName('board')[0];
-//   if (!gameBoard) {
-//     return;
-//   }
+  // 뭔가 보드에서 키 입력을 받지 않도록 해야하는데... 아직 모르겠다.
+  const gameBoard = document.getElementsByClassName('board')[0];
+  if (!gameBoard) {
+    return;
+  }
 
-//   if (window.innerWidth <= 940 || window.innerHeight <= 660) {
-//     console.log('small...');
-//   } else {
-//     //
-//   }
-// }
+  // if (window.innerWidth <= 940 || window.innerHeight <= 660) {
+  //   console.log('small...');
+  // } else {
+  //   //
+  // }
+}
+
+function hideModal() {
+  const modalElement = document.getElementById('gameSettingModal');
+  if (modalElement) {
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+}
 
 function init() {
   // 로그인 체크 로직
@@ -110,13 +121,13 @@ function init() {
 
       userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);
+      gameState.subscribe(setGameCondition);
 
       firstRoute(routes, setDefaultPath(window.location.pathname, routes));
     };
     /* *************************************************************** */
 
-    /* ****************** 반응형 이벤트 관련 *******************************/
-    /* ********************** resize ***********************************/
+    /* ****************** resize 관련 코드 *******************************/
     // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
     // window.addEventListener('resize', checkWindowSize);
 
@@ -131,33 +142,68 @@ function init() {
     window.addEventListener('popstate', () => {
       route(routes, routeByState(), false);
     });
-    /* *************************************************************** */
 
-    /* *************** 페이지 내 화면 클릭 시 동작 정의 ***********************/
-    // game, tournament도 onRender에 함수를 호출하게 하면 될 것 같다. 버튼으로 만들고...
     window.onclick = function (event) {
       const currentRoute = routeState.getState();
       const clickedElement = event.target;
       const className = clickedElement.className;
+      const elementId = clickedElement.id;
 
       switch (currentRoute.currentRoute.name) {
         case 'Profile':
           // console.log('profile');
           break;
         case 'Game':
-          if (className === 'player-option') {
-            // modal을 클릭하는 것으로 변경해야 한다.
+          // if (className === 'player-option') {
+          //   // modal을 클릭하는 것으로 변경해야 한다.
+          //   renderPage(pageBoard(), 'game-box');
+          //   // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
+          //   const pongGame = new PingPong('object', 'salee2', 'gychoi');
+          //   pongGame.startGame();
+          // }
+          if (elementId === 'startGameButton') {
+            const player2Name = document.getElementById('player-name').value;
+            const gameModes = document.getElementsByName('gameMode');
+            let selectedMode;
+            for (const mode of gameModes) {
+              if (mode.checked) {
+                selectedMode = mode.id; // This will be 'normalMode', 'speedMode', or 'objectMode'
+                break;
+              }
+            }
+            hideModal();
             renderPage(pageBoard(), 'game-box');
-            // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
-            const pongGame = new PingPong('object', 'salee2', 'gychoi');
+            const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
+            gameState.setState({ currentGame: pongGame }, false);
+            gameState.setState({ currentGameStatus: 'start' }, false);
             pongGame.startGame();
           }
           break;
         case 'Tournament':
-          if (className === 'player-option') {
+          if (elementId === 'startTournamentButton') {
+            const player1Name = document.getElementById('player1-name').value;
+            const player2Name = document.getElementById('player2-name').value;
+            const player3Name = document.getElementById('player3-name').value;
+            const player4Name = document.getElementById('player4-name').value;
+
+            // 게임 모드 가져오기
+            const gameModes = document.getElementsByName('gameMode');
+            let selectedMode = '';
+            for (const mode of gameModes) {
+              if (mode.checked) {
+                selectedMode = mode.id;
+                break;
+              }
+            }
+
             renderPage(pageBoard(), 'game-box');
-            const playerNames = ['salee2', 'gychoi', 'jwee', 'junyo'];
-            const tournament = new Tournament('object', playerNames);
+            const playerNames = [
+              player1Name,
+              player2Name,
+              player3Name,
+              player4Name,
+            ];
+            const tournament = new Tournament(selectedMode, playerNames);
             tournament.startTournament();
           }
           break;

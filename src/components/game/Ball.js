@@ -8,9 +8,20 @@ export default class Ball {
     this.speed = speed; // 공의 속도
     this.ballFrame = null;
     this.radius = 15;
+    this.isVisible = true;
   }
 
-  // 현재 공의 위치 정보를 반환하는 메서드
+  hide() {
+    this.element.style.display = 'none';
+    this.isVisible = false;
+    cancelAnimationFrame(this.ballFrame); // Cancel animation when hiding
+  }
+
+  show() {
+    this.element.style.display = 'block';
+    this.isVisible = true;
+  }
+
   getCoord() {
     return this.element.getBoundingClientRect();
   }
@@ -81,6 +92,10 @@ export default class Ball {
   }
 
   move(dy, dx, pingPong) {
+    if (!this.isVisible) {
+      return;
+    }
+
     if (this.outOfBoard(pingPong.boardCoord)) {
       pingPong.updatePlayersScore();
       return; // 승리 조건을 만족하면 이동을 중단합니다.
