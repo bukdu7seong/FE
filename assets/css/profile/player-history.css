@@ -18,7 +18,8 @@
 .history-list {
   /* align-content: flex-start; */
   width: 100%;
-  height: 60%;
+  color: white;
+  min-height: min(8vw, 8vh);
 }
 
 .history-list ul {
@@ -29,12 +30,13 @@
 
 .history-item {
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   background: #333;
   border-radius: 10px;
-  color: #fff;
+  height: min(8vw, 8vh);
   margin-bottom: 1vh;
 }
 
