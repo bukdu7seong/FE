@@ -36,7 +36,7 @@ const playerHistory = `
   <div class="history-list">
     <ul></ul>
   </div>
-  <div class="history-view-all">
+  <div class="history-view-all" id="viewAllHistory">
     <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;

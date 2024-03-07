@@ -3,13 +3,14 @@ import { changeDateFormat } from '../../utils/date.js';
 import { escapeHtml } from '../../utils/validateInput.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
+import { viewAllHistoryModal } from './modal/viewAllHistory.js';
 import {
   testFriendData,
   testHistoryData,
   testRequestData,
 } from './testData.js';
 
-const MODALS = ['changeUserName', 'changeUserImage'];
+const MODALS = ['changeUserName', 'changeUserImage', 'viewAllHistory'];
 
 function setModal() {
   MODALS.forEach((modalId) => {
@@ -23,6 +24,9 @@ function setModal() {
           break;
         case 'changeUserImage':
           modal = new changeUserImageModal();
+          break;
+        case 'viewAllHistory':
+          modal = new viewAllHistoryModal();
           break;
         default:
           break;

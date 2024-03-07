@@ -41,8 +41,9 @@
 .history-icon {
   display: flex;
   justify-content: center;
-  width: 5vw;
-  height: 5vh;
+  align-items: center;
+  margin: min(1vw, 1vh);
+  padding: min(2vw, 2vh);
   margin-left: min(1vw, 1vh);
   background: #000;
   border-radius: 10px;
