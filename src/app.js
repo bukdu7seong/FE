@@ -6,6 +6,7 @@ import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
 import { signIn } from './components/login/sign_in.js';
 import { signUp } from './components/login/sign_up.js';
+import { twoFA } from './components/login/twofa.js';
 // game
 import PingPong from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
@@ -60,6 +61,7 @@ function init() {
 
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp); // 페이지 로딩 시, 실행할 함수를 설정
+      setOnRender(routes['/twofa'], twoFA);
 
       userState.subscribe(updateUserBox); // 언제 호출하는게 좋을까?
       //   routeState.subscribe(checkLogin);

@@ -31,7 +31,7 @@ import { setCookie } from '../../../src/utils/cookie.js';
 
 //         setCookie(response);
 
-//         route(routes, '/2fa');
+//         route(routes, '/twofa');
 //         return response.json();
 //       }
 //       throw Error(response.status);
@@ -53,26 +53,31 @@ async function requestSignUp(formData) {
     .then((response) => {
       console.log('response:', response);
       if (response.status === 201) {
-        userState.setState({
-          isLoggedIn: true,
-          userID: response.body.userID,
-          username: response.body.username,
-          userImage: response.body.image,
-          userEmail: response.body.email,
+        response.json().then((data) => {
+          userState.setState({
+            isLoggedIn: true,
+            userID: data.userID,
+            username: data.username,
+            userImage: data.image,
+            userEmail: data.email,
+          });
         });
 
-        setCookie(response);
+        setCookie(response.json());
 
-        route(routes, '/2fa');
+        route(routes, '/twofa');
         return response.json();
       }
       throw Error(response.status);
     })
     .catch((e) => {
       if (e.status === 400) {
-        console.log('BAD_REQUEST', e);
-      } else {
-        console.log('UNSUPPORTED_MEDIA_TYPE', e);
+        console.log('400 Bad Request: 42 토큰 발급에 실패하였습니다.', e);
+      } else if (e.status === 415) {
+        console.log(
+          '415 Unsupported Media Type: 42 토큰 발급에 실패하였습니다.',
+          e
+        );
       }
     });
 }
@@ -89,7 +94,7 @@ function checkAgree() {
     });
 }
 
-export function signUp() {
+function handleSignUpSubmit() {
   document
     .getElementsByClassName('form-signup')[0]
     .addEventListener('submit', function (e) {
@@ -98,6 +103,7 @@ export function signUp() {
       const username = document.getElementById('usernameInput').value;
       const password = document.getElementById('passwordInput').value;
       const code = localStorage.getItem('code').replace('?code=', '');
+      localStorage.removeItem('code');
       const image = document.getElementById('imageInput').files[0];
 
       const formData = new FormData();
@@ -110,19 +116,19 @@ export function signUp() {
       for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
-      // 유저 이름과 비밀번호 검증 로직 필요
+
       //   const signUpInfo = {
       //     username: document.getElementById('usernameInput').value,
       //     password: document.getElementById('passwordInput').value,
       //     code: localStorage.getItem('code'),
       //     image: bytesToBase64(document.getElementById('imageInput').files[0]),
       //   };
-
-      localStorage.removeItem('code');
-
       //   console.log('signUpInfo:', signUpInfo);
-
       requestSignUp(formData);
-      checkAgree();
     });
+}
+
+export function signUp() {
+  handleSignUpSubmit();
+  checkAgree();
 }

@@ -20,3 +20,18 @@
 .btn-outline-light {
   border-radius: 10px;
 }
+
+.form-control::placeholder {
+  color: white;
+  text-align: center;
+  margin: 0 auto; /* 중앙 정렬 */
+}
+
+.timer {
+  margin-top: 10px;
+  color: #ececec !important;
+}
+
+#two-f-a-code {
+  cursor: text !important;
+}
