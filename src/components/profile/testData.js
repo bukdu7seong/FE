@@ -186,6 +186,66 @@ export const testFriendData = {
   ],
 };
 
+export const testFriendData2 = {
+  page: 2,
+  pageSize: 5,
+  total: 12,
+  totalPages: 3,
+  friends: [
+    {
+      id: 5,
+      username: 'user5',
+      user_img: testImageBase64,
+      email: 'user5@example.com',
+    },
+    {
+      id: 2,
+      username: 'user2',
+      user_img: testImageBase64,
+      email: 'user2@example.com',
+    },
+    {
+      id: 3,
+      username: 'user3',
+      user_img: testImageBase64,
+      email: 'user3@example.com',
+    },
+    {
+      id: 4,
+      username: 'user4',
+      user_img: testImageBase64,
+      email: 'user4@example.com',
+    },
+    {
+      id: 6,
+      username: 'user6',
+      user_img: testImageBase64,
+      email: 'user6@example.com',
+    },
+  ],
+};
+
+export const testFriendData3 = {
+  page: 3,
+  pageSize: 5,
+  total: 12,
+  totalPages: 3,
+  friends: [
+    {
+      id: 5,
+      username: 'user5',
+      user_img: testImageBase64,
+      email: 'user5@example.com',
+    },
+    {
+      id: 6,
+      username: 'user6',
+      user_img: testImageBase64,
+      email: 'user6@example.com',
+    },
+  ],
+};
+
 export const testRequestData = {
   page: 1,
   pageSize: 5,

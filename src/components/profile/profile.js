@@ -3,6 +3,7 @@ import { changeDateFormat } from '../../utils/date.js';
 import { escapeHtml } from '../../utils/validateInput.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
+import { viewAllFriendsModal } from './modal/viewAllFriends.js';
 import { viewAllHistoryModal } from './modal/viewAllHistory.js';
 import {
   testFriendData,
@@ -10,10 +11,15 @@ import {
   testRequestData,
 } from './testData.js';
 
-const MODALS = ['changeUserName', 'changeUserImage', 'viewAllHistory'];
+const BUTTONS = [
+  'changeUserName',
+  'changeUserImage',
+  'viewAllHistory',
+  'viewAllFriends',
+];
 
 function setModal() {
-  MODALS.forEach((modalId) => {
+  BUTTONS.forEach((modalId) => {
     const modalTrigger = document.getElementById(modalId);
     modalTrigger.addEventListener('click', () => {
       let modal = null;
@@ -27,6 +33,9 @@ function setModal() {
           break;
         case 'viewAllHistory':
           modal = new viewAllHistoryModal();
+          break;
+        case 'viewAllFriends':
+          modal = new viewAllFriendsModal();
           break;
         default:
           break;
@@ -217,7 +226,7 @@ function listenFriendLogin() {
   waitForSocketOpen
     .then(() => {
       userSocket.onmessage = (event) => {
-        const loginStatusList = JSON.parse(event.data);
+        const loginStatusList = JSON.parse(event.data); // {}
 
         loginStatusList.forEach((loginStatus) => {
           const friendItem = document.getElementById(loginStatus.id);
@@ -235,7 +244,7 @@ function listenFriendLogin() {
     .catch(() => {
       const allLoginStatus = document.querySelectorAll('.login-status');
       allLoginStatus.forEach((loginStatus) => {
-        loginStatus.classList.remove('login');
+        loginStatus.classList.remove('logout');
         loginStatus.classList.add('offline');
       });
     });

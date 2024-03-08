@@ -123,18 +123,49 @@ body {
 }
 
 /* Pagination */
-.modal-content.modal-history-content {
-  min-height: 85vh;
+.modal-content.modal-history-content,
+.modal-content.modal-friend-content {
+  min-height: 84vh;
 }
 
-.modal-body.history-list {
+.modal-body.modal-history-list-body,
+.modal-body.modal-friend-list-body {
   padding: 1rem;
-  /* height: 70vh; */
 }
 
-.modal-history-list ul {
+.modal-history-list ul,
+.modal-friend-list-list ul {
   list-style-type: none;
   padding-left: 0;
+}
+
+.modal-friend-list-item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  background: #333;
+  border-radius: 10px;
+  height: min(10vw, 10vh);
+  margin-bottom: 1vh;
+}
+
+.modal-login-status {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  aspect-ratio: 1/1;
+  margin: min(1vw, 1vh);
+}
+.modal-login-status.modal-login {
+  background-color: green;
+}
+.modal-login-status.modal-logout {
+  background-color: red;
+}
+.modal-login-status.modal-offline {
+  background-color: gray;
 }
 
 .pagination-container {

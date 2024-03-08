@@ -48,7 +48,7 @@ const friendList = `
   <div class="friend-list-list">
     <ul></ul>
   </div>
-  <div class="friend-view-all">
+  <div class="friend-view-all" id="viewAllFriends">
     <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;

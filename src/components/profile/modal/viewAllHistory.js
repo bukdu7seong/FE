@@ -15,7 +15,7 @@ function modalHTML(modalId) {
           <div class="modal-header">
             <h2 class="modal-title fs-5">Game History</h2>
           </div>
-          <div class="modal-body history-list">
+          <div class="modal-body modal-history-list-body">
             <div class="modal-history-list">
               <ul></ul>
             </div>
