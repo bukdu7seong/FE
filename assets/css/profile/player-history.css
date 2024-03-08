@@ -36,7 +36,7 @@
   width: 100%;
   background: #333;
   border-radius: 10px;
-  height: min(8vw, 8vh);
+  height: min(10vw, 10vh);
   margin-bottom: 1vh;
 }
 
