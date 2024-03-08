@@ -52,6 +52,14 @@ function modalHTML(frontModalId, backModalId) {
   `;
 }
 
+function popToast(toastType, content) {
+  const toast = new toastType(content);
+  toast.show();
+  setTimeout(() => {
+    toast.hide();
+  }, 3000);
+}
+
 async function update2FA() {
   try {
     const accessToken = sessionStorage.getItem('accessToken');
@@ -78,11 +86,7 @@ async function update2FA() {
       userState.setState({ is_2fa:  !userState.getState().user2fa});
     }
   } catch (error) {
-    const toast = new failureToast(error.message);
-    toast.show();
-    setTimeout(() => {
-      toast.hide();
-    }, 3000);
+    popToast(failureToast, error.message);
   }
 }
 
@@ -92,8 +96,7 @@ export class change2FA {
     this.frontModalId = frontModalId;
     this.backModalId = backModalId;
     this.frontModalInstance = null;
-    this.backModalInstacne = null;
-    this.successToast = null;
+    this.backModalInstance = null;
     this.initModal();
   }
 
@@ -104,7 +107,7 @@ export class change2FA {
       document.getElementById(this.frontModalId)
     );
 
-    this.backModalInstacne = new bootstrap.Modal(
+    this.backModalInstance = new bootstrap.Modal(
       document.getElementById(this.backModalId)
     );
 
@@ -112,13 +115,13 @@ export class change2FA {
     //   'hidden.bs.modal',
     //   this.handleHidden(this.frontModalInstance).bind(this)
     // );
-
+    //
     // this.backModalId._element.addEventListener(
     //   'hidden.bs.modal',
-    //   this.handleHidden(this.backModalInstacne).bind(this)
+    //   this.handleHidden(this.backModalInstance).bind(this)
     // );
 
-    this.backModalInstacne._element
+    this.backModalInstance._element
       .querySelector('.btn-primary')
       .addEventListener('click', this.checkInput.bind(this));
   }
@@ -137,19 +140,6 @@ export class change2FA {
     }
   }
 
-  // changeImage() {
-  //   updateUserImage(this.inputFile);
-  // }
-
-  popToast() {
-    this.successToast = new successToast('Successfully changed image!');
-    this.successToast.show();
-    setTimeout(() => {
-      this.successToast.hide();
-      this.successToast = null;
-    }, 4242);
-  }
-
   handleHidden(modalInstance) {
     modalInstance._element.remove();
   }
@@ -158,9 +148,7 @@ export class change2FA {
   show() {
     const is2FAEnabled = userState.getState().user2fa;
     if (is2FAEnabled) {
-      const toast = new successToast('2FA 인증이 해제되었습니다.');
-      toast.show();
-      setTimeout(() => toast.hide(), 3000);
+      popToast(successToast, '2FA 인증이 해제되었습니다.');
     } else {
       this.frontModalInstance.show();
     }
@@ -169,6 +157,6 @@ export class change2FA {
 
   // hide() {
   //   this.frontModalInstance.hide();
-  //   this.backModalInstacne.hide();
+  //   this.backModalInstance.hide();
   // }
 }
