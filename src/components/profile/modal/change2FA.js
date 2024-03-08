@@ -2,28 +2,31 @@ import { globalState, userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { failureToast } from '../toast/failure.js';
 
-function modalHTML(frontModalId, backModalId) {
+function frontModalHTML(frontModalId) {
   return `
-  <div class='modal fade' id='${frontModalId}' tabindex='-1' aria-labelledby='confirm2FAModalLabel' aria-hidden='true'>
-    <div class='modal-dialog modal-dialog-centered'>
+    <div class='modal fade' id='${frontModalId}'>
+      <div class='modal-dialog modal-dialog-centered'>
         <div class='modal-content'>
-            <div class='modal-header'>
-                <h5 class='modal-title' id='confirm2FAModalLabel'>2단계 인증 확인</h5>
-                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-            </div>
-            <div class='modal-body'>
-                2단계 인증을 진행하시겠습니까?
-            </div>
-            <div class='modal-footer'>
-                <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>취소</button>
-                <button type='button' class='btn btn-primary' data-bs-target='#codeInputModal' data-bs-toggle='modal'>확인</button>
-            </div>
+          <div class='modal-header'>
+            <h5 class='modal-title' id='confirm2FAModalLabel'>2단계 인증 확인</h5>
+            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+          </div>
+          <div class='modal-body'>
+            <span>2단계 인증을 진행하시겠습니까?</span>
+          </div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>취소</button>
+            <button type='button' class='btn btn-primary' data-bs-target='#codeInputModal' data-bs-toggle='modal'>확인</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  `;
+}
 
-<!-- Code Input Modal -->
-<div class='modal fade' id='${backModalId}' tabindex='-1' aria-labelledby='codeInputModalLabel' aria-hidden='true'>
+function backModalHTML(backModalId) {
+  return `
+  <div class='modal fade' id='${backModalId}' tabindex='-1' aria-labelledby='codeInputModalLabel' aria-hidden='true'>
     <div class='modal-dialog modal-dialog-centered'>
         <div class='modal-content'>
             <div class='modal-header'>
@@ -70,7 +73,7 @@ async function update2FA() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ is_2fa: userState.getState().user2fa}),
+        body: JSON.stringify({ is_2fa: userState.getState().user2fa }),
       }
     );
 
@@ -83,7 +86,7 @@ async function update2FA() {
       }
     } else {
       const data = await response.json();
-      userState.setState({ is_2fa:  !userState.getState().user2fa});
+      userState.setState({ is_2fa: !userState.getState().user2fa });
     }
   } catch (error) {
     popToast(failureToast, error.message);
@@ -91,17 +94,23 @@ async function update2FA() {
 }
 
 export class change2FA {
-  constructor(frontModalId = 'confirm2FAModal', backModalId = 'codeInputModal') {
-    this.modalHTML = modalHTML(frontModalId, backModalId);
+  constructor(
+    frontModalId = 'confirm2FAModal',
+    backModalId = 'codeInputModal'
+  ) {
+    this.frontModalHTML = frontModalHTML(frontModalId);
+    this.backModalHTML = backModalHTML(backModalId);
     this.frontModalId = frontModalId;
     this.backModalId = backModalId;
     this.frontModalInstance = null;
     this.backModalInstance = null;
+    this.status = 'front';
     this.initModal();
   }
 
   initModal() {
-    document.body.insertAdjacentHTML('beforeend', this.modalHTML);
+    document.body.insertAdjacentHTML('beforeend', this.frontModalHTML);
+    document.body.insertAdjacentHTML('beforeend', this.backModalHTML);
 
     this.frontModalInstance = new bootstrap.Modal(
       document.getElementById(this.frontModalId)
@@ -111,52 +120,67 @@ export class change2FA {
       document.getElementById(this.backModalId)
     );
 
-    // this.frontModalId._element.addEventListener(
-    //   'hidden.bs.modal',
-    //   this.handleHidden(this.frontModalInstance).bind(this)
-    // );
-    //
-    // this.backModalId._element.addEventListener(
-    //   'hidden.bs.modal',
-    //   this.handleHidden(this.backModalInstance).bind(this)
-    // );
+    this.frontModalInstance._element.addEventListener(
+      'hidden.bs.modal',
+      this.handleFrontHidden.bind(this)
+    );
+
+    this.backModalInstance._element.addEventListener(
+      'hidden.bs.modal',
+      this.handleBackHidden.bind(this)
+    );
+
+    this.frontModalInstance._element
+      .querySelector('.btn-primary')
+      .addEventListener('click', this.confirm.bind(this));
 
     this.backModalInstance._element
       .querySelector('.btn-primary')
       .addEventListener('click', this.checkInput.bind(this));
   }
 
+  confirm() {
+    this.status = 'back';
+    this.handleFrontHidden();
+    this.backModalInstance.show();
+  }
+
   checkInput() {
-    this.inputFile =
-      this.modalInstance._element.querySelector('#newProfileImage').files[0];
+    // this.inputFile =
+    //   this.backModalInstance._element.querySelector('#newProfileImage').files[0];
+    // if (!this.inputFile) {
+    //   this.backModalInstance._element.querySelector('#error-message').textContent =
+    //     'Please select an image.';
+    // } else {
+    //   this.changeImage();
+    //   this.popToast();
+    //   this.hide();
+    // }
+  }
 
-    if (!this.inputFile) {
-      this.modalInstance._element.querySelector('#error-message').textContent =
-        'Please select an image.';
-    } else {
-      this.changeImage();
-      this.popToast();
-      this.hide();
+  handleBackHidden() {
+    this.backModalInstance._element.remove();
+  }
+
+  handleFrontHidden() {
+    if (this.status === 'back') {
+      this.frontModalInstance._element.remove();
+      return;
     }
+    // 한 번에 element가 동시에 생기기에, 모두 없애야 한다.
+    this.frontModalInstance._element.remove();
+    this.backModalInstance._element.remove();
   }
-
-  handleHidden(modalInstance) {
-    modalInstance._element.remove();
-  }
-
 
   show() {
     const is2FAEnabled = userState.getState().user2fa;
     if (is2FAEnabled) {
-      popToast(successToast, '2FA 인증이 해제되었습니다.');
+      popToast(successToast, '2FA Authentication is disabled.');
+      // 처음에 모달 사용과 관계 없이 인스턴스가 생성이 되어버리기 때문에 삭제해야 한다.
+      this.handleFrontHidden();
     } else {
       this.frontModalInstance.show();
     }
     userState.setState({ user2fa: !userState.getState().user2fa });
   }
-
-  // hide() {
-  //   this.frontModalInstance.hide();
-  //   this.backModalInstance.hide();
-  // }
 }
