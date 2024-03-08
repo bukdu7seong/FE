@@ -2,13 +2,16 @@ import { userState } from '../../../lib/state/state.js';
 import { changeDateFormat } from '../../utils/date.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
+import { change2FA } from './modal/change2FA.js';
+
 import {
   testFriendData,
   testHistoryData,
   testRequestData,
 } from './testData.js';
 
-const MODALS = ['changeUserName', 'changeUserImage'];
+
+const MODALS = ['changeUserName', 'changeUserImage', '2fa'];
 
 function setModal() {
   MODALS.forEach((modalId) => {
@@ -23,10 +26,12 @@ function setModal() {
         case 'changeUserImage':
           modal = new changeUserImageModal();
           break;
+        case '2fa':
+          modal = new change2FA();
+          break
         default:
           break;
       }
-
       modal.show();
     });
   });
