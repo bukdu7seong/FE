@@ -155,10 +155,11 @@ function setFriendList() {
       // Friend List Item
       const friendListItemDiv = document.createElement('div');
       friendListItemDiv.classList.add('friend-list-item');
+      friendListItemDiv.id = escapeHtml(result.id.toString());
 
       // Login Status
       const loginStatusDiv = document.createElement('div');
-      loginStatusDiv.classList.add('login-status', 'login');
+      loginStatusDiv.classList.add('login-status', 'logout');
 
       // Friend Info
       const friendInfoDiv = document.createElement('div');
@@ -183,7 +184,6 @@ function setFriendList() {
       const friendProfileBtn = document.createElement('button');
       friendProfileBtn.type = 'button';
       friendProfileBtn.classList.add('btn', 'btn-outline-light');
-      friendProfileBtn.id = escapeHtml(result.id.toString());
       friendProfileBtn.textContent = 'Profile';
 
       friendInfoDiv.appendChild(friendPhotoDiv);
@@ -196,6 +196,49 @@ function setFriendList() {
       friendList.appendChild(friendItem);
     });
   }
+}
+
+function listenFriendLogin() {
+  const userData = userState.getState();
+  const userSocket = userData.userSocket;
+
+  const waitForSocketOpen = new Promise((resolve, reject) => {
+    const checkInterval = setInterval(() => {
+      if (userSocket && userSocket.readyState === WebSocket.OPEN) {
+        clearInterval(checkInterval);
+        resolve(userSocket);
+      } else if (userState.getState().socketStatus === 'offline') {
+        clearInterval(checkInterval);
+        reject(new Error('Socket is offline'));
+      }
+    }, 1000);
+  });
+
+  waitForSocketOpen
+    .then(() => {
+      userSocket.onmessage = (event) => {
+        const loginStatusList = JSON.parse(event.data);
+
+        loginStatusList.forEach((loginStatus) => {
+          const friendItem = document.getElementById(loginStatus.id);
+          const loginStatusDiv = friendItem.querySelector('.login-status');
+          if (loginStatus.login) {
+            loginStatusDiv.classList.remove('logout');
+            loginStatusDiv.classList.add('login');
+          } else {
+            loginStatusDiv.classList.remove('login');
+            loginStatusDiv.classList.add('logout');
+          }
+        });
+      };
+    })
+    .catch(() => {
+      const allLoginStatus = document.querySelectorAll('.login-status');
+      allLoginStatus.forEach((loginStatus) => {
+        loginStatus.classList.remove('login');
+        loginStatus.classList.add('offline');
+      });
+    });
 }
 
 function setRequestList() {
@@ -282,5 +325,6 @@ export function profile() {
   setProfile();
   setHistoryList();
   setFriendList();
+  listenFriendLogin();
   setRequestList();
 }

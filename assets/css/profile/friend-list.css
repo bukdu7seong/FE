@@ -69,6 +69,10 @@
   background-color: red;
 }
 
+.login-status.offline {
+  background-color: gray;
+}
+
 .friend-info {
   display: flex;
   flex-direction: row;
