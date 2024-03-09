@@ -127,6 +127,15 @@ function init() {
     };
     /* *************************************************************** */
 
+    // 페이지 리로드 혹은 페이지 전환, 브라우저를 닫을 시 소켓 연결을 끊는다.
+    window.addEventListener('beforeunload', function (e) {
+      const userData = userState.getState();
+
+      if (userData.userSocket) {
+        userData.userSocket.close();
+      }
+    });
+
     /* ****************** resize 관련 코드 *******************************/
     // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
     // window.addEventListener('resize', checkWindowSize);
