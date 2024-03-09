@@ -12,7 +12,7 @@ function frontModalHTML(frontModalId) {
             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
           </div>
           <div class='modal-body'>
-            <span>2단계 인증을 진행하시겠습니까?</span>
+            <span>Do you want to proceed 2fa authentication?</span>
           </div>
           <div class='modal-footer'>
             <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>취소</button>
