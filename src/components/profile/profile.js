@@ -1,8 +1,10 @@
 import { userState } from '../../../lib/state/state.js';
+import { listenFriendLogin } from './loginStatus.js';
 import { changeDateFormat } from '../../utils/date.js';
 import { escapeHtml } from '../../utils/validateInput.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
+import { userProfileModal } from './modal/userProfile.js';
 import { viewAllFriendsModal } from './modal/viewAllFriends.js';
 import { viewAllHistoryModal } from './modal/viewAllHistory.js';
 import {
@@ -16,32 +18,39 @@ const BUTTONS = [
   'changeUserImage',
   'viewAllHistory',
   'viewAllFriends',
+  'userProfile',
 ];
 
 function setModal() {
-  BUTTONS.forEach((modalId) => {
-    const modalTrigger = document.getElementById(modalId);
-    modalTrigger.addEventListener('click', () => {
-      let modal = null;
+  BUTTONS.forEach((button) => {
+    const modalTrigger = document.getElementsByClassName(button);
+    Array.from(modalTrigger).forEach((modalTrigger) => {
+      modalTrigger.addEventListener('click', (event) => {
+        let modal = null;
 
-      switch (modalId) {
-        case 'changeUserName':
-          modal = new changeUserNameModal();
-          break;
-        case 'changeUserImage':
-          modal = new changeUserImageModal();
-          break;
-        case 'viewAllHistory':
-          modal = new viewAllHistoryModal();
-          break;
-        case 'viewAllFriends':
-          modal = new viewAllFriendsModal();
-          break;
-        default:
-          break;
-      }
+        switch (button) {
+          case 'changeUserName':
+            modal = new changeUserNameModal();
+            break;
+          case 'changeUserImage':
+            modal = new changeUserImageModal();
+            break;
+          case 'viewAllHistory':
+            modal = new viewAllHistoryModal();
+            break;
+          case 'viewAllFriends':
+            modal = new viewAllFriendsModal();
+            break;
+          case 'userProfile':
+            const userId = event.target.closest('.item').id;
+            modal = new userProfileModal(userId);
+            break;
+          default:
+            break;
+        }
 
-      modal.show();
+        modal.show();
+      });
     });
   });
 }
@@ -163,6 +172,7 @@ function setFriendList() {
 
       // Friend List Item
       const friendListItemDiv = document.createElement('div');
+      friendListItemDiv.classList.add('item');
       friendListItemDiv.classList.add('friend-list-item');
       friendListItemDiv.id = escapeHtml(result.id.toString());
 
@@ -193,6 +203,7 @@ function setFriendList() {
       const friendProfileBtn = document.createElement('button');
       friendProfileBtn.type = 'button';
       friendProfileBtn.classList.add('btn', 'btn-outline-light');
+      friendProfileBtn.classList.add('userProfile');
       friendProfileBtn.textContent = 'Profile';
 
       friendInfoDiv.appendChild(friendPhotoDiv);
@@ -204,50 +215,9 @@ function setFriendList() {
       friendItem.appendChild(friendListItemDiv);
       friendList.appendChild(friendItem);
     });
+
+    listenFriendLogin();
   }
-}
-
-function listenFriendLogin() {
-  const userData = userState.getState();
-  const userSocket = userData.userSocket;
-
-  const waitForSocketOpen = new Promise((resolve, reject) => {
-    const checkInterval = setInterval(() => {
-      if (userSocket && userSocket.readyState === WebSocket.OPEN) {
-        clearInterval(checkInterval);
-        resolve(userSocket);
-      } else if (userState.getState().socketStatus === 'offline') {
-        clearInterval(checkInterval);
-        reject(new Error('Socket is offline'));
-      }
-    }, 1000);
-  });
-
-  waitForSocketOpen
-    .then(() => {
-      userSocket.onmessage = (event) => {
-        const loginStatusList = JSON.parse(event.data); // {}
-
-        loginStatusList.forEach((loginStatus) => {
-          const friendItem = document.getElementById(loginStatus.id);
-          const loginStatusDiv = friendItem.querySelector('.login-status');
-          if (loginStatus.login) {
-            loginStatusDiv.classList.remove('logout');
-            loginStatusDiv.classList.add('login');
-          } else {
-            loginStatusDiv.classList.remove('login');
-            loginStatusDiv.classList.add('logout');
-          }
-        });
-      };
-    })
-    .catch(() => {
-      const allLoginStatus = document.querySelectorAll('.login-status');
-      allLoginStatus.forEach((loginStatus) => {
-        loginStatus.classList.remove('logout');
-        loginStatus.classList.add('offline');
-      });
-    });
 }
 
 function setRequestList() {
@@ -266,7 +236,8 @@ function setRequestList() {
 
       // Friend Request Item
       const friendRequestItemDiv = document.createElement('div');
-      friendRequestItemDiv.className = 'friend-request-item';
+      friendRequestItemDiv.classList.add('friend-request-item');
+      friendRequestItemDiv.classList.add('friend-request-item');
 
       // Friend Request Info
       const friendRequestInfoDiv = document.createElement('div');
@@ -330,10 +301,9 @@ function setRequestList() {
 
 // API 받아서 페이지 갱신하는 함수도 만들어야 한다.
 export function profile() {
-  setModal();
   setProfile();
   setHistoryList();
   setFriendList();
-  listenFriendLogin();
   setRequestList();
+  setModal();
 }

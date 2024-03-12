@@ -5,11 +5,11 @@ const playerProfile = `
   <div class="profile-info">
     <div class="profile-name">
       <span>-</span>
-      <button class="edit-profile-btn" id="changeUserName">
+      <button class="edit-profile-btn changeUserName">
         <img src="../assets/images/icon/pencil-fill.svg" alt="edit profile">
       </button>
     </div>
-    <div class="photo-upload" id="changeUserImage">
+    <div class="photo-upload changeUserImage">
       <button class="upload-photo-btn">Choose a photo for your profile</button>
     </div>
     <div class="profile-stats">
@@ -36,7 +36,7 @@ const playerHistory = `
   <div class="history-list">
     <ul></ul>
   </div>
-  <div class="history-view-all" id="viewAllHistory">
+  <div class="history-view-all viewAllHistory">
     <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;
@@ -48,7 +48,7 @@ const friendList = `
   <div class="friend-list-list">
     <ul></ul>
   </div>
-  <div class="friend-view-all" id="viewAllFriends">
+  <div class="friend-view-all viewAllFriends">
     <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;
