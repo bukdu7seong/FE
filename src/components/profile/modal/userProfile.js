@@ -81,6 +81,7 @@ export class userProfileModal {
     this.modalHTML = modalHTML(modalId);
     this.modalId = modalId;
     // this.userId = userId;
+    console.log(userId);
     this.userId = 1; // for development
     this.modalInstance = null;
     this.initModal();

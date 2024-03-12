@@ -5,6 +5,7 @@ import {
   testFriendData2,
   testFriendData3,
 } from '../testData.js';
+import { userProfileModal } from './userProfile.js';
 
 function modalHTML(modalId) {
   return `
@@ -71,6 +72,7 @@ export class viewAllFriendsModal {
     this.modalHTML = modalHTML(modalId);
     this.modalId = modalId;
     this.modalInstance = null;
+    this.profileModalInstance = null;
     this.currentPage = 1;
     this.maxPage = 0;
     this.totalData = 0;
@@ -88,8 +90,6 @@ export class viewAllFriendsModal {
       'hidden.bs.modal',
       this.handleHidden.bind(this)
     );
-
-    this.setFriendList(this.currentPage);
 
     const prevBigButton = document.querySelector(`.pagination .prev-big`);
     const prevSmallButton = document.querySelector(`.pagination .prev-small`);
@@ -141,6 +141,7 @@ export class viewAllFriendsModal {
 
           // Friend List Item
           const friendListItemDiv = document.createElement('div');
+          friendListItemDiv.classList.add('modal-item');
           friendListItemDiv.classList.add('modal-friend-list-item');
           friendListItemDiv.id = escapeHtml(result.id.toString());
 
@@ -172,6 +173,7 @@ export class viewAllFriendsModal {
           const friendProfileBtn = document.createElement('button');
           friendProfileBtn.type = 'button';
           friendProfileBtn.classList.add('btn', 'btn-outline-light');
+          friendProfileBtn.classList.add('userProfile');
           friendProfileBtn.textContent = 'Profile';
 
           friendInfoDiv.appendChild(friendPhotoDiv);
@@ -183,14 +185,30 @@ export class viewAllFriendsModal {
           friendItem.appendChild(friendListItemDiv);
           friendList.appendChild(friendItem);
         });
+
+        this.listenFriendLogin();
+        this.setProfileModal();
       }
-      this.listenFriendLogin();
+    });
+  }
+
+  setProfileModal() {
+    const userProfileBtns =
+      this.modalInstance._element.querySelectorAll('.userProfile');
+    userProfileBtns.forEach((userProfileBtn) => {
+      userProfileBtn.addEventListener('click', (event) => {
+        const friendId = event.target.parentElement.parentElement.id;
+        this.profileModalInstance = new userProfileModal(friendId);
+        this.profileModalInstance.show();
+      });
     });
   }
 
   listenFriendLogin() {
     if (userState.getState().socketStatus === 'offline') {
-      const allLoginStatus = document.querySelectorAll('.modal-login-status');
+      const allLoginStatus = this.modalInstance._element.querySelectorAll(
+        '.modal-login-status'
+      );
       allLoginStatus.forEach((loginStatus) => {
         loginStatus.classList.remove('modal-logout');
         loginStatus.classList.add('modal-offline');
@@ -219,22 +237,25 @@ export class viewAllFriendsModal {
           const loginStatusList = JSON.parse(event.data); // {}
 
           loginStatusList.forEach((loginStatus) => {
-            const friendItem = document.getElementById(loginStatus.id);
-            const loginStatusDiv = friendItem.querySelector(
-              '.modal-login-status'
-            );
-            if (loginStatus.login) {
-              loginStatusDiv.classList.remove('modal-logout');
-              loginStatusDiv.classList.add('modal-login');
-            } else {
-              loginStatusDiv.classList.remove('modal-login');
-              loginStatusDiv.classList.add('modal-logout');
+            for (let [key, value] of Object.entries(loginStatus)) {
+              const friendItem =
+                this.modalInstance._element.getElementById(key);
+              const loginStatusDiv = friendItem.querySelector('.login-status');
+              if (value) {
+                loginStatusDiv.classList.remove('logout');
+                loginStatusDiv.classList.add('login');
+              } else {
+                loginStatusDiv.classList.remove('login');
+                loginStatusDiv.classList.add('logout');
+              }
             }
           });
         };
       })
       .catch(() => {
-        const allLoginStatus = document.querySelectorAll('.modal-login-status');
+        const allLoginStatus = this.modalInstance._element.querySelectorAll(
+          '.modal-login-status'
+        );
         allLoginStatus.forEach((loginStatus) => {
           loginStatus.classList.remove('modal-logout');
           loginStatus.classList.add('modal-offline');
@@ -243,7 +264,7 @@ export class viewAllFriendsModal {
   }
 
   updatePageInfo() {
-    const pageInfo = document.querySelector(
+    const pageInfo = this.modalInstance._element.querySelector(
       '.pagination-container .total-pages'
     );
     pageInfo.textContent = `
@@ -263,6 +284,7 @@ export class viewAllFriendsModal {
 
   show() {
     this.modalInstance.show();
+    this.setFriendList(this.currentPage);
   }
 
   hide() {

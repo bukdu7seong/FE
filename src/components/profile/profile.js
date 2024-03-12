@@ -24,8 +24,8 @@ const BUTTONS = [
 function setModal() {
   BUTTONS.forEach((button) => {
     const modalTrigger = document.getElementsByClassName(button);
-    Array.from(modalTrigger).forEach((modalTrigger) => {
-      modalTrigger.addEventListener('click', (event) => {
+    Array.from(modalTrigger).forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
         let modal = null;
 
         switch (button) {
