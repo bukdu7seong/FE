@@ -13,7 +13,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-history-content">
           <div class="modal-header">
-            <h2 class="modal-title fs-5">Game History</h2>
+            <h2 class="modal-title">Game History</h2>
           </div>
           <div class="modal-body modal-history-list-body">
             <div class="modal-history-list">

@@ -13,7 +13,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-friend-content">
           <div class="modal-header">
-            <h2 class="modal-title fs-5">Friends</h2>
+            <h2 class="modal-title">Friends</h2>
           </div>
           <div class="modal-body modal-friend-list-body">
             <div class="modal-friend-list-list">

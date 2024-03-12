@@ -15,6 +15,7 @@ import {
   testRequestData,
 } from './testData.js';
 import { updateRequest } from './updateRequest.js';
+import { inviteFriendsModal } from './modal/inviteFriends.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -22,6 +23,7 @@ const BUTTONS = [
   'viewAllHistory',
   'viewAllFriends',
   'viewAllRequests',
+  'inviteFriends',
   'userProfile',
 ];
 
@@ -47,6 +49,9 @@ function setModal() {
             break;
           case 'viewAllRequests':
             modal = new viewAllRequestsModal();
+            break;
+          case 'inviteFriends':
+            modal = new inviteFriendsModal();
             break;
           case 'userProfile':
             const userId = event.target.closest('.item').id;

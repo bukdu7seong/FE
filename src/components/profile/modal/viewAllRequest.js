@@ -14,7 +14,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-friend-request-content">
           <div class="modal-header">
-            <h2 class="modal-title fs-5">Friend Request</h2>
+            <h2 class="modal-title">Friend Request</h2>
           </div>
           <div class="modal-body modal-friend-request-list-body">
             <div class="modal-friend-request-list">
