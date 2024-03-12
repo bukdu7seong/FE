@@ -153,6 +153,14 @@ body {
   margin-bottom: 1vh;
 }
 
+.modal-friend-request-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
 .modal-login-status {
   border-radius: 50%;
   width: 5px;

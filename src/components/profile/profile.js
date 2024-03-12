@@ -14,6 +14,7 @@ import {
   testHistoryData,
   testRequestData,
 } from './testData.js';
+import { updateRequest } from './updateRequest.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -228,6 +229,8 @@ function setFriendList() {
 
 function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
+  requestList.innerHTML = '';
+
   const requestData = testRequestData; // JSON
   if (!requestData.requests.length) {
     const requestItem = document.createElement('li');
@@ -275,6 +278,11 @@ function setRequestList() {
       acceptImg.alt = 'accept';
       acceptButton.appendChild(acceptImg);
 
+      acceptButton.addEventListener('click', () => {
+        updateRequest(requestData.requests);
+        setRequestList();
+      });
+
       const declineButton = document.createElement('button');
       declineButton.type = 'button';
       declineButton.className = 'btn btn-danger';
@@ -282,6 +290,11 @@ function setRequestList() {
       declineImg.src = '../assets/images/icon/x-lg.svg';
       declineImg.alt = 'decline';
       declineButton.appendChild(declineImg);
+
+      declineButton.addEventListener('click', () => {
+        updateRequest(requestData.requests);
+        setRequestList();
+      });
 
       // Friend Request Profile
       const friendRequestProfileDiv = document.createElement('div');
