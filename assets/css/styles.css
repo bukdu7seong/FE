@@ -134,12 +134,14 @@ body {
 }
 
 .modal-history-list ul,
-.modal-friend-list-list ul {
+.modal-friend-list-list ul,
+.modal-friend-request-list ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-.modal-friend-list-item {
+.modal-friend-list-item,
+.modal-friend-request-item {
   display: flex;
   position: relative;
   align-items: center;

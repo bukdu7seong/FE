@@ -9,45 +9,44 @@ import { userProfileModal } from './userProfile.js';
 
 function modalHTML(modalId) {
   return `
-      <div class="modal fade" id="${modalId}">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content modal-friend-content">
-            <div class="modal-header">
-              <h2 class="modal-title fs-5">Friends</h2>
+    <div class="modal fade" id="${modalId}">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-friend-content">
+          <div class="modal-header">
+            <h2 class="modal-title fs-5">Friends</h2>
+          </div>
+          <div class="modal-body modal-friend-list-body">
+            <div class="modal-friend-list-list">
+              <ul></ul>
             </div>
-            <div class="modal-body modal-friend-list-body">
-              <div class="modal-friend-list-list">
-                <ul></ul>
+          </div>
+          <div class="modal-footer">
+            <div class="pagination-container">
+              <div class="total-pages">
+                  <span>1-5 of 100</span>
               </div>
-            </div>
-            <div class="modal-footer">
-                <div class="pagination-container">
-                <div class="total-pages">
-                    <span>1-5 of 100</span>
-                </div>
-                <ul class="pagination">
-                  <li class="page-item">
-                    <button class="page-link prev-big">
-                        <span>&laquo;</span>
-                    </button>
-                  </li>
-                  <li class="page-item">
-                    <button class="page-link prev-small">
-                        <span>&lsaquo;</span>
-                    </button>
-                  </li>
-                  <li class="page-item">
-                    <button class="page-link next-small">
-                        <span>&rsaquo;</span>
-                    </button>
-                  </li>
-                  <li class="page-item">
-                    <button class="page-link next-big">
-                        <span>&raquo;</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
+              <ul class="pagination">
+                <li class="page-item">
+                  <button class="page-link prev-big">
+                      <span>&laquo;</span>
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button class="page-link prev-small">
+                      <span>&lsaquo;</span>
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button class="page-link next-small">
+                      <span>&rsaquo;</span>
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button class="page-link next-big">
+                      <span>&raquo;</span>
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -91,10 +90,18 @@ export class viewAllFriendsModal {
       this.handleHidden.bind(this)
     );
 
-    const prevBigButton = document.querySelector(`.pagination .prev-big`);
-    const prevSmallButton = document.querySelector(`.pagination .prev-small`);
-    const nextSmallButton = document.querySelector(`.pagination .next-small`);
-    const nextBigButton = document.querySelector(`.pagination .next-big`);
+    const prevBigButton = this.modalInstance._element.querySelector(
+      `.pagination .prev-big`
+    );
+    const prevSmallButton = this.modalInstance._element.querySelector(
+      `.pagination .prev-small`
+    );
+    const nextSmallButton = this.modalInstance._element.querySelector(
+      `.pagination .next-small`
+    );
+    const nextBigButton = this.modalInstance._element.querySelector(
+      `.pagination .next-big`
+    );
 
     prevBigButton.addEventListener('click', () => {
       this.currentPage = 1;
@@ -122,7 +129,9 @@ export class viewAllFriendsModal {
   }
 
   setFriendList(pageNumber = 1) {
-    const friendList = document.querySelector('.modal-friend-list-list ul');
+    const friendList = this.modalInstance._element.querySelector(
+      '.modal-friend-list-list ul'
+    );
     friendList.innerHTML = '';
 
     fetchFriendData(pageNumber).then((friendData) => {

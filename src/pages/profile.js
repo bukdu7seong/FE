@@ -64,7 +64,7 @@ const friendRequest = `
     <div class="invite-friends">
       <button type="button" class="btn btn-success">Invite friends</button>
     </div>
-    <div class="friend-request-view-all">
+    <div class="friend-request-view-all viewAllRequests">
       <button type="button" class="btn btn-outline-light">View all</button>
     </div>
   </div>

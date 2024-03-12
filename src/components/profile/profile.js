@@ -7,6 +7,8 @@ import { changeUserNameModal } from './modal/changeUserName.js';
 import { userProfileModal } from './modal/userProfile.js';
 import { viewAllFriendsModal } from './modal/viewAllFriends.js';
 import { viewAllHistoryModal } from './modal/viewAllHistory.js';
+import { viewAllRequestsModal } from './modal/viewAllRequest.js';
+
 import {
   testFriendData,
   testHistoryData,
@@ -18,6 +20,7 @@ const BUTTONS = [
   'changeUserImage',
   'viewAllHistory',
   'viewAllFriends',
+  'viewAllRequests',
   'userProfile',
 ];
 
@@ -40,6 +43,9 @@ function setModal() {
             break;
           case 'viewAllFriends':
             modal = new viewAllFriendsModal();
+            break;
+          case 'viewAllRequests':
+            modal = new viewAllRequestsModal();
             break;
           case 'userProfile':
             const userId = event.target.closest('.item').id;
@@ -236,8 +242,9 @@ function setRequestList() {
 
       // Friend Request Item
       const friendRequestItemDiv = document.createElement('div');
+      friendRequestItemDiv.classList.add('item');
       friendRequestItemDiv.classList.add('friend-request-item');
-      friendRequestItemDiv.classList.add('friend-request-item');
+      friendRequestItemDiv.id = escapeHtml(result.id.toString());
 
       // Friend Request Info
       const friendRequestInfoDiv = document.createElement('div');
@@ -281,8 +288,8 @@ function setRequestList() {
       friendRequestProfileDiv.className = 'friend-request-profile';
       const profileButton = document.createElement('button');
       profileButton.type = 'button';
-      profileButton.className = 'btn btn-outline-light';
-      profileButton.id = escapeHtml(result.id.toString());
+      profileButton.classList.add('btn', 'btn-outline-light');
+      profileButton.classList.add('userProfile');
       profileButton.textContent = 'Profile';
       friendRequestProfileDiv.appendChild(profileButton);
 
