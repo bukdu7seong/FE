@@ -71,9 +71,9 @@ async function requestSignUp(formData) {
     route(routes, '/twofa');
     return data;
   } catch (e) {
-    if (e === 400) {
+    if (e.message.includes('400')) {
       alert('Falied to fetch 42 authentication token. Please login agian.');
-    } else if (e === 415) {
+    } else if (e.message.includes('415')) {
       alert('Unsupported Media Type. Please login again');
     } else {
       alert('Failed to proceed sign up process. Please login again.');

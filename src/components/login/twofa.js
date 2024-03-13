@@ -3,7 +3,7 @@ import { route, routes } from '../../../lib/router/router.js';
 import { userState } from '../../../lib/state/state.js';
 
 async function requestResend() {
-  return await fetch('http://localhost:8000//api/account/2fa/', {
+  return await fetch('http://localhost:8000/api/account/2fa/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -28,16 +28,22 @@ async function requestResend() {
 
 // [2FA 코드 인증 요청]
 async function requestTwoFACode(code) {
+  console.log(code);
   try {
-    const response = await fetch('http://localhost:8000/api/account/42code/', {
+    const response = await fetch('http://localhost:8000/api/account/2fa/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ code: code }),
+      body: JSON.stringify({
+        code: code,
+        email: userState.getState().userEmail,
+      }),
     });
 
-    if (response.status === 200) {
+    if (response.ok) {
+      const data = await response.json();
+
       setCookie(data);
       route(routes, '/profile');
     } else {
@@ -45,12 +51,10 @@ async function requestTwoFACode(code) {
     }
   } catch (e) {
     console.log('error:', e);
-    if (response.status === 404) {
-      console.log(e);
+    if (e.message.includes('404')) {
       console.log(' Not Found: 해당 사용자가 존재하지 않습니다.');
       route(routes, '/404', true, false);
-    } else if (response.status === 409) {
-      console.log(e);
+    } else if (e.message.includes('409')) {
       console.log(' Conflict: 42 토큰이 만료되었습니다.');
     }
   }
