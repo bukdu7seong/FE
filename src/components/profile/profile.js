@@ -3,6 +3,7 @@ import { changeDateFormat } from '../../utils/date.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
 import { change2FA } from './modal/change2FA.js';
+import { changePasswordModal } from './modal/changePassword.js';
 
 import {
   testFriendData,
@@ -11,7 +12,7 @@ import {
 } from './testData.js';
 
 
-const MODALS = ['changeUserName', 'changeUserImage', '2fa'];
+const MODALS = ['changeUserName', 'changeUserImage', '2fa', 'change-password'];
 
 function setModal() {
   MODALS.forEach((modalId) => {
@@ -29,6 +30,8 @@ function setModal() {
         case '2fa':
           modal = new change2FA();
           break
+        case 'change-password':
+          modal = new changePasswordModal();
         default:
           break;
       }
