@@ -53,22 +53,28 @@ async function requestSignUp(formData) {
     .then((response) => {
       console.log('response:', response);
       if (response.status === 201) {
-        response.json().then((data) => {
-          userState.setState({
-            isLoggedIn: true,
-            userID: data.userID,
-            username: data.username,
-            userImage: data.image,
-            userEmail: data.email,
+        response
+          .json()
+          .then((data) => {
+            userState.setState({
+              isLoggedIn: true,
+              userID: data.userID,
+              username: data.username,
+              userImage: data.image,
+              userEmail: data.email,
+            });
+
+            setCookie(data);
+
+            route(routes, '/twofa');
+            return data;
+          })
+          .catch((e) => {
+            throw Error(e);
           });
-        });
-
-        setCookie(response.json());
-
-        route(routes, '/twofa');
-        return response.json();
+      } else {
+        throw Error(response);
       }
-      throw Error(response.status);
     })
     .catch((e) => {
       if (e.status === 400) {
