@@ -4,6 +4,7 @@ import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
 import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
+import { deleteUserModal } from './modal/unsubscribe.js';
 
 import {
   testFriendData,
@@ -12,7 +13,7 @@ import {
 } from './testData.js';
 
 
-const MODALS = ['changeUserName', 'changeUserImage', '2fa', 'change-password'];
+const MODALS = ['changeUserName', 'changeUserImage', '2fa', 'change-password', 'unsubscribe'];
 
 function setModal() {
   MODALS.forEach((modalId) => {
@@ -29,9 +30,13 @@ function setModal() {
           break;
         case '2fa':
           modal = new change2FA();
-          break
+          break;
         case 'change-password':
           modal = new changePasswordModal();
+          break;
+        case 'unsubscribe':
+          modal = new deleteUserModal();
+          break;
         default:
           break;
       }
