@@ -14,12 +14,12 @@ function confirmDeletionModalHTML(modalId, finalModalId) {
                 <h5 class="modal-title" id="confirmDeletionModalLabel">회원 탈퇴 확인</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+            <div class="modal-body" id='confirm-deletion-modal-content'>
+            정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" data-bs-target="#${finalModalId}" data-bs-toggle="modal">탈퇴하기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='confirm-deletion-modal-cancel'>취소</button>
+                <button type="button" class="btn btn-danger" data-bs-target="#${finalModalId}" data-bs-toggle="modal" id=confirm-deletion-modal-confirm>탈퇴하기</button>
             </div>
         </div>
     </div>
@@ -39,11 +39,11 @@ function finalConfirmationModalHTML(modalId) {
             <div class="modal-body">
                 <form id="passwordConfirmForm">
                     <div class="mb-3">
-                        <label for="passwordInput" class="form-label">비밀번호를 입력하세요</label>
-                        <input type="password" class="form-control" id="passwordInput" placeholder="비밀번호">
+                        <label for='password-confirm-form-input' class="form-label" id='password-confirm-form-content' >비밀번호를 입력하세요</label>
+                        <input type="password" class="form-control" id='password-confirm-form-input' placeholder="비밀번호">  
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-danger">탈퇴 확인</button>
+                        <button type="submit" class="btn btn-danger" id='password-confirm-form-confirm'>탈퇴 확인</button>
                     </div>
                 </form>
             </div>
@@ -153,7 +153,19 @@ export class deleteUserModal {
   }
 
   show() {
+    this.updateModalContent();
     this.frontModalInstance.show();
     // userState.setState()
+  }
+
+  updateModalContent() {
+    document.getElementById("confirmDeletionModalLabel").innerHTML = i18next.t("confirmDeletionModalLabel");
+    document.getElementById('confirm-deletion-modal-content').innerHTML = i18next.t('confirm-deletion-modal-content');
+    document.getElementById('confirm-deletion-modal-cancel').innerHTML = i18next.t('confirm-deletion-modal-cancel');
+    document.getElementById('confirm-deletion-modal-confirm').innerHTML = i18next.t('confirm-deletion-modal-confirm');
+    document.getElementById('passwordConfirmModalLabel').innerHTML = i18next.t('passwordConfirmModalLabel');
+    document.getElementById('password-confirm-form-content').innerHTML = i18next.t('password-confirm-form-content')
+    document.getElementById('password-confirm-form-input').placeholder = i18next.t('password-confirm-form-input');
+    document.getElementById('password-confirm-form-confirm').innerHTML = i18next.t('password-confirm-form-confirm');
   }
 }

@@ -34,7 +34,15 @@ i18next.init({
         "change-password-modal-new": "New Password",
         "change-password-modal-new-confirm": "Confirm New Password",
         "change-password-modal-cancel": "Cancel",
-        "change-password-modal-change": "Change"
+        "change-password-modal-change": "Change",
+        "confirmDeletionModalLabel": "Confirm Account Deletion",
+        "confirm-deletion-modal-content": "Are you sure you want to delete your account? This action cannot be undone.",
+        "confirm-deletion-modal-cancel": "Cancel",
+        "confirm-deletion-modal-confirm": "Confirm",
+        "passwordConfirmModalLabel": "Password Confirmation",
+        "password-confirm-form-content": "Please enter your password",
+        "password-confirm-form-input": "Password",
+        "password-confirm-form-confirm": "Confirm"
       }
     },
     ko: {
@@ -70,7 +78,15 @@ i18next.init({
         "change-password-modal-new": "새 비밀번호",
         "change-password-modal-new-confirm": "새 비밀번호 확인",
         "change-password-modal-cancel": "취소",
-        "change-password-modal-change": "변경하기"
+        "change-password-modal-change": "변경하기",
+        "confirmDeletionModalLabel": "회원 탈퇴 확인",
+        "confirm-deletion-modal-content": "정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+        "confirm-deletion-modal-cancel": "취소",
+        "confirm-deletion-modal-confirm": "확인",
+        "passwordConfirmModalLabel": "비밀번호 확인",
+        "password-confirm-form-content": "비밀번호를 입력하세요",
+        "password-confirm-form-input": "비밀번호",
+        "password-confirm-form-confirm": "확인"
       }
     },
     fr: {
@@ -106,7 +122,15 @@ i18next.init({
         "change-password-modal-new": "Nouveau mot de passe",
         "change-password-modal-new-confirm": "Confirmer le nouveau mot de passe",
         "change-password-modal-cancel": "Annuler",
-        "change-password-modal-change": "Changer"
+        "change-password-modal-change": "Changer",
+        "confirmDeletionModalLabel": "Confirmation de la suppression du compte",
+        "confirm-deletion-modal-content": "Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.",
+        "confirm-deletion-modal-cancel": "Annuler",
+        "confirm-deletion-modal-confirm": "Confirmer",
+        "passwordConfirmModalLabel": "Confirmation du mot de passe",
+        "password-confirm-form-content": "Veuillez entrer votre mot de passe",
+        "password-confirm-form-input": "Mot de passe",
+        "password-confirm-form-confirm": "Confirmer"
       }
     }
   },
