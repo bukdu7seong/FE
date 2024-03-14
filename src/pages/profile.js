@@ -31,7 +31,7 @@ const playerProfile = `
 
 const playerHistory = `
   <div class="history-title">
-    <span>Recent History</span>
+    <span id='recent-history'></span>
   </div>
   <div class="history-list">
     <ul></ul>
@@ -78,7 +78,7 @@ const setting = `
         <div class="toggle-switch"></div>
       </label>
     </div>
-    <div class="setting-option">
+    <div class="setting-option" id="language-settings">
       <label class="name" for="language">Select language</label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
         <img src="../assets/images/icon/globe2.svg" alt="language">

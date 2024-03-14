@@ -5,6 +5,7 @@ import { changeUserNameModal } from './modal/changeUserName.js';
 import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
+import { changeLanguage, updateContent } from './language.js';
 
 import {
   testFriendData,
@@ -195,6 +196,17 @@ function setRequestList() {
   }
 }
 
+
+// 드롭다운 메뉴 이벤트 리스너 설정
+function setLanguage() {
+  document.getElementById('language-settings').addEventListener('click', (event) => {
+    if (event.target.classList.contains('dropdown-item')) {
+      const selectedLanguage = event.target.textContent.trim();
+      changeLanguage(selectedLanguage.toLowerCase()); // 언어 코드 변경 (예: 'English' -> 'en')
+    }
+  });
+}
+
 // API 받아서 페이지 갱신하는 함수도 만들어야 한다.
 export function profile() {
   setModal();
@@ -202,4 +214,6 @@ export function profile() {
   setHistoryList();
   setFriendList();
   setRequestList();
+  setLanguage();
+  updateContent();
 }
