@@ -25,7 +25,10 @@ i18next.init({
         "codeInput": "Enter your code",
         "timer": "Remaining time: 05:00",
         "code-input-modal-label-confirm": "Confirm Code",
-        "code-input-modal-label-resend": "Resend Code"
+        "code-input-modal-label-resend": "Resend Code",
+        "lang-ko": "Korean",
+        "lang-en": "English",
+        "lang-fr": "French"
       }
     },
     ko: {
@@ -52,7 +55,10 @@ i18next.init({
         "codeInput": "코드를 입력하세요",
         "timer": "남은 시간: 05:00",
         "code-input-modal-label-confirm": "코드 확인",
-        "code-input-modal-label-resend": "코드 재전송"
+        'code-input-modal-label-resend': '코드 재전송',
+        "lang-ko": "한국어",
+        "lang-en": "영어",
+        "lang-fr": "프랑스어"
       }
     },
     fr: {
@@ -79,7 +85,10 @@ i18next.init({
         "codeInput": "Entrez votre code",
         "timer": "Temps restant : 05:00",
         "code-input-modal-label-confirm": "Confirmer le code",
-        'code-input-modal-label-resend': 'Renvoyer le code'
+        'code-input-modal-label-resend': 'Renvoyer le code',
+        "lang-ko": "Coréen",
+        "lang-en": "Anglais",
+        'lang-fr': 'Français'
       }
     }
   },
@@ -125,4 +134,8 @@ export function updateContent() {
   document.getElementById('change-password').innerHTML = i18next.t('change-password');
   document.getElementById('unsubscribe-guide').innerHTML = i18next.t('unsubscribe-guide');
   document.getElementById('unsubscribe').innerHTML = i18next.t('unsubscribe');
+  document.getElementById('lang-ko').innerHTML = i18next.t('lang-ko');
+  document.getElementById("lang-en").innerHTML = i18next.t("lang-en");
+  document.getElementById('lang-fr').innerHTML = i18next.t('lang-fr');
+
 }
