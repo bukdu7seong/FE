@@ -187,7 +187,7 @@ function setRequestList() {
               </button>
             </div>
             <div class="friend-request-profile">
-              <button type="button" class="btn btn-outline-light" id='profile'></button>
+              <button type="button" class="btn btn-outline-light">Profile</button>
             </div>
           </div>
         `;
