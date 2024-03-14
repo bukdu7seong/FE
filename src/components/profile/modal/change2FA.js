@@ -12,11 +12,11 @@ function frontModalHTML(frontModalId) {
             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
           </div>
           <div class='modal-body'>
-            <span>Do you want to proceed 2fa authentication?</span>
+            <span id='confirm-2fa-modal-message'>Do you want to proceed 2fa authentication?</span>
           </div>
           <div class='modal-footer'>
-            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>취소</button>
-            <button type='button' class='btn btn-primary' data-bs-target='#codeInputModal' data-bs-toggle='modal'>확인</button>
+            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal' id='confirm-2fa-modal-cancel'></button>
+            <button type='button' class='btn btn-primary' data-bs-target='#codeInputModal' data-bs-toggle='modal' id='confirm-2fa-modal-continue'></button>
           </div>
         </div>
       </div>
@@ -36,15 +36,15 @@ function backModalHTML(backModalId) {
             <div class='modal-body'>
                 <form id='codeInputForm'>
                     <div class='mb-3'>
-                        <label for='codeInput' class='form-label'>인증 코드</label>
+                        <label for='codeInput' class='form-label' id='code-input-modal-label-code'></label>
                         <input type='text' class='form-control' id='codeInput' placeholder='코드를 입력하세요'>
                     </div>
                     <div class='mb-3'>
-                        <small id='timer' class='text-muted'>남은 시간: 05:00</small>
+                        <small id='timer' class='text-muted'></small>
                     </div>
                     <div class='d-grid gap-2 mb-3'>
-                        <button type='submit' class='btn btn-primary'>코드 확인</button>
-                        <button type='button' class='btn btn-outline-secondary'>코드 재전송</button>
+                        <button type='submit' class='btn btn-primary' id='code-input-modal-label-confirm'></button>
+                        <button type='button' class='btn btn-outline-secondary' id='code-input-modal-label-resend'></button>
                     </div>
                 </form>
             </div>
@@ -179,8 +179,22 @@ export class change2FA {
       // 처음에 모달 사용과 관계 없이 인스턴스가 생성이 되어버리기 때문에 삭제해야 한다.
       this.handleFrontHidden();
     } else {
+      updateModalContent();
       this.frontModalInstance.show();
     }
     userState.setState({ user2fa: !userState.getState().user2fa });
   }
+}
+
+function updateModalContent() {
+  document.getElementById('confirm2FAModalLabel').innerHTML = i18next.t('confirm2FAModalLabel');
+  document.getElementById('confirm-2fa-modal-message').innerHTML = i18next.t('confirm-2fa-modal-message');
+  document.getElementById('confirm-2fa-modal-cancel').innerHTML = i18next.t('confirm-2fa-modal-cancel');
+  document.getElementById('confirm-2fa-modal-continue').innerHTML = i18next.t('confirm-2fa-modal-continue');
+  document.getElementById('codeInputModalLabel').innerHTML = i18next.t('codeInputModalLabel');
+  document.getElementById('code-input-modal-label-code').innerHTML = i18next.t('code-input-modal-label-code');
+  document.getElementById('codeInput').innerHTML = i18next.t('codeInput');
+  document.getElementById('timer').innerHTML = i18next.t('timer');
+  document.getElementById('code-input-modal-label-confirm').innerHTML = i18next.t('code-input-modal-label-confirm');
+  document.getElementById('code-input-modal-label-resend').innerHTML = i18next.t('code-input-modal-label-resend');
 }

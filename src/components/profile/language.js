@@ -15,7 +15,17 @@ i18next.init({
         "change-password-guide": "Change Password",
         "change-password": "Change Password",
         "unsubscribe-guide": "Unsubscribe",
-        "unsubscribe": "Unsubscribe"
+        'unsubscribe': 'Unsubscribe',
+        "confirm2FAModalLabel": "2FA Authentication Confirmation",
+        "confirm-2fa-modal-message": "Do you want to proceed with 2FA authentication?",
+        "confirm-2fa-modal-cancel": "Cancel",
+        "confirm-2fa-modal-continue": "Continue",
+        "codeInputModalLabel": "Enter Authentication Code",
+        "code-input-modal-label-code": "Authentication Code",
+        "codeInput": "Enter your code",
+        "timer": "Remaining time: 05:00",
+        "code-input-modal-label-confirm": "Confirm Code",
+        "code-input-modal-label-resend": "Resend Code"
       }
     },
     ko: {
@@ -32,7 +42,17 @@ i18next.init({
         "change-password-guide": "비밀번호 변경",
         "change-password": "비밀번호 변경",
         "unsubscribe-guide": "구독 취소",
-        "unsubscribe": "구독 취소"
+        "unsubscribe": "구독 취소",
+        "confirm2FAModalLabel": "2단계 인증 확인",
+        "confirm-2fa-modal-message": "2단계 인증을 진행하시겠습니까?",
+        "confirm-2fa-modal-cancel": "취소",
+        "confirm-2fa-modal-continue": "계속",
+        "codeInputModalLabel": "인증 코드 입력",
+        "code-input-modal-label-code": "인증 코드",
+        "codeInput": "코드를 입력하세요",
+        "timer": "남은 시간: 05:00",
+        "code-input-modal-label-confirm": "코드 확인",
+        "code-input-modal-label-resend": "코드 재전송"
       }
     },
     fr: {
@@ -50,6 +70,16 @@ i18next.init({
         "change-password": "Changer le Mot de Passe",
         "unsubscribe-guide": "Se Désabonner",
         "unsubscribe": "Se Désabonner",
+        "confirm2FAModalLabel": "Confirmation d'authentification 2FA",
+        "confirm-2fa-modal-message": "Voulez-vous procéder à l'authentification 2FA?",
+        "confirm-2fa-modal-cancel": "Annuler",
+        "confirm-2fa-modal-continue": "Continuer",
+        "codeInputModalLabel": "Entrez le code d'authentification",
+        "code-input-modal-label-code": "Code d'authentification",
+        "codeInput": "Entrez votre code",
+        "timer": "Temps restant : 05:00",
+        "code-input-modal-label-confirm": "Confirmer le code",
+        'code-input-modal-label-resend': 'Renvoyer le code'
       }
     }
   },
