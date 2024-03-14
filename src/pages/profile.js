@@ -43,7 +43,7 @@ const playerHistory = `
 
 const friendList = `
   <div class="friend-title">
-    <span>Friends</span>
+    <span id='friends'></span>
   </div>
   <div class="friend-list-list">
     <ul></ul>
@@ -55,7 +55,7 @@ const friendList = `
 
 const friendRequest = `
   <div class="friend-request-title">
-    <span>Friend Request</span>
+    <span id='friend-request'></span>
   </div>
   <div class="friend-request-list">
     <ul></ul>

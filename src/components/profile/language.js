@@ -3,24 +3,29 @@ i18next.init({
   resources: {
     en: {
       translation: {
-        "recent-history": "Recent History"
+        "recent-history": "Recent History",
+        "friend-request": "Friend Request",
+        "friends": "Friends"
       }
     },
     ko: {
       translation: {
-        "recent-history": "최신 역사"
+        "recent-history": "최근 역사",
+        "friend-request": "친구 요청",
+        "friends": "친구들"
       }
     },
     fr: {
       translation: {
-        "recent-history": "Bonjour le monde"
+        "recent-history": "Histoire Récente",
+        "friend-request": "Demande d'ami",
+        "friends": "Amis"
       }
     }
   },
   fallbackLng: "en",
   debug: true
 });
-
 
 // 언어 변경 함수
 export function changeLanguage(language) {
@@ -45,4 +50,6 @@ function mapLanguageToCode(language) {
 // 페이지 콘텐츠 업데이트
 export function updateContent() {
   document.getElementById("recent-history").innerHTML = i18next.t("recent-history");
+  document.getElementById("friend-request").innerHTML = i18next.t("friend-request");
+  document.getElementById("friends").innerHTML = i18next.t("friends");
 }
