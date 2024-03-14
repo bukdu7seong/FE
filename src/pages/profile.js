@@ -10,20 +10,20 @@ const playerProfile = `
       </button>
     </div>
     <div class="photo-upload" id="changeUserImage">
-      <button class="upload-photo-btn">Choose a photo for your profile</button>
+      <button class="upload-photo-btn" id='choose-photo'></button>
     </div>
     <div class="profile-stats">
       <div class="win-rate">
         <span>-</span>
-        <label>RATE</label>
+        <label id='rate'></label>
       </div>
       <div class="win">
         <span>-</span>
-        <label>WIN</label>
+        <label id='win'></label>
       </div>
       <div class="loss">
         <span>-</span>
-        <label>LOSS</label>
+        <label id='loss'></label>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@ const playerHistory = `
     <ul></ul>
   </div>
   <div class="history-view-all">
-    <button type="button" class="btn btn-outline-light">View all</button>
+    <button type="button" class="btn btn-outline-light" id='view-all'></button>
   </div>
 `;
 
