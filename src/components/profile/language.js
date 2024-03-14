@@ -11,7 +11,13 @@ i18next.init({
         "win": "Win",
         "loss": "Loss",
         "profile": "Profile",
-        "view-all": "View All"
+        "view-all": "View All",
+        "2fa-option": "2FA Authentication Options",
+        "language": "Select Language",
+        "change-password-guide": "Change Password",
+        "change-password": "Change Password",
+        "unsubscribe-guide": "Unsubscribe",
+        "unsubscribe": "Unsubscribe"
       }
     },
     ko: {
@@ -24,26 +30,39 @@ i18next.init({
         "win": "승리",
         "loss": "패배",
         "profile": "프로필",
-        "view-all": "모두 보기"
+        "view-all": "모두 보기",
+        "2fa-option": "2단계 인증 옵션",
+        "language": "언어 선택",
+        "change-password-guide": "비밀번호 변경",
+        "change-password": "비밀번호 변경",
+        "unsubscribe-guide": "구독 취소",
+        "unsubscribe": "구독 취소"
       }
     },
     fr: {
       translation: {
         "recent-history": "Histoire Récente",
-        "friend-request": "Demande d'ami",
+        "friend-request": "Demande d'Ami",
         "friends": "Amis",
         "choose-photo": "Choisir une photo pour votre profil",
         "rate": "Taux",
         "win": "Gagner",
         "loss": "Perte",
         "profile": "Profil",
-        "view-all": "Voir tout"
+        "view-all": "Voir Tout",
+        "2fa-option": "Options d'authentification 2FA",
+        "language": "Choisir la Langue",
+        "change-password-guide": "Changer le Mot de Passe",
+        "change-password": "Changer le Mot de Passe",
+        "unsubscribe-guide": "Se Désabonner",
+        "unsubscribe": "Se Désabonner",
       }
     }
   },
   fallbackLng: "en",
   debug: true
 });
+
 
 // 기존의 함수들은 변경 없음
 
@@ -78,4 +97,10 @@ export function updateContent() {
   document.getElementById("choose-photo").innerHTML = i18next.t("choose-photo");
   document.getElementById("profile").innerHTML = i18next.t("profile");
   document.getElementById("view-all").innerHTML = i18next.t("view-all");
+  document.getElementById("2fa-option").innerHTML = i18next.t("2fa-option");
+  document.getElementById("language").innerHTML = i18next.t("language");
+  document.getElementById("change-password-guide").innerHTML = i18next.t("change-password-guide");
+  document.getElementById('change-password').innerHTML = i18next.t('change-password');
+  document.getElementById('unsubscribe-guide').innerHTML = i18next.t('unsubscribe-guide');
+  document.getElementById('unsubscribe').innerHTML = i18next.t('unsubscribe');
 }
