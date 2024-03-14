@@ -28,7 +28,13 @@ i18next.init({
         "code-input-modal-label-resend": "Resend Code",
         "lang-ko": "Korean",
         "lang-en": "English",
-        "lang-fr": "French"
+        "lang-fr": "French",
+        "changePasswordModalLabel": "Change Password",
+        "change-password-modal-current": "Current Password",
+        "change-password-modal-new": "New Password",
+        "change-password-modal-new-confirm": "Confirm New Password",
+        "change-password-modal-cancel": "Cancel",
+        "change-password-modal-change": "Change"
       }
     },
     ko: {
@@ -58,7 +64,13 @@ i18next.init({
         'code-input-modal-label-resend': '코드 재전송',
         "lang-ko": "한국어",
         "lang-en": "영어",
-        "lang-fr": "프랑스어"
+        "lang-fr": "프랑스어",
+        "changePasswordModalLabel": "비밀번호 변경",
+        "change-password-modal-current": "현재 비밀번호",
+        "change-password-modal-new": "새 비밀번호",
+        "change-password-modal-new-confirm": "새 비밀번호 확인",
+        "change-password-modal-cancel": "취소",
+        "change-password-modal-change": "변경하기"
       }
     },
     fr: {
@@ -88,7 +100,13 @@ i18next.init({
         'code-input-modal-label-resend': 'Renvoyer le code',
         "lang-ko": "Coréen",
         "lang-en": "Anglais",
-        'lang-fr': 'Français'
+        'lang-fr': 'Français',
+        "changePasswordModalLabel": "Changer le mot de passe",
+        "change-password-modal-current": "Mot de passe actuel",
+        "change-password-modal-new": "Nouveau mot de passe",
+        "change-password-modal-new-confirm": "Confirmer le nouveau mot de passe",
+        "change-password-modal-cancel": "Annuler",
+        "change-password-modal-change": "Changer"
       }
     }
   },
@@ -137,5 +155,4 @@ export function updateContent() {
   document.getElementById('lang-ko').innerHTML = i18next.t('lang-ko');
   document.getElementById("lang-en").innerHTML = i18next.t("lang-en");
   document.getElementById('lang-fr').innerHTML = i18next.t('lang-fr');
-
 }

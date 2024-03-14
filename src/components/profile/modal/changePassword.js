@@ -16,23 +16,23 @@ function modalHTML(modalId) {
           <div class="modal-body">
             <form id="passwordChangeForm">
               <div class="mb-3">
-                <label for="currentPassword" class="form-label">현재 비밀번호</label>
+                <label for="currentPassword" class="form-label" id='change-password-modal-current'></label>
                 <input type="password" class="form-control" id="currentPassword" required>
               </div>
               <div class="mb-3">
-                <label for="newPassword" class="form-label">새 비밀번호</label>
+                <label for="newPassword" class="form-label" id='change-password-modal-new'></label>
                 <input type="password" class="form-control" id="newPassword" required>
               </div>
               <div class="mb-3">
-                <label for="confirmPassword" class="form-label">새 비밀번호 확인</label>
+                <label for="confirmPassword" class="form-label" id='change-password-modal-new-confirm'></label>
                 <input type="password" class="form-control" id="confirmPassword" required>
               </div>
               <div id="password-error-message" class="text-danger"></div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            <button type="button" class="btn btn-primary">변경하기</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='change-password-modal-cancel'></button>
+            <button type="button" class="btn btn-primary" id='change-password-modal-change'></button>
           </div>
         </div>
       </div>
@@ -113,10 +113,20 @@ export class changePasswordModal {
   }
 
   show() {
+    this.updateModalContent();
     this.modalInstance.show();
   }
 
   hide() {
     this.modalInstance.hide();
+  }
+
+  updateModalContent() {
+    document.getElementById('changePasswordModalLabel').innerHTML = i18next.t('changePasswordModalLabel');
+    document.getElementById('change-password-modal-current').innerHTML = i18next.t('change-password-modal-current');
+    document.getElementById('change-password-modal-new').innerHTML = i18next.t('change-password-modal-new');
+    document.getElementById('change-password-modal-new-confirm').innerHTML = i18next.t('change-password-modal-new-confirm');
+    document.getElementById('change-password-modal-cancel').innerHTML = i18next.t('change-password-modal-cancel');
+    document.getElementById('change-password-modal-change').innerHTML = i18next.t('change-password-modal-change');
   }
 }
