@@ -142,8 +142,12 @@ i18next.init({
 // 기존의 함수들은 변경 없음
 
 // 언어 변경 함수
-export function changeLanguage(language) {
-  const languageCode = mapLanguageToCode(language);
+export function changeLanguage(languageCode) {
+  // 현재 설정된 언어와 같은 경우 변경하지 않음
+  if (i18next.language === languageCode) {
+    return;
+  }
+
   i18next.changeLanguage(languageCode, (err, t) => {
     if (err) return console.error(err);
     updateContent();

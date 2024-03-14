@@ -84,9 +84,9 @@ const setting = `
         <img src="../assets/images/icon/globe2.svg" alt="language">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
-        <li class="dropdown-item" id="lang-ko"></li>
-        <li class="dropdown-item" id="lang-en"></li>
-        <li class="dropdown-item" id="lang-fr"></li>
+        <li class="dropdown-item" id="lang-ko" data-lang="ko">한국어</li>
+        <li class="dropdown-item" id="lang-en" data-lang="en">English</li>
+        <li class="dropdown-item" id="lang-fr" data-lang="fr">Français</li>
       </ul>
     </div>
     <div class="setting-option">

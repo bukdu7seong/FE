@@ -201,8 +201,8 @@ function setRequestList() {
 function setLanguage() {
   document.getElementById('language-settings').addEventListener('click', (event) => {
     if (event.target.classList.contains('dropdown-item')) {
-      const selectedLanguage = event.target.textContent.trim();
-      changeLanguage(selectedLanguage.toLowerCase()); // 언어 코드 변경 (예: 'English' -> 'en')
+      const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
+      changeLanguage(languageCode);
     }
   });
 }
