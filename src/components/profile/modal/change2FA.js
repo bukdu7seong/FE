@@ -179,22 +179,23 @@ export class change2FA {
       // 처음에 모달 사용과 관계 없이 인스턴스가 생성이 되어버리기 때문에 삭제해야 한다.
       this.handleFrontHidden();
     } else {
-      updateModalContent();
+      this.updateModalContent();
       this.frontModalInstance.show();
     }
     userState.setState({ user2fa: !userState.getState().user2fa });
   }
+
+  updateModalContent() {
+    document.getElementById('confirm2FAModalLabel').innerHTML = i18next.t('confirm2FAModalLabel');
+    document.getElementById('confirm-2fa-modal-message').innerHTML = i18next.t('confirm-2fa-modal-message');
+    document.getElementById('confirm-2fa-modal-cancel').innerHTML = i18next.t('confirm-2fa-modal-cancel');
+    document.getElementById('confirm-2fa-modal-continue').innerHTML = i18next.t('confirm-2fa-modal-continue');
+    document.getElementById('codeInputModalLabel').innerHTML = i18next.t('codeInputModalLabel');
+    document.getElementById('code-input-modal-label-code').innerHTML = i18next.t('code-input-modal-label-code');
+    document.getElementById('codeInput').innerHTML = i18next.t('codeInput');
+    document.getElementById('timer').innerHTML = i18next.t('timer');
+    document.getElementById('code-input-modal-label-confirm').innerHTML = i18next.t('code-input-modal-label-confirm');
+    document.getElementById('code-input-modal-label-resend').innerHTML = i18next.t('code-input-modal-label-resend');
+  }
 }
 
-function updateModalContent() {
-  document.getElementById('confirm2FAModalLabel').innerHTML = i18next.t('confirm2FAModalLabel');
-  document.getElementById('confirm-2fa-modal-message').innerHTML = i18next.t('confirm-2fa-modal-message');
-  document.getElementById('confirm-2fa-modal-cancel').innerHTML = i18next.t('confirm-2fa-modal-cancel');
-  document.getElementById('confirm-2fa-modal-continue').innerHTML = i18next.t('confirm-2fa-modal-continue');
-  document.getElementById('codeInputModalLabel').innerHTML = i18next.t('codeInputModalLabel');
-  document.getElementById('code-input-modal-label-code').innerHTML = i18next.t('code-input-modal-label-code');
-  document.getElementById('codeInput').innerHTML = i18next.t('codeInput');
-  document.getElementById('timer').innerHTML = i18next.t('timer');
-  document.getElementById('code-input-modal-label-confirm').innerHTML = i18next.t('code-input-modal-label-confirm');
-  document.getElementById('code-input-modal-label-resend').innerHTML = i18next.t('code-input-modal-label-resend');
-}
