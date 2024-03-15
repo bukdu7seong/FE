@@ -1,7 +1,7 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { failureToast } from '../toast/failure.js';
-import { validateInput } from '../../../utils/validateInput.js';
+import { validateUsername } from '../../../utils/validator.js';
 
 function modalHTML(modalId) {
   return `
@@ -91,7 +91,7 @@ export class changeUserNameModal {
     this.inputData =
       this.modalInstance._element.querySelector('#newUsername').value;
 
-    if (!validateInput(this.inputData)) {
+    if (!validateUsername(this.inputData)) {
       this.modalInstance._element.querySelector('#error-message').textContent =
         'Only alphanumeric characters are allowed.';
     } else if (this.inputData.length === 0) {

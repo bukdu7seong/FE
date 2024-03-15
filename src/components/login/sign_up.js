@@ -41,7 +41,7 @@ async function requestSignUp(formData) {
     }
   }
 }
-a;
+
 function checkAgree() {
   document
     .getElementById('signup-form')
