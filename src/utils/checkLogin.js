@@ -3,7 +3,14 @@ import { globalState } from '../../lib/state/state.js';
 import { routes } from '../app.js';
 
 export function checkLogin() {
-  const accessToken = document.cookie.split('accessToken=')[1];
+  const cookieArray = document.cookie.split('accessToken=');
+  let accessToken = '';
+
+  if (cookieArray.length > 1) {
+    accessToken = cookieArray[1];
+  }
+
+  console.log(accessToken);
 
   // need to validate access token
   if (accessToken) {
