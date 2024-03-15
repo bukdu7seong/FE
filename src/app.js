@@ -24,7 +24,7 @@ import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 // utils
 import { updateUserBox } from './utils/updateUserBox.js';
-import { checkLogin } from './utils/checkLogin.js';
+import { checkLogin } from './utils/check_login.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
