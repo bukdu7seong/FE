@@ -8,12 +8,12 @@ export function pageTournament() {
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id="tournament">
-            <p class="header-pong">PONG</p>
-            <p class="header-classic">TOURNAMENT</p>
+            <p class="header-pong" id='tournament-pong'>PONG</p>
+            <p class="header-classic" id='tournament-header'>TOURNAMENT</p>
             <div class="player-container">
-              <div class="player-option" id="player1">PLAYER 1</div>
+              <div class="player-option" id="tournament-player1">PLAYER 1</div>
               <div class="divider"></div>
-              <div class="player-option" id="player2">PLAYER 2</div>
+              <div class="player-option" id="tournament-player2">PLAYER 2</div>
             </div>
             
             <button type="button" id='tournamentBtn' class="btn" data-bs-toggle="modal" data-bs-target="#tournamentSettingModal"></button>
@@ -132,7 +132,12 @@ export function pageTournament() {
         
       `;
   page.innerHTML = content;
+  page.appendChild(createTournamentWinnerModal());
+  setupTournamentEvents(page);
+  return page;
+}
 
+export function setupTournamentEvents(page) {
   gameState.setState({ currentGameStatus: 'idle' });
   let gameBox = page.querySelector('#tournament');
   let tournamentSettingModal = new bootstrap.Modal(page.querySelector('#tournamentSettingModal'), {
@@ -141,32 +146,29 @@ export function pageTournament() {
   let startTournamentButton = page.querySelector('#startTournamentButton');
 
   startTournamentButton.addEventListener('click', function() {
-    gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
-    tournamentSettingModal.hide(); // 모달을 숨깁니다.
+    gameState.setState({ currentGameStatus: 'playing' });
+    tournamentSettingModal.hide();
   });
 
   document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      // 'Escape' 키가 눌렸을 때의 조건
-      if (gameState.getState().currentGameStatus === 'idle') {
-        tournamentSettingModal.hide(); // 모달을 숨깁니다.
-      }
+    if (event.key === 'Escape' && gameState.getState().currentGameStatus === 'idle') {
+      tournamentSettingModal.hide();
     }
   });
 
-  // game-box 클릭 이벤트
   gameBox.addEventListener('click', function() {
     if (gameState.getState().currentGameStatus === 'idle') {
-      tournamentSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
+      tournamentSettingModal.show();
     }
   });
-
-  // 이벤트 리스너 제거?
-
-  page.appendChild(createTournamentWinnerModal());
-  return page;
 }
 
+export function updateTournamentBoxContent() {
+  document.getElementById("tournament-pong").innerHTML = i18next.t("tournament-pong");
+  document.getElementById('tournament-header').innerHTML = i18next.t('tournament-header');
+  document.getElementById('tournament-player1').innerHTML = i18next.t('tournament-player1');
+  document.getElementById('tournament-player2').innerHTML = i18next.t('tournament-player2');
+}
 
 function createTournamentWinnerModal() {
   const tournamentWinnerModal = document.createElement('div');

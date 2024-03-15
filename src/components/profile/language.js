@@ -66,7 +66,11 @@ i18next.init({
         'send-verification-code-button': 'Send Code',
         'verification-code-label': 'Verification Code',
         'verificationCodeInput': 'Enter verification code',
-        'submit-verification-code-button': 'Verify Code'
+        'submit-verification-code-button': 'Verify Code',
+        'tournament-pong': 'PONG',
+        'tournament-header': 'TOURNAMENT',
+        'tournament-player1': 'PLAYER 1',
+        'tournament-player2': 'PLAYER 2',
       }
     },
     ko: {
@@ -134,7 +138,11 @@ i18next.init({
         'send-verification-code-button': '인증 코드 전송',
         'verification-code-label': '인증 코드',
         'verificationCodeInput': '인증 코드 입력',
-        'submit-verification-code-button': '인증 코드 확인'
+        'submit-verification-code-button': '인증 코드 확인',
+        'tournament-pong': '퐁',
+        'tournament-header': '토너먼트',
+        'tournament-player1': '플레이어 1',
+        'tournament-player2': '플레이어 2',
       }
     },
     fr: {
@@ -202,7 +210,11 @@ i18next.init({
         'send-verification-code-button': 'Envoyer le code',
         'verification-code-label': 'Code de vérification',
         'verificationCodeInput': 'Entrez le code de vérification',
-        'submit-verification-code-button': 'Vérifier le code'
+        'submit-verification-code-button': 'Vérifier le code',
+        'tournament-pong': 'PONG',
+        'tournament-header': 'TOURNOI',
+        'tournament-player1': 'JOUEUR 1',
+        'tournament-player2': 'JOUEUR 2',
       }
     }
   },

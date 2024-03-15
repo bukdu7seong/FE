@@ -11,7 +11,7 @@ import { pageLogIn } from './pages/login/sign_in.js';
 import { pageSignUp } from './pages/login/sign_up.js';
 import { pageProfile } from './pages/profile.js';
 import { pageGame, pageBoard, updateGameBoxContent } from './pages/game.js';
-import { pageTournament } from './pages/tournament.js';
+import { pageTournament, updateTournamentBoxContent } from './pages/tournament.js';
 import { pageSwitch } from './pages/switch.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
@@ -117,7 +117,7 @@ function init() {
       setOnRender(routes['/signup'], signup);
       setOnRender(routes['/profile'], profile, updateUserBox);
       setOnRender(routes['/game'], updateGameBoxContent, updateUserBox);
-      setOnRender(routes['/tournament'], updateUserBox);
+      setOnRender(routes['/tournament'], updateTournamentBoxContent, updateUserBox);
 
       userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);
