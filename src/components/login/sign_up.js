@@ -65,11 +65,13 @@ function handleSignUpSubmit() {
       if (!validateUsername(username, usernameError)) {
         return;
       }
+
       const password = document.getElementById('passwordInput').value;
       const passwordError = document.getElementById('passwordError');
       if (!validatePassword(password, passwordError)) {
         return;
       }
+
       const code = localStorage.getItem('code').replace('?code=', '');
       localStorage.removeItem('code');
       const image = document.getElementById('imageInput').files[0];
@@ -79,7 +81,11 @@ function handleSignUpSubmit() {
       formData.append('username', username);
       formData.append('password', password);
       formData.append('code', code);
-      formData.append('image', image);
+      if (image !== undefined) {
+        formData.append('image', image);
+      } else {
+        formData.append('image', '');
+      }
 
       for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
