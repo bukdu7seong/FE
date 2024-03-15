@@ -1,7 +1,7 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { failureToast } from '../toast/failure.js';
-import { validateInput } from '../../../utils/validateInput.js';
+import { validateInput } from '../../../utils/validator.js';
 
 function modalHTML(modalId) {
   return `
