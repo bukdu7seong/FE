@@ -1,0 +1,123 @@
+/* 폰트 */
+@font-face {
+  font-family: 'Symtext';
+  src: url('../fonts/Symtext.ttf') format('truetype');
+}
+
+/* 기본 스타일 */
+* {
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 전체 스타일 */
+body {
+  background: #171717;
+  color: #faf2dd;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 숨김 클래스 */
+.hidden {
+  display: none;
+}
+
+/* 전체 화면 */
+.full-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+/* Bootstrap 오버로딩 스타일 */
+
+/* Button */
+.btn.btn-outline-light {
+  background-color: #131313;
+}
+.btn.btn-outline-light:hover {
+  background-color: #faf2dd;
+}
+
+.setting-option .btn.btn-success {
+  background-color: #198754;
+}
+.setting-option .btn.btn-success:hover {
+  background-color: #157347;
+}
+
+.setting-option .btn.btn-danger {
+  background-color: #dc3545;
+}
+.setting-option .btn.btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+/* Modal */
+.modal-header {
+  border-bottom: none;
+}
+.modal-content {
+  background-color: #171717;
+  color: #faf2dd; /* 색깔 이쁜데? */
+  border: 1px solid green;
+  padding: 10px;
+}
+.modal-body input {
+  background-color: #171717;
+  color: #faf2dd;
+  border: 1px solid #faf2dd;
+}
+.modal-body input::placeholder {
+  color: gray;
+}
+.modal-body input:focus {
+  background-color: #171717;
+  color: #faf2dd;
+  outline: none;
+  box-shadow: none;
+}
+.modal-footer {
+  border-top: none;
+}
+
+/* Dropdown */
+.dropdown-menu-dark {
+  background-color: #171717;
+  color: #faf2dd;
+  border: 1px solid green;
+}
+
+/* Toast */
+.toast-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast .btn-close {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+#successToast .toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #198754;
+  color: white;
+}
+
+#failureToast .toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dc3545;
+  color: white;
+}

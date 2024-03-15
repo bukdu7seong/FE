@@ -1,5 +1,6 @@
 import { setCookie } from '../../utils/cookie.js';
-import { route, routes } from '../../../lib/router/router.js';
+import { route } from '../../../lib/router/router.js';
+import { routes } from '../../app.js';
 import { userState } from '../../../lib/state/state.js';
 
 async function requestResend() {
@@ -46,7 +47,7 @@ async function requestTwoFACode(code) {
       const data = await response.json();
 
       setCookie(data);
-      route(routes, '/profile');
+      route(routes, '/profile', true, false);
     } else {
       throw Error(response.status);
     }

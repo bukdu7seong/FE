@@ -1,0 +1,125 @@
+.player-history {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.history-title {
+  margin-bottom: 1vh;
+}
+
+.history-title span {
+  font-size: min(3vw, 3vh);
+  color: #fff;
+}
+
+.history-list {
+  /* align-content: flex-start; */
+  width: 100%;
+  height: 60%;
+}
+
+.history-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  background: #333;
+  border-radius: 10px;
+  color: #fff;
+  margin-bottom: 1vh;
+}
+
+.history-icon {
+  display: flex;
+  justify-content: center;
+  width: 5vw;
+  height: 5vh;
+  margin-left: min(1vw, 1vh);
+  background: #000;
+  border-radius: 10px;
+}
+
+.history-icon img {
+  width: min(3vw, 3vh);
+  filter: invert(100%);
+}
+
+.history-user-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 50%;
+}
+
+.history-user-photo {
+  /* overflow: hidden; */
+  max-width: min(5vw, 5vh);
+  margin: min(1.5vw, 1.5vh);
+  aspect-ratio: 1/1;
+}
+
+.history-user-photo img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.history-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.history-user-name,
+.history-game-mode {
+  display: inline-flex;
+}
+
+.history-user-name span {
+  font-size: min(2vw, 2vh);
+  color: #fff;
+}
+
+.history-game-mode span {
+  font-size: min(1.2vw, 1.2vh);
+  color: #fff;
+}
+
+.history-time {
+  display: inline-flex;
+  padding: 1vw;
+  margin-left: auto;
+}
+
+.history-time span {
+  font-size: min(1.2vw, 1.2vh);
+  color: #999;
+}
+
+.history-view-all {
+  text-align: center;
+  margin-left: auto;
+}
+
+/* .history-view-all-btn {
+  padding: 1vw;
+  max-width: 9vw;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: min(2vw, 2vh);
+} */

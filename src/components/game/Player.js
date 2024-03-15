@@ -7,14 +7,17 @@ export default class Player {
     this.scoreElement = scoreElement;
     this.score = 0;
     this.playerName = playerName;
-    this.initialTop = paddleElement.style.top;
     this.isMovingUp = false;
     this.isMovingDown = false;
     this.paddleCoord = this.paddle.getBoundingClientRect();
+    const boardHeight = paddleElement.parentElement.clientHeight;
+    const paddleHeight = paddleElement.clientHeight;
+    this.initialTop = (boardHeight / 2) - (paddleHeight / 2);
+    this.paddle.style.top = `${this.initialTop}px`;
   }
 
   resetPosition() {
-    this.paddle.style.top = this.initialTop;
+    this.paddle.style.top = `${this.initialTop}px`;
   }
 
   moveUp(boardCoord) {

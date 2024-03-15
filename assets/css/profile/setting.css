@@ -1,0 +1,121 @@
+.setting {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  height: 80%;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+}
+
+.setting-option {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: min(10vw, 10vh);
+  padding: 1vw;
+}
+.setting-option::after {
+  position: absolute;
+  content: '';
+  top: 100%;
+  left: 5%;
+  right: 5%;
+  border-bottom: 1px solid gray;
+}
+.setting-option:last-child::after {
+  border-bottom: none;
+}
+
+.setting-option .name {
+  font-size: min(2vw, 2vh);
+  margin-left: min(2vw, 2vh);
+}
+
+.toggle {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: auto;
+}
+.toggle-switch {
+  display: inline-block;
+  background: #ccc;
+  border-radius: 16px;
+  width: min(8vw, 8vh);
+  height: min(4vw, 4vh);
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.25s;
+}
+.toggle-switch:before,
+.toggle-switch:after {
+  content: '';
+}
+.toggle-switch:before {
+  display: block;
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  width: min(4vw, 4vh);
+  height: min(4vw, 4vh);
+  position: absolute;
+  top: 0vw;
+  left: 0vw;
+  transition: left 0.25s;
+}
+.toggle:hover .toggle-switch:before {
+  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.toggle-checkbox:checked + .toggle-switch {
+  background: #56c080;
+}
+.toggle-checkbox:checked + .toggle-switch:before {
+  left: min(4vw, 4vh);
+}
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+
+.setting-option button {
+  cursor: pointer;
+  margin-left: auto;
+  background: transparent;
+}
+
+.setting-option .language-btn img {
+  width: min(4vw, 4vh);
+  height: min(4vw, 4vh);
+  border-radius: 50%;
+  filter: invert(100%);
+}
+
+/* .setting-option .change-password-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: min(1vw, 1vh);
+  text-align: center;
+  text-decoration: none;
+  font-size: min(2vw, 2vh);
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.setting-option .unsubscribe-btn {
+  background-color: #e84118;
+  color: white;
+  border: none;
+  padding: min(1vw, 1vh);
+  text-align: center;
+  text-decoration: none;
+  font-size: min(2vw, 2vh);
+  cursor: pointer;
+  border-radius: 15px;
+} */

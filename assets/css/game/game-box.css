@@ -1,0 +1,84 @@
+/* 게임 인터페이스 화면 */
+.game-box {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background-color: black;
+  font-family: 'Symtext', cursive;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  width: 80vw;
+  text-align: center;
+}
+
+@media only screen and (max-width: 380px), only screen and (max-height: 280px) {
+  .game-box::after {
+    content: 'Screen is too small to play Pong!';
+    display: block;
+    background-color: gray;
+    color: rgb(242, 242, 242);
+    text-align: center;
+    font-size: 24px;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* 화면 상단  PONG/n CLASSIC */
+.header-pong {
+  font-size: 12vh;
+  margin-bottom: -20px;
+  margin-left: 4px;
+  letter-spacing: 2px;
+}
+
+/* 게임메뉴 화면 상단 classic */
+.header-classic {
+  font-size: 7vh;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  letter-spacing: 4px;
+}
+
+/* 게임메뉴 화면 중앙 */
+.player-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
+/* 게임메뉴 화면 중앙 플레이어 옵션 */
+.player-option {
+  cursor: pointer;
+  margin: 0 6vw;
+  font-size: calc((3vh + 3vw) / 2);
+  min-width: 0; /* 최소 너비를 0으로 설정하여 내용에 관계없이 동일한 너비를 가지도록 함 */
+  flex: 1 1 0; /* flex-grow, flex-shrink, flex-basis */
+  padding: 3vw;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* 게임메뉴 화면 중앙 선 */
+.divider {
+  width: 4px; /* divider의 너비 설정 */
+  height: 40vh; /* divider의 높이 설정 */
+  margin-right: 15px;
+  flex: 0 0 4px;
+  /* margin-right: 15px; */
+  flex-shrink: 0;
+  background-image: linear-gradient(rgb(242, 242, 242) 50%, transparent 50%);
+  background-size: 4px 96px; /* 점선의 크기와 간격 설정 */
+}
+
+/* 게임 화면 하단 */
+footer {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+}

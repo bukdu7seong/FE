@@ -1,5 +1,6 @@
 import { userState } from '../../../lib/state/state.js';
-import { route, routes } from '../../../lib/router/router.js';
+import { redirectRoute, route } from '../../../lib/router/router.js';
+import { routes } from '../../app.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 import { validateUsername, validatePassword } from '../../utils/validator.js';
 
@@ -69,9 +70,10 @@ async function requestSignUp(formData) {
 
     setCookie(data);
 
-    route(routes, '/twofa');
+    route(routes, '/twofa', true, false);
     return data;
   } catch (e) {
+    console.log(e);
     if (e.message.includes('400')) {
       alert('Falied to fetch 42 authentication token. Please login agian.');
     } else if (e.message.includes('415')) {
@@ -102,14 +104,14 @@ function handleSignUpSubmit() {
 
       const username = document.getElementById('usernameInput').value;
       const usernameError = document.getElementById('usernameError');
-      if (!validateUsername(username, usernameError)) {
-        return;
-      }
+      // if (!validateUsername(username, usernameError)) {
+      //   return;
+      // }
       const password = document.getElementById('passwordInput').value;
       const passwordError = document.getElementById('passwordError');
-      if (!validatePassword(password, passwordError)) {
-        return;
-      }
+      // if (!validatePassword(password, passwordError)) {
+      //   return;
+      // }
       const code = localStorage.getItem('code').replace('?code=', '');
       localStorage.removeItem('code');
       const image = document.getElementById('imageInput').files[0];

@@ -1,4 +1,5 @@
-import { route, routes } from '../../../lib/router/router.js';
+import { route } from '../../../lib/router/router.js';
+import { routes } from '../../app.js';
 import { userState } from '../../../lib/state/state.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 
