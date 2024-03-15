@@ -7,23 +7,21 @@ export function validateUsername(username, usernameError) {
 
   // 영문 소문자 검증
   if (!username.match(/[a-z]/)) {
-    usernameError.textContent = '아이디에는 영문 소문자가 포함될 수 없습니다.';
+    usernameError.textContent = '아이디에는 영문 소문자가 포함 되어야 합니다.';
     return false;
   }
-  // 숫자 검증
-  if (!username.match(/[0-9]/)) {
-    usernameError.textContent = '아이디에는 숫자가 포함될 수 없습니다.';
-    return false;
-  }
+
   // 특수문자 검증
   if (
-    !username.match(
+    username.match(
       /[\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]\{\}\;\:\'\"\<\>\,\.\?\/\~\`]/
     )
   ) {
     usernameError.textContent = '아이디에는 특수문자가 포함될 수 없습니다.';
     return false;
   }
+
+  usernameError.textContent = '';
   return true;
 }
 
@@ -59,5 +57,6 @@ export function validatePassword(password, passwordError) {
     return false;
   }
 
+  passwordError.textContent = '';
   return true;
 }
