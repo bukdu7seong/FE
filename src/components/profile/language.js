@@ -54,7 +54,19 @@ i18next.init({
         'normal-label' : 'normal',
         'speed-label': 'speed',
         'object-label': 'object',
-        'startGameButton' : 'START'
+        'startGameButton' : 'START',
+        'scoreModalLabel': 'SCORE',
+        'win-label': 'WIN',
+        'lose-label': 'LOSE',
+        'score-player2': 'Player 2',
+        'save-score' : 'SAVE SCORE',
+        'email2faModalLabel': 'Email Verification',
+        'email-input-label': 'Email Address',
+        'emailInput': 'Enter your email (e.g., name@example.com)',
+        'send-verification-code-button': 'Send Code',
+        'verification-code-label': 'Verification Code',
+        'verificationCodeInput': 'Enter verification code',
+        'submit-verification-code-button': 'Verify Code'
       }
     },
     ko: {
@@ -110,8 +122,19 @@ i18next.init({
         'normal-label': '일반',
         'speed-label': '스피드',
         'object-label': '오브젝트',
-        'startGameButton' : '시작'
-
+        'startGameButton' : '시작',
+        'scoreModalLabel': '점수',
+        'win-label': '승리',
+        'lose-label': '패배',
+        'score-player2': '플레이어 2',
+        'save-score': '점수 저장',
+        'email2faModalLabel': '이메일 인증',
+        'email-input-label': '이메일 주소',
+        'emailInput': '이메일 입력 (예: name@example.com)',
+        'send-verification-code-button': '인증 코드 전송',
+        'verification-code-label': '인증 코드',
+        'verificationCodeInput': '인증 코드 입력',
+        'submit-verification-code-button': '인증 코드 확인'
       }
     },
     fr: {
@@ -167,7 +190,19 @@ i18next.init({
         'normal-label': 'normal',
         'speed-label': 'vitesse',
         'object-label': 'objet',
-        'startGameButton': 'COMMENCER'
+        'startGameButton': 'COMMENCER',
+        'scoreModalLabel': 'SCORE',
+        'win-label': 'GAGNER',
+        'lose-label': 'PERDRE',
+        'score-player2': 'Joueur 2',
+        'save-score': 'ENREGISTRER LE SCORE',
+        'email2faModalLabel': 'Vérification d\'email',
+        'email-input-label': 'Adresse e-mail',
+        'emailInput': 'Entrez votre e-mail (par ex., name@example.com)',
+        'send-verification-code-button': 'Envoyer le code',
+        'verification-code-label': 'Code de vérification',
+        'verificationCodeInput': 'Entrez le code de vérification',
+        'submit-verification-code-button': 'Vérifier le code'
       }
     }
   },

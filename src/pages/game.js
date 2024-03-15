@@ -166,12 +166,6 @@ function updateGameSettingModalContent() {
   document.getElementById('startGameButton').innerHTML = i18next.t('startGameButton');
 }
 
-function updateScoreBoxContent() {
-  document.getElementById("pong").innerHTML = i18next.t("pong");
-  document.getElementById('classic').innerHTML = i18next.t('classic');
-  document.getElementById('player1').innerHTML = i18next.t('player1');
-  document.getElementById('player2').innerHTML = i18next.t('player2');
-}
 
 export function pageBoard() {
   const page = document.createElement('div');
@@ -243,22 +237,22 @@ function createScoreModal() {
             <div class="modal-body">
                 <!-- Winner section -->
                 <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-success rounded-pill px-3 me-2">WIN</span>
+                    <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
                     <img src="1.jpg" class="rounded-circle me-2" alt="Anna Clarke" style="width: 50px; height: 50px;">
                     <span class="fw-bold flex-grow-1">Anna Clarke</span>
                     <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
                 </div>
                 <!-- Loser section -->
                 <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-secondary rounded-pill px-3 me-2">LOSE</span>
+                    <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
                     <div class="bg-light rounded-circle me-2" style="width: 50px; height: 50px;"></div>
-                    <span class="fw-bold flex-grow-1">Player 2</span>
+                    <span class="fw-bold flex-grow-1" id='score-player2'>Player 2</span>
                     <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
                 </div>
             </div>
 
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal">SAVE SCORE</button>
+                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal" id='save-score'>SAVE SCORE</button>
             </div>
       </div>
     </div>`;
@@ -283,19 +277,19 @@ function createEmail2faModal() {
                 <form id="emailVerificationForm">
                     <!-- Email address input -->
                     <div class="mb-3">
-                        <label for="emailInput" class="form-label">Email Address</label>
+                        <label for="emailInput" class="form-label" id='email-input-label'>Email Address</label>
                         <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()">Send Verification Code</button>
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>Send Verification Code</button>
                     </div>
                     <!-- Verification code input -->
                     <div class="mb-3 mt-3">
-                        <label for="verificationCodeInput" class="form-label">Verification Code</label>
+                        <label for="verificationCodeInput" class="form-label" id='verification-code-label'>Verification Code</label>
                         <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">Submit Verification Code</button>
+                        <button type="submit" class="btn btn-success" id='submit-verification-code-button'>Submit Verification Code</button>
                     </div>
                 </form>
             </div>
