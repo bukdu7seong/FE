@@ -11,7 +11,7 @@ async function requestSignUp(formData) {
       body: formData, // JSON 대신 formData 사용
     });
 
-    if (!response.ok) {
+    if (response.status !== 201) {
       throw new Error(response.status);
     }
 
