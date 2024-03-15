@@ -8,8 +8,8 @@ export function pageGame() {
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id='game'>
-            <p class="header-pong">PONG</p>
-            <p class="header-classic">CLASSIC</p>
+            <p class="header-pong" id='pong'>PONG</p>
+            <p class="header-classic" id='classic'>CLASSIC</p>
             <div class="player-container">
               <div class="player-option" id="player1">PLAYER 1</div>
               <div class="divider"></div>
@@ -76,35 +76,6 @@ export function pageGame() {
       `;
   page.innerHTML = content;
 
-  gameState.setState({ currentGameStatus: 'idle' });
-  let gameBox = page.querySelector('#game');
-  let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
-    keyboard: false
-  });
-  let startGameButton = page.querySelector('#startGameButton');
-
-  startGameButton.addEventListener('click', function() {
-    gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
-    gameSettingModal.hide(); // 모달을 숨깁니다.
-  });
-
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      // 'Escape' 키가 눌렸을 때의 조건
-      if (gameState.getState().currentGameStatus === 'idle') {
-        gameSettingModal.hide(); // 모달을 숨깁니다.
-      }
-    }
-  });
-
-  // game-box 클릭 이벤트
-  gameBox.addEventListener('click', function() {
-    if (gameState.getState().currentGameStatus === 'idle') {
-      gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
-    }
-  });
-
-
   // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
   // function removeGameBoxListener() {
   //   gameBox.removeEventListener('click', function() {
@@ -112,23 +83,83 @@ export function pageGame() {
   //   });
   // }
 
+
+//   gameState.setState({ currentGameStatus: 'idle' });
+//   let gameBox = page.querySelector('#game');
+//   let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
+//     keyboard: false
+//   });
+//   let startGameButton = page.querySelector('#startGameButton');
+//
+//   startGameButton.addEventListener('click', function() {
+//     gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
+//     gameSettingModal.hide(); // 모달을 숨깁니다.
+//   });
+//
+//   document.addEventListener('keydown', function(event) {
+//     if (event.key === 'Escape') {
+//       // 'Escape' 키가 눌렸을 때의 조건
+//       if (gameState.getState().currentGameStatus === 'idle') {
+//         gameSettingModal.hide(); // 모달을 숨깁니다.
+//       }
+//     }
+//   });
+//
+// // game-box 클릭 이벤트
+//   gameBox.addEventListener('click', function() {
+//     if (gameState.getState().currentGameStatus === 'idle') {
+//       gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
+//     }
+//   });
+
   page.appendChild(createScoreModal());
   page.appendChild(createEmail2faModal());
-
+  initGameEvents(page);
   return page;
 }
+
+export function initGameEvents(page) {
+  let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
+    keyboard: false
+  });
+  let startGameButton = page.querySelector('#startGameButton');
+  let gameBox = page.querySelector('#game');
+
+  // 게임 시작 버튼 이벤트
+  startGameButton.addEventListener('click', function() {
+    gameState.setState({ currentGameStatus: 'playing' });
+    gameSettingModal.hide();
+  });
+
+  // Escape 키 이벤트
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && gameState.getState().currentGameStatus === 'idle') {
+      gameSettingModal.hide();
+    }
+  });
+
+  // 게임 박스 클릭 이벤트
+  gameBox.addEventListener('click', function() {
+    if (gameState.getState().currentGameStatus === 'idle') {
+      gameSettingModal.show();
+    }
+  });
+
+}
+
+export function updateGameBoxContent() {
+  document.getElementById("pong").innerHTML = i18next.t("pong");
+  document.getElementById('classic').innerHTML = i18next.t('classic');
+  document.getElementById('player1').innerHTML = i18next.t('player1');
+  document.getElementById('player2').innerHTML = i18next.t('player2');
+}
+
 
 export function pageBoard() {
   const page = document.createElement('div');
   page.setAttribute('class', 'board');
-  let scoreModalElement = createScoreModal();
-  page.appendChild(scoreModalElement);
-  // let scoreModal = new bootstrap.Modal(document.getElementById('scoreModal'));
-
-  let email2faModalElement = createEmail2faModal();
-  page.appendChild(email2faModalElement);
-  // let email2faModal = new bootstrap.Modal(document.getElementById('email2faModal'));
-
+  page.appendChild(createScoreModal());
+  page.appendChild(createEmail2faModal());
 
   const content = `
       <div class="ball">
@@ -139,9 +170,7 @@ export function pageBoard() {
       <div class="player_1_score">0</div>
       <div class="player_2_score">0</div>
       <div class="message">Press Enter to Play Pong</div>
-      
     `;
-
   page.innerHTML = content;
 
   function loadScript() {
@@ -151,8 +180,6 @@ export function pageBoard() {
   }
 
   loadScript(); // 스크립트 로드 함수 호출
-
-
   return page;
 }
 

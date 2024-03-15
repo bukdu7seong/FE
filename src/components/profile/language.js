@@ -42,7 +42,11 @@ i18next.init({
         "passwordConfirmModalLabel": "Password Confirmation",
         "password-confirm-form-content": "Please enter your password",
         "password-confirm-form-input": "Password",
-        "password-confirm-form-confirm": "Confirm"
+        'password-confirm-form-confirm': 'Confirm',
+        'pong': 'PONG',
+        'classic': 'CLASSIC',
+        'player1': 'PLAYER 1',
+        'player2': 'PLAYER 2',
       }
     },
     ko: {
@@ -86,7 +90,11 @@ i18next.init({
         "passwordConfirmModalLabel": "비밀번호 확인",
         "password-confirm-form-content": "비밀번호를 입력하세요",
         "password-confirm-form-input": "비밀번호",
-        "password-confirm-form-confirm": "확인"
+        "password-confirm-form-confirm": "확인",
+        'pong': '퐁',
+        'classic': '클래식',
+        'player1': '플레이어 1',
+        'player2': '플레이어 2'
       }
     },
     fr: {
@@ -130,7 +138,11 @@ i18next.init({
         "passwordConfirmModalLabel": "Confirmation du mot de passe",
         "password-confirm-form-content": "Veuillez entrer votre mot de passe",
         "password-confirm-form-input": "Mot de passe",
-        "password-confirm-form-confirm": "Confirmer"
+        "password-confirm-form-confirm": "Confirmer",
+        'pong': 'PONG',
+        'classic': 'CLASSIQUE',
+        'player1': 'JOUEUR 1',
+        'player2': 'JOUEUR 2'
       }
     }
   },

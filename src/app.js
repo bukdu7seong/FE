@@ -10,7 +10,7 @@ import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 import { pageLogIn } from './pages/login/sign_in.js';
 import { pageSignUp } from './pages/login/sign_up.js';
 import { pageProfile } from './pages/profile.js';
-import { pageGame, pageBoard } from './pages/game.js';
+import { pageGame, pageBoard, updateGameBoxContent } from './pages/game.js';
 import { pageTournament } from './pages/tournament.js';
 import { pageSwitch } from './pages/switch.js';
 // components
@@ -116,7 +116,7 @@ function init() {
       setOnRender(routes['/login'], login);
       setOnRender(routes['/signup'], signup);
       setOnRender(routes['/profile'], profile, updateUserBox);
-      setOnRender(routes['/game'], updateUserBox);
+      setOnRender(routes['/game'], updateGameBoxContent, updateUserBox);
       setOnRender(routes['/tournament'], updateUserBox);
 
       userState.subscribe(updateUserBox);
