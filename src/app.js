@@ -17,14 +17,14 @@ import { profile } from './components/profile/profile.js';
 import { signIn } from './components/login/sign_in.js';
 import { signUp } from './components/login/sign_up.js';
 import { twoFA } from './components/login/twofa.js';
+// state
+import { gameState, routeState, userState } from '../lib/state/state.js';
 // game
 import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
-// state
-import { gameState, routeState, userState } from '../lib/state/state.js';
 // utils
-import { checkLogin } from './utils/check_login.js';
 import { updateUserBox } from './utils/updateUserBox.js';
+import { checkLogin } from './utils/checkLogin.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {

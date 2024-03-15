@@ -3,7 +3,7 @@ import { routes } from '../../app.js';
 import { userState } from '../../../lib/state/state.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 
-// [로그인 요청]
+// [프론트 -> 백] 로그인 요청
 async function requestLogin(credentials) {
   // URL: localhost?/api/login -> 수정 필요
   console.log('username:', credentials.username);
