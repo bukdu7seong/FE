@@ -19,10 +19,11 @@ async function requestResend() {
     })
     .catch((e) => {
       if (response.status === 400) {
-        console.log('error:', e);
+        console.log(e);
         console.log('400 Bad Request: 잘못된 요청입니다.');
+      } else {
+        console.log('error:', e);
       }
-      console.log('error:', e);
     });
 }
 
@@ -52,6 +53,8 @@ async function requestTwoFACode(code) {
     } else if (response.status === 409) {
       console.log(e);
       console.log(' Conflict: 42 토큰이 만료되었습니다.');
+    } else {
+      console.log('UNSUPPORTED_MEDIA_TYPE', e);
     }
   }
 }

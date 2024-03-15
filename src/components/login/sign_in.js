@@ -24,16 +24,15 @@ async function requestLogin(credentials) {
 
         route(routes, '/profile', true, false);
       } else {
-        throw new Error(`${response.status} - ${response.message}`);
+        throw new Error(response.status);
       }
     })
-    .catch((e) => {
+    .catch((status) => {
       const errorMessageDiv = document.getElementById('login-error-message');
-      if (response.status === 403) {
+      if (status === 403) {
         alert('2FA 인증이 필요합니다. 인증을 진행해주세요.');
-      } else if (response.status === 404) {
-        errorMessageDiv.textContent =
-          '로그인에 실패했습니다. 다시 시도해주세요.';
+      } else {
+        errorMessageDiv.textContent = '로그인에 실패했습니다.';
       }
     });
 }
@@ -59,6 +58,8 @@ async function request42OAuth() {
         console.log('404 Not Found: 해당 사용자가 존재하지 않습니다.', e);
       } else if (e.status === 409) {
         console.log('409 Conflict: 42 토큰이 만료되었습니다.', e);
+      } else {
+        console.log('UNSUPPORTED_MEDIA_TYPE', e);
       }
     });
 }
