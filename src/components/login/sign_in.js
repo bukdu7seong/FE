@@ -3,66 +3,68 @@ import { routes } from '../../app.js';
 import { userState } from '../../../lib/state/state.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 
-// [프론트 -> 백] 로그인 요청
+// [로그인 요청]
 async function requestLogin(credentials) {
-  // URL: localhost?/api/login -> 수정 필요
-  console.log('username:', credentials.username);
-  console.log('password:', credentials.password);
-  return await fetch('http://localhost:8000/api/account/signin/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-  })
-    .then((response) => {
-      if (response.status === 200) {
-        userState.setState({
-          isLoggedIn: true,
-        });
-
-        setCookie(response.json());
-
-        route(routes, '/profile', true, false);
-      } else {
-        throw new Error(response.status);
-      }
-    })
-    .catch((status) => {
-      const errorMessageDiv = document.getElementById('login-error-message');
-      if (status === 403) {
-        alert('2FA 인증이 필요합니다. 인증을 진행해주세요.');
-      } else {
-        errorMessageDiv.textContent = '로그인에 실패했습니다.';
-      }
+  try {
+    const response = await fetch('http://localhost:8000/api/account/signin/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
     });
+
+    if (response.status === 200) {
+      userState.setState({
+        isLoggedIn: true,
+      });
+
+      const responseData = await response.json(); // 비동기
+      setCookie(responseData);
+
+      route(routes, '/profile', true, false);
+    } else {
+      throw new Error(response.status.toString());
+    }
+  } catch (e) {
+    if (e.message === '403') {
+      alert(
+        '403: 2FA authentication is required. Please proceed with the authentication.'
+      );
+    } else {
+      alert('Failed to proceed sign up process. Please login again.');
+    }
+  }
 }
 
 // [42 OAuth 요청]
 async function request42OAuth() {
-  await fetch('http://localhost:8000/api/account/42oauth', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      // console.log('data.url:', data.url);
-      window.location.href = data.url; // signup
-    })
-    .catch((e) => {
-      console.log('error:', e.status);
-      if (e.status === 404) {
-        console.log('404 Not Found: 해당 사용자가 존재하지 않습니다.', e);
-      } else if (e.status === 409) {
-        console.log('409 Conflict: 42 토큰이 만료되었습니다.', e);
-      } else {
-        console.log('UNSUPPORTED_MEDIA_TYPE', e);
-      }
+  try {
+    const response = await fetch('http://localhost:8000/api/account/42oauth', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      window.location.href = data.url; // signup/
+    } else {
+      throw new Error(response.status.toString());
+    }
+  } catch (e) {
+    switch (e.message) {
+      case '404':
+        alert('404 Not Found: The user does not exist.');
+        break;
+      case '409':
+        alert('409 Conflict: The 42 token has expired.');
+        break;
+      default:
+        alert('UNSUPPORTED_MEDIA_TYPE');
+    }
+  }
 }
 
 // [42 OAuth 버튼]
