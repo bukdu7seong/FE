@@ -47,42 +47,39 @@ import { validateUsername, validatePassword } from '../../utils/validator.js';
 // }
 
 async function requestSignUp(formData) {
-  return await fetch('http://localhost:8000/api/account/signup/', {
-    method: 'POST',
-    body: formData, // JSON 대신 formData 사용
-  })
-    .then((response) => {
-      console.log('response:', response);
-      if (response.status === 201) {
-        response.json().then((data) => {
-          userState.setState({
-            isLoggedIn: true,
-            userID: data.userID,
-            username: data.username,
-            userImage: data.image,
-            userEmail: data.email,
-          });
-        });
-
-        setCookie(response.json());
-
-        route(routes, '/twofa');
-        return response.json();
-      }
-      throw Error(response.status);
-    })
-    .catch((e) => {
-      if (e.status === 400) {
-        console.log('400 Bad Request: 42 토큰 발급에 실패하였습니다.', e);
-      } else if (e.status === 415) {
-        console.log(
-          '415 Unsupported Media Type: 42 토큰 발급에 실패하였습니다.',
-          e
-        );
-      } else {
-        console.log('UNSUPPORTED_MEDIA_TYPE', e);
-      }
+  try {
+    const response = await fetch('http://localhost:8000/api/account/signup/', {
+      method: 'POST',
+      body: formData, // JSON 대신 formData 사용
     });
+
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+
+    const data = await response.json();
+
+    userState.setState({
+      isLoggedIn: true,
+      userID: data.userID,
+      username: data.username,
+      userImage: data.image,
+      userEmail: data.email,
+    });
+
+    setCookie(data);
+
+    route(routes, '/twofa');
+    return data;
+  } catch (e) {
+    if (e.message.includes('400')) {
+      alert('Falied to fetch 42 authentication token. Please login agian.');
+    } else if (e.message.includes('415')) {
+      alert('Unsupported Media Type. Please login again');
+    } else {
+      alert('Failed to proceed sign up process. Please login again.');
+    }
+  }
 }
 
 function checkAgree() {
