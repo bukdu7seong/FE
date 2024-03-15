@@ -28,7 +28,7 @@ export function pageGame() {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-4">
-                            <label for="player-name" class="form-label">Player 2</label>
+                            <label for="player-name" class="form-label" id='player2-label'>Player 2</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control bg-dark text-white" id="player-name"
@@ -37,24 +37,24 @@ export function pageGame() {
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
-                            <label class="form-label d-block">Mode</label>
+                            <label class="form-label d-block" id='mode'>Mode</label>
                         </div>
                         <div class="col">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
-                                <label class="form-check-label" for="normal">
+                                <label class="form-check-label" for="normal" id='normal-label'>
                                     Normal Mode
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="speed">
-                                <label class="form-check-label" for="speed">
+                                <label class="form-check-label" for="speed" id='speed-label'>
                                     Speed Mode
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="object">
-                                <label class="form-check-label" for="object">
+                                <label class="form-check-label" for="object" id='object-label'>
                                     Object Mode
                                 </label>
                             </div>
@@ -141,6 +141,7 @@ export function initGameEvents(page) {
   // 게임 박스 클릭 이벤트
   gameBox.addEventListener('click', function() {
     if (gameState.getState().currentGameStatus === 'idle') {
+      updateGameSettingModalContent();
       gameSettingModal.show();
     }
   });
@@ -154,6 +155,23 @@ export function updateGameBoxContent() {
   document.getElementById('player2').innerHTML = i18next.t('player2');
 }
 
+function updateGameSettingModalContent() {
+  document.getElementById("gameSettingModalLabel").innerHTML = i18next.t("gameSettingModalLabel");
+  document.getElementById('player2-label').innerHTML = i18next.t('player2-label');
+  document.getElementById('player-name').placeholder = i18next.t('player-name');
+  document.getElementById('mode').innerHTML = i18next.t('mode');
+  document.getElementById('normal-label').innerHTML = i18next.t('normal-label');
+  document.getElementById('speed-label').innerHTML = i18next.t('speed-label');
+  document.getElementById('object-label').innerHTML = i18next.t('object-label');
+  document.getElementById('startGameButton').innerHTML = i18next.t('startGameButton');
+}
+
+function updateScoreBoxContent() {
+  document.getElementById("pong").innerHTML = i18next.t("pong");
+  document.getElementById('classic').innerHTML = i18next.t('classic');
+  document.getElementById('player1').innerHTML = i18next.t('player1');
+  document.getElementById('player2').innerHTML = i18next.t('player2');
+}
 
 export function pageBoard() {
   const page = document.createElement('div');
