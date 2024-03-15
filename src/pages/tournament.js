@@ -110,15 +110,15 @@ export function pageTournament() {
             <div class="modal-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-center">
-                        <div class="h6">Player 1</div>
+                        <div class="h6" id='round-player1'>Player 1</div>
                         <input type="text" class="form-control bg-secondary text-white" id="player1-name" value="joyoujeo" readonly>
                     </div>
                     <div class="text-center">
-                        <div class="h6">Player 2</div>
+                        <div class="h6" id='round-player2'>Player 2</div>
                         <input type="text" class="form-control bg-secondary text-white" id="player2-name" value="gychoi" readonly>
                     </div>
                 </div>
-                <div class="text-center my-3">
+                <div class="text-center my-3" id='round-content'>
                     <h6>Are you ready?</h6>
                 </div>
             </div>

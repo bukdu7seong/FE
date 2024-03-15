@@ -84,6 +84,11 @@ i18next.init({
         't-normal-label': 'normal',
         't-speed-label': 'speed',
         't-object-label': 'object',
+        'tournamentRoundModalLabel' :'TOURNAMENT ROUND {{round}}',
+        'round-player1' : 'PLAYER 1',
+        'round-player2' : 'PLAYER 2',
+        'round-content': 'Are you ready?',
+        'startRoundButton': 'START',
       }
     },
     ko: {
@@ -169,7 +174,11 @@ i18next.init({
         't-normal-label': '일반',
         't-speed-label': '스피드',
         't-object-label': '오브젝트',
-
+        'tournamentRoundModalLabel': '토너먼트 라운드 {{round}}',
+        'round-player1': '플레이어 1',
+        'round-player2': '플레이어 2',
+        'round-content': '준비되셨나요?',
+        'startRoundButton' : '시작'
       }
     },
     fr: {
@@ -255,7 +264,11 @@ i18next.init({
         't-normal-label': 'normal',
         't-speed-label': 'vitesse',
         't-object-label': 'objet',
-
+        'tournamentRoundModalLabel': 'TOURNOI ROUND {{round}}',
+        'round-player1': 'JOUEUR 1',
+        'round-player2': 'JOUEUR 2',
+        'round-content': 'Êtes-vous prêt ?',
+        'startRoundButton' : 'COMMENCER'
       }
     }
   },
