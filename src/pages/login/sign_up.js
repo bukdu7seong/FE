@@ -15,6 +15,7 @@ export function pageSignUp() {
 			  />
 			  <label for="usernameInput" class="text-secondary">사용자 이름</label>
 			</div>
+			<div id="usernameError" class="text-danger"></div>
 			<div class="form-floating mb-3">
 			  <input
 				type="password"
@@ -25,6 +26,7 @@ export function pageSignUp() {
 			  />
 			  <label for="passwordInput" class="text-secondary">비밀번호</label>
 			</div>
+			<div id="passwordError" class="text-danger"></div>
 			<div class="mb-3">
 			  <label for="imageInput" class="form-label text-secondary">프로필 이미지 선택</label>
 			  <input

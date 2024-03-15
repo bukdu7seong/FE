@@ -1,6 +1,7 @@
 import { userState } from '../../../lib/state/state.js';
 import { route, routes } from '../../../lib/router/router.js';
 import { setCookie } from '../../../src/utils/cookie.js';
+import { validateUsername, validatePassword } from '../../utils/validator.js';
 
 // function base64ToBytes(base64) {
 //   const binString = atob(base64);
@@ -78,6 +79,8 @@ async function requestSignUp(formData) {
           '415 Unsupported Media Type: 42 토큰 발급에 실패하였습니다.',
           e
         );
+      } else {
+        console.log('UNSUPPORTED_MEDIA_TYPE', e);
       }
     });
 }
@@ -101,7 +104,15 @@ function handleSignUpSubmit() {
       e.preventDefault();
 
       const username = document.getElementById('usernameInput').value;
+      const usernameError = document.getElementById('usernameError');
+      if (!validateUsername(username, usernameError)) {
+        return;
+      }
       const password = document.getElementById('passwordInput').value;
+      const passwordError = document.getElementById('passwordError');
+      if (!validatePassword(password, passwordError)) {
+        return;
+      }
       const code = localStorage.getItem('code').replace('?code=', '');
       localStorage.removeItem('code');
       const image = document.getElementById('imageInput').files[0];
