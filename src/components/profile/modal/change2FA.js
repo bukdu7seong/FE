@@ -192,7 +192,7 @@ export class change2FA {
     document.getElementById('confirm-2fa-modal-continue').innerHTML = i18next.t('confirm-2fa-modal-continue');
     document.getElementById('codeInputModalLabel').innerHTML = i18next.t('codeInputModalLabel');
     document.getElementById('code-input-modal-label-code').innerHTML = i18next.t('code-input-modal-label-code');
-    document.getElementById('codeInput').innerHTML = i18next.t('codeInput');
+    document.getElementById('codeInput').placeholder = i18next.t('codeInput');
     document.getElementById('timer').innerHTML = i18next.t('timer');
     document.getElementById('code-input-modal-label-confirm').innerHTML = i18next.t('code-input-modal-label-confirm');
     document.getElementById('code-input-modal-label-resend').innerHTML = i18next.t('code-input-modal-label-resend');
