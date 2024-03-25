@@ -6,7 +6,7 @@ import { userState } from '../../../lib/state/state.js';
 // [2FA 코드 재전송 요청]
 async function requestResend() {
   try {
-    const response = await fetch('http://localhost:8000/api/account/2fa/', {
+    const response = await fetch('http://localhost:8000/api/account/2fa/re', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,17 +20,19 @@ async function requestResend() {
       throw new Error(response.status.toString());
     }
   } catch (e) {
-    if (e.message === '400') {
-      alert('400 Bad Request');
-    } else {
-      alert('UNSUPPORTED_MEDIA_TYPE');
+    switch (e.message) {
+      case '400':
+        alert('400: Bad Request');
+        break;
+      default:
+        alert('Failed to proceed sign up process. Please login again.');
     }
   }
 }
 
 // [2FA 코드 인증 요청]
 async function requestTwoFACode(code) {
-  console.log(code);
+  //   console.log(code);
   try {
     const response = await fetch('http://localhost:8000/api/account/2fa/', {
       method: 'POST',
@@ -52,14 +54,19 @@ async function requestTwoFACode(code) {
       throw Error(response.status);
     }
   } catch (e) {
-    alert('error:', e);
-    if (e.message.includes('404')) {
-      alert('404 Not Found');
-      route(routes, '/404', true, false);
-    } else if (e.message.includes('409')) {
-      alert('409 Conflict');
-    } else {
-      alert('UNSUPPORTED_MEDIA_TYPE');
+    switch (e.message) {
+      case '400':
+        alert('400: Bad Request');
+        break;
+      case '404':
+        alert('404: Not Found');
+        route(routes, '/404', true, false);
+        break;
+      case '409':
+        alert('409: Conflict');
+        break;
+      default:
+        alert('Failed to proceed sign up process. Please login again.');
     }
   }
 }
@@ -79,7 +86,9 @@ function verifyCode() {
   const code = document.getElementById('two-f-a-code');
   code.addEventListener('keyup', function (e) {
     if (e.key == 'Enter') {
-      alert('Entered code: ' + code.value);
+      alert(
+        'Two-factor authentication completed successfully. You are now logged in.'
+      );
       requestTwoFACode(code.value);
     }
   });

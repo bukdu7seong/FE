@@ -2,7 +2,10 @@ import { userState } from '../../../lib/state/state.js';
 import { route } from '../../../lib/router/router.js';
 import { routes } from '../../app.js';
 import { setCookie } from '../../../src/utils/cookie.js';
-import { validateUsername, validatePassword } from '../../utils/validator.js';
+import {
+  validateUsername,
+  validatePassword,
+} from '../../utils/formValidator.js';
 
 async function requestSignUp(formData) {
   try {
@@ -17,11 +20,12 @@ async function requestSignUp(formData) {
 
     const data = await response.json();
 
+    console.log('sign up data:', data);
+    console.log('sign up data:', data.username);
+    console.log('sign up data:', data.email);
     userState.setState({
       isLoggedIn: true,
-      userID: data.userID,
       username: data.username,
-      userImage: data.image,
       userEmail: data.email,
     });
     setCookie(data);
@@ -30,14 +34,17 @@ async function requestSignUp(formData) {
     return data;
   } catch (e) {
     console.log(e);
-    if (e.message.includes('400')) {
-      alert(
-        '400: Failed to fetch 42 authentication token. Try logging in again.'
-      );
-    } else if (e.message.includes('415')) {
-      alert('415: Unsupported Media Type. Try logging in again.');
-    } else {
-      alert('Sign up process failed. Try logging in again.');
+    switch (e.message) {
+      case '400':
+        alert(
+          '400: Failed to fetch 42 authentication token. Try logging in again.'
+        );
+        break;
+      case '415':
+        alert('415: Unsupported Media Type. Try logging in again.');
+        break;
+      default:
+        alert('Failed to proceed sign up process. Please login again.');
     }
   }
 }
