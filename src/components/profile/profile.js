@@ -2,13 +2,19 @@ import { userState } from '../../../lib/state/state.js';
 import { changeDateFormat } from '../../utils/date.js';
 import { changeUserImageModal } from './modal/changeUserImage.js';
 import { changeUserNameModal } from './modal/changeUserName.js';
+import { change2FA } from './modal/change2FA.js';
+import { changePasswordModal } from './modal/changePassword.js';
+import { deleteUserModal } from './modal/unsubscribe.js';
+import { changeLanguage, updateContent } from './language.js';
+
 import {
   testFriendData,
   testHistoryData,
   testRequestData,
 } from './testData.js';
 
-const MODALS = ['changeUserName', 'changeUserImage'];
+
+const MODALS = ['changeUserName', 'changeUserImage', '2fa', 'change-password', 'unsubscribe'];
 
 function setModal() {
   MODALS.forEach((modalId) => {
@@ -23,10 +29,18 @@ function setModal() {
         case 'changeUserImage':
           modal = new changeUserImageModal();
           break;
+        case '2fa':
+          modal = new change2FA();
+          break;
+        case 'change-password':
+          modal = new changePasswordModal();
+          break;
+        case 'unsubscribe':
+          modal = new deleteUserModal();
+          break;
         default:
           break;
       }
-
       modal.show();
     });
   });
@@ -182,6 +196,17 @@ function setRequestList() {
   }
 }
 
+
+// 드롭다운 메뉴 이벤트 리스너 설정
+function setLanguage() {
+  document.getElementById('language-settings').addEventListener('click', (event) => {
+    if (event.target.classList.contains('dropdown-item')) {
+      const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
+      changeLanguage(languageCode);
+    }
+  });
+}
+
 // API 받아서 페이지 갱신하는 함수도 만들어야 한다.
 export function profile() {
   setModal();
@@ -189,4 +214,6 @@ export function profile() {
   setHistoryList();
   setFriendList();
   setRequestList();
+  setLanguage();
+  updateContent();
 }

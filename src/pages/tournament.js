@@ -8,12 +8,12 @@ export function pageTournament() {
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id="tournament">
-            <p class="header-pong">PONG</p>
-            <p class="header-classic">TOURNAMENT</p>
+            <p class="header-pong" id='tournament-pong'>PONG</p>
+            <p class="header-classic" id='tournament-header'>TOURNAMENT</p>
             <div class="player-container">
-              <div class="player-option" id="player1">PLAYER 1</div>
+              <div class="player-option" id="tournament-player1">PLAYER 1</div>
               <div class="divider"></div>
-              <div class="player-option" id="player2">PLAYER 2</div>
+              <div class="player-option" id="tournament-player2">PLAYER 2</div>
             </div>
             
             <button type="button" id='tournamentBtn' class="btn" data-bs-toggle="modal" data-bs-target="#tournamentSettingModal"></button>
@@ -30,7 +30,7 @@ export function pageTournament() {
                     <!-- Player 1 Input -->
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <label for="player1-name" class="form-label">Player 1</label>
+                            <label for="player1-name" class="form-label" id='t-player1-label'>Player 1</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control bg-secondary text-white" id="player1-name" placeholder="Name">
@@ -39,7 +39,7 @@ export function pageTournament() {
                     <!-- Player 2 Input -->
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <label for="player2-name" class="form-label">Player 2</label>
+                            <label for="player2-name" class="form-label" id='t-player2-label'>Player 2</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control bg-secondary text-white" id="player2-name" placeholder="Name">
@@ -48,7 +48,7 @@ export function pageTournament() {
                     <!-- Player 3 Input -->
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <label for="player3-name" class="form-label">Player 3</label>
+                            <label for="player3-name" class="form-label" id='t-player3-label'>Player 3</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control bg-secondary text-white" id="player3-name" placeholder="Name">
@@ -57,7 +57,7 @@ export function pageTournament() {
                     <!-- Player 4 Input -->
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <label for="player4-name" class="form-label">Player 4</label>
+                            <label for="player4-name" class="form-label" id='t-player4-label'>Player 4</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control bg-secondary text-white" id="player4-name" placeholder="Name">
@@ -66,24 +66,24 @@ export function pageTournament() {
                     <!-- Mode Selection -->
                     <div class="row">
                         <div class="col-sm-4">
-                            <label class="form-label d-block">Mode</label>
+                            <label class="form-label d-block" id='t-mode'>Mode</label>
                         </div>
                         <div class="col">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
-                                <label class="form-check-label" for="normal">
+                                <label class="form-check-label" for="normal" id='t-normal-label'>
                                     Normal Mode
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="speed">
-                                <label class="form-check-label" for="speed">
+                                <label class="form-check-label" for="speed" id='t-speed-label'>
                                     Speed Mode
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="object">
-                                <label class="form-check-label" for="object">
+                                <label class="form-check-label" for="object" id='t-object-label'>
                                     Object Mode
                                 </label>
                             </div>
@@ -110,15 +110,15 @@ export function pageTournament() {
             <div class="modal-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-center">
-                        <div class="h6">Player 1</div>
+                        <div class="h6" id='round-player1'>Player 1</div>
                         <input type="text" class="form-control bg-secondary text-white" id="player1-name" value="joyoujeo" readonly>
                     </div>
                     <div class="text-center">
-                        <div class="h6">Player 2</div>
+                        <div class="h6" id='round-player2'>Player 2</div>
                         <input type="text" class="form-control bg-secondary text-white" id="player2-name" value="gychoi" readonly>
                     </div>
                 </div>
-                <div class="text-center my-3">
+                <div class="text-center my-3" id='round-content'>
                     <h6>Are you ready?</h6>
                 </div>
             </div>
@@ -132,7 +132,12 @@ export function pageTournament() {
         
       `;
   page.innerHTML = content;
+  page.appendChild(createTournamentWinnerModal());
+  setupTournamentEvents(page);
+  return page;
+}
 
+export function setupTournamentEvents(page) {
   gameState.setState({ currentGameStatus: 'idle' });
   let gameBox = page.querySelector('#tournament');
   let tournamentSettingModal = new bootstrap.Modal(page.querySelector('#tournamentSettingModal'), {
@@ -141,32 +146,46 @@ export function pageTournament() {
   let startTournamentButton = page.querySelector('#startTournamentButton');
 
   startTournamentButton.addEventListener('click', function() {
-    gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
-    tournamentSettingModal.hide(); // 모달을 숨깁니다.
+    gameState.setState({ currentGameStatus: 'playing' });
+    tournamentSettingModal.hide();
   });
 
   document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      // 'Escape' 키가 눌렸을 때의 조건
-      if (gameState.getState().currentGameStatus === 'idle') {
-        tournamentSettingModal.hide(); // 모달을 숨깁니다.
-      }
+    if (event.key === 'Escape' && gameState.getState().currentGameStatus === 'idle') {
+      tournamentSettingModal.hide();
     }
   });
 
-  // game-box 클릭 이벤트
   gameBox.addEventListener('click', function() {
     if (gameState.getState().currentGameStatus === 'idle') {
-      tournamentSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
+      updateTournamentSettingModalContent();
+      tournamentSettingModal.show();
     }
   });
-
-  // 이벤트 리스너 제거?
-
-  page.appendChild(createTournamentWinnerModal());
-  return page;
 }
 
+export function updateTournamentBoxContent() {
+  document.getElementById("tournament-pong").innerHTML = i18next.t("tournament-pong");
+  document.getElementById('tournament-header').innerHTML = i18next.t('tournament-header');
+  document.getElementById('tournament-player1').innerHTML = i18next.t('tournament-player1');
+  document.getElementById('tournament-player2').innerHTML = i18next.t('tournament-player2');
+}
+
+function updateTournamentSettingModalContent() {
+  document.getElementById("tournamentSettingModalLabel").innerHTML = i18next.t("tournamentSettingModalLabel");
+  document.getElementById('t-player1-label').innerHTML = i18next.t('t-player1-label');
+  document.getElementById('player1-name').placeholder = i18next.t('player1-name');
+  document.getElementById('t-player2-label').innerHTML = i18next.t('t-player1-label');
+  document.getElementById('player2-name').placeholder = i18next.t('player2-name');
+  document.getElementById('t-player3-label').innerHTML = i18next.t('t-player3-label');
+  document.getElementById('player3-name').placeholder = i18next.t('player3-name');
+  document.getElementById('t-player4-label').innerHTML = i18next.t('t-player4-label');
+  document.getElementById('player4-name').placeholder = i18next.t('player4-name');
+  document.getElementById('t-mode').innerHTML = i18next.t('t-mode');
+  document.getElementById('t-normal-label').innerHTML = i18next.t('t-normal-label');
+  document.getElementById('t-speed-label').innerHTML = i18next.t('t-speed-label');
+  document.getElementById('t-object-label').innerHTML = i18next.t('t-object-label');
+}
 
 function createTournamentWinnerModal() {
   const tournamentWinnerModal = document.createElement('div');
