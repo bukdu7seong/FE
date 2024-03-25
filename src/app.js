@@ -1,10 +1,5 @@
-// app.js는 브라우저가 새로고침 될 때마다 실행.
-import {
-  firstRoute,
-  setDefaultPath,
-  routeByState,
-  route,
-} from '../lib/router/router.js';
+// router
+import { setDefaultPath, routeByState, route } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
 import { pageLogIn } from './pages/login/sign_in.js';
@@ -13,20 +8,24 @@ import { pageProfile } from './pages/profile.js';
 import { pageGame, pageBoard, updateGameBoxContent } from './pages/game.js';
 import { pageTournament, updateTournamentBoxContent } from './pages/tournament.js';
 import { pageSwitch } from './pages/switch.js';
+import { pageTwoFA } from './pages/login/twofa.js';
+import { pageSwitch } from './pages/switch.js';
+import { PageNotFound } from './pages/404.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
+import { profile } from './components/profile/profile.js';
+import { signIn } from './components/login/sign_in.js';
+import { signUp } from './components/login/sign_up.js';
+import { twoFA } from './components/login/twofa.js';
 // state
 import { gameState, routeState, userState } from '../lib/state/state.js';
 // game
 import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
-import { checkLogin } from './utils/checkLogin.js';
 // utils
 import { updateUserBox } from './utils/updateUserBox.js';
-import { profile } from './components/profile/profile.js';
-import { login } from './components/login/sign_in.js';
-import { signup } from './components/login/sign_up.js';
+import { checkLogin } from './utils/checkLogin.js';
 
 // { 경로: { 이름, 페이지, 컴포넌트 } } 렌더링 될 component는 여러개일 수 있기에 배열로 설정
 export const routes = {
@@ -56,6 +55,14 @@ export const routes = {
     component: [],
     onRender: [],
   },
+  '/twofa': { name: 'TwoFA', page: pageTwoFA, component: [], onRender: [] },
+  '/switch': {
+    name: 'Switch',
+    page: pageSwitch,
+    component: [],
+    onRender: [],
+  },
+  '/404': { name: '404', page: PageNotFound, component: [], onRender: [] },
 };
 
 // 상태 변경을 구독하고, 상태가 변경될 때마다 updateUI 함수를 실행
@@ -113,8 +120,9 @@ function init() {
       setComponent(routes['/game'], sidebar(routes), userBox());
       setComponent(routes['/tournament'], sidebar(routes), userBox());
 
-      setOnRender(routes['/login'], login);
-      setOnRender(routes['/signup'], signup);
+      setOnRender(routes['/login'], signIn);
+      setOnRender(routes['/signup'], signUp);
+      setOnRender(routes['/twofa'], twoFA);
       setOnRender(routes['/profile'], profile, updateUserBox);
       setOnRender(routes['/game'], updateGameBoxContent, updateUserBox);
       setOnRender(routes['/tournament'], updateTournamentBoxContent, updateUserBox);
@@ -123,9 +131,28 @@ function init() {
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
 
-      firstRoute(routes, setDefaultPath(window.location.pathname, routes));
+      if (window.location.pathname === '/') {
+        route(
+          routes,
+          setDefaultPath(window.location.pathname, routes),
+          true,
+          false
+        );
+      } else {
+        localStorage.setItem('code', window.location.search);
+        route(routes, window.location.pathname, true, false);
+      }
     };
     /* *************************************************************** */
+
+    // 페이지 리로드 혹은 페이지 전환, 브라우저를 닫을 시 소켓 연결을 끊는다.
+    window.addEventListener('beforeunload', function (e) {
+      const userData = userState.getState();
+
+      if (userData.userSocket) {
+        userData.userSocket.close();
+      }
+    });
 
     /* ****************** resize 관련 코드 *******************************/
     // 페이지 리사이즈 시, window 크기가 일정 사이즈 이하라면, 클릭을 비활성화
