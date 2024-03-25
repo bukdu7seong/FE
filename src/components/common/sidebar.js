@@ -66,7 +66,7 @@ export function sidebar(routes) {
   sidebar.addEventListener('click', (e) => {
     const targetImg = e.target.closest('img[route]');
     if (targetImg) {
-      route(routes, targetImg.getAttribute('route'));
+      route(targetImg.getAttribute('route'));
     }
   });
 

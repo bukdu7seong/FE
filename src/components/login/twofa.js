@@ -1,6 +1,5 @@
 import { setCookie } from '../../utils/cookie.js';
 import { route } from '../../../lib/router/router.js';
-import { routes } from '../../app.js';
 import { userState } from '../../../lib/state/state.js';
 
 // [2FA 코드 재전송 요청]
@@ -47,7 +46,7 @@ async function requestTwoFACode(code) {
       const data = await response.json();
 
       setCookie(data);
-      route(routes, '/profile', true, false);
+      route('/profile', true, false);
     } else {
       throw Error(response.status);
     }
