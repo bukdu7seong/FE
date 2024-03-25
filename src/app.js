@@ -2,14 +2,15 @@
 import { setDefaultPath, routeByState, route } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
-import { pageLogIn } from '../../src/pages/login/sign_in.js';
-import { pageSignUp } from '../../src/pages/login/sign_up.js';
-import { pageProfile } from '../../src/pages/profile.js';
-import { pageGame } from '../../src/pages/game.js';
-import { pageTournament } from '../../src/pages/tournament.js';
-import { pageTwoFA } from '../../src/pages/login/twofa.js';
-import { pageSwitch } from '../../src/pages/switch.js';
-import { PageNotFound } from '../../src/pages/404.js';
+import { pageLogIn } from './pages/login/sign_in.js';
+import { pageSignUp } from './pages/login/sign_up.js';
+import { pageProfile } from './pages/profile.js';
+import { pageGame, pageBoard, updateGameBoxContent } from './pages/game.js';
+import { pageTournament, updateTournamentBoxContent } from './pages/tournament.js';
+import { pageSwitch } from './pages/switch.js';
+import { pageTwoFA } from './pages/login/twofa.js';
+import { pageSwitch } from './pages/switch.js';
+import { PageNotFound } from './pages/404.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { userBox } from './components/common/userBox.js';
@@ -123,8 +124,8 @@ function init() {
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
       setOnRender(routes['/profile'], profile, updateUserBox);
-      setOnRender(routes['/game'], updateUserBox);
-      setOnRender(routes['/tournament'], updateUserBox);
+      setOnRender(routes['/game'], updateGameBoxContent, updateUserBox);
+      setOnRender(routes['/tournament'], updateTournamentBoxContent, updateUserBox);
 
       userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);
