@@ -6,7 +6,7 @@ import { userState } from '../../../lib/state/state.js';
 // [2FA 코드 재전송 요청]
 async function requestResend() {
   try {
-    const response = await fetch('http://localhost:8000/api/account/2fa/re', {
+    const response = await fetch('http://localhost:8000/api/account/2fa/re/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
