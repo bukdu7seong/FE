@@ -4,7 +4,7 @@ export function pageTwoFA() {
 
   const content = `
 	  <div class="form-signin text-center">
-		  <img src="../../../images/icon/laptop-solid.svg" alt="laptop icon" class="icon-2fa"/>
+		  <img src="../../../assets/images/icon/laptop-solid.svg" alt="laptop icon" class="icon-2fa"/>
 		  <h1 class="text-bold">2-Factor Authentication</h1>
 		  <p>You have 2FA enabled on this account. Please user your 2FA e-mail to enter the current 6-character code to complete the login process.</p>
 		  

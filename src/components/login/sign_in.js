@@ -22,16 +22,34 @@ async function requestLogin(credentials) {
       setCookie(responseData);
 
       route('/profile', true, false);
+    } else if (response.status === 301) {
+      console.log('sign in data:', response);
+      console.log('sign in data:', response.userID);
+      console.log('sign in data:', response.email);
+      console.log('sign in data:', response.access);
+      console.log('sign in data:', response.refresh);
+      // 2FA가 인증 되었을 때
+      userState.setState({
+        isLoggedIn: true,
+        userEmail: response.email,
+      });
+      route('/twofa', true, false);
     } else {
       throw new Error(response.status.toString());
     }
   } catch (e) {
-    if (e.message === '403') {
-      alert(
-        '403: 2FA authentication is required. Please proceed with the authentication.'
-      );
-    } else {
-      alert('Failed to proceed sign up process. Please login again.');
+    switch (e.message) {
+      case '400':
+        alert('400: Bad Request');
+        break;
+      case '403':
+        alert(
+          '403: 2FA authentication is required. Please proceed with the authentication.'
+        );
+        break;
+      default:
+        alert('Failed to proceed sign up process. Please login again.');
+        break;
     }
   }
 }
