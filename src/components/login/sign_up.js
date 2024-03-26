@@ -46,6 +46,7 @@ async function requestSignUp(formData) {
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
+    route(routes, '/login', true, false);
   }
 }
 
