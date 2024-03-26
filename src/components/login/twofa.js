@@ -1,6 +1,5 @@
 import { setCookie } from '../../utils/cookie.js';
 import { route } from '../../../lib/router/router.js';
-import { routes } from '../../app.js';
 import { userState } from '../../../lib/state/state.js';
 
 // [2FA 코드 재전송 요청]
@@ -49,7 +48,7 @@ async function requestTwoFACode(code) {
       const data = await response.json();
 
       setCookie(data);
-      route(routes, '/profile', true, false);
+      route('/profile', true, false);
     } else {
       throw Error(response.status);
     }
@@ -60,7 +59,7 @@ async function requestTwoFACode(code) {
         break;
       case '404':
         alert('404: Not Found');
-        route(routes, '/404', true, false);
+        route('/404', true, false);
         break;
       case '409':
         alert('409: Conflict');
@@ -68,7 +67,7 @@ async function requestTwoFACode(code) {
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
-    route(routes, '/login', true, false);
+    route('/login', true, false);
   }
 }
 

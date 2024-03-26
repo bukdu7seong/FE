@@ -1,6 +1,5 @@
 import { route } from '../../../lib/router/router.js';
-import { routes } from '../../app.js';
-import { userState } from '../../../lib/state/state.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 
 // [유저 정보 요청]
@@ -61,7 +60,7 @@ async function requestLogin(credentials) {
       const responseData = await response.json(); // 비동기
       setCookie(responseData);
 
-      route(routes, '/profile', true, false);
+      route('/profile', true, false);
     } else if (response.status === 301) {
       console.log('sign in data:', response);
       console.log('sign in data:', response.email);
@@ -73,7 +72,7 @@ async function requestLogin(credentials) {
         isLoggedIn: true,
         userEmail: response.email,
       });
-      route(routes, '/twofa', true, false);
+      route('/twofa', true, false);
     } else {
       throw new Error(response.status.toString());
     }
@@ -91,7 +90,7 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign up process. Please login again.');
         break;
     }
-    route(routes, '/login', true, false);
+    route('/login', true, false);
   }
 }
 
