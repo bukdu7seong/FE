@@ -59,7 +59,7 @@ async function requestTwoFACode(code) {
         break;
       case '404':
         alert('404: Not Found');
-        route(routes, '/404', true, false);
+        route('/404', true, false);
         break;
       case '409':
         alert('409: Conflict');
@@ -67,6 +67,7 @@ async function requestTwoFACode(code) {
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
+    route('/login', true, false);
   }
 }
 

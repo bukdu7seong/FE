@@ -2,6 +2,43 @@ import { route } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 
+// [유저 정보 요청]
+async function requestUserInfo(userID) {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/api/account/${userID}/`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      const data = await response.json();
+      userState.setState({
+        username: data.username,
+        email: data.email,
+        profileImage: data.profile_image,
+        winRate: data.win_rate,
+        win: data.win,
+        loss: data.loss,
+      });
+    } else {
+      throw new Error(response.status.toString());
+    }
+  } catch (e) {
+    switch (e.message) {
+      case '400':
+        alert('400: Bad Request');
+        break;
+      default:
+        alert('Failed to proceed sign up process. Please login again.');
+    }
+  }
+}
+
 // [로그인 요청]
 async function requestLogin(credentials) {
   try {
@@ -14,6 +51,8 @@ async function requestLogin(credentials) {
     });
 
     if (response.status === 200) {
+      // userID로 로그인 한 사람의 정보 요청하는 부분
+      requestUserInfo(response.userID);
       userState.setState({
         isLoggedIn: true,
       });
@@ -24,8 +63,8 @@ async function requestLogin(credentials) {
       route('/profile', true, false);
     } else if (response.status === 301) {
       console.log('sign in data:', response);
-      console.log('sign in data:', response.userID);
       console.log('sign in data:', response.email);
+      console.log('sign in data:', response.userID);
       console.log('sign in data:', response.access);
       console.log('sign in data:', response.refresh);
       // 2FA가 인증 되었을 때
@@ -51,6 +90,7 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign up process. Please login again.');
         break;
     }
+    route('/login', true, false);
   }
 }
 
