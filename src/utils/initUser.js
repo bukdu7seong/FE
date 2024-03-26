@@ -1,5 +1,6 @@
 import { globalState, userState } from '../../lib/state/state.js';
 import { failureToast } from '../components/profile/toast/failure.js';
+import { getCookie, removeCookie } from './cookie.js';
 
 // // API를 통해 받아와야 하지만 일단은 임시적인 부분.
 // const tempImages = [
@@ -19,7 +20,7 @@ export async function initUserInfo() {
   }
 
   try {
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = getCookie('accessToken');
     const response = await fetch(
       'http://localhost:8000/api/account/user/profile-stats/',
       {
@@ -99,7 +100,16 @@ export async function initUserInfo() {
     await connectWebSocket();
   } catch (error) {
     alert(error);
-    sessionStorage.removeItem('accessToken');
+    removeCookie();
     globalState.setState({ isLoggedIn: false });
   }
+
+  // 페이지 리로드 혹은 페이지 전환, 브라우저를 닫을 시 소켓 연결을 끊는다.
+  window.addEventListener('beforeunload', function (e) {
+    const userData = userState.getState();
+
+    if (userData.userSocket) {
+      userData.userSocket.close();
+    }
+  });
 }

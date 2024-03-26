@@ -1,6 +1,5 @@
 import { userState } from '../../../lib/state/state.js';
 import { route } from '../../../lib/router/router.js';
-import { routes } from '../../app.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 import {
   validateUsername,
@@ -30,7 +29,7 @@ async function requestSignUp(formData) {
     });
     setCookie(data);
 
-    route(routes, '/twofa', true, false);
+    route('/twofa', true, false);
     return data;
   } catch (e) {
     console.log(e);
