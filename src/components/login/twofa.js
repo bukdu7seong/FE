@@ -1,6 +1,11 @@
 import { setCookie } from '../../utils/cookie.js';
-import { route } from '../../../lib/router/router.js';
+import {
+  firstRoute,
+  redirectRoute,
+  route,
+} from '../../../lib/router/router.js';
 import { userState } from '../../../lib/state/state.js';
+import { requestUserInfo } from './sign_in.js';
 
 // [2FA 코드 재전송 요청]
 async function requestResend() {
@@ -45,10 +50,14 @@ async function requestTwoFACode(code) {
     });
 
     if (response.ok) {
-      const data = await response.json();
+      const responseData = await response.json();
+      setCookie(responseData);
+      requestUserInfo();
+      userState.setState({
+        isLoggedIn: true,
+      });
 
-      setCookie(data);
-      route('/profile', true, false);
+      firstRoute('/profile');
     } else {
       throw Error(response.status);
     }
@@ -67,7 +76,7 @@ async function requestTwoFACode(code) {
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
-    route('/login', true, false);
+    redirectRoute('/login');
   }
 }
 
