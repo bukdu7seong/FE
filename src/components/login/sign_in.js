@@ -1,16 +1,18 @@
 import { route } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
-import { setCookie } from '../../../src/utils/cookie.js';
+import { getCookie, setCookie } from '../../../src/utils/cookie.js';
 
 // [유저 정보 요청]
 async function requestUserInfo(userID) {
   try {
+    const accessToken = getCookie('accessToken');
     const response = await fetch(
-      `http://localhost:8000/api/account/${userID}/`,
+      `http://localhost:8000/api/account/user-stats/${userID}/`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -29,12 +31,14 @@ async function requestUserInfo(userID) {
       throw new Error(response.status.toString());
     }
   } catch (e) {
+    console.log(e);
     switch (e.message) {
       case '400':
         alert('400: Bad Request');
         break;
       default:
-        alert('Failed to proceed sign up process. Please login again.');
+        alert('Failed to proceed sign in process. Please login again.');
+        break;
     }
   }
 }
@@ -51,14 +55,12 @@ async function requestLogin(credentials) {
     });
 
     if (response.status === 200) {
-      // userID로 로그인 한 사람의 정보 요청하는 부분
-      requestUserInfo(response.userID);
+      const responseData = await response.json(); // 비동기
+      setCookie(responseData);
+      requestUserInfo(responseData.id);
       userState.setState({
         isLoggedIn: true,
       });
-
-      const responseData = await response.json(); // 비동기
-      setCookie(responseData);
 
       route('/profile', true, false);
     } else if (response.status === 301) {
@@ -87,7 +89,7 @@ async function requestLogin(credentials) {
         );
         break;
       default:
-        alert('Failed to proceed sign up process. Please login again.');
+        alert('Failed to proceed sign in process. Please login again.');
         break;
     }
     route('/login', true, false);
