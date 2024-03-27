@@ -1,6 +1,29 @@
 import { route } from '../../../lib/router/router.js';
-import { globalState, userState } from '../../../lib/state/state.js';
+import { userState } from '../../../lib/state/state.js';
 import { getCookie, setCookie } from '../../../src/utils/cookie.js';
+
+// [유저 이미지 요청]
+async function requestImageFormData(url) {
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      return response;
+    }
+    throw new Error(response.status.toString());
+  } catch (e) {
+    if (e.message === '400') {
+      alert('400: Bad Request in requestImageFormData');
+    } else {
+      console.log('error: ', e);
+    }
+  }
+}
 
 // [유저 정보 요청]
 async function requestUserInfo(userID) {
@@ -26,6 +49,7 @@ async function requestUserInfo(userID) {
         winRate: data.win_rate,
         win: data.win,
         loss: data.loss,
+        image: requestImageFormData(response.url),
       });
     } else {
       throw new Error(response.status.toString());
@@ -64,16 +88,16 @@ async function requestLogin(credentials) {
 
       route('/profile', true, false);
     } else if (response.status === 301) {
-      console.log('sign in data:', response);
-      console.log('sign in data:', response.email);
-      console.log('sign in data:', response.userID);
-      console.log('sign in data:', response.access);
-      console.log('sign in data:', response.refresh);
-      // 2FA가 인증 되었을 때
+      const responseData = await response.json();
+      console.log('responseData: ', responseData.email);
       userState.setState({
         isLoggedIn: true,
-        userEmail: response.email,
+        userEmail: responseData.email,
       });
+      console.log(
+        'userState.getState().userEmail: ',
+        userState.getState().userEmail
+      );
       route('/twofa', true, false);
     } else {
       throw new Error(response.status.toString());
