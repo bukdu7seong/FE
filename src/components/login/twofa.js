@@ -94,21 +94,29 @@ function verifyCode() {
   });
 }
 
+// [2FA 타이머]
 function timer() {
   let time = 300;
-  const timer = document.getElementById('timer');
   const timerId = setInterval(() => {
+    const timerElement = document.getElementById('timer');
+    if (!timerElement) {
+      clearInterval(timerId);
+      return;
+    }
+
     // setInterval로 초마다 시간 감소
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    timer.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    timerElement.textContent = `${minutes}:${
+      seconds < 10 ? '0' + seconds : seconds
+    }`;
     time--;
 
     if (time < 0) {
       clearInterval(timerId);
-      timer.textContent =
+      timerElement.textContent =
         'Authentication time has expired. Please press the resend button.';
-      timer.style.color = 'red';
+      timerElement.style.color = 'red';
       alert('Authentication time has expired. Please press the resend button.');
     }
   }, 1000);
