@@ -1,5 +1,9 @@
-import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
-import { userState } from '../../../lib/state/state.js';
+import {
+  firstRoute,
+  redirectRoute,
+  route,
+} from '../../../lib/router/router.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 import { getCookie, setCookie } from '../../../src/utils/cookie.js';
 
 // [유저 이미지 요청]
