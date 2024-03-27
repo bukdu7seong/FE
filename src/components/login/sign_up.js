@@ -1,5 +1,5 @@
 import { userState } from '../../../lib/state/state.js';
-import { route } from '../../../lib/router/router.js';
+import { redirectRoute, route } from '../../../lib/router/router.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 import {
   validateUsername,
@@ -27,12 +27,8 @@ async function requestSignUp(formData) {
       username: data.username,
       userEmail: data.email,
     });
-    setCookie(data);
-
-    route('/twofa', true, false);
-    return data;
+    redirectRoute('/twofa');
   } catch (e) {
-    console.log(e);
     switch (e.message) {
       case '400':
         alert(
@@ -45,7 +41,7 @@ async function requestSignUp(formData) {
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
-    route('/login', true, false);
+    redirectRoute('/login');
   }
 }
 

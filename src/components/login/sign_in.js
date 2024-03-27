@@ -1,4 +1,4 @@
-import { route } from '../../../lib/router/router.js';
+import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
 import { userState } from '../../../lib/state/state.js';
 import { getCookie, setCookie } from '../../../src/utils/cookie.js';
 
@@ -26,11 +26,11 @@ async function requestImageFormData(url) {
 }
 
 // [유저 정보 요청]
-async function requestUserInfo(userID) {
+export async function requestUserInfo() {
   try {
     const accessToken = getCookie('accessToken');
     const response = await fetch(
-      `http://localhost:8000/api/account/user-stats/${userID}/`,
+      'http://localhost:8000/api/account/user/profile-stats/',
       {
         method: 'GET',
         headers: {
@@ -42,20 +42,26 @@ async function requestUserInfo(userID) {
 
     if (response.status === 200) {
       const data = await response.json();
-      userState.setState({
-        username: data.username,
-        email: data.email,
-        profileImage: data.profile_image,
-        winRate: data.win_rate,
-        win: data.win,
-        loss: data.loss,
-        image: requestImageFormData(response.url),
-      });
+      const userData = data.user_info;
+      const userGameInfo = data.game_info;
+
+      userState.setState(
+        {
+          userImage: userData.img,
+          userId: userData.user_id,
+          userName: userData.username,
+          userLanguage: userData.language,
+          user2fa: userData.is_2fa,
+          WinRate: userGameInfo.win_rate,
+          Wins: userGameInfo.wins,
+          Losses: userGameInfo.losses,
+        },
+        false
+      );
     } else {
       throw new Error(response.status.toString());
     }
   } catch (e) {
-    console.log(e);
     switch (e.message) {
       case '400':
         alert('400: Bad Request');
@@ -81,12 +87,12 @@ async function requestLogin(credentials) {
     if (response.status === 200) {
       const responseData = await response.json(); // 비동기
       setCookie(responseData);
-      requestUserInfo(responseData.id);
+      requestUserInfo();
       userState.setState({
         isLoggedIn: true,
       });
 
-      route('/profile', true, false);
+      firstRoute('/profile');
     } else if (response.status === 301) {
       const responseData = await response.json();
       console.log('responseData: ', responseData.email);
@@ -94,11 +100,7 @@ async function requestLogin(credentials) {
         isLoggedIn: true,
         userEmail: responseData.email,
       });
-      console.log(
-        'userState.getState().userEmail: ',
-        userState.getState().userEmail
-      );
-      route('/twofa', true, false);
+      redirectRoute('/twofa');
     } else {
       throw new Error(response.status.toString());
     }
@@ -116,7 +118,7 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign in process. Please login again.');
         break;
     }
-    route('/login', true, false);
+    redirectRoute('/login');
   }
 }
 
