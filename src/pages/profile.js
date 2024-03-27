@@ -10,7 +10,7 @@ const playerProfile = `
       </button>
     </div>
     <div class="photo-upload changeUserImage">
-      <button class="upload-photo-btn">Choose a photo for your profile</button>
+      <button class="upload-photo-btn" id="choose-photo">Choose a photo for your profile</button>
     </div>
     <div class="profile-stats">
       <div class="win-rate">
@@ -74,7 +74,7 @@ const setting = `
     <div class="setting-option">
       <label class="name" for="2fa" id='2fa-option'></label>
       <label class="toggle">
-        <input id="2fa" class="toggle-checkbox" type="checkbox" checked>
+        <input id="2fa" class="toggle-checkbox 2fa" type="checkbox" checked>
         <div class="toggle-switch"></div>
       </label>
     </div>
@@ -91,11 +91,11 @@ const setting = `
     </div>
     <div class="setting-option">
       <label class="name" for="change-password", id='change-password-guide'></label>
-      <button type="button" class="btn btn-success" id="change-password"></button>
+      <button type="button" class="btn btn-success change-password" id="change-password"></button>
     </div>
     <div class="setting-option">
       <label class="name" for="unsubscribe" id='unsubscribe-guide'></label>
-      <button type="button" class="btn btn-danger" id="unsubscribe"></button>
+      <button type="button" class="btn btn-danger unsubscribe" id="unsubscribe"></button>
     </div>
 `;
 

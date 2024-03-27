@@ -13,7 +13,7 @@ export async function checkLogin() {
   }
 
   const accessToken = getCookie('accessToken');
-  console.log('ACCESSTOKEN', accessToken);
+  // console.log('ACCESSTOKEN', accessToken);
 
   // need to validate access token
   if (accessToken) {
