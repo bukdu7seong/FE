@@ -69,6 +69,10 @@
   background-color: red;
 }
 
+.login-status.offline {
+  background-color: gray;
+}
+
 .friend-info {
   display: flex;
   flex-direction: row;
@@ -78,6 +82,8 @@
 }
 
 .friend-photo {
+  display: flex;
+  align-items: center;
   width: 100%;
   max-width: min(5vw, 5vh);
   margin: min(1vw, 1vh);
@@ -92,7 +98,9 @@
 }
 
 .friend-name span {
-  font-size: min(2vw, 2vh);
+  display: flex;
+  align-items: center;
+  font-size: min(2.3vw, 2.3vh);
   color: #fff;
 }
 

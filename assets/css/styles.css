@@ -46,10 +46,10 @@ body {
 }
 
 .setting-option .btn.btn-success {
-  background-color: #198754;
+  background-color: #28a745;
 }
 .setting-option .btn.btn-success:hover {
-  background-color: #157347;
+  background-color: #198754;
 }
 
 .setting-option .btn.btn-danger {
@@ -120,4 +120,184 @@ body {
   justify-content: space-between;
   background-color: #dc3545;
   color: white;
+}
+
+/* Pagination */
+.modal-content.modal-history-content,
+.modal-content.modal-friend-content,
+.modal-content.modal-friend-request-content {
+  min-height: 84vh;
+}
+
+.modal-body.modal-history-list-body,
+.modal-body.modal-friend-list-body,
+.modal-body.modal-friend-request-list-body {
+  padding: 1rem;
+}
+
+.modal-history-list ul,
+.modal-friend-list-list ul,
+.modal-friend-request-list ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.modal-friend-list-item,
+.modal-friend-request-item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  background: #333;
+  border-radius: 10px;
+  height: min(10vw, 10vh);
+  margin-bottom: 1vh;
+}
+
+.modal-friend-request-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-login-status {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  aspect-ratio: 1/1;
+  margin: min(1vw, 1vh);
+}
+.modal-login-status.modal-login {
+  background-color: green;
+}
+.modal-login-status.modal-logout {
+  background-color: red;
+}
+.modal-login-status.modal-offline {
+  background-color: gray;
+}
+
+.pagination-container {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  min-height: 5vh;
+}
+
+.total-pages {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pagination {
+  position: absolute;
+  right: 0;
+}
+
+.page-link {
+  color: #faf2dd;
+  background-color: #171717;
+  border: 1px solid green;
+}
+
+/* Close */
+.btn-close {
+  margin-left: auto;
+}
+
+/* Profile */
+.modal-player-profile {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.modal-profile-photo {
+  max-width: 40%;
+  max-height: 40%;
+  aspect-ratio: 1/1;
+}
+
+.modal-profile-photo img {
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.modal-profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin-left: min(1vw, 1vh);
+  gap: min(2vw, 2vh);
+}
+
+.modal-profile-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-profile-name {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-left: min(1vw, 1vh);
+}
+
+.modal-profile-name span {
+  padding-right: 1vw;
+  font-size: 3vw;
+  color: #fff;
+}
+
+.modal-profile-stats {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: min(1vw, 1vh);
+  color: white;
+  border-radius: 8px;
+  background-color: #222;
+  width: 100%;
+}
+
+.win-rate,
+.win,
+.loss {
+  display: inline-flex;
+  flex-direction: column;
+  text-align: center;
+}
+.modal-win-rate span,
+.modal-win span,
+.modal-loss span {
+  font-size: min(2vw, 2vh);
+}
+.modal-win-rate label,
+.modal-win label,
+.modal-loss label {
+  display: block;
+  font-size: min(1vw, 1vh);
 }

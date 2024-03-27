@@ -71,6 +71,7 @@ export async function initUserInfo() {
       socket.onopen = () => {
         clearTimeout(timeout);
         userState.setState({ userSocket: socket }, false);
+        userState.setState({ socketStatus: 'online' }, false);
       };
 
       socket.onerror = () => {
@@ -93,6 +94,7 @@ export async function initUserInfo() {
             toast.hide();
           }, 4242);
           userState.setState({ userSocket: null }, false);
+          userState.setState({ socketStatus: 'offline' }, false);
         }
       };
     };

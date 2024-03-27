@@ -5,12 +5,12 @@ const playerProfile = `
   <div class="profile-info">
     <div class="profile-name">
       <span>-</span>
-      <button class="edit-profile-btn" id="changeUserName">
+      <button class="edit-profile-btn changeUserName">
         <img src="../assets/images/icon/pencil-fill.svg" alt="edit profile">
       </button>
     </div>
-    <div class="photo-upload" id="changeUserImage">
-      <button class="upload-photo-btn" id='choose-photo'></button>
+    <div class="photo-upload changeUserImage">
+      <button class="upload-photo-btn" id="choose-photo">Choose a photo for your profile</button>
     </div>
     <div class="profile-stats">
       <div class="win-rate">
@@ -36,7 +36,7 @@ const playerHistory = `
   <div class="history-list">
     <ul></ul>
   </div>
-  <div class="history-view-all">
+  <div class="history-view-all viewAllHistory">
     <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;
@@ -48,7 +48,7 @@ const friendList = `
   <div class="friend-list-list">
     <ul></ul>
   </div>
-  <div class="friend-view-all">
+  <div class="friend-view-all viewAllFriends">
     <button type="button" class="btn btn-outline-light">View all</button>
   </div>
 `;
@@ -61,10 +61,10 @@ const friendRequest = `
     <ul></ul>
   </div>
   <div class="friend-request-btn-wrapper">
-    <div class="invite-friends">
+    <div class="invite-friends inviteFriends">
       <button type="button" class="btn btn-success">Invite friends</button>
     </div>
-    <div class="friend-request-view-all">
+    <div class="friend-request-view-all viewAllRequests">
       <button type="button" class="btn btn-outline-light">View all</button>
     </div>
   </div>
@@ -74,7 +74,7 @@ const setting = `
     <div class="setting-option">
       <label class="name" for="2fa" id='2fa-option'></label>
       <label class="toggle">
-        <input id="2fa" class="toggle-checkbox" type="checkbox" checked>
+        <input id="2fa" class="toggle-checkbox 2fa" type="checkbox" checked>
         <div class="toggle-switch"></div>
       </label>
     </div>
@@ -91,11 +91,11 @@ const setting = `
     </div>
     <div class="setting-option">
       <label class="name" for="change-password", id='change-password-guide'></label>
-      <button type="button" class="btn btn-success" id="change-password"></button>
+      <button type="button" class="btn btn-success change-password" id="change-password"></button>
     </div>
     <div class="setting-option">
       <label class="name" for="unsubscribe" id='unsubscribe-guide'></label>
-      <button type="button" class="btn btn-danger" id="unsubscribe"></button>
+      <button type="button" class="btn btn-danger unsubscribe" id="unsubscribe"></button>
     </div>
 `;
 
