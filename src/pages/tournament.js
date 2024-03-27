@@ -202,9 +202,8 @@ function createTournamentWinnerModal() {
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <h6>Player</h6>
+                    <h6 id='tournament_player'>Player</h6>
                     <input type="text" class="form-control bg-secondary text-white mb-4" id="winner-name" readonly>
-                    <h6>Do you want to try again?</h6>
                 </div>
                 <div class="modal-footer border-0 justify-content-center">
                     <button type="button" class="btn btn-lg btn-success" id="restartGameButton">OK</button>
@@ -221,4 +220,10 @@ function createTournamentWinnerModal() {
   });
 
   return tournamentWinnerModal;
+}
+
+export function updateTournamentWinnerModal() {
+  document.getElementById("tournamentWinnerModalLabel").innerHTML = i18next.t("tournamentWinnerModalLabel");
+  document.getElementById('tournament_player').innerHTML = i18next.t('tournament_player');
+  document.getElementById('restartGameButton').innerHTML = i18next.t('restartGameButton');
 }

@@ -1,5 +1,6 @@
 import PingPong, { GameState } from './PingPong.js';
 import { gameState } from '../../../lib/state/state.js';
+import { updateTournamentWinnerModal } from '../../pages/tournament.js';
 
 const GameStage = {
   SEMI_A: 1,
@@ -83,6 +84,7 @@ export default class Tournament {
         document.getElementById('winner-name').value = this.final.winner;
         if (tournamentWinnerModalElement) {
           const scoreModal = new bootstrap.Modal(tournamentWinnerModalElement);
+          updateTournamentWinnerModal();
           scoreModal.show();
         }
       }

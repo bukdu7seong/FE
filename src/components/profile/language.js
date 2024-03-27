@@ -89,6 +89,9 @@ i18next.init({
         'round-player2' : 'PLAYER 2',
         'round-content': 'Are you ready?',
         'startRoundButton': 'START',
+        'tournamentWinnerModalLabel' : 'TOURNAMENT WINNER!',
+        'tournament_player' : 'Player',
+        'restartGameButton': 'OK'
       }
     },
     ko: {
@@ -178,7 +181,10 @@ i18next.init({
         'round-player1': '플레이어 1',
         'round-player2': '플레이어 2',
         'round-content': '준비되셨나요?',
-        'startRoundButton' : '시작'
+        'startRoundButton' : '시작',
+        'tournamentWinnerModalLabel' : '토너먼트 우승자!',
+        'tournament_player' : '플레이어',
+        'restartGameButton' : '확인'
       }
     },
     fr: {
@@ -268,7 +274,10 @@ i18next.init({
         'round-player1': 'JOUEUR 1',
         'round-player2': 'JOUEUR 2',
         'round-content': 'Êtes-vous prêt ?',
-        'startRoundButton' : 'COMMENCER'
+        'startRoundButton' : 'COMMENCER',
+        'tournamentWinnerModalLabel' : 'VAINQUEUR DU TOURNOI !',
+        'tournament_player' : 'Joueur',
+        'restartGameButton': 'OK'
       }
     }
   },
