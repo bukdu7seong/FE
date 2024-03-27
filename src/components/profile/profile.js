@@ -8,6 +8,10 @@ import { userProfileModal } from './modal/userProfile.js';
 import { viewAllFriendsModal } from './modal/viewAllFriends.js';
 import { viewAllHistoryModal } from './modal/viewAllHistory.js';
 import { viewAllRequestsModal } from './modal/viewAllRequest.js';
+import { change2FA } from './modal/change2FA.js';
+import { changePasswordModal } from './modal/changePassword.js';
+import { deleteUserModal } from './modal/unsubscribe.js';
+import { changeLanguage, updateContent } from './language.js';
 
 import {
   testFriendData,
@@ -25,6 +29,9 @@ const BUTTONS = [
   'viewAllRequests',
   'inviteFriends',
   'userProfile',
+  '2fa',
+  'change-password',
+  'unsubscribe',
 ];
 
 function setModal() {
@@ -56,6 +63,15 @@ function setModal() {
           case 'userProfile':
             const userId = event.target.closest('.item').id;
             modal = new userProfileModal(userId);
+            break;
+          case '2fa':
+            modal = new change2FA();
+            break;
+          case 'change-password':
+            modal = new changePasswordModal();
+            break;
+          case 'unsubscribe':
+            modal = new deleteUserModal();
             break;
           default:
             break;
@@ -324,6 +340,18 @@ function setRequestList() {
   }
 }
 
+// 드롭다운 메뉴 이벤트 리스너 설정
+function setLanguage() {
+  document
+    .getElementById('language-settings')
+    .addEventListener('click', (event) => {
+      if (event.target.classList.contains('dropdown-item')) {
+        const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
+        changeLanguage(languageCode);
+      }
+    });
+}
+
 // API 받아서 페이지 갱신하는 함수도 만들어야 한다.
 export function profile() {
   setProfile();
@@ -331,4 +359,6 @@ export function profile() {
   setFriendList();
   setRequestList();
   setModal();
+  setLanguage();
+  updateContent();
 }

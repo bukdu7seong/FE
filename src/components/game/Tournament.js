@@ -117,6 +117,14 @@ function showTournamentRoundModal(pingpong, round, player1, player2) {
   startRoundButton.addEventListener('click', startRoundButton.handler);
 
   // 모달 표시
+  updateTournamentRoundModalContent(round);
   tournamentRoundModal.show();
 }
 
+function updateTournamentRoundModalContent(round) {
+  document.getElementById('tournamentRoundModalLabel').textContent = i18next.t('tournamentRoundModalLabel', { round: round });
+  document.getElementById("round-player1").innerHTML = i18next.t("round-player1");
+  document.getElementById("round-player2").innerHTML = i18next.t("round-player2");
+  document.getElementById("round-content").innerHTML = i18next.t("round-content");
+  document.getElementById("startRoundButton").innerHTML = i18next.t("startRoundButton");
+}

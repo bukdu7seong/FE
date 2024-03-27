@@ -15,15 +15,15 @@ const playerProfile = `
     <div class="profile-stats">
       <div class="win-rate">
         <span>-</span>
-        <label>RATE</label>
+        <label id='rate'></label>
       </div>
       <div class="win">
         <span>-</span>
-        <label>WIN</label>
+        <label id='win'></label>
       </div>
       <div class="loss">
         <span>-</span>
-        <label>LOSS</label>
+        <label id='loss'></label>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ const playerProfile = `
 
 const playerHistory = `
   <div class="history-title">
-    <span>Recent History</span>
+    <span id='recent-history'></span>
   </div>
   <div class="history-list">
     <ul></ul>
@@ -43,7 +43,7 @@ const playerHistory = `
 
 const friendList = `
   <div class="friend-title">
-    <span>Friends</span>
+    <span id='friends'></span>
   </div>
   <div class="friend-list-list">
     <ul></ul>
@@ -55,7 +55,7 @@ const friendList = `
 
 const friendRequest = `
   <div class="friend-request-title">
-    <span>Friend Request</span>
+    <span id='friend-request'></span>
   </div>
   <div class="friend-request-list">
     <ul></ul>
@@ -72,30 +72,30 @@ const friendRequest = `
 
 const setting = `
     <div class="setting-option">
-      <label class="name" for="2fa">2FA authentication options</label>
+      <label class="name" for="2fa" id='2fa-option'></label>
       <label class="toggle">
         <input id="2fa" class="toggle-checkbox" type="checkbox" checked>
         <div class="toggle-switch"></div>
       </label>
     </div>
-    <div class="setting-option">
-      <label class="name" for="language">Select language</label>
+    <div class="setting-option" id="language-settings">
+      <label class="name" for="language" id='language'></label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
         <img src="../assets/images/icon/globe2.svg" alt="language">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
-        <li class="dropdown-item" id="lang-ko">Korean</li>
-        <li class="dropdown-item" id="lang-en">English</li>
-        <li class="dropdown-item" id="lang-fr">French</li>
+        <li class="dropdown-item" id="lang-ko" data-lang="ko">한국어</li>
+        <li class="dropdown-item" id="lang-en" data-lang="en">English</li>
+        <li class="dropdown-item" id="lang-fr" data-lang="fr">Français</li>
       </ul>
     </div>
     <div class="setting-option">
-      <label class="name" for="change-password">Change password</label>
-      <button type="button" class="btn btn-success" id="change-password">Change password</button>
+      <label class="name" for="change-password", id='change-password-guide'></label>
+      <button type="button" class="btn btn-success" id="change-password"></button>
     </div>
     <div class="setting-option">
-      <label class="name" for="unsubscribe">Unsubscribe</label>
-      <button type="button" class="btn btn-danger" id="unsubscribe">Unsubscribe</button>
+      <label class="name" for="unsubscribe" id='unsubscribe-guide'></label>
+      <button type="button" class="btn btn-danger" id="unsubscribe"></button>
     </div>
 `;
 

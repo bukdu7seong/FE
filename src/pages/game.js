@@ -8,8 +8,8 @@ export function pageGame() {
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id='game'>
-            <p class="header-pong">PONG</p>
-            <p class="header-classic">CLASSIC</p>
+            <p class="header-pong" id='pong'>PONG</p>
+            <p class="header-classic" id='classic'>CLASSIC</p>
             <div class="player-container">
               <div class="player-option" id="player1">PLAYER 1</div>
               <div class="divider"></div>
@@ -28,7 +28,7 @@ export function pageGame() {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-4">
-                            <label for="player-name" class="form-label">Player 2</label>
+                            <label for="player-name" class="form-label" id='player2-label'>Player 2</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control bg-dark text-white" id="player-name"
@@ -37,24 +37,24 @@ export function pageGame() {
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
-                            <label class="form-label d-block">Mode</label>
+                            <label class="form-label d-block" id='mode'>Mode</label>
                         </div>
                         <div class="col">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
-                                <label class="form-check-label" for="normal">
+                                <label class="form-check-label" for="normal" id='normal-label'>
                                     Normal Mode
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="speed">
-                                <label class="form-check-label" for="speed">
+                                <label class="form-check-label" for="speed" id='speed-label'>
                                     Speed Mode
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gameMode" id="object">
-                                <label class="form-check-label" for="object">
+                                <label class="form-check-label" for="object" id='object-label'>
                                     Object Mode
                                 </label>
                             </div>
@@ -76,35 +76,6 @@ export function pageGame() {
       `;
   page.innerHTML = content;
 
-  gameState.setState({ currentGameStatus: 'idle' });
-  let gameBox = page.querySelector('#game');
-  let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
-    keyboard: false
-  });
-  let startGameButton = page.querySelector('#startGameButton');
-
-  startGameButton.addEventListener('click', function() {
-    gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
-    gameSettingModal.hide(); // 모달을 숨깁니다.
-  });
-
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      // 'Escape' 키가 눌렸을 때의 조건
-      if (gameState.getState().currentGameStatus === 'idle') {
-        gameSettingModal.hide(); // 모달을 숨깁니다.
-      }
-    }
-  });
-
-  // game-box 클릭 이벤트
-  gameBox.addEventListener('click', function() {
-    if (gameState.getState().currentGameStatus === 'idle') {
-      gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
-    }
-  });
-
-
   // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
   // function removeGameBoxListener() {
   //   gameBox.removeEventListener('click', function() {
@@ -112,23 +83,95 @@ export function pageGame() {
   //   });
   // }
 
+
+//   gameState.setState({ currentGameStatus: 'idle' });
+//   let gameBox = page.querySelector('#game');
+//   let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
+//     keyboard: false
+//   });
+//   let startGameButton = page.querySelector('#startGameButton');
+//
+//   startGameButton.addEventListener('click', function() {
+//     gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
+//     gameSettingModal.hide(); // 모달을 숨깁니다.
+//   });
+//
+//   document.addEventListener('keydown', function(event) {
+//     if (event.key === 'Escape') {
+//       // 'Escape' 키가 눌렸을 때의 조건
+//       if (gameState.getState().currentGameStatus === 'idle') {
+//         gameSettingModal.hide(); // 모달을 숨깁니다.
+//       }
+//     }
+//   });
+//
+// // game-box 클릭 이벤트
+//   gameBox.addEventListener('click', function() {
+//     if (gameState.getState().currentGameStatus === 'idle') {
+//       gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
+//     }
+//   });
+
   page.appendChild(createScoreModal());
   page.appendChild(createEmail2faModal());
-
+  initGameEvents(page);
   return page;
 }
+
+export function initGameEvents(page) {
+  let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
+    keyboard: false
+  });
+  let startGameButton = page.querySelector('#startGameButton');
+  let gameBox = page.querySelector('#game');
+
+  // 게임 시작 버튼 이벤트
+  startGameButton.addEventListener('click', function() {
+    gameState.setState({ currentGameStatus: 'playing' });
+    gameSettingModal.hide();
+  });
+
+  // Escape 키 이벤트
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && gameState.getState().currentGameStatus === 'idle') {
+      gameSettingModal.hide();
+    }
+  });
+
+  // 게임 박스 클릭 이벤트
+  gameBox.addEventListener('click', function() {
+    if (gameState.getState().currentGameStatus === 'idle') {
+      updateGameSettingModalContent();
+      gameSettingModal.show();
+    }
+  });
+
+}
+
+export function updateGameBoxContent() {
+  document.getElementById("pong").innerHTML = i18next.t("pong");
+  document.getElementById('classic').innerHTML = i18next.t('classic');
+  document.getElementById('player1').innerHTML = i18next.t('player1');
+  document.getElementById('player2').innerHTML = i18next.t('player2');
+}
+
+function updateGameSettingModalContent() {
+  document.getElementById("gameSettingModalLabel").innerHTML = i18next.t("gameSettingModalLabel");
+  document.getElementById('player2-label').innerHTML = i18next.t('player2-label');
+  document.getElementById('player-name').placeholder = i18next.t('player-name');
+  document.getElementById('mode').innerHTML = i18next.t('mode');
+  document.getElementById('normal-label').innerHTML = i18next.t('normal-label');
+  document.getElementById('speed-label').innerHTML = i18next.t('speed-label');
+  document.getElementById('object-label').innerHTML = i18next.t('object-label');
+  document.getElementById('startGameButton').innerHTML = i18next.t('startGameButton');
+}
+
 
 export function pageBoard() {
   const page = document.createElement('div');
   page.setAttribute('class', 'board');
-  let scoreModalElement = createScoreModal();
-  page.appendChild(scoreModalElement);
-  // let scoreModal = new bootstrap.Modal(document.getElementById('scoreModal'));
-
-  let email2faModalElement = createEmail2faModal();
-  page.appendChild(email2faModalElement);
-  // let email2faModal = new bootstrap.Modal(document.getElementById('email2faModal'));
-
+  page.appendChild(createScoreModal());
+  page.appendChild(createEmail2faModal());
 
   const content = `
       <div class="ball">
@@ -139,9 +182,7 @@ export function pageBoard() {
       <div class="player_1_score">0</div>
       <div class="player_2_score">0</div>
       <div class="message">Press Enter to Play Pong</div>
-      
     `;
-
   page.innerHTML = content;
 
   function loadScript() {
@@ -151,8 +192,6 @@ export function pageBoard() {
   }
 
   loadScript(); // 스크립트 로드 함수 호출
-
-
   return page;
 }
 
@@ -198,22 +237,22 @@ function createScoreModal() {
             <div class="modal-body">
                 <!-- Winner section -->
                 <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-success rounded-pill px-3 me-2">WIN</span>
+                    <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
                     <img src="1.jpg" class="rounded-circle me-2" alt="Anna Clarke" style="width: 50px; height: 50px;">
                     <span class="fw-bold flex-grow-1">Anna Clarke</span>
                     <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
                 </div>
                 <!-- Loser section -->
                 <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-secondary rounded-pill px-3 me-2">LOSE</span>
+                    <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
                     <div class="bg-light rounded-circle me-2" style="width: 50px; height: 50px;"></div>
-                    <span class="fw-bold flex-grow-1">Player 2</span>
+                    <span class="fw-bold flex-grow-1" id='score-player2'>Player 2</span>
                     <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
                 </div>
             </div>
 
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal">SAVE SCORE</button>
+                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal" id='save-score'>SAVE SCORE</button>
             </div>
       </div>
     </div>`;
@@ -238,19 +277,19 @@ function createEmail2faModal() {
                 <form id="emailVerificationForm">
                     <!-- Email address input -->
                     <div class="mb-3">
-                        <label for="emailInput" class="form-label">Email Address</label>
+                        <label for="emailInput" class="form-label" id='email-input-label'>Email Address</label>
                         <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()">Send Verification Code</button>
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>Send Verification Code</button>
                     </div>
                     <!-- Verification code input -->
                     <div class="mb-3 mt-3">
-                        <label for="verificationCodeInput" class="form-label">Verification Code</label>
+                        <label for="verificationCodeInput" class="form-label" id='verification-code-label'>Verification Code</label>
                         <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">Submit Verification Code</button>
+                        <button type="submit" class="btn btn-success" id='submit-verification-code-button'>Submit Verification Code</button>
                     </div>
                 </form>
             </div>

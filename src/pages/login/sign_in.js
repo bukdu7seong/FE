@@ -3,8 +3,8 @@ export function pageLogIn() {
   page.setAttribute('class', 'full-screen');
   const content = `
       <div class="form-signin text-center">
-        <p class="login fw-bold">Log in</p>
-        <form id="login-form">
+        <p class="signin fw-bold">Pong</p>
+        <form id="signin-form">
           <div class="form-floating mb-3">
             <input
               type="text"
@@ -25,24 +25,25 @@ export function pageLogIn() {
             />
             <label for="floatingPassword" class="text-secondary">비밀번호</label>
           </div>
+		      <div id="login-error-message" class="d-flex justify-center" style="color: #fe6b6b;"></div>
           <p class="text-secondary">
             <a
               id="sign-up"
-              href="/sign-up"
+              href="/signup"
               style="text-decoration: none; color: turquoise"
               >Sign up</a
             >
             with 42 Authenticator to continue.
           </p>
           <button type="submit" class="btn btn-outline-light form-signin">
-            Sign in
+		  	Log in
           </button>
           <button
             type="button"
-            id="42-OAuth-Button"
+            id="42-Button"
             class="btn btn-outline-light form-signin"
           >
-            42 OAuth
+            Log in with 42
           </button>
         </form>
       </div>
