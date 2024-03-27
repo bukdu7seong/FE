@@ -187,6 +187,14 @@ function updateTournamentSettingModalContent() {
   document.getElementById('t-object-label').innerHTML = i18next.t('t-object-label');
 }
 
+export function updateTournamentRoundModalContent(round) {
+  document.getElementById('tournamentRoundModalLabel').textContent = i18next.t('tournamentRoundModalLabel', { round: round });
+  document.getElementById("round-player1").innerHTML = i18next.t("round-player1");
+  document.getElementById("round-player2").innerHTML = i18next.t("round-player2");
+  document.getElementById("round-content").innerHTML = i18next.t("round-content");
+  document.getElementById("startRoundButton").innerHTML = i18next.t("startRoundButton");
+}
+
 function createTournamentWinnerModal() {
   const tournamentWinnerModal = document.createElement('div');
   tournamentWinnerModal.className = 'modal fade';
@@ -221,6 +229,8 @@ function createTournamentWinnerModal() {
 
   return tournamentWinnerModal;
 }
+
+
 
 export function updateTournamentWinnerModal() {
   document.getElementById("tournamentWinnerModalLabel").innerHTML = i18next.t("tournamentWinnerModalLabel");
