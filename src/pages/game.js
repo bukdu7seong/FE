@@ -298,3 +298,18 @@ function createEmail2faModal() {
   return email2faModal;
 }
 
+export function updateScoreModalContent() {
+  document.getElementById("scoreModalLabel").innerHTML = i18next.t("scoreModalLabel");
+  document.getElementById("win-label").innerHTML = i18next.t("win-label");
+  document.getElementById("lose-label").innerHTML = i18next.t("lose-label");
+  document.getElementById("score-player2").innerHTML = i18next.t("score-player2");
+  document.getElementById('save-score').innerHTML = i18next.t('save-score');
+
+  document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
+  document.getElementById('email-input-label').innerHTML = i18next.t('email-input-label');
+  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
+  document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
+  document.getElementById('verification-code-label').innerHTML = i18next.t('verification-code-label');
+  document.getElementById('verificationCodeInput').placeholder = i18next.t('verificationCodeInput');
+  document.getElementById('submit-verification-code-button').innerHTML = i18next.t('submit-verification-code-button');
+}

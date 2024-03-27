@@ -1,5 +1,6 @@
 import PingPong, { GameState } from './PingPong.js';
 import { gameState } from '../../../lib/state/state.js';
+import { updateTournamentRoundModalContent, updateTournamentWinnerModal } from '../../pages/tournament.js';
 
 const GameStage = {
   SEMI_A: 1,
@@ -83,6 +84,7 @@ export default class Tournament {
         document.getElementById('winner-name').value = this.final.winner;
         if (tournamentWinnerModalElement) {
           const scoreModal = new bootstrap.Modal(tournamentWinnerModalElement);
+          updateTournamentWinnerModal();
           scoreModal.show();
         }
       }
@@ -121,10 +123,3 @@ function showTournamentRoundModal(pingpong, round, player1, player2) {
   tournamentRoundModal.show();
 }
 
-function updateTournamentRoundModalContent(round) {
-  document.getElementById('tournamentRoundModalLabel').textContent = i18next.t('tournamentRoundModalLabel', { round: round });
-  document.getElementById("round-player1").innerHTML = i18next.t("round-player1");
-  document.getElementById("round-player2").innerHTML = i18next.t("round-player2");
-  document.getElementById("round-content").innerHTML = i18next.t("round-content");
-  document.getElementById("startRoundButton").innerHTML = i18next.t("startRoundButton");
-}
