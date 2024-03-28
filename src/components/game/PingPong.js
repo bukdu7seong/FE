@@ -320,10 +320,16 @@ export default class PingPong {
           //   updateScoreModalContent();
           //   scoreModal.show();
 
-            document.getElementById('send-verification-code-button').onclick = () => {
-              sendVerificationEmail(gameId, patchGameResult);
-            // };
-          }
+          document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작을 취소
+            sendVerificationEmail(gameId, patchGameResult);
+          });
+
+          document.getElementById('send-verification-code-button').addEventListener('click', function() {
+            const emailForm = document.getElementById('emailVerificationForm');
+            emailForm.dispatchEvent(new Event('submit')); // 폼의 submit 이벤트를 강제로 발생시킵니다.
+          });
+
         }
 
         if (this.onGameEnd) {
