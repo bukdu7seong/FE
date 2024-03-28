@@ -281,15 +281,7 @@ function createEmail2faModal() {
                         <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>Send Verification Code</button>
-                    </div>
-                    <!-- Verification code input -->
-                    <div class="mb-3 mt-3">
-                        <label for="verificationCodeInput" class="form-label" id='verification-code-label'>Verification Code</label>
-                        <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success" id='submit-verification-code-button'>Submit Verification Code</button>
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>SAVE</button>
                     </div>
                 </form>
             </div>
@@ -309,7 +301,5 @@ export function updateScoreModalContent() {
   document.getElementById('email-input-label').innerHTML = i18next.t('email-input-label');
   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
   document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
-  document.getElementById('verification-code-label').innerHTML = i18next.t('verification-code-label');
-  document.getElementById('verificationCodeInput').placeholder = i18next.t('verificationCodeInput');
-  document.getElementById('submit-verification-code-button').innerHTML = i18next.t('submit-verification-code-button');
+
 }

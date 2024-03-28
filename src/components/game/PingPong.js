@@ -1,7 +1,7 @@
 import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
-import { gameState } from '../../../lib/state/state.js';
+import { gameState, userState } from '../../../lib/state/state.js';
 import { updateScoreModalContent } from '../../pages/game.js';
 
 const KEY_CODES = {
@@ -219,15 +219,24 @@ export default class PingPong {
 
   async fetchGameResults() {
     try {
+      const accessToken = getCookie("accessToken"); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
+      let winner = userState.getState().userEmail;
+      let loser = null;
+      // winner = 'jwee@stude321seoul.kr';
+      if (this.winner === this.player2.playerName) {
+        const temp = winner;
+        winner = loser;
+        loser = temp;
+      }
       const response = await fetch('http://localhost:8000/api/games/results', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          winner: 'jwee@student.42seoul.kr',
+          winner: winner,
+          loser: loser,
           game_mode: this.mode,
         }),
       });
@@ -240,37 +249,6 @@ export default class PingPong {
     } catch (error) {
       console.error('Fetching error:', error);
       return null; // 오류 발생 시 null 반환
-    }
-  }
-
-  async sendPatchRequest(gameId) {
-    const data = {
-      player2: 'jwee2@student.42seoul.kr',
-    };
-
-    try {
-      const response = await fetch(
-        'http://localhost:8000/api/games/result/' + gameId + '/',
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5MTEyOTgxLCJpYXQiOjE3MDkxMTExODEsImp0aSI6IjdkMjg1NzE4MmMxMjQ3MzU5NjUyODNiNWMyOTJhY2M3IiwidXNlcl9pZCI6MX0.47gezVDNDjuEona9OYNMFe4K4WwgMkbqS3dywXbuovM',
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const responseData = await response.json();
-      console.log('Response data:', responseData);
-      // 여기서 응답 데이터 처리
-    } catch (error) {
-      console.error('Error in sending PATCH request:', error);
     }
   }
 
@@ -308,35 +286,29 @@ export default class PingPong {
         this.state = GameState.END;
         console.log('game end');
 
-        const scoreModalElement = document.getElementById('scoreModal');
-        if (scoreModalElement) {
-          const scoreModal = new bootstrap.Modal(scoreModalElement);
-          updateScoreModalContent();
-          scoreModal.show();
+        console.log(userState.getState().userEmail);
+        console.log(userState.getState().userEmail);
+
+        if (gameState.getState().gameType === 'classic') {
+          let gameId;
+          try {
+            gameId = await this.fetchGameResults(); // await 키워드 사용
+          } catch (error) {
+            console.error('Error in fetchGameResults:', error);
+          }
+          console.log('here: ', gameId);
+
+          const scoreModalElement = document.getElementById('scoreModal');
+          if (scoreModalElement) {
+            const scoreModal = new bootstrap.Modal(scoreModalElement);
+            updateScoreModalContent();
+            scoreModal.show();
+
+            document.getElementById('send-verification-code-button').onclick = () => {
+              sendVerificationEmail(gameId, patchGameResult);
+            };
+          }
         }
-
-        // let gameId;
-        // try {
-        //   gameId = await this.fetchGameResults(); // await 키워드 사용
-        // } catch (error) {
-        //   console.error('Error in fetchGameResults:', error);
-        // }
-
-        // console.log('here: ', gameId);
-
-        // document
-        //   .getElementById('emailVerificationForm')
-        //   .addEventListener('submit', function (event) {
-        //     event.preventDefault(); // 폼의 기본 제출 동작 방지
-        //     const verificationCode = document.getElementById(
-        //       'verificationCodeInput'
-        //     ).value;
-        //     // 여기에서 verificationCode를 사용
-        //     console.log('Entered Verification Code:', verificationCode);
-        //     // 필요한 경우, 이 코드를 서버에 전송하는 로직을 여기에 추가
-        //   });
-        //
-        // await this.sendPatchRequest(gameId);
 
         if (this.onGameEnd) {
           this.player1.initScore();
@@ -397,4 +369,44 @@ export function setGameCondition() {
   currentGame.cleanUp();
   gameState.setState({ currentGame: null });
   gameState.setState({ currentGameStatus: 'idle' });
+}
+
+export function getCookie(name) {
+  let cookies = document.cookie; // 모든 쿠키를 가져옵니다.
+  let cookieArr = cookies.split(';'); // 쿠키들을 ';'를 기준으로 나눕니다.
+
+  for(let i = 0; i < cookieArr.length; i++) {
+    let cookiePair = cookieArr[i].split('='); // 각 쿠키를 '=' 기준으로 키와 값을 나눕니다.
+    if(name === cookiePair[0].trim()) {
+      // 찾고자 하는 키의 쿠키가 있다면 값을 디코딩하여 반환합니다.
+      return decodeURIComponent(cookiePair[1]);
+    }
+  }
+  return null; // 해당하는 쿠키가 없다면 null을 반환합니다.
+}
+async function patchGameResult(email, gameId) {
+  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
+  const url = `http://localhost:8000/api/games/result/${gameId}/`; // 게임 ID를 URL에 포함
+
+  try {
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+      },
+      body: JSON.stringify({ player2: email }) // 이메일 데이터 포함
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Game result updated successfully:', data);
+    // 추가적인 성공 처리 로직 (예: 사용자에게 알림 표시)
+  } catch (error) {
+    console.error('Error updating game result:', error);
+    // 오류 처리 로직 (예: 오류 메시지 표시)
+  }
 }
