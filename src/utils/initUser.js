@@ -1,5 +1,6 @@
 import { globalState, userState } from '../../lib/state/state.js';
 import { failureToast } from '../components/profile/toast/failure.js';
+import { successToast } from '../components/profile/toast/success.js';
 import { getCookie, removeCookie } from './cookie.js';
 
 // // API를 통해 받아와야 하지만 일단은 임시적인 부분.
@@ -63,16 +64,26 @@ export async function initUserInfo() {
 
     const connectWebSocket = async (attempt = 1) => {
       console.log('connecting...');
-      const socket = new WebSocket('ws://localhost:8001/ws/friend/status');
+      const accessToken = getCookie('accessToken');
+      const socket = new WebSocket(
+        `ws://localhost:8000/ws/friend/status?token=${accessToken}`
+      );
 
       const timeout = setTimeout(() => {
         socket.close();
       }, 4242);
 
-      socket.onopen = () => {
+      socket.onopen = (event) => {
+        console.log('connected', event);
         clearTimeout(timeout);
         userState.setState({ userSocket: socket }, false);
         userState.setState({ socketStatus: 'online' }, false);
+
+        const toast = new successToast('Connect Success!');
+        toast.show();
+        setTimeout(() => {
+          toast.hide();
+        }, 4242);
       };
 
       socket.onerror = () => {
