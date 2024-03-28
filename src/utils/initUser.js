@@ -51,6 +51,7 @@ export async function initUserInfo() {
         userImage: userData.img,
         userId: userData.user_id,
         userName: userData.username,
+        userEmail: userData.email,
         userLanguage: userData.language,
         user2fa: userData.is_2fa,
         WinRate: userGameInfo.win_rate,
