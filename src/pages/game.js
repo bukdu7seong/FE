@@ -291,7 +291,7 @@ function createEmail2faModal() {
                         <label for="emailInput" class="form-label" id='email-input-label'>Email Address</label>
                         <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
                     </div>
-<!--                    <div class="emailError text-danger mt-2" style="display: none;"></div> &lt;!&ndash; 에러 메시지 표시 영역 &ndash;&gt;-->
+                     <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div> <!-- 에러 메시지 표시 영역 -->
                     <div class="d-grid gap-2">
                         <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>SAVE</button>
                     </div>

@@ -15,10 +15,14 @@ function isValidEmail(email) {
 async function sendVerificationEmail(gameId, callback) {
   const email = document.getElementById('emailInput').value;
   const emailModal = bootstrap.Modal.getInstance(document.getElementById('email2faModal')) || new bootstrap.Modal(document.getElementById('email2faModal'));
+  const emailErrorDiv = document.getElementById('emailError');
 
   if (!isValidEmail(email)) {
-    console.error('Invalid email format');
+    emailErrorDiv.style.display = 'block';
+    emailErrorDiv.textContent = 'Invalid email format';
     return; // 유효하지 않은 이메일 형식일 경우 함수 종료
+  } else {
+    emailErrorDiv.style.display = 'none';
   }
 
   if (callback && typeof callback === 'function') {

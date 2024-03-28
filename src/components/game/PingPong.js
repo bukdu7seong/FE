@@ -314,12 +314,6 @@ export default class PingPong {
           const scoreModal = new bootstrap.Modal(scoreModalElement);
           scoreModal.show();
 
-          // const scoreModalElement = document.getElementById('scoreModal');
-          // if (scoreModalElement) {
-          //   const scoreModal = new bootstrap.Modal(scoreModalElement);
-          //   updateScoreModalContent();
-          //   scoreModal.show();
-
           document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {
             event.preventDefault(); // 폼의 기본 제출 동작을 취소
             sendVerificationEmail(gameId, patchGameResult);
