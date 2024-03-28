@@ -2,7 +2,7 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
-import { updateScoreModalContent } from '../../pages/game.js';
+import { createScoreModal, updateScoreModalContent } from '../../pages/game.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -286,9 +286,6 @@ export default class PingPong {
         this.state = GameState.END;
         console.log('game end');
 
-        console.log(userState.getState().userEmail);
-        console.log(userState.getState().userEmail);
-
         if (gameState.getState().gameType === 'classic') {
           let gameId;
           try {
@@ -296,17 +293,36 @@ export default class PingPong {
           } catch (error) {
             console.error('Error in fetchGameResults:', error);
           }
-          console.log('here: ', gameId);
 
-          const scoreModalElement = document.getElementById('scoreModal');
-          if (scoreModalElement) {
-            const scoreModal = new bootstrap.Modal(scoreModalElement);
-            updateScoreModalContent();
-            scoreModal.show();
+          const player1Info = {
+            name: this.player1.playerName,
+            image: 'player1-image.jpg'
+          };
+          const player2Info = {
+            name: this.player2.playerName,
+            image: '/assets/images/profile/default_profile.png'
+          };
+
+          let winner = player1Info; // 가정: player1이 승리한 경우
+          let loser = player2Info;
+          if (this.winner !== this.player1.playerName) {
+            [winner, loser] = [loser, winner]; // 스왑
+          }
+
+          const scoreModalElement = createScoreModal({ winner, loser });
+          document.body.appendChild(scoreModalElement); // 모달을 DOM에 추가
+          const scoreModal = new bootstrap.Modal(scoreModalElement);
+          scoreModal.show();
+
+          // const scoreModalElement = document.getElementById('scoreModal');
+          // if (scoreModalElement) {
+          //   const scoreModal = new bootstrap.Modal(scoreModalElement);
+          //   updateScoreModalContent();
+          //   scoreModal.show();
 
             document.getElementById('send-verification-code-button').onclick = () => {
               sendVerificationEmail(gameId, patchGameResult);
-            };
+            // };
           }
         }
 
