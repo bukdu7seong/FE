@@ -1,7 +1,7 @@
 import { globalState, userState } from '../../lib/state/state.js';
-import { failureToast } from '../components/profile/toast/failure.js';
-import { successToast } from '../components/profile/toast/success.js';
-import { getCookie, removeCookie } from './cookie.js';
+import { getCookie } from './cookie.js';
+import { toastSuccess } from './success.js';
+import { redirectError, throwError, toastError } from './error.js';
 
 export async function initUserInfo() {
   if (!globalState.getState().isLoggedIn) {
@@ -23,9 +23,9 @@ export async function initUserInfo() {
 
     if (!response.ok) {
       if (response.status === 401) {
-        throw new Error('Unauthorized access token. Please login again.');
+        throwError('Unauthorized access token. Please login again.');
       } else {
-        throw new Error('Failed to fetch user data. Please login again.');
+        throwError('Failed to fetch user data. Please login again.');
       }
     }
 
@@ -45,9 +45,8 @@ export async function initUserInfo() {
     if (imageResponse.ok) {
       userImage = imageResponse.url;
     } else if (imageResponse.status === 401) {
-      throw new Error('Unauthorized access token. Please login again.');
+      throwError('Unauthorized access token. Please login again.');
     } else {
-      // 이미지를 불러오지 못했을 때 기본 이미지로 대체
       alert('Failed to fetch user image.');
       userImage = '../assets/images/profile/default.png';
     }
@@ -82,12 +81,7 @@ export async function initUserInfo() {
         clearTimeout(timeout);
         userState.setState({ userSocket: socket }, false);
         userState.setState({ socketStatus: 'online' }, false);
-
-        const toast = new successToast('Connect Success!');
-        toast.show();
-        setTimeout(() => {
-          toast.hide();
-        }, 4242);
+        toastSuccess('Connect Success!');
       };
 
       socket.onerror = () => {
@@ -102,13 +96,7 @@ export async function initUserInfo() {
             connectWebSocket(attempt + 1);
           }, 2121);
         } else {
-          const toast = new failureToast(
-            'Failed to connect to WebSocket server.'
-          );
-          toast.show();
-          setTimeout(() => {
-            toast.hide();
-          }, 4242);
+          toastError('Failed to connect to WebSocket server.');
           userState.setState({ userSocket: null }, false);
           userState.setState({ socketStatus: 'offline' }, false);
         }
@@ -117,9 +105,7 @@ export async function initUserInfo() {
 
     await connectWebSocket();
   } catch (error) {
-    alert(error);
-    removeCookie();
-    globalState.setState({ isLoggedIn: false });
+    redirectError(error.message);
   }
 
   // 페이지 리로드 혹은 페이지 전환, 브라우저를 닫을 시 소켓 연결을 끊는다.
