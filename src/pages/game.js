@@ -1,4 +1,5 @@
 import { gameState } from '../../lib/state/state.js';
+import { getCookie } from '../components/game/PingPong.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -112,9 +113,14 @@ export function pageGame() {
 //     }
 //   });
 
-  // page.appendChild(createScoreModal());
-  page.appendChild(createEmail2faModal());
+
+  const email2faModal = createEmail2faModal();
+  page.appendChild(email2faModal);
+
+  const sendEmailButton = email2faModal.querySelector('#send-email-code-button');
+  sendEmailButton.addEventListener('click', sendEmailCode);
   initGameEvents(page);
+
   return page;
 }
 
@@ -270,8 +276,81 @@ export function createScoreModal(gameResult) {
   return scoreModal;
 }
 
+export async function sendEmailCode() {
+  const emailInput = document.getElementById('emailInput');
+  const emailErrorDiv = document.getElementById('emailError');
+  const email = emailInput.value;
+
+  // 이메일 유효성 검사
+  if (!isValidEmail(email)) {
+    emailErrorDiv.style.display = 'block';
+    emailErrorDiv.textContent = 'Invalid email format';
+    return;
+  }
+
+  emailErrorDiv.style.display = 'none';
+
+  try {
+    const accessToken = getCookie("accessToken"); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
+    const response = await fetch('http://localhost:8000/api/account/request-2fa/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ email: email }),
+    });
+
+    if (!response.ok) {
+      // throw new Error(`Server responded with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    // 서버 응답에 따른 추가 처리, 예를 들어 성공 메시지 표시 등
+    console.log('Email code sent successfully:', data);
+  } catch (error) {
+    // console.error('Error sending email code:', error);
+    // 오류 처리, 예를 들어 사용자에게 오류 메시지 표시 등
+  }
+}
+
+let countdownInterval;
+// 카운트다운 함수
+function startCountdown(duration, display) {
+
+  // 이전 타이머가 있다면 중지
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    display.style.display = 'none';
+  }
+  // 새 타이머 시작
+  let timer = duration;
+  display.style.display = 'block'; // 타이머 보이기
+  updateCountdownDisplay(timer, display);
+
+  countdownInterval = setInterval(function () {
+    timer -= 1;
+    updateCountdownDisplay(timer, display);
+
+    if (timer <= 0) {
+      clearInterval(countdownInterval);
+      display.style.display = 'none'; // 타이머 숨김
+    }
+  }, 1000);
+}
+
+function updateCountdownDisplay(timer, display) {
+  const minutes = parseInt(timer / 60, 10);
+  const seconds = parseInt(timer % 60, 10);
+
+  display.textContent =
+    (minutes < 10 ? "0" + minutes : minutes) + ":" +
+    (seconds < 10 ? "0" + seconds : seconds);
+}
+
 function createEmail2faModal() {
   const email2faModal = document.createElement('div');
+
   email2faModal.className = 'modal fade';
   email2faModal.id = 'email2faModal';
   email2faModal.tabIndex = -1;
@@ -280,28 +359,51 @@ function createEmail2faModal() {
   email2faModal.innerHTML = `
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-<div class="modal-header">
-                <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="emailVerificationForm">
+            <!-- Email address input -->
+            <div class="mb-3">
+              <label for="emailInput" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
             </div>
-            <div class="modal-body">
-                <form id="emailVerificationForm">
-                    <!-- Email address input -->
-                    <div class="mb-3">
-                        <label for="emailInput" class="form-label" id='email-input-label'>Email Address</label>
-                        <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
-                    </div>
-                     <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div> <!-- 에러 메시지 표시 영역 -->
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>SAVE</button>
-                    </div>
-                </form>
+            <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div>
+            <div class="d-grid gap-2 mb-3">
+              <button type="button" class="btn btn-primary" id='send-email-code-button'>Send Code</button>
             </div>
+            <!-- Verification code input -->
+            <div class="mb-3">
+              <label for="codeInput" class="form-label">Verification Code</label>
+              <input type="text" class="form-control" id="codeInput" required>
+            </div>
+            <div class="codeError text-danger mt-2" id='codeError' style="display: none;"></div>
+            <div class="d-grid gap-2">
+              <button type="button" class="btn btn-success" id='submit-verification-code-button'>Verify and Save</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>`;
+
+  const countdownTimerDiv = document.createElement('div');
+  countdownTimerDiv.className = 'countdown-timer text-center my-2';
+  countdownTimerDiv.style.display = 'none'; // 처음에는 숨김
+  email2faModal.querySelector('.modal-body').appendChild(countdownTimerDiv);
+
+  // 이메일 전송 버튼에 이벤트 리스너 추가
+  const sendEmailButton = email2faModal.querySelector('#send-email-code-button');
+  sendEmailButton.addEventListener('click', function() {
+    if (isValidEmail(document.getElementById('emailInput').value)) {
+      const countdownTimerDiv = email2faModal.querySelector('.countdown-timer');
+      startCountdown(5 * 60, countdownTimerDiv);
+    }
+  });
+
   return email2faModal;
 }
-
 export function updateScoreModalContent() {
   document.getElementById("scoreModalLabel").innerHTML = i18next.t("scoreModalLabel");
   document.getElementById("win-label").innerHTML = i18next.t("win-label");
@@ -312,7 +414,7 @@ export function updateScoreModalContent() {
   document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
   document.getElementById('email-input-label').innerHTML = i18next.t('email-input-label');
   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
+  // document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
 
 }
 
@@ -324,3 +426,5 @@ function formatCurrentTime() {
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${month}/${day}, ${hours}:${minutes}`;
 }
+
+
