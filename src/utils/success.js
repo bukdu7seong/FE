@@ -1,4 +1,4 @@
-import { successToast } from '../components/profile/toast/success';
+import { successToast } from '../components/profile/toast/success.js';
 
 export function toastSuccess(message) {
   const toast = new successToast(message);
