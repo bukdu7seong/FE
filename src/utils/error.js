@@ -1,5 +1,5 @@
-import { globalState } from '../../lib/state/state';
-import { failureToast } from '../components/profile/toast/failure';
+import { globalState } from '../../lib/state/state.js';
+import { failureToast } from '../components/profile/toast/failure.js';
 
 export function throwError(message) {
   globalState.setState({ isLoggedIn: false });
