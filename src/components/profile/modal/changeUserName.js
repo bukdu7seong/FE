@@ -1,7 +1,7 @@
-import { globalState, userState } from '../../../../lib/state/state.js';
+import { userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
-import { failureToast } from '../toast/failure.js';
 import { validateInput } from '../../../utils/validateInput.js';
+import { getCookie } from '../../../utils/cookie.js';
 
 function modalHTML(modalId) {
   return `
@@ -28,7 +28,7 @@ function modalHTML(modalId) {
 
 async function updateUserName(name) {
   try {
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = getCookie('accessToken');
     const response = await fetch(
       'http://localhost:8000/api/account/change-username/',
       {
@@ -43,20 +43,16 @@ async function updateUserName(name) {
 
     if (!response.ok) {
       if (response.status === 401) {
-        globalState.setState({ isLoggedIn: false });
-        throw new Error('Unauthorized access token. Please login again.');
+        redirectError('Unauthorized access token. Please login again.');
+        return;
       } else {
-        throw new Error('Failed to change username.');
+        throwError('Failed to change username.');
       }
     } else {
       userState.setState({ userName: name });
     }
   } catch (error) {
-    const toast = new failureToast(error.message);
-    toast.show();
-    setTimeout(() => {
-      toast.hide();
-    }, 3000);
+    toastError(error.message);
   }
 }
 
