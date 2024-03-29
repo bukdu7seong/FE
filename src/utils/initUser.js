@@ -1,6 +1,6 @@
 import { globalState, userState } from '../../lib/state/state.js';
-import { successToast } from '../components/profile/toast/success.js';
 import { getCookie } from './cookie.js';
+import { toastSuccess } from './success.js';
 import { redirectError, throwError, toastError } from './error.js';
 
 export async function initUserInfo() {
@@ -81,7 +81,7 @@ export async function initUserInfo() {
         clearTimeout(timeout);
         userState.setState({ userSocket: socket }, false);
         userState.setState({ socketStatus: 'online' }, false);
-        successToast('Connect Success!');
+        toastSuccess('Connect Success!');
       };
 
       socket.onerror = () => {
@@ -113,7 +113,7 @@ export async function initUserInfo() {
     const userData = userState.getState();
 
     if (userData.userSocket) {
-      userData.userSocket.close();
+      userData.userSocket.disconnect();
     }
   });
 }
