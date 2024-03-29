@@ -34,6 +34,7 @@ export default class Tournament {
         this.semiFinalA.onGameEnd = () => this.tournamentStart();
 
         gameState.setState({ currentGame: this.semiFinalA  }, false);
+        gameState.setState({ gameType: 'semi_a' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
         // 라운드1에 대한 정보로 모달 표시
         showTournamentRoundModal(this.semiFinalA,1, this.playerNames[0], this.playerNames[1]);
@@ -54,6 +55,7 @@ export default class Tournament {
         this.semiFinalB.onGameEnd = () => this.tournamentStart();
 
         gameState.setState({ currentGame: this.semiFinalB  }, false);
+        gameState.setState({ gameType: 'semi_b' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
         // 라운드2에 대한 정보로 모달 표시
         showTournamentRoundModal(this.semiFinalB, 2, this.playerNames[2], this.playerNames[3]);
@@ -75,6 +77,7 @@ export default class Tournament {
         // 라운드3에 대한 정보로 모달 표시
 
         gameState.setState({ currentGame: this.final  }, false);
+        gameState.setState({ gameType: 'final' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
         showTournamentRoundModal(this.final,3, this.finalist[0], this.finalist[1]);
       }

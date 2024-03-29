@@ -112,7 +112,7 @@ export function pageGame() {
 //     }
 //   });
 
-  page.appendChild(createScoreModal());
+  // page.appendChild(createScoreModal());
   page.appendChild(createEmail2faModal());
   initGameEvents(page);
   return page;
@@ -170,7 +170,7 @@ function updateGameSettingModalContent() {
 export function pageBoard() {
   const page = document.createElement('div');
   page.setAttribute('class', 'board');
-  page.appendChild(createScoreModal());
+  // page.appendChild(createScoreModal());
   page.appendChild(createEmail2faModal());
 
   const content = `
@@ -219,7 +219,18 @@ async function verifyCodeWithServer(code) {
 }
 
 
-function createScoreModal() {
+export function createScoreModal(gameResult) {
+  if (!gameResult) {
+    console.error('gameResult is undefined or null');
+    return; // 함수를 빠져나가거나 적절한 처리를 합니다.
+  }
+
+  const currentTime = formatCurrentTime();
+  const winnerName = gameResult.winner.name; // 승자의 닉네임
+  const winnerImage = gameResult.winner.image; // 승자의 이미지
+  const loserName = gameResult.loser.name; // 패자의 닉네임
+  const loserImage = gameResult.loser.image; // 패자의 이미지
+
   const scoreModal = document.createElement('div');
   scoreModal.className = 'modal fade';
   scoreModal.id = 'scoreModal';
@@ -238,16 +249,16 @@ function createScoreModal() {
                 <!-- Winner section -->
                 <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
                     <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
-                    <img src="1.jpg" class="rounded-circle me-2" alt="Anna Clarke" style="width: 50px; height: 50px;">
-                    <span class="fw-bold flex-grow-1">Anna Clarke</span>
-                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
+                    <img src="${winnerImage}" class="rounded-circle me-2" alt="${winnerName}" style="width: 50px; height: 50px;">
+                    <span class="fw-bold flex-grow-1">${winnerName}</span>
+                    <span class="time-score rounded-pill bg-secondary px-3">${currentTime}</span>
                 </div>
                 <!-- Loser section -->
                 <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
                     <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
-                    <div class="bg-light rounded-circle me-2" style="width: 50px; height: 50px;"></div>
-                    <span class="fw-bold flex-grow-1" id='score-player2'>Player 2</span>
-                    <span class="time-score rounded-pill bg-secondary px-3">13: 42.1</span>
+                    <img src="${loserImage}" class="rounded-circle me-2" alt="${loserName}" style="width: 50px; height: 50px;">
+                    <span class="fw-bold flex-grow-1">${loserName}</span>
+                    <span class="time-score rounded-pill bg-secondary px-3">${currentTime}</span>
                 </div>
             </div>
 
@@ -280,16 +291,9 @@ function createEmail2faModal() {
                         <label for="emailInput" class="form-label" id='email-input-label'>Email Address</label>
                         <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
                     </div>
+                     <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div> <!-- 에러 메시지 표시 영역 -->
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>Send Verification Code</button>
-                    </div>
-                    <!-- Verification code input -->
-                    <div class="mb-3 mt-3">
-                        <label for="verificationCodeInput" class="form-label" id='verification-code-label'>Verification Code</label>
-                        <input type="text" class="form-control" id="verificationCodeInput" placeholder="Enter your code" required>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success" id='submit-verification-code-button'>Submit Verification Code</button>
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationEmail()" id='send-verification-code-button'>SAVE</button>
                     </div>
                 </form>
             </div>
@@ -309,7 +313,14 @@ export function updateScoreModalContent() {
   document.getElementById('email-input-label').innerHTML = i18next.t('email-input-label');
   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
   document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
-  document.getElementById('verification-code-label').innerHTML = i18next.t('verification-code-label');
-  document.getElementById('verificationCodeInput').placeholder = i18next.t('verificationCodeInput');
-  document.getElementById('submit-verification-code-button').innerHTML = i18next.t('submit-verification-code-button');
+
+}
+
+function formatCurrentTime() {
+  const now = new Date();
+  const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
+  const day = now.getDate();
+  const hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  return `${month}/${day}, ${hours}:${minutes}`;
 }

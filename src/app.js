@@ -100,6 +100,8 @@ function init() {
             const pongGame = new PingPong(selectedMode, 'salee2', player2Name);
             gameState.setState({ currentGame: pongGame }, false);
             gameState.setState({ currentGameStatus: 'start' }, false);
+            gameState.setState({ gameType: 'classic' }, false);
+
             pongGame.startGame();
           }
           break;
