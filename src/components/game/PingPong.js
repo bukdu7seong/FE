@@ -2,7 +2,7 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
-import { createScoreModal, updateScoreModalContent } from '../../pages/game.js';
+import { createScoreModal, sendEmailCode, updateScoreModalContent } from '../../pages/game.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -247,7 +247,7 @@ export default class PingPong {
       const data = await response.json();
       return data.gameId; // JSON 결과에서 gameId 반환
     } catch (error) {
-      console.error('Fetching error:', error);
+      // console.error('Fetching error:', error);
       return null; // 오류 발생 시 null 반환
     }
   }
@@ -295,8 +295,8 @@ export default class PingPong {
           }
 
           const player1Info = {
-            name: this.player1.playerName,
-            image: 'player1-image.jpg'
+            name: userState.getState().userName,
+            image: userState.getState().userImage
           };
           const player2Info = {
             name: this.player2.playerName,
@@ -319,11 +319,9 @@ export default class PingPong {
             sendVerificationEmail(gameId, patchGameResult);
           });
 
-          document.getElementById('send-verification-code-button').addEventListener('click', function() {
-            const emailForm = document.getElementById('emailVerificationForm');
-            emailForm.dispatchEvent(new Event('submit')); // 폼의 submit 이벤트를 강제로 발생시킵니다.
+          document.getElementById('submit-verification-code-button').addEventListener('click', () => {
+            submitVerificationCode(gameId);
           });
-
         }
 
         if (this.onGameEnd) {
@@ -415,14 +413,58 @@ async function patchGameResult(email, gameId) {
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
+      // throw new Error(`Error: ${response.status}`);
     }
 
     const data = await response.json();
     console.log('Game result updated successfully:', data);
     // 추가적인 성공 처리 로직 (예: 사용자에게 알림 표시)
   } catch (error) {
-    console.error('Error updating game result:', error);
+    // console.perror('Error updating game result:', error);
     // 오류 처리 로직 (예: 오류 메시지 표시)
+  }
+}
+
+async function submitVerificationCode(gameId) {
+  const email = document.getElementById('emailInput').value;
+  const code = document.getElementById('codeInput').value;
+  const emailModal = bootstrap.Modal.getInstance(document.getElementById('email2faModal')) || new bootstrap.Modal(document.getElementById('email2faModal'));
+  const emailErrorDiv = document.getElementById('emailError');
+  const codeErrorDiv = document.getElementById('codeError');
+
+  if (!isValidEmail(email)) {
+    emailErrorDiv.style.display = 'block';
+    emailErrorDiv.textContent = 'Invalid email format';
+    return;
+  } else {
+    emailErrorDiv.style.display = 'none';
+  }
+
+  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
+  const url = 'http://localhost:8000/api/account/verify-2fa/'; // 게임 ID를 URL에 포함
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    body: JSON.stringify({ email: email, code: code, game_id: gameId })
+  });
+  try {
+
+    if (!response.ok) {
+      throw new Error(`Server responded with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Verification successful:', data);
+    // 성공 처리, 예를 들어 모달 닫기나 사용자에게 성공 메시지 표시
+    emailModal.hide();
+  } catch (error) {
+    // console.error('Error verifying code:', error);
+    codeErrorDiv.style.display = 'block';
+    codeErrorDiv.textContent = 'Verification failed. Please try again.';
+    // 실패 처리, 예를 들어 오류 메시지 표시
   }
 }
