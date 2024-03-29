@@ -1,5 +1,6 @@
 import { globalState } from '../../lib/state/state.js';
 import { failureToast } from '../components/profile/toast/failure.js';
+import { removeCookie } from './cookie.js';
 
 export function throwError(message) {
   globalState.setState({ isLoggedIn: false });
