@@ -3,18 +3,6 @@ import { failureToast } from '../components/profile/toast/failure.js';
 import { successToast } from '../components/profile/toast/success.js';
 import { getCookie, removeCookie } from './cookie.js';
 
-// // API를 통해 받아와야 하지만 일단은 임시적인 부분.
-// const tempImages = [
-//   '../../assets/images/profile/profile_01.jpg',
-//   '../../assets/images/profile/profile_02.jpg',
-//   '../../assets/images/profile/profile_03.jpg',
-//   '../../assets/images/profile/profile_04.jpg',
-// ];
-// const tempData = {
-//   userImage: tempImages[Math.floor(Math.random() * tempImages.length)],
-//   userName: 'Guest',
-// }; // getUserData() 로 대체해야 함
-
 export async function initUserInfo() {
   if (!globalState.getState().isLoggedIn) {
     return;
@@ -44,12 +32,29 @@ export async function initUserInfo() {
     const data = await response.json();
     const userData = data.user_info;
     const userGameInfo = data.game_info;
+    const imageResponse = await fetch(`http://localhost:8000${userData.img}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-    // user data를 받아오고 나서, 유효성 검증을 해야 한다
-    // XSS 공격 방지 필요: username, userImageUrl(base64)
+    let userImage = '';
+
+    if (imageResponse.ok) {
+      userImage = imageResponse.url;
+    } else if (imageResponse.status === 401) {
+      throw new Error('Unauthorized access token. Please login again.');
+    } else {
+      // 이미지를 불러오지 못했을 때 기본 이미지로 대체
+      alert('Failed to fetch user image.');
+      userImage = '../assets/images/profile/default.png';
+    }
+
     userState.setState(
       {
-        userImage: userData.img,
+        userImage: userImage,
         userId: userData.user_id,
         userName: userData.username,
         userEmail: userData.email,
@@ -73,8 +78,7 @@ export async function initUserInfo() {
         socket.close();
       }, 4242);
 
-      socket.onopen = (event) => {
-        console.log('connected', event);
+      socket.onopen = () => {
         clearTimeout(timeout);
         userState.setState({ userSocket: socket }, false);
         userState.setState({ socketStatus: 'online' }, false);
