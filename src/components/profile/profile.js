@@ -352,7 +352,6 @@ function setLanguage() {
     });
 }
 
-// API 받아서 페이지 갱신하는 함수도 만들어야 한다.
 export function profile() {
   setProfile();
   setHistoryList();

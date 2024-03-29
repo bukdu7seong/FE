@@ -137,13 +137,15 @@ body {
 
 .modal-history-list ul,
 .modal-friend-list-list ul,
-.modal-friend-request-list ul {
+.modal-friend-request-list ul,
+.modal-search-friend-list ul {
   list-style-type: none;
   padding-left: 0;
 }
 
 .modal-friend-list-item,
-.modal-friend-request-item {
+.modal-friend-request-item,
+.modal-user-list-item {
   display: flex;
   position: relative;
   align-items: center;
@@ -155,12 +157,38 @@ body {
   margin-bottom: 1vh;
 }
 
-.modal-friend-request-info {
+.modal-friend-request-info,
+.modal-user-info {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+}
+
+.modal-user-photo {
+  display: flex;
+  align-items: center;
+  max-width: min(5vw, 5vh);
+  margin: min(1vw, 1vh);
+  aspect-ratio: 1/1;
+}
+
+.modal-user-photo img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-user-name {
+  display: flex;
+  align-items: center;
+}
+
+.modal-user-name span {
+  font-size: min(2.3vw, 2.3vh);
+  color: #fff;
 }
 
 .modal-login-status {
@@ -178,6 +206,13 @@ body {
 }
 .modal-login-status.modal-offline {
   background-color: gray;
+}
+
+.modal-user-invite {
+  display: inline-flex;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 1vw;
 }
 
 .pagination-container {
