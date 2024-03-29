@@ -5,7 +5,7 @@ export function logout() {
   globalState.setState({ isLoggedIn: false });
   removeCookie();
   if (userState.getState().userSocket) {
-    userState.getState().userSocket.disconnect();
+    userState.getState().userSocket.close();
   }
   window.location.href = '/login';
 }

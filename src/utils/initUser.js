@@ -113,7 +113,7 @@ export async function initUserInfo() {
     const userData = userState.getState();
 
     if (userData.userSocket) {
-      userData.userSocket.disconnect();
+      userData.userSocket.close();
     }
   });
 }
