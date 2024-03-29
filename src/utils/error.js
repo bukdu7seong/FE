@@ -1,6 +1,6 @@
 import { globalState } from '../../lib/state/state.js';
 import { failureToast } from '../components/profile/toast/failure.js';
-import { removeCookie } from './cookie.js';
+import { logout } from './logout.js';
 
 export function throwError(message) {
   globalState.setState({ isLoggedIn: false });
@@ -16,8 +16,6 @@ export function toastError(message) {
 }
 
 export function redirectError(message) {
-  globalState.setState({ isLoggedIn: false });
-  removeCookie();
   alert(message);
-  window.location.href = '/login';
+  logout();
 }
