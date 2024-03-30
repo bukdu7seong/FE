@@ -1,7 +1,7 @@
-import { globalState } from '../../../../lib/state/state.js';
+import { userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
-import { failureToast } from '../toast/failure.js';
-import { getBase64 } from '../../../utils/getBase64.js';
+import { redirectError, throwError, toastError } from '../../../utils/error.js';
+import { getCookie } from '../../../utils/cookie.js';
 
 function modalHTML(modalId) {
   return `
@@ -27,8 +27,8 @@ function modalHTML(modalId) {
 
 async function updateUserImage(image) {
   try {
-    const accessToken = sessionStorage.getItem('accessToken');
     const formData = new FormData();
+    const accessToken = getCookie('accessToken');
     formData.append('image', image);
 
     const response = await fetch(
@@ -44,21 +44,33 @@ async function updateUserImage(image) {
 
     if (!response.ok) {
       if (response.status === 401) {
-        globalState.setState({ isLoggedIn: false });
-        throw new Error('Unauthorized access token. Please login again.');
+        redirectError('Unauthorized access token. Please login again.');
+        return;
       } else {
-        throw new Error('Failed to change profile image.');
+        throwError('Failed to update user image.');
       }
     } else {
-      const data = await response.json();
-      userState.setState({ userImage: data.image });
+      const responseData = await response.json();
+      const imagePath = responseData.image;
+      const imageResponse = await fetch(`http://localhost:8000${imagePath}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!imageResponse.ok) {
+        throwError('Failed to fetch user image.');
+        return;
+      }
+
+      userState.setState({ userImage: imageResponse.url });
+      document.querySelector('.profile-photo img').src = imageResponse.url;
     }
   } catch (error) {
-    const toast = new failureToast(error.message);
-    toast.show();
-    setTimeout(() => {
-      toast.hide();
-    }, 3000);
+    console.log(error);
+    toastError(error.message);
   }
 }
 
