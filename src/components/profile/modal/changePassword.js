@@ -1,8 +1,8 @@
-// 필요한 모듈 또는 유틸리티 가져오기
-import { globalState, userState } from '../../../../lib/state/state.js';
-import { successToast } from '../toast/success.js';
+
+import { validatePassword } from '../../../utils/formValidator.js';
 import { failureToast } from '../toast/failure.js';
-// import { validatePassword } from '../../../utils/validatePassword.js'; // 가정: 새로운 비밀번호 유효성 검사 유틸리티
+import { successToast } from '../toast/success.js';
+import { getCookie } from '../../../utils/cookie.js';
 
 function modalHTML(modalId) {
   return `
@@ -40,10 +40,41 @@ function modalHTML(modalId) {
   `;
 }
 
-async function updatePassword(current, newPass) {
-  // 비밀번호 변경 API 호출 로직
-  // 여기서는 예시 로직으로 구성합니다.
+async function changeUserPassword(oldPassword, newPassword) {
+  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
+  const url = 'http://localhost:8000/api/account/change-password/'; // 엔드포인트
+
+  try {
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+      },
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword
+      }) // 비밀번호 변경 데이터 포함
+    });
+
+    if (!response.ok) {
+      // 요청이 성공하지 않은 경우, 응답 본문과 상태 코드를 포함한 오류 객체 반환
+      const errorData = await response.json();
+      return { success: false, status: response.status, data: errorData };
+    }
+
+    const data = await response.json();
+    console.log('Password changed successfully:', data);
+    // 요청이 성공한 경우, 성공 데이터 반환
+    return { success: true, data: data };
+  } catch (error) {
+    console.error('Error changing password:', error);
+    // 네트워크 오류 등의 문제가 발생한 경우, 오류 정보 반환
+    return { success: false, status: 'NetworkError', data: error };
+  }
 }
+
+
 
 export class changePasswordModal {
   constructor(modalId = 'changePasswordModal') {
@@ -65,6 +96,13 @@ export class changePasswordModal {
       this.handleHidden.bind(this)
     );
 
+    // 'submit' 이벤트 리스너 추가
+    const form = this.modalInstance._element.querySelector('#passwordChangeForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); // 기본 제출 동작 방지
+      this.checkInput();
+    });
+
     this.modalInstance._element
       .querySelector('.btn-primary')
       .addEventListener('click', this.checkInput.bind(this));
@@ -76,28 +114,39 @@ export class changePasswordModal {
     const confirmPassword = this.modalInstance._element.querySelector('#confirmPassword').value;
     const errorMessageElement = this.modalInstance._element.querySelector('#password-error-message');
 
-    if (!validatePassword(newPassword)) {
+    if (!validatePassword(newPassword, errorMessageElement)) {
       errorMessageElement.textContent = '비밀번호 형식이 올바르지 않습니다.';
+      return; // 함수 종료
     } else if (newPassword !== confirmPassword) {
       errorMessageElement.textContent = '새 비밀번호가 일치하지 않습니다.';
+      return; // 함수 종료
     } else {
+      errorMessageElement.textContent = ''; // 에러 메시지 초기화
       this.changePassword(currentPassword, newPassword);
     }
   }
 
   async changePassword(current, newPass) {
-    try {
-      await updatePassword(current, newPass);
+    const result = await changeUserPassword(current, newPass);
+    const errorMessageElement = this.modalInstance._element.querySelector('#password-error-message');
+
+    if (result && result.success) {
       this.popToast();
-      this.hide();
-    } catch (error) {
-      const toast = new failureToast(error.message);
-      toast.show();
-      setTimeout(() => {
-        toast.hide();
-      }, 3000);
+      this.hide(); // 변경 성공 시 모달 숨김
+    } else {
+      // 비밀번호 변경 실패 처리
+      if (result.status === 400) {
+        errorMessageElement.textContent = '현재 비밀번호가 정확하지 않습니다.';
+      } else {
+        const toast = new failureToast('비밀번호 변경 실패');
+        toast.show();
+        setTimeout(() => {
+          toast.hide();
+        }, 3000);
+      }
     }
   }
+
 
   popToast() {
     this.successToast = new successToast('비밀번호가 성공적으로 변경되었습니다!');
