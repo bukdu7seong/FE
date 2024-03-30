@@ -30,7 +30,7 @@ const BUTTONS = [
   'viewAllRequests',
   'inviteFriends',
   'userProfile',
-  '2fa',
+  // '2fa',
   'change-password',
   'unsubscribe',
 ];
@@ -65,8 +65,9 @@ function setModal() {
             const userId = event.target.closest('.item').id;
             modal = new userProfileModal(userId);
             break;
-          case '2fa':
-            modal = new change2FA();
+          // case '2fa':
+          //   const twoFAModal = new change2FA();
+          //   twoFAModal.toggle2FA();
             break;
           case 'change-password':
             modal = new changePasswordModal();
@@ -78,7 +79,9 @@ function setModal() {
             break;
         }
 
-        modal.show();
+        if (modal) {
+          modal.show();
+        }
       });
     });
   });
@@ -384,8 +387,15 @@ async function updateUserLanguage(language) {
     return null;
   }
 }
-
-
+function set2fa() {
+  const twoFACheckbox = document.getElementById('2fa');
+  if (twoFACheckbox) {
+    twoFACheckbox.addEventListener('change', () => {
+      const twoFAModal = new change2FA();
+      twoFAModal.toggle2FA();
+    });
+  }
+}
 export function profile() {
   setProfile();
   setHistoryList();
@@ -393,5 +403,8 @@ export function profile() {
   setRequestList();
   setModal();
   setLanguage();
+  set2fa();
   updateContent();
 }
+
+
