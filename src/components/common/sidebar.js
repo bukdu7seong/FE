@@ -6,13 +6,31 @@ import { route } from '../../../lib/router/router.js';
         <i class="icon-game">
           <img src="../../images/icon/gamepad-solid.svg" alt="Game" route="game">
 */
-// 이 함수는 라우터 객체를 받아서, 해당 객체의 페이지를 렌더링한다.
+function createIcon(name, route, icons) {
+  const menuItem = document.createElement('div');
+  menuItem.className = `menu-item ${name.toLowerCase()}`;
+  menuItem.setAttribute('route', route);
+
+  const icon = document.createElement('i');
+  icon.className = `icon-${name.toLowerCase()}`;
+
+  const image = document.createElement('img');
+  image.src = `../../assets/images/icon/${icons[name]}.svg`;
+  image.alt = name;
+  image.classList.add(`image-${name.toLowerCase()}`);
+
+  icon.appendChild(image);
+  menuItem.appendChild(icon);
+  return menuItem;
+}
+
 export function sidebar(routes) {
   const sidebar = document.createElement('div');
   sidebar.setAttribute('class', 'side-bar');
 
   const menuTop = document.createElement('div');
   menuTop.setAttribute('class', 'menu-top');
+  sidebar.appendChild(menuTop);
 
   const icons = {
     Profile: 'house-solid',
@@ -21,52 +39,38 @@ export function sidebar(routes) {
     Logout: 'sign-out-solid',
   };
 
-  let logoutItem = null; // logout 아이템을 저장할 변수
+  let logoutItem = null;
 
-  /*
-  <div class="menu-item game">
-    <i class="icon-game">
-      <img src="../../images/icon/gamepad-solid.svg" alt="Game" route="game">
-  */
-  function createIcon(name, route) {
-    const menuItem = document.createElement('div');
-    menuItem.className = `menu-item ${name.toLowerCase()}`;
-
-    const icon = document.createElement('i');
-    icon.className = `icon-${name.toLowerCase()}`;
-
-    const image = document.createElement('img');
-    image.src = `../../assets/images/icon/${icons[name]}.svg`;
-    image.alt = name;
-    image.setAttribute('route', route);
-    image.classList.add(`image-${name.toLowerCase()}`);
-
-    icon.appendChild(image);
-    menuItem.appendChild(icon);
-    return menuItem;
-  }
-
-  // routes 객체 순회 및 아이콘 생성
-  // Object.entries()를 사용하면, 객체를 배열로 변환할 수 있다. forEach()를 사용하면, 배열을 순회할 수 있다. route, { name }으로 구조분해할당을 사용하면, 객체의 속성을 변수로 사용할 수 있다. name은 routes 객체의 name 속성을 가져온다.
   Object.entries(routes).forEach(([route, { name }]) => {
     if (icons[name]) {
-      const menuItem = createIcon(name, route);
+      const menuItem = createIcon(name, route, icons);
       if (name.toLowerCase() === 'logout') {
-        logoutItem = menuItem; // logout 아이템 저장
+        logoutItem = menuItem;
       } else {
-        menuTop.appendChild(menuItem); // 나머지는 menuTop에 추가
+        menuTop.appendChild(menuItem);
+        if (window.location.pathname === route) {
+          menuItem.classList.add('active');
+        }
       }
     }
   });
 
-  sidebar.appendChild(menuTop); // menuTop을 sidebar에 추가
   sidebar.appendChild(logoutItem);
 
-  // 클릭 이벤트 리스너
   sidebar.addEventListener('click', (e) => {
-    const targetImg = e.target.closest('img[route]');
-    if (targetImg) {
-      route(targetImg.getAttribute('route'));
+    const menuItem = e.target.closest('.menu-item');
+    // console.log(menuItem);
+    if (menuItem) {
+      e.preventDefault();
+      const routeValue = menuItem.getAttribute('route');
+      if (routeValue) {
+        route(routeValue);
+
+        const menuItems = sidebar.querySelectorAll('.menu-item');
+        menuItems.forEach((item) => item.classList.remove('active'));
+
+        menuItem.classList.add('active');
+      }
     }
   });
 

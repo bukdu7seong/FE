@@ -1,6 +1,5 @@
 import { userState } from '../../../lib/state/state.js';
-import { redirectRoute, route } from '../../../lib/router/router.js';
-import { setCookie } from '../../../src/utils/cookie.js';
+import { redirectRoute } from '../../../lib/router/router.js';
 import {
   validateUsername,
   validatePassword,
@@ -10,7 +9,7 @@ async function requestSignUp(formData) {
   try {
     const response = await fetch('http://localhost:8000/api/account/signup/', {
       method: 'POST',
-      body: formData, // JSON 대신 formData 사용
+      body: formData,
     });
 
     if (response.status !== 201) {
@@ -19,9 +18,6 @@ async function requestSignUp(formData) {
 
     const data = await response.json();
 
-    console.log('sign up data:', data);
-    console.log('sign up data:', data.username);
-    console.log('sign up data:', data.email);
     userState.setState({
       isLoggedIn: true,
       username: data.username,
@@ -90,9 +86,9 @@ function handleSignUpSubmit() {
         formData.append('image', '');
       }
 
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
+      //   for (let [key, value] of formData.entries()) {
+      //     console.log(`${key}: ${value}`);
+      //   }
 
       requestSignUp(formData);
     });

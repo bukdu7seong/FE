@@ -1,27 +1,46 @@
 /* 사이드바 */
 .side-bar {
-  flex-shrink: 0; /* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 */
-  height: 100vh; /* 전체 높이를 차지하도록 설정 */
+  flex-shrink: 0;
+  height: 100vh;
   width: 8vw;
-  min-width: 75px; /* 사이드바의 최소 너비 */
-  max-width: 150px; /* 사이드바의 최대 너비 */
-  background-color: #282828; /* 사이드바 배경색 */
-  display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
-  flex-direction: column; /* 자식 요소들을 세로로 나열 */
+  min-width: 75px;
+  max-width: 120px;
+  background-color: #282828;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center; /* 세로 방향으로 중앙 정렬 */
+  align-items: center;
 }
 
-/* 사이드바 메뉴 */
+.menu-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 90px;
+  height: 50%;
+}
+
+/* 사이드바 아이콘 */
 .menu-item {
-  width: 45px;
-  height: 45px;
-  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 95px;
+  width: 45px;
+  height: 45px;
+  margin: 0;
+  padding: 8px;
   border-radius: 10px;
+}
+
+@media (min-height: 680px) {
+  .menu-top {
+    height: 360px;
+  }
+}
+
+/* 활성화된 아이콘 스타일 */
+.menu-item.active {
+  background-color: #28a745;
 }
 
 /* 사이드바 아이콘 */
@@ -36,4 +55,11 @@
 .home,
 .logout {
   margin-bottom: 40px;
+}
+
+@media (max-height: 320px) {
+  .home,
+  .logout {
+    margin-bottom: 0;
+  }
 }
