@@ -2,6 +2,7 @@ import { userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { validateInput } from '../../../utils/validateInput.js';
 import { getCookie } from '../../../utils/cookie.js';
+import { throwError, toastError } from '../../../utils/error.js';
 
 function modalHTML(modalId) {
   return `

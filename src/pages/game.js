@@ -1,5 +1,5 @@
 import { gameState } from '../../lib/state/state.js';
-import { getCookie } from '../components/game/PingPong.js';
+import { getCookie } from '../utils/cookie.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -84,40 +84,40 @@ export function pageGame() {
   //   });
   // }
 
-
-//   gameState.setState({ currentGameStatus: 'idle' });
-//   let gameBox = page.querySelector('#game');
-//   let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
-//     keyboard: false
-//   });
-//   let startGameButton = page.querySelector('#startGameButton');
-//
-//   startGameButton.addEventListener('click', function() {
-//     gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
-//     gameSettingModal.hide(); // 모달을 숨깁니다.
-//   });
-//
-//   document.addEventListener('keydown', function(event) {
-//     if (event.key === 'Escape') {
-//       // 'Escape' 키가 눌렸을 때의 조건
-//       if (gameState.getState().currentGameStatus === 'idle') {
-//         gameSettingModal.hide(); // 모달을 숨깁니다.
-//       }
-//     }
-//   });
-//
-// // game-box 클릭 이벤트
-//   gameBox.addEventListener('click', function() {
-//     if (gameState.getState().currentGameStatus === 'idle') {
-//       gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
-//     }
-//   });
-
+  //   gameState.setState({ currentGameStatus: 'idle' });
+  //   let gameBox = page.querySelector('#game');
+  //   let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
+  //     keyboard: false
+  //   });
+  //   let startGameButton = page.querySelector('#startGameButton');
+  //
+  //   startGameButton.addEventListener('click', function() {
+  //     gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
+  //     gameSettingModal.hide(); // 모달을 숨깁니다.
+  //   });
+  //
+  //   document.addEventListener('keydown', function(event) {
+  //     if (event.key === 'Escape') {
+  //       // 'Escape' 키가 눌렸을 때의 조건
+  //       if (gameState.getState().currentGameStatus === 'idle') {
+  //         gameSettingModal.hide(); // 모달을 숨깁니다.
+  //       }
+  //     }
+  //   });
+  //
+  // // game-box 클릭 이벤트
+  //   gameBox.addEventListener('click', function() {
+  //     if (gameState.getState().currentGameStatus === 'idle') {
+  //       gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
+  //     }
+  //   });
 
   const email2faModal = createEmail2faModal();
   page.appendChild(email2faModal);
 
-  const sendEmailButton = email2faModal.querySelector('#send-email-code-button');
+  const sendEmailButton = email2faModal.querySelector(
+    '#send-email-code-button'
+  );
   sendEmailButton.addEventListener('click', sendEmailCode);
   initGameEvents(page);
 
@@ -125,53 +125,61 @@ export function pageGame() {
 }
 
 export function initGameEvents(page) {
-  let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
-    keyboard: false
-  });
+  let gameSettingModal = new bootstrap.Modal(
+    page.querySelector('#gameSettingModal'),
+    {
+      keyboard: false,
+    }
+  );
   let startGameButton = page.querySelector('#startGameButton');
   let gameBox = page.querySelector('#game');
 
   // 게임 시작 버튼 이벤트
-  startGameButton.addEventListener('click', function() {
+  startGameButton.addEventListener('click', function () {
     gameState.setState({ currentGameStatus: 'playing' });
     gameSettingModal.hide();
   });
 
   // Escape 키 이벤트
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && gameState.getState().currentGameStatus === 'idle') {
+  document.addEventListener('keydown', function (event) {
+    if (
+      event.key === 'Escape' &&
+      gameState.getState().currentGameStatus === 'idle'
+    ) {
       gameSettingModal.hide();
     }
   });
 
   // 게임 박스 클릭 이벤트
-  gameBox.addEventListener('click', function() {
+  gameBox.addEventListener('click', function () {
     if (gameState.getState().currentGameStatus === 'idle') {
       updateGameSettingModalContent();
       gameSettingModal.show();
     }
   });
-
 }
 
 export function updateGameBoxContent() {
-  document.getElementById("pong").innerHTML = i18next.t("pong");
+  document.getElementById('pong').innerHTML = i18next.t('pong');
   document.getElementById('classic').innerHTML = i18next.t('classic');
   document.getElementById('player1').innerHTML = i18next.t('player1');
   document.getElementById('player2').innerHTML = i18next.t('player2');
 }
 
 function updateGameSettingModalContent() {
-  document.getElementById("gameSettingModalLabel").innerHTML = i18next.t("gameSettingModalLabel");
-  document.getElementById('player2-label').innerHTML = i18next.t('player2-label');
+  document.getElementById('gameSettingModalLabel').innerHTML = i18next.t(
+    'gameSettingModalLabel'
+  );
+  document.getElementById('player2-label').innerHTML =
+    i18next.t('player2-label');
   document.getElementById('player-name').placeholder = i18next.t('player-name');
   document.getElementById('mode').innerHTML = i18next.t('mode');
   document.getElementById('normal-label').innerHTML = i18next.t('normal-label');
   document.getElementById('speed-label').innerHTML = i18next.t('speed-label');
   document.getElementById('object-label').innerHTML = i18next.t('object-label');
-  document.getElementById('startGameButton').innerHTML = i18next.t('startGameButton');
+  document.getElementById('startGameButton').innerHTML =
+    i18next.t('startGameButton');
 }
-
 
 export function pageBoard() {
   const page = document.createElement('div');
@@ -223,7 +231,6 @@ async function verifyCodeWithServer(code) {
     // 오류 처리
   }
 }
-
 
 export function createScoreModal(gameResult) {
   if (!gameResult) {
@@ -291,15 +298,18 @@ export async function sendEmailCode() {
   emailErrorDiv.style.display = 'none';
 
   try {
-    const accessToken = getCookie("accessToken"); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
-    const response = await fetch('http://localhost:8000/api/account/request-2fa/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ email: email }),
-    });
+    const accessToken = getCookie('accessToken'); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
+    const response = await fetch(
+      'http://localhost:8000/api/account/request-2fa/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ email: email }),
+      }
+    );
 
     if (!response.ok) {
       // throw new Error(`Server responded with status: ${response.status}`);
@@ -317,7 +327,6 @@ export async function sendEmailCode() {
 let countdownInterval;
 // 카운트다운 함수
 function startCountdown(duration, display) {
-
   // 이전 타이머가 있다면 중지
   if (countdownInterval) {
     clearInterval(countdownInterval);
@@ -344,8 +353,9 @@ function updateCountdownDisplay(timer, display) {
   const seconds = parseInt(timer % 60, 10);
 
   display.textContent =
-    (minutes < 10 ? "0" + minutes : minutes) + ":" +
-    (seconds < 10 ? "0" + seconds : seconds);
+    (minutes < 10 ? '0' + minutes : minutes) +
+    ':' +
+    (seconds < 10 ? '0' + seconds : seconds);
 }
 
 function createEmail2faModal() {
@@ -394,8 +404,10 @@ function createEmail2faModal() {
   email2faModal.querySelector('.modal-body').appendChild(countdownTimerDiv);
 
   // 이메일 전송 버튼에 이벤트 리스너 추가
-  const sendEmailButton = email2faModal.querySelector('#send-email-code-button');
-  sendEmailButton.addEventListener('click', function() {
+  const sendEmailButton = email2faModal.querySelector(
+    '#send-email-code-button'
+  );
+  sendEmailButton.addEventListener('click', function () {
     if (isValidEmail(document.getElementById('emailInput').value)) {
       const countdownTimerDiv = email2faModal.querySelector('.countdown-timer');
       startCountdown(5 * 60, countdownTimerDiv);
@@ -405,17 +417,20 @@ function createEmail2faModal() {
   return email2faModal;
 }
 export function updateScoreModalContent() {
-  document.getElementById("scoreModalLabel").innerHTML = i18next.t("scoreModalLabel");
-  document.getElementById("win-label").innerHTML = i18next.t("win-label");
-  document.getElementById("lose-label").innerHTML = i18next.t("lose-label");
-  document.getElementById("score-player2").innerHTML = i18next.t("score-player2");
+  document.getElementById('scoreModalLabel').innerHTML =
+    i18next.t('scoreModalLabel');
+  document.getElementById('win-label').innerHTML = i18next.t('win-label');
+  document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
+  document.getElementById('score-player2').innerHTML =
+    i18next.t('score-player2');
   document.getElementById('save-score').innerHTML = i18next.t('save-score');
 
-  document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
-  document.getElementById('email-input-label').innerHTML = i18next.t('email-input-label');
+  document.getElementById('email2faModalLabel').innerHTML =
+    i18next.t('email2faModalLabel');
+  document.getElementById('email-input-label').innerHTML =
+    i18next.t('email-input-label');
   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
   // document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
-
 }
 
 function formatCurrentTime() {
@@ -426,5 +441,3 @@ function formatCurrentTime() {
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${month}/${day}, ${hours}:${minutes}`;
 }
-
-
