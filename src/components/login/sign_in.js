@@ -1,33 +1,10 @@
-import {
-  firstRoute,
-  redirectRoute,
-  route,
-} from '../../../lib/router/router.js';
+import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
 import { userState } from '../../../lib/state/state.js';
-import { getCookie, setCookie } from '../../../src/utils/cookie.js';
-
-// [유저 이미지 요청]
-async function requestImageFormData(url) {
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.status === 200) {
-      return response;
-    }
-    throw new Error(response.status.toString());
-  } catch (e) {
-    if (e.message === '400') {
-      alert('400: Bad Request in requestImageFormData');
-    } else {
-      console.log('error: ', e);
-    }
-  }
-}
+import {
+  getCookie,
+  setCookie,
+  checkAndRefreshToken,
+} from '../../../src/utils/cookie.js';
 
 // [유저 정보 요청]
 export async function requestUserInfo() {
@@ -68,10 +45,13 @@ export async function requestUserInfo() {
   } catch (e) {
     switch (e.message) {
       case '400':
-        alert('400: Bad Request');
+        alert('400: Bad Request', e.message);
         break;
       default:
-        alert('Failed to proceed sign in process. Please login again.');
+        alert(
+          'Failed to proceed sign in process. Please login again.',
+          e.message
+        );
         break;
     }
   }
@@ -91,6 +71,7 @@ async function requestLogin(credentials) {
     if (response.status === 200) {
       const responseData = await response.json(); // 비동기
       setCookie(responseData);
+      checkAndRefreshToken();
       requestUserInfo();
       userState.setState({
         isLoggedIn: true,
@@ -111,15 +92,19 @@ async function requestLogin(credentials) {
   } catch (e) {
     switch (e.message) {
       case '400':
-        alert('400: Bad Request');
+        alert('400: Bad Request', e.message);
         break;
       case '403':
         alert(
-          '403: 2FA authentication is required. Please proceed with the authentication.'
+          '403: 2FA authentication is required. Please proceed with the authentication.',
+          e.message
         );
         break;
       default:
-        alert('Failed to proceed sign in process. Please login again.');
+        alert(
+          'Failed to proceed sign in process. Please login again.',
+          e.message
+        );
         break;
     }
     redirectRoute('/login');
@@ -145,13 +130,13 @@ async function request42OAuth() {
   } catch (e) {
     switch (e.message) {
       case '404':
-        alert('404 Not Found: The user does not exist.');
+        alert('404 Not Found: The user does not exist.', e.message);
         break;
       case '409':
-        alert('409 Conflict: The 42 token has expired.');
+        alert('409 Conflict: The 42 token has expired.', e.message);
         break;
       default:
-        alert('UNSUPPORTED_MEDIA_TYPE');
+        alert('UNSUPPORTED_MEDIA_TYPE', e.message);
     }
   }
 }

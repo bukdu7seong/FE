@@ -1,4 +1,4 @@
-import { setCookie } from '../../utils/cookie.js';
+import { setCookie, checkAndRefreshToken } from '../../utils/cookie.js';
 import {
   firstRoute,
   redirectRoute,
@@ -52,6 +52,7 @@ async function requestTwoFACode(code) {
     if (response.ok) {
       const responseData = await response.json();
       setCookie(responseData);
+      checkAndRefreshToken();
       requestUserInfo();
       userState.setState({
         isLoggedIn: true,
