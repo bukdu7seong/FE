@@ -69,7 +69,6 @@ async function updateUserImage(image) {
       document.querySelector('.profile-photo img').src = imageResponse.url;
     }
   } catch (error) {
-    console.log(error);
     toastError(error.message);
   }
 }

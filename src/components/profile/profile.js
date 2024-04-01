@@ -21,6 +21,8 @@ import {
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
 import { getCookie } from '../../utils/cookie.js';
+import { getHistoryData } from './data/historyData.js';
+import { getFriendData } from './data/friendData.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -65,9 +67,9 @@ function setModal() {
             const userId = event.target.closest('.item').id;
             modal = new userProfileModal(userId);
             break;
-          // case '2fa':
-          //   const twoFAModal = new change2FA();
-          //   twoFAModal.toggle2FA();
+            // case '2fa':
+            //   const twoFAModal = new change2FA();
+            //   twoFAModal.toggle2FA();
             break;
           case 'change-password':
             modal = new changePasswordModal();
@@ -116,9 +118,9 @@ function setProfile() {
   }
 }
 
-function setHistoryList() {
+async function setHistoryList() {
   const historyList = document.querySelector('.history-list ul');
-  const historyData = testHistoryData; // JSON
+  const historyData = await getHistoryData();
   if (!historyData.results.length) {
     const historyItem = document.createElement('li');
     historyItem.textContent = 'No data';
@@ -188,9 +190,9 @@ function setHistoryList() {
   }
 }
 
-function setFriendList() {
+async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
-  const friendData = testFriendData; // JSON
+  const friendData = await getFriendData();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
     friendItem.textContent = 'No data';
@@ -358,7 +360,7 @@ function setLanguage() {
 }
 
 async function updateUserLanguage(language) {
-  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
   const url = 'http://localhost:8000/api/account/update-language/'; // 엔드포인트
 
   try {
@@ -366,9 +368,9 @@ async function updateUserLanguage(language) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
       },
-      body: JSON.stringify({ language: language.toUpperCase() }) // 언어 설정 데이터 포함
+      body: JSON.stringify({ language: language.toUpperCase() }), // 언어 설정 데이터 포함
     });
 
     if (!response.ok) {
@@ -406,5 +408,3 @@ export function profile() {
   set2fa();
   updateContent();
 }
-
-

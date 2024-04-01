@@ -1,6 +1,7 @@
 import { userState } from '../../../../lib/state/state.js';
 import { changeDateFormat } from '../../../utils/date.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
+import { getHistoryData } from '../data/historyData.js';
 import {
   testHistoryData,
   testHistoryData2,
@@ -56,16 +57,7 @@ function modalHTML(modalId) {
 }
 
 async function fetchHistoryData(pageNumber = 1) {
-  // API로 변경해야 한다
-  if (pageNumber === 1) {
-    return testHistoryData;
-  } else if (pageNumber === 2) {
-    return testHistoryData2;
-  } else if (pageNumber === 3) {
-    return testHistoryData3;
-  } else {
-    return null;
-  }
+  return await getHistoryData(pageNumber);
 }
 
 export class viewAllHistoryModal {
@@ -91,16 +83,24 @@ export class viewAllHistoryModal {
       this.handleHidden.bind(this)
     );
 
-    this.setHistoryList(this.currentPage);
-
-    const prevBigButton = document.querySelector(`.pagination .prev-big`);
-    const prevSmallButton = document.querySelector(`.pagination .prev-small`);
-    const nextSmallButton = document.querySelector(`.pagination .next-small`);
-    const nextBigButton = document.querySelector(`.pagination .next-big`);
+    const prevBigButton = this.modalInstance._element.querySelector(
+      `.pagination .prev-big`
+    );
+    const prevSmallButton = this.modalInstance._element.querySelector(
+      `.pagination .prev-small`
+    );
+    const nextSmallButton = this.modalInstance._element.querySelector(
+      `.pagination .next-small`
+    );
+    const nextBigButton = this.modalInstance._element.querySelector(
+      `.pagination .next-big`
+    );
 
     prevBigButton.addEventListener('click', () => {
-      this.currentPage = 1;
-      this.setHistoryList(1);
+      if (this.currentPage > 1) {
+        this.currentPage = 1;
+        this.setHistoryList(1);
+      }
     });
 
     prevSmallButton.addEventListener('click', () => {
@@ -118,8 +118,10 @@ export class viewAllHistoryModal {
     });
 
     nextBigButton.addEventListener('click', () => {
-      this.currentPage = this.maxPage;
-      this.setHistoryList(this.maxPage);
+      if (this.currentPage < this.maxPage) {
+        this.currentPage = this.maxPage;
+        this.setHistoryList(this.maxPage);
+      }
     });
   }
 
@@ -128,8 +130,8 @@ export class viewAllHistoryModal {
     historyList.innerHTML = '';
 
     fetchHistoryData(pageNumber).then((historyData) => {
-      this.maxPage = historyData.totalPages;
-      this.totalData = historyData.total;
+      this.maxPage = historyData.totalPages || 1;
+      this.totalData = historyData.total || 0;
       this.updatePageInfo();
 
       if (!historyData.results.length) {
@@ -221,6 +223,7 @@ export class viewAllHistoryModal {
 
   show() {
     this.modalInstance.show();
+    this.setHistoryList(this.currentPage);
   }
 
   hide() {

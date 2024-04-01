@@ -1,5 +1,6 @@
 import { userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
+import { getFriendData } from '../data/friendData.js';
 import {
   testFriendData,
   testFriendData2,
@@ -56,14 +57,7 @@ function modalHTML(modalId) {
 }
 
 async function fetchFriendData(pageNumber = 1) {
-  // API로 변경해야 한다
-  if (pageNumber === 1) {
-    return testFriendData;
-  } else if (pageNumber === 2) {
-    return testFriendData2;
-  } else if (pageNumber === 3) {
-    return testFriendData3;
-  }
+  return await getFriendData(pageNumber);
 }
 
 export class viewAllFriendsModal {
@@ -104,27 +98,31 @@ export class viewAllFriendsModal {
     );
 
     prevBigButton.addEventListener('click', () => {
-      this.currentPage = 1;
-      this.setFriendList(1);
+      if (this.currentPage > 1) {
+        this.currentPage = 1;
+        this.setHistoryList(1);
+      }
     });
 
     prevSmallButton.addEventListener('click', () => {
       if (this.currentPage > 1) {
         this.currentPage -= 1;
-        this.setFriendList(this.currentPage);
+        this.setHistoryList(this.currentPage);
       }
     });
 
     nextSmallButton.addEventListener('click', () => {
       if (this.currentPage < this.maxPage) {
         this.currentPage += 1;
-        this.setFriendList(this.currentPage);
+        this.setHistoryList(this.currentPage);
       }
     });
 
     nextBigButton.addEventListener('click', () => {
-      this.currentPage = this.maxPage;
-      this.setFriendList(this.maxPage);
+      if (this.currentPage < this.maxPage) {
+        this.currentPage = this.maxPage;
+        this.setHistoryList(this.maxPage);
+      }
     });
   }
 
