@@ -1,3 +1,6 @@
+import { routes } from '../../lib/router/router.js';
+import { sidebar } from '../components/common/sidebar.js';
+
 const playerProfile = `
   <div class="profile-photo">
     <img src="../assets/images/profile/default.png" alt="profile photo">
@@ -102,31 +105,33 @@ const setting = `
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
+  const navbar = sidebar(routes);
+
   const content = `
-        <div class="side-bar"></div>
-        <div class="main-box">
-          <div class="user-box"></div>
-          <div class="profile-box">
-            <div class="player-profile">
-              ${playerProfile}
-            </div>
-            <div class="player-history">
-              ${playerHistory}
-            </div>      
-            <div class="friend-list">
-              ${friendList}
-            </div>
-            <div class="blank-div"></div>
-            <div class="friend-request">
-              ${friendRequest}
-            </div>
-            <div class="setting">
-              ${setting}
-            </div>
-          </div>
+    <div class="main-box">
+      <div class="user-box"></div>
+      <div class="profile-box">
+        <div class="player-profile">
+          ${playerProfile}
         </div>
-      `;
+        <div class="player-history">
+          ${playerHistory}
+        </div>      
+        <div class="friend-list">
+          ${friendList}
+        </div>
+        <div class="blank-div"></div>
+        <div class="friend-request">
+          ${friendRequest}
+        </div>
+        <div class="setting">
+          ${setting}
+        </div>
+      </div>
+    </div>
+  `;
 
   page.innerHTML = content;
+  page.appendChild(navbar);
   return page;
 }

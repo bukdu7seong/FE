@@ -1,39 +1,39 @@
 /* 사이드바 */
-.side-bar {
-  flex-shrink: 0; /* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 */
-  height: 100vh; /* 전체 높이를 차지하도록 설정 */
-  width: 8vw;
-  min-width: 75px; /* 사이드바의 최소 너비 */
-  max-width: 150px; /* 사이드바의 최대 너비 */
-  background-color: #282828; /* 사이드바 배경색 */
-  display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
-  flex-direction: column; /* 자식 요소들을 세로로 나열 */
-  justify-content: space-between;
-  align-items: center; /* 세로 방향으로 중앙 정렬 */
-}
+/*.side-bar {*/
+/*  flex-shrink: 0; !* 창 크기가 줄어들어도 사이드바의 크기가 줄어들지 않도록 설정 *!*/
+/*  height: 100vh; !* 전체 높이를 차지하도록 설정 *!*/
+/*  width: 8vw;*/
+/*  min-width: 75px; !* 사이드바의 최소 너비 *!*/
+/*  max-width: 150px; !* 사이드바의 최대 너비 *!*/
+/*  background-color: #282828; !* 사이드바 배경색 *!*/
+/*  display: flex; !* Flexbox를 사용하여 자식 요소들을 가로로 나열 *!*/
+/*  flex-direction: column; !* 자식 요소들을 세로로 나열 *!*/
+/*  justify-content: space-between;*/
+/*  align-items: center; !* 세로 방향으로 중앙 정렬 *!*/
+/*}*/
 
 /* 사이드바 메뉴 */
-.menu-item {
-  width: 45px;
-  height: 45px;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 95px;
-  border-radius: 10px;
-}
+/*.menu-item {*/
+/*  width: 45px;*/
+/*  height: 45px;*/
+/*  background-color: transparent;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  margin: 95px;*/
+/*  border-radius: 10px;*/
+/*}*/
 
-/* 사이드바 아이콘 */
-.home,
-.games,
-.tournament,
-.logout {
-  background-color: transparent;
-}
+/*!* 사이드바 아이콘 *!*/
+/*.home,*/
+/*.games,*/
+/*.tournament,*/
+/*.logout {*/
+/*  background-color: transparent;*/
+/*}*/
 
-/* 사이드바 아이콘 예외 */
-.home,
-.logout {
-  margin-bottom: 40px;
-}
+/*!* 사이드바 아이콘 예외 *!*/
+/*.home,*/
+/*.logout {*/
+/*  margin-bottom: 40px;*/
+/*}*/
