@@ -10,8 +10,16 @@ export function sidebar(routes) {
   const navbarBrand = document.createElement('a');
   navbarBrand.className = 'navbar-brand';
   navbarBrand.href = '#';
-  navbarBrand.textContent = 'YOUR BRAND'; // 브랜드 이름을 여기에 입력
+  navbarBrand.textContent = 'Bukdu7seong'; // 브랜드 이름을 여기에 입력
   navbar.appendChild(navbarBrand);
+
+  navbarBrand.addEventListener('click', (e) => {
+    e.preventDefault(); // 기본 동작 방지
+    const profileRoute = Object.keys(routes).find(key => routes[key].name === 'Profile');
+    if (profileRoute) {
+      route(profileRoute); // 프로필 페이지로 라우팅
+    }
+  });
 
   // 토글 버튼 생성
   const toggleButton = document.createElement('button');
