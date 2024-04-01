@@ -13,27 +13,27 @@
 /*}*/
 
 /* 사이드바 메뉴 */
-.menu-item {
-  width: 45px;
-  height: 45px;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 95px;
-  border-radius: 10px;
-}
+/*.menu-item {*/
+/*  width: 45px;*/
+/*  height: 45px;*/
+/*  background-color: transparent;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  margin: 95px;*/
+/*  border-radius: 10px;*/
+/*}*/
 
-/* 사이드바 아이콘 */
-.home,
-.games,
-.tournament,
-.logout {
-  background-color: transparent;
-}
+/*!* 사이드바 아이콘 *!*/
+/*.home,*/
+/*.games,*/
+/*.tournament,*/
+/*.logout {*/
+/*  background-color: transparent;*/
+/*}*/
 
-/* 사이드바 아이콘 예외 */
-.home,
-.logout {
-  margin-bottom: 40px;
-}
+/*!* 사이드바 아이콘 예외 *!*/
+/*.home,*/
+/*.logout {*/
+/*  margin-bottom: 40px;*/
+/*}*/
