@@ -1,3 +1,34 @@
+let timerId = null;
+
+function startTimer(duration, display) {
+  // 기존 타이머 인스턴스를 정지
+  clearInterval(timerId);
+
+  let timer = duration;
+  timerId = setInterval(function () {
+    let minutes = parseInt(timer / 60, 10);
+    let seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent = minutes + ":" + seconds;
+
+    if (--timer < 0) {
+      clearInterval(timerId);
+      display.textContent = "EXPIRED";
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  const fiveMinutes = 60 * 5;
+  const display = document.querySelector('#timer');
+  if (display) {
+    startTimer(fiveMinutes, display);
+  }
+}
+
 export function pageTwoFA() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -21,6 +52,16 @@ export function pageTwoFA() {
 	  </div>
   `;
   page.innerHTML = content;
+
+  // 기존 코드...
+
+  const resendButton = document.querySelector('#resendEmailButton');
+  if (resendButton) {
+    resendButton.removeEventListener('click', resetTimer);
+    resendButton.addEventListener('click', resetTimer);
+  }
+
+  resetTimer(); // 페이지 로드 시 타이머 초기화
   return page;
 }
 
