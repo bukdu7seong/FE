@@ -26,7 +26,7 @@ i18next.init({
         'timer': 'Remaining time: 05:00',
         'code-input-modal-label-confirm': 'Confirm Code',
         'code-input-modal-label-resend': 'Resend Code',
-        'lang-ko': 'Korean',
+        'lang-kr': 'Korean',
         'lang-en': 'English',
         'lang-fr': 'French',
         'changePasswordModalLabel': 'Change Password',
@@ -91,7 +91,7 @@ i18next.init({
         'restartGameButton': 'OK'
       }
     },
-    ko: {
+    kr: {
       translation: {
         "recent-history": "최근 역사",
         "friend-request": "친구 요청",
@@ -116,7 +116,7 @@ i18next.init({
         "timer": "남은 시간: 05:00",
         "code-input-modal-label-confirm": "코드 확인",
         'code-input-modal-label-resend': '코드 재전송',
-        "lang-ko": "한국어",
+        "lang-kr": "한국어",
         "lang-en": "영어",
         "lang-fr": "프랑스어",
         "changePasswordModalLabel": "비밀번호 변경",
@@ -206,7 +206,7 @@ i18next.init({
         "timer": "Temps restant : 05:00",
         "code-input-modal-label-confirm": "Confirmer le code",
         'code-input-modal-label-resend': 'Renvoyer le code',
-        "lang-ko": "Coréen",
+        "lang-kr": "Coréen",
         "lang-en": "Anglais",
         'lang-fr': 'Français',
         "changePasswordModalLabel": "Changer le mot de passe",
@@ -292,15 +292,15 @@ export function changeLanguage(languageCode) {
   });
 }
 
-// 언어명을 언어 코드로 변환하는 함수
-function mapLanguageToCode(language) {
-  const languageMap = {
-    korean: 'ko',
-    english: 'en',
-    french: 'fr'
-  };
-  return languageMap[language.toLowerCase()] || 'en'; // 기본값으로 'en' 설정
-}
+// // 언어명을 언어 코드로 변환하는 함수
+// function mapLanguageToCode(language) {
+//   const languageMap = {
+//     korean: 'ko',
+//     english: 'en',
+//     french: 'fr'
+//   };
+//   return languageMap[language.toLowerCase()] || 'en'; // 기본값으로 'en' 설정
+// }
 
 
 // 페이지 콘텐츠 업데이트
@@ -318,7 +318,7 @@ export function updateContent() {
   document.getElementById('change-password').innerHTML = i18next.t('change-password');
   document.getElementById('unsubscribe-guide').innerHTML = i18next.t('unsubscribe-guide');
   document.getElementById('unsubscribe').innerHTML = i18next.t('unsubscribe');
-  document.getElementById('lang-ko').innerHTML = i18next.t('lang-ko');
+  document.getElementById('lang-kr').innerHTML = i18next.t('lang-kr');
   document.getElementById("lang-en").innerHTML = i18next.t("lang-en");
   document.getElementById('lang-fr').innerHTML = i18next.t('lang-fr');
 }

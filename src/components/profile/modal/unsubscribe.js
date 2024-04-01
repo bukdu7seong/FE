@@ -2,6 +2,7 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { failureToast } from '../toast/failure.js';
+import { getCookie } from '../../../utils/cookie.js';
 
 // 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
@@ -62,11 +63,6 @@ function popToast(toastType, content) {
   }, 3000);
 }
 
-async function deleteUserAccount(password) {
-  // 사용자 계정 탈퇴 API 호출 로직
-  // 예시 로직입니다.
-}
-
 export class deleteUserModal {
   constructor(
     frontModalId = 'confirmDeletionModal',
@@ -79,6 +75,7 @@ export class deleteUserModal {
     this.frontModalInstance = null;
     this.backModalInstance = null;
     this.status = 'front';
+    this.processing = false;
     this.initModal();
   }
 
@@ -111,6 +108,11 @@ export class deleteUserModal {
     this.backModalInstance._element
       .querySelector('.btn-danger')
       .addEventListener('click', this.finalizeDeletion.bind(this));
+
+    document.getElementById('passwordConfirmForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.finalizeDeletion();
+    });
   }
 
   confirm() {
@@ -167,5 +169,54 @@ export class deleteUserModal {
     document.getElementById('password-confirm-form-content').innerHTML = i18next.t('password-confirm-form-content')
     document.getElementById('password-confirm-form-input').placeholder = i18next.t('password-confirm-form-input');
     document.getElementById('password-confirm-form-confirm').innerHTML = i18next.t('password-confirm-form-confirm');
+  }
+}
+
+deleteUserModal.prototype.finalizeDeletion = async function () {
+  const passwordInput = document.getElementById('password-confirm-form-input');
+  const password = passwordInput.value;
+  if (!password) {
+    popToast(failureToast, '비밀번호를 입력해야 합니다.');
+    return;
+  }
+
+  if (this.processing) return;
+  this.processing = true;
+
+  try {
+    const success = await deleteUserAccount(password);
+    if (success) {
+      popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
+      this.backModalInstance.hide();
+    }
+    this.processing = false;
+  } catch (error) {
+    popToast(failureToast, error.message);
+    this.processing = false;
+  }
+};
+
+async function deleteUserAccount(password) {
+  try {
+    const accessToken = getCookie("accessToken");
+    const url = 'http://localhost:8000/api/account/delete-account/';
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({ password })
+    });
+
+    if (response.status === 204) {
+      return true;
+    } else if (response.status === 403) {
+      throw new Error('비밀번호가 올바르지 않습니다.');
+    } else {
+      throw new Error('오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  } catch (error) {
+    throw error;
   }
 }

@@ -20,6 +20,7 @@ import {
 } from './testData.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
+import { getCookie } from '../../utils/cookie.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -29,7 +30,7 @@ const BUTTONS = [
   'viewAllRequests',
   'inviteFriends',
   'userProfile',
-  '2fa',
+  // '2fa',
   'change-password',
   'unsubscribe',
 ];
@@ -64,8 +65,9 @@ function setModal() {
             const userId = event.target.closest('.item').id;
             modal = new userProfileModal(userId);
             break;
-          case '2fa':
-            modal = new change2FA();
+          // case '2fa':
+          //   const twoFAModal = new change2FA();
+          //   twoFAModal.toggle2FA();
             break;
           case 'change-password':
             modal = new changePasswordModal();
@@ -77,7 +79,9 @@ function setModal() {
             break;
         }
 
-        modal.show();
+        if (modal) {
+          modal.show();
+        }
       });
     });
   });
@@ -348,10 +352,50 @@ function setLanguage() {
       if (event.target.classList.contains('dropdown-item')) {
         const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
         changeLanguage(languageCode);
+        updateUserLanguage(languageCode);
       }
     });
 }
 
+async function updateUserLanguage(language) {
+  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
+  const url = 'http://localhost:8000/api/account/update-language/'; // 엔드포인트
+
+  try {
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+      },
+      body: JSON.stringify({ language: language.toUpperCase() }) // 언어 설정 데이터 포함
+    });
+
+    if (!response.ok) {
+      // 에러 처리 (예: 상태 코드에 따른 메시지)
+      console.error(`Error: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log('Language updated successfully:', data);
+    // 성공 처리 로직 (예: 사용자에게 알림 표시)
+    return data;
+  } catch (error) {
+    console.error('Error updating user language:', error);
+    // 오류 처리 로직 (예: 오류 메시지 표시)
+    return null;
+  }
+}
+function set2fa() {
+  const twoFACheckbox = document.getElementById('2fa');
+  if (twoFACheckbox) {
+    twoFACheckbox.addEventListener('change', () => {
+      const twoFAModal = new change2FA();
+      twoFAModal.toggle2FA();
+    });
+  }
+}
 export function profile() {
   setProfile();
   setHistoryList();
@@ -359,5 +403,8 @@ export function profile() {
   setRequestList();
   setModal();
   setLanguage();
+  set2fa();
   updateContent();
 }
+
+
