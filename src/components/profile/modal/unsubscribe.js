@@ -75,6 +75,7 @@ export class deleteUserModal {
     this.frontModalInstance = null;
     this.backModalInstance = null;
     this.status = 'front';
+    this.processing = false;
     this.initModal();
   }
 
@@ -108,10 +109,10 @@ export class deleteUserModal {
       .querySelector('.btn-danger')
       .addEventListener('click', this.finalizeDeletion.bind(this));
 
-    // document.getElementById('passwordConfirmForm').addEventListener('submit', (event) => {
-    //   event.preventDefault();
-    //   this.finalizeDeletion();
-    // });
+    document.getElementById('passwordConfirmForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.finalizeDeletion();
+    });
   }
 
   confirm() {
@@ -171,10 +172,34 @@ export class deleteUserModal {
   }
 }
 
+deleteUserModal.prototype.finalizeDeletion = async function () {
+  const passwordInput = document.getElementById('password-confirm-form-input');
+  const password = passwordInput.value;
+  if (!password) {
+    popToast(failureToast, '비밀번호를 입력해야 합니다.');
+    return;
+  }
+
+  if (this.processing) return;
+  this.processing = true;
+
+  try {
+    const success = await deleteUserAccount(password);
+    if (success) {
+      popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
+      this.backModalInstance.hide();
+    }
+    this.processing = false;
+  } catch (error) {
+    popToast(failureToast, error.message);
+    this.processing = false;
+  }
+};
+
 async function deleteUserAccount(password) {
   try {
-    const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
-    const url = 'http://localhost:8000/api/account/delete-account/'; // 엔드포인트
+    const accessToken = getCookie("accessToken");
+    const url = 'http://localhost:8000/api/account/delete-account/';
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
@@ -185,41 +210,13 @@ async function deleteUserAccount(password) {
     });
 
     if (response.status === 204) {
-      // 비밀번호가 올바른 경우, 성공 메시지 표시 및 모달 닫기
-      popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
-      this.backModalInstance.hide();
+      return true;
     } else if (response.status === 403) {
-      // 비밀번호가 틀린 경우, 오류 메시지 표시
       throw new Error('비밀번호가 올바르지 않습니다.');
     } else {
-      // 기타 HTTP 상태 코드 처리
       throw new Error('오류가 발생했습니다. 다시 시도해주세요.');
     }
   } catch (error) {
-    popToast(failureToast, error.message);
+    throw error;
   }
 }
-
-deleteUserModal.prototype.finalizeDeletion = function () {
-  const password = document.getElementById('password-confirm-form-input').value;
-  if (password) {
-    deleteUserAccount(password).then(() => {
-      // 이 부분은 위의 deleteUserAccount 함수 내에서 처리됩니다.
-    }).catch(error => {
-      // 오류 메시지 처리
-      popToast(failureToast, error.message);
-    });
-  } else {
-    // 비밀번호 입력 오류 메시지
-    popToast(failureToast, '비밀번호를 입력해야 합니다.');
-  }
-
-  if (!this.formInitialized) {
-    document.getElementById('passwordConfirmForm').addEventListener('submit', (event) => {
-      event.preventDefault(); // 폼 제출에 따른 페이지 새로고침 방지
-      this.finalizeDeletion(); // 비밀번호 확인 및 계정 삭제 처리
-    });
-    this.formInitialized = true; // 폼 이벤트 리스너 초기화 표시
-  }
-
-};
