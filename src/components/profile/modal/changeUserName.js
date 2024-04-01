@@ -2,6 +2,7 @@ import { userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { validateInput } from '../../../utils/validateInput.js';
 import { getCookie } from '../../../utils/cookie.js';
+import { throwError, toastError } from '../../../utils/error.js';
 
 function modalHTML(modalId) {
   return `
@@ -45,14 +46,18 @@ async function updateUserName(name) {
       if (response.status === 401) {
         redirectError('Unauthorized access token. Please login again.');
         return;
+      } else if (response.status === 409) {
+        throw new Error('Username already exists.');
       } else {
-        throwError('Failed to change username.');
+        throw new Error('Failed to change username.');
       }
     } else {
       userState.setState({ userName: name });
+      return true;
     }
   } catch (error) {
     toastError(error.message);
+    return false;
   }
 }
 
@@ -83,7 +88,7 @@ export class changeUserNameModal {
       .addEventListener('click', this.checkInput.bind(this));
   }
 
-  checkInput() {
+  async checkInput() {
     this.inputData =
       this.modalInstance._element.querySelector('#newUsername').value;
 
@@ -94,21 +99,25 @@ export class changeUserNameModal {
       this.modalInstance._element.querySelector('#error-message').textContent =
         'Please enter a username.';
     } else {
-      this.changeName();
-      this.popToast();
-      this.hide();
+      if (await this.changeName()) {
+        this.popSuccessToast();
+        this.hide();
+      }
     }
   }
 
-  changeName() {
-    updateUserName(this.inputData);
-    const profileName = document.querySelector('.profile-name span');
-    if (profileName) {
-      profileName.innerHTML = `${this.inputData}`;
+  async changeName() {
+    const result = await updateUserName(this.inputData);
+    if (result === true) {
+      const profileName = document.querySelector('.profile-name span');
+      if (profileName) {
+        profileName.innerHTML = `${this.inputData}`;
+      }
     }
+    return result;
   }
 
-  popToast() {
+  popSuccessToast() {
     this.successToast = new successToast('Successfully changed username!');
     this.successToast.show();
     setTimeout(() => {
