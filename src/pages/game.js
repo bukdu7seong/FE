@@ -1,11 +1,15 @@
 import { gameState } from '../../lib/state/state.js';
 import { getCookie } from '../utils/cookie.js';
+import { sidebar } from '../components/common/sidebar.js';
+import { routes } from '../../lib/router/router.js';
 
 export function pageGame() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
+  const navbar = sidebar(routes);
+
   const content = `
-        <div class="side-bar"></div>
+<!--        <div class="side-bar"></div>-->
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id='game'>
@@ -76,6 +80,7 @@ export function pageGame() {
         </div>
       `;
   page.innerHTML = content;
+  page.appendChild(navbar);
 
   // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
   // function removeGameBoxListener() {

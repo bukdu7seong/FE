@@ -1,10 +1,14 @@
 import { gameState } from '../../lib/state/state.js';
+import { sidebar } from '../components/common/sidebar.js';
+import { routes } from '../../lib/router/router.js';
 
 export function pageTournament() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
+  const navbar = sidebar(routes);
+
   const content = `
-        <div class="side-bar"></div>
+<!--        <div class="side-bar"></div>-->
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id="tournament">
@@ -132,6 +136,7 @@ export function pageTournament() {
         
       `;
   page.innerHTML = content;
+  page.appendChild(navbar);
   page.appendChild(createTournamentWinnerModal());
   setupTournamentEvents(page);
   return page;
