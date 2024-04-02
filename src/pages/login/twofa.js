@@ -1,11 +1,13 @@
-let timerId = null;
+let timerId2 = null;
 
 function startTimer(duration, display) {
-  // 기존 타이머 인스턴스를 정지
-  clearInterval(timerId);
+
+  if (timerId2) {
+    clearInterval(timerId2); // 기존 타이머 인스턴스를 정지
+  }
 
   let timer = duration;
-  timerId = setInterval(function () {
+  timerId2 = setInterval(function () {
     let minutes = parseInt(timer / 60, 10);
     let seconds = parseInt(timer % 60, 10);
 
@@ -15,53 +17,44 @@ function startTimer(duration, display) {
     display.textContent = minutes + ":" + seconds;
 
     if (--timer < 0) {
-      clearInterval(timerId);
+      clearInterval(timerId2);
       display.textContent = "EXPIRED";
     }
   }, 1000);
 }
 
-function resetTimer() {
-  const fiveMinutes = 60 * 5;
-  const display = document.querySelector('#timer');
-  if (display) {
-    startTimer(fiveMinutes, display);
-  }
-}
-
 export function pageTwoFA() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-
-  const content = `
-	  <div class="form-signin text-center">
-		  <img src="../../../assets/images/icon/laptop-solid.svg" alt="laptop icon" class="icon-2fa"/>
-		  <h1 class="text-bold">2-Factor Authentication</h1>
-		  <p>You have 2FA enabled on this account. Please user your 2FA e-mail to enter the current 6-character code to complete the login process.</p>
-		  
-		  <!-- 이메일 재발송 버튼 -->
-		  <button type="button" class="btn btn-outline-light form-signin" id="resendEmailButton">
-			  Resend 2FA Code
-		  </button>
-		  
-		  <!-- 2FA 코드 입력 -->
-		  <input class="twofacode form-control btn btn-outline-light" type="text" placeholder="ㅁㅁㅁ-ㅁㅁㅁ" aria-label="default input example" id="two-f-a-code">
-		  
-		  <!-- 5분 타이머 -->
-		  <p id="timer" class="timer">5:00</p>
-	  </div>
+  page.innerHTML = `
+    <div class="form-signin text-center">
+      <img src="../../../assets/images/icon/laptop-solid.svg" alt="laptop icon" class="icon-2fa"/>
+      <h1 class="text-bold">2-Factor Authentication</h1>
+      <p>You have 2FA enabled on this account. Please user your 2FA e-mail to enter the current 6-character code to complete the login process.</p>
+      
+      <!-- 이메일 재발송 버튼 -->
+      <button type="button" class="btn btn-outline-light form-signin" id="resendEmailButton">
+        Resend 2FA Code
+      </button>
+      
+      <!-- 2FA 코드 입력 -->
+      <input class="twofacode form-control btn btn-outline-light" type="text" placeholder="ㅁㅁㅁ-ㅁㅁㅁ" aria-label="default input example" id="two-f-a-code">
+      
+      <!-- 5분 타이머 -->
+      <p id="timer2" class="timer">5:00</p>
+    </div>
   `;
-  page.innerHTML = content;
 
-  // 기존 코드...
+  // 타이머와 재전송 버튼 요소 찾기
+  const timerDisplay = page.querySelector('#timer2');
+  const resendButton = page.querySelector('#resendEmailButton');
 
-  const resendButton = document.querySelector('#resendEmailButton');
-  if (resendButton) {
-    resendButton.removeEventListener('click', resetTimer);
-    resendButton.addEventListener('click', resetTimer);
-  }
+  // 타이머 초기화 및 재전송 버튼에 이벤트 리스너 추가
+  startTimer(60 * 5, timerDisplay); // 타이머 초기화 (5분)
+  resendButton.addEventListener('click', function() {
+    startTimer(60 * 5, timerDisplay); // 재전송 버튼 클릭 시 타이머 리셋
+  });
 
-  resetTimer(); // 페이지 로드 시 타이머 초기화
   return page;
 }
 
