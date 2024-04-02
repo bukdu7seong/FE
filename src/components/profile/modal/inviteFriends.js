@@ -1,6 +1,9 @@
 import { userState } from '../../../../lib/state/state.js';
+import { getCookie } from '../../../utils/cookie.js';
+import { redirectError, toastError } from '../../../utils/error.js';
 import { escapeHtml, validateInput } from '../../../utils/validateInput.js';
-import { testFriendData, testFriendData3 } from '../testData.js';
+import { getFriendData } from '../data/friendData.js';
+import { getImageData } from '../data/imageData.js';
 
 function modalHTML(modalId) {
   return `
@@ -27,13 +30,68 @@ function modalHTML(modalId) {
 }
 
 async function searchUser(username) {
-  // API로 변경해야 한다
-  let user = testFriendData.friends.find((user) => user.username === username);
-  return user || null;
+  try {
+    const accessToken = getCookie('accessToken');
+
+    const response = await fetch(
+      `http://localhost:8000/api/account/search/${username}/`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        redirectError('Unauthorized access token. Please login again.');
+        return;
+      } else if (response.status === 404) {
+        throw new Error('User not found');
+      } else {
+        throw new Error('Failed to search user');
+      }
+    }
+
+    return await response.json();
+  } catch (error) {
+    toastError(error.message);
+  }
+}
+
+async function inviteUser(friendId) {
+  try {
+    const accessToken = getCookie('accessToken');
+
+    const response = await fetch(
+      `http://localhost:8000/api/friend/send-friend-request/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ user_id: friendId }),
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        redirectError('Unauthorized access token. Please login again.');
+        return;
+      } else {
+        throw new Error('Failed to invite friend');
+      }
+    }
+  } catch (error) {
+    toastError(error.message);
+  }
 }
 
 async function getFriendList() {
-  return testFriendData3.friends;
+  return null; // 모든 유저를 가져오도록 변경해야 함, 아니면 빼던가...
 }
 
 export class inviteFriendsModal {
@@ -102,7 +160,10 @@ export class inviteFriendsModal {
       userList.appendChild(userItem);
     } else {
       const userItem = document.createElement('li');
-      const userImgSrc = `data:image/png;base64,${user.user_img}`;
+      const userImage = await getImageData(user.image);
+      const userImgSrc = userImage
+        ? userImage
+        : '/assets/images/profile/default.png';
 
       // User List Item
       const userListItemDiv = document.createElement('div');
@@ -214,8 +275,12 @@ export class inviteFriendsModal {
       });
   }
 
-  checkUserIsFriend() {
-    const friendList = getFriendList();
+  async checkUserIsFriend() {
+    const friendList = await getFriendList();
+
+    if (!friendList) {
+      return;
+    }
 
     friendList.then((friends) => {
       const friendIds = friends.map((friend) => friend.id);
@@ -236,10 +301,10 @@ export class inviteFriendsModal {
       this.modalInstance._element.querySelectorAll('.inviteUser');
 
     inviteButtons.forEach((button) => {
-      button.addEventListener('click', (e) => {
+      button.addEventListener('click', async (e) => {
         e.preventDefault();
         const friendId = e.target.closest('.modal-item').id;
-        console.log(friendId); // API 변경 필요
+        await inviteUser(friendId);
         button.disabled = true;
       });
     });

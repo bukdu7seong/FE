@@ -1,4 +1,7 @@
 import { userState } from '../../../../lib/state/state.js';
+import { getCookie } from '../../../utils/cookie.js';
+import { redirectError, toastError } from '../../../utils/error.js';
+import { getImageData } from '../data/imageData.js';
 
 function modalHTML(modalId) {
   return `
@@ -43,7 +46,7 @@ function modalHTML(modalId) {
 
 async function fetchUserProfile(userId) {
   try {
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = getCookie('accessToken');
     const response = await fetch(
       `http://localhost:8000/api/account/user-stats/${userId}/`,
       {
@@ -57,22 +60,18 @@ async function fetchUserProfile(userId) {
 
     if (!response.ok) {
       if (response.status === 401) {
-        globalState.setState({ isLoggedIn: false });
-        throw new Error('Unauthorized access token. Please login again.');
+        redirectError('Unauthorized access token. Please login again.');
+        return;
       } else if (response.status === 404) {
         throw new Error('User not found.');
       } else {
         throw new Error('Failed to fetch user profile.');
       }
     } else {
-      return response.json();
+      return await response.json();
     }
   } catch (error) {
-    const toast = new failureToast(error.message);
-    toast.show();
-    setTimeout(() => {
-      toast.hide();
-    }, 3000);
+    toastError(error.message);
   }
 }
 
@@ -80,9 +79,7 @@ export class userProfileModal {
   constructor(userId, modalId = 'userProfileModal') {
     this.modalHTML = modalHTML(modalId);
     this.modalId = modalId;
-    // this.userId = userId;
-    console.log(userId);
-    this.userId = 1; // for development
+    this.userId = userId;
     this.modalInstance = null;
     this.initModal();
   }
@@ -104,7 +101,7 @@ export class userProfileModal {
     });
   }
 
-  setUserInfo(userData) {
+  async setUserInfo(userData) {
     const userPhoto = this.modalInstance._element.querySelector(
       '.modal-profile-photo img'
     );
@@ -121,7 +118,7 @@ export class userProfileModal {
       this.modalInstance._element.querySelector('.modal-loss span');
 
     if (userData.image) {
-      userPhoto.src = `${userData.image}`;
+      userPhoto.src = await getImageData(userData.image);
     }
     userName.textContent = userData.username;
     userWinRate.textContent = userData.win_rate;

@@ -2,11 +2,7 @@ import { userState } from '../../../../lib/state/state.js';
 import { changeDateFormat } from '../../../utils/date.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
 import { getHistoryData } from '../data/historyData.js';
-import {
-  testHistoryData,
-  testHistoryData2,
-  testHistoryData3,
-} from '../testData.js';
+import { getImageData } from '../data/imageData.js';
 
 function modalHTML(modalId) {
   return `
@@ -134,16 +130,16 @@ export class viewAllHistoryModal {
       this.totalData = historyData.total || 0;
       this.updatePageInfo();
 
-      if (!historyData.results.length) {
+      if (!historyData.games.length) {
         const historyItem = document.createElement('li');
         historyItem.textContent = 'No data';
         historyList.appendChild(historyItem);
       } else {
-        historyData.results.forEach((result) => {
+        historyData.games.forEach(async (result) => {
           const historyItem = document.createElement('li');
-          const iconThumb =
-            result.winner === userState.getState().userName ? 'up' : 'down';
-          const userImgSrc = `data:image/png;base64,${result.player2_img}`;
+          const iconThumb = result.winner ? 'up' : 'down';
+          const userImage = await getImageData(result.other_img);
+          const userImgSrc = userImage;
 
           const historyItemDiv = document.createElement('div');
           historyItemDiv.classList.add('history-item');
@@ -172,7 +168,7 @@ export class viewAllHistoryModal {
           const historyUserNameDiv = document.createElement('div');
           historyUserNameDiv.classList.add('history-user-name');
           const userNameSpan = document.createElement('span');
-          userNameSpan.textContent = escapeHtml(result.player2);
+          userNameSpan.textContent = escapeHtml(result.other);
           historyUserNameDiv.appendChild(userNameSpan);
 
           const historyGameModeDiv = document.createElement('div');

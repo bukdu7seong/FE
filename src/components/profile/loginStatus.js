@@ -7,6 +7,8 @@ export function listenFriendLogin() {
   const waitForSocketOpen = new Promise((resolve, reject) => {
     const checkInterval = setInterval(() => {
       if (userSocket && userSocket.readyState === WebSocket.OPEN) {
+        console.log('socket open');
+
         clearInterval(checkInterval);
         resolve(userSocket);
       } else if (userState.getState().socketStatus === 'offline') {
@@ -19,6 +21,7 @@ export function listenFriendLogin() {
   waitForSocketOpen
     .then(() => {
       userSocket.onmessage = (event) => {
+        console.log(event);
         const loginStatusList = JSON.parse(event.data); // {}
 
         loginStatusList.forEach((loginStatus) => {

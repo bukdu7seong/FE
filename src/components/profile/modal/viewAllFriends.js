@@ -1,11 +1,6 @@
 import { userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
 import { getFriendData } from '../data/friendData.js';
-import {
-  testFriendData,
-  testFriendData2,
-  testFriendData3,
-} from '../testData.js';
 import { userProfileModal } from './userProfile.js';
 
 function modalHTML(modalId) {

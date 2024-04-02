@@ -1,10 +1,7 @@
 import { userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
-import {
-  testFriendData,
-  testFriendData2,
-  testFriendData3,
-} from '../testData.js';
+import { getImageData } from '../data/imageData.js';
+import { getRequestData } from '../data/requestData.js';
 import { updateRequest } from '../updateRequest.js';
 import { userProfileModal } from './userProfile.js';
 
@@ -57,14 +54,7 @@ function modalHTML(modalId) {
 }
 
 async function fetchRequestData(pageNumber = 1) {
-  // API로 변경해야 한다
-  if (pageNumber === 1) {
-    return testFriendData;
-  } else if (pageNumber === 2) {
-    return testFriendData2;
-  } else if (pageNumber === 3) {
-    return testFriendData3;
-  }
+  return await getRequestData(pageNumber);
 }
 
 export class viewAllRequestsModal {
@@ -105,8 +95,10 @@ export class viewAllRequestsModal {
     );
 
     prevBigButton.addEventListener('click', () => {
-      this.currentPage = 1;
-      this.setRequestList(this.currentPage);
+      if (this.currentPage > 1) {
+        this.currentPage = 1;
+        this.setHistoryList(1);
+      }
     });
 
     prevSmallButton.addEventListener('click', () => {
@@ -124,8 +116,10 @@ export class viewAllRequestsModal {
     });
 
     nextBigButton.addEventListener('click', () => {
-      this.currentPage = this.maxPage;
-      this.setRequestList(this.currentPage);
+      if (this.currentPage < this.maxPage) {
+        this.currentPage = this.maxPage;
+        this.setHistoryList(this.maxPage);
+      }
     });
   }
 
@@ -146,9 +140,12 @@ export class viewAllRequestsModal {
         requestItem.textContent = 'No Friend Request';
         requestList.appendChild(requestItem);
       } else {
-        requestData.friends.forEach((result) => {
+        requestData.friends.forEach(async (result) => {
           const requestItem = document.createElement('li');
-          const requestImgSrc = `data:image/png;base64,${result.user_img}`;
+          const requestImage = await getImageData(result.img);
+          const requestImgSrc = requestImage
+            ? requestImage
+            : '/assets/images/profile/default.png';
 
           // Friend Request Item
           const friendRequestItemDiv = document.createElement('div');
@@ -191,7 +188,7 @@ export class viewAllRequestsModal {
           acceptButton.appendChild(acceptImg);
 
           acceptButton.addEventListener('click', () => {
-            updateRequest(requestData.friends);
+            updateRequest(result.id, true);
             this.setRequestList(this.currentPage);
           });
 
@@ -204,7 +201,7 @@ export class viewAllRequestsModal {
           declineButton.appendChild(declineImg);
 
           declineButton.addEventListener('click', () => {
-            updateRequest(requestData.friends);
+            updateRequest(result.id, false);
             this.setRequestList(this.currentPage);
           });
 

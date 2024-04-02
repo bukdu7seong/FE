@@ -12,17 +12,13 @@ import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
 import { changeLanguage, updateContent } from './language.js';
-
-import {
-  testFriendData,
-  testHistoryData,
-  testRequestData,
-} from './testData.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
 import { getCookie } from '../../utils/cookie.js';
 import { getHistoryData } from './data/historyData.js';
 import { getFriendData } from './data/friendData.js';
+import { getRequestData } from './data/requestData.js';
+import { getImageData } from './data/imageData.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -31,7 +27,7 @@ const BUTTONS = [
   'viewAllFriends',
   'viewAllRequests',
   'inviteFriends',
-  'userProfile',
+  // 'userProfile',
   // '2fa',
   'change-password',
   'unsubscribe',
@@ -63,14 +59,14 @@ function setModal() {
           case 'inviteFriends':
             modal = new inviteFriendsModal();
             break;
-          case 'userProfile':
-            const userId = event.target.closest('.item').id;
-            modal = new userProfileModal(userId);
-            break;
-            // case '2fa':
-            //   const twoFAModal = new change2FA();
-            //   twoFAModal.toggle2FA();
-            break;
+          // case 'userProfile':
+          //   const userId = event.target.closest('.item').id;
+          //   modal = new userProfileModal(userId);
+          //   break;
+          // case '2fa':
+          //   const twoFAModal = new change2FA();
+          //   twoFAModal.toggle2FA();
+          // break;
           case 'change-password':
             modal = new changePasswordModal();
             break;
@@ -121,18 +117,19 @@ function setProfile() {
 async function setHistoryList() {
   const historyList = document.querySelector('.history-list ul');
   const historyData = await getHistoryData();
-  if (!historyData.results.length) {
+
+  if (!historyData.games.length) {
     const historyItem = document.createElement('li');
     historyItem.textContent = 'No data';
     historyList.appendChild(historyItem);
   } else {
-    const firstTwoResults = historyData.results.slice(0, 2);
+    const firstTwoResults = historyData.games.slice(0, 2);
 
-    firstTwoResults.forEach((result) => {
+    firstTwoResults.forEach(async (result) => {
       const historyItem = document.createElement('li');
-      const iconThumb =
-        result.winner === userState.getState().userName ? 'up' : 'down';
-      const userImgSrc = `data:image/png;base64,${result.player2_img}`;
+      const iconThumb = result.winner ? 'up' : 'down';
+      const userImage = await getImageData(result.other_img);
+      const userImgSrc = userImage;
 
       const historyItemDiv = document.createElement('div');
       historyItemDiv.classList.add('history-item');
@@ -161,7 +158,7 @@ async function setHistoryList() {
       const historyUserNameDiv = document.createElement('div');
       historyUserNameDiv.classList.add('history-user-name');
       const userNameSpan = document.createElement('span');
-      userNameSpan.textContent = escapeHtml(result.player2);
+      userNameSpan.textContent = escapeHtml(result.other);
       historyUserNameDiv.appendChild(userNameSpan);
 
       const historyGameModeDiv = document.createElement('div');
@@ -193,6 +190,10 @@ async function setHistoryList() {
 async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
   const friendData = await getFriendData();
+
+  friendList.innerHTML = '';
+
+  // listenFriendLogin();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
     friendItem.textContent = 'No data';
@@ -236,8 +237,7 @@ async function setFriendList() {
       friendProfileDiv.classList.add('friend-profile');
       const friendProfileBtn = document.createElement('button');
       friendProfileBtn.type = 'button';
-      friendProfileBtn.classList.add('btn', 'btn-outline-light');
-      friendProfileBtn.classList.add('userProfile');
+      friendProfileBtn.classList.add('userProfile', 'btn', 'btn-outline-light');
       friendProfileBtn.textContent = 'Profile';
 
       friendInfoDiv.appendChild(friendPhotoDiv);
@@ -254,95 +254,104 @@ async function setFriendList() {
   }
 }
 
-function setRequestList() {
+async function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
+  const requestData = await getRequestData();
+
   requestList.innerHTML = '';
 
-  const requestData = testRequestData; // JSON
-  if (!requestData.requests.length) {
+  if (!requestData.friends.length) {
     const requestItem = document.createElement('li');
     requestItem.textContent = 'No data';
     requestList.appendChild(requestItem);
   } else {
-    const firstTwoResults = requestData.requests.slice(0, 2);
+    const firstTwoResults = requestData.friends
+      .slice(0, 2)
+      .map(async (result) => {
+        const requestItem = document.createElement('li');
+        const userImage = await getImageData(result.img);
+        const requestImgSrc = userImage
+          ? userImage
+          : '/assets/images/profile/default.png';
 
-    firstTwoResults.forEach((result) => {
-      const requestItem = document.createElement('li');
-      const requestImgSrc = `data:image/png;base64,${result.user_img}`;
+        // Friend Request Item
+        const friendRequestItemDiv = document.createElement('div');
+        friendRequestItemDiv.classList.add('item');
+        friendRequestItemDiv.classList.add('friend-request-item');
+        friendRequestItemDiv.id = escapeHtml(result.id.toString());
 
-      // Friend Request Item
-      const friendRequestItemDiv = document.createElement('div');
-      friendRequestItemDiv.classList.add('item');
-      friendRequestItemDiv.classList.add('friend-request-item');
-      friendRequestItemDiv.id = escapeHtml(result.id.toString());
+        // Friend Request Info
+        const friendRequestInfoDiv = document.createElement('div');
+        friendRequestInfoDiv.className = 'friend-request-info';
 
-      // Friend Request Info
-      const friendRequestInfoDiv = document.createElement('div');
-      friendRequestInfoDiv.className = 'friend-request-info';
+        const friendRequestPhotoDiv = document.createElement('div');
+        friendRequestPhotoDiv.className = 'friend-request-photo';
+        const friendRequestPhotoImg = document.createElement('img');
+        friendRequestPhotoImg.src = requestImgSrc;
+        friendRequestPhotoImg.alt = 'friend request photo';
+        friendRequestPhotoDiv.appendChild(friendRequestPhotoImg);
 
-      const friendRequestPhotoDiv = document.createElement('div');
-      friendRequestPhotoDiv.className = 'friend-request-photo';
-      const friendRequestPhotoImg = document.createElement('img');
-      friendRequestPhotoImg.src = requestImgSrc;
-      friendRequestPhotoImg.alt = 'friend request photo';
-      friendRequestPhotoDiv.appendChild(friendRequestPhotoImg);
+        const friendRequestNameDiv = document.createElement('div');
+        friendRequestNameDiv.className = 'friend-request-name';
+        const friendRequestNameSpan = document.createElement('span');
+        friendRequestNameSpan.textContent = escapeHtml(result.username);
+        friendRequestNameDiv.appendChild(friendRequestNameSpan);
 
-      const friendRequestNameDiv = document.createElement('div');
-      friendRequestNameDiv.className = 'friend-request-name';
-      const friendRequestNameSpan = document.createElement('span');
-      friendRequestNameSpan.textContent = escapeHtml(result.username);
-      friendRequestNameDiv.appendChild(friendRequestNameSpan);
+        // Friend Request Buttons
+        const friendRequestBtnDiv = document.createElement('div');
+        friendRequestBtnDiv.className = 'friend-request-btn';
 
-      // Friend Request Buttons
-      const friendRequestBtnDiv = document.createElement('div');
-      friendRequestBtnDiv.className = 'friend-request-btn';
+        const acceptButton = document.createElement('button');
+        acceptButton.type = 'button';
+        acceptButton.className = 'btn btn-success';
+        const acceptImg = document.createElement('img');
+        acceptImg.src = '../assets/images/icon/check-lg.svg';
+        acceptImg.alt = 'accept';
+        acceptButton.appendChild(acceptImg);
 
-      const acceptButton = document.createElement('button');
-      acceptButton.type = 'button';
-      acceptButton.className = 'btn btn-success';
-      const acceptImg = document.createElement('img');
-      acceptImg.src = '../assets/images/icon/check-lg.svg';
-      acceptImg.alt = 'accept';
-      acceptButton.appendChild(acceptImg);
+        acceptButton.addEventListener('click', () => {
+          updateRequest(result.id, true);
+          setRequestList();
+        });
 
-      acceptButton.addEventListener('click', () => {
-        updateRequest(requestData.requests);
-        setRequestList();
+        const declineButton = document.createElement('button');
+        declineButton.type = 'button';
+        declineButton.className = 'btn btn-danger';
+        const declineImg = document.createElement('img');
+        declineImg.src = '../assets/images/icon/x-lg.svg';
+        declineImg.alt = 'decline';
+        declineButton.appendChild(declineImg);
+
+        declineButton.addEventListener('click', () => {
+          updateRequest(result.id, false);
+          setRequestList();
+        });
+
+        // Friend Request Profile
+        const friendRequestProfileDiv = document.createElement('div');
+        friendRequestProfileDiv.className = 'friend-request-profile';
+        const profileButton = document.createElement('button');
+        profileButton.type = 'button';
+        profileButton.classList.add('userProfile', 'btn', 'btn-outline-light');
+        profileButton.textContent = 'Profile';
+
+        profileButton.addEventListener('click', () => {
+          const userId = result.id;
+          const modal = new userProfileModal(userId);
+          modal.show();
+        });
+
+        friendRequestProfileDiv.appendChild(profileButton);
+        friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
+        friendRequestInfoDiv.appendChild(friendRequestNameDiv);
+        friendRequestBtnDiv.appendChild(acceptButton);
+        friendRequestBtnDiv.appendChild(declineButton);
+        friendRequestItemDiv.appendChild(friendRequestInfoDiv);
+        friendRequestItemDiv.appendChild(friendRequestBtnDiv);
+        friendRequestItemDiv.appendChild(friendRequestProfileDiv);
+        requestItem.appendChild(friendRequestItemDiv);
+        requestList.appendChild(requestItem);
       });
-
-      const declineButton = document.createElement('button');
-      declineButton.type = 'button';
-      declineButton.className = 'btn btn-danger';
-      const declineImg = document.createElement('img');
-      declineImg.src = '../assets/images/icon/x-lg.svg';
-      declineImg.alt = 'decline';
-      declineButton.appendChild(declineImg);
-
-      declineButton.addEventListener('click', () => {
-        updateRequest(requestData.requests);
-        setRequestList();
-      });
-
-      // Friend Request Profile
-      const friendRequestProfileDiv = document.createElement('div');
-      friendRequestProfileDiv.className = 'friend-request-profile';
-      const profileButton = document.createElement('button');
-      profileButton.type = 'button';
-      profileButton.classList.add('btn', 'btn-outline-light');
-      profileButton.classList.add('userProfile');
-      profileButton.textContent = 'Profile';
-      friendRequestProfileDiv.appendChild(profileButton);
-
-      friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
-      friendRequestInfoDiv.appendChild(friendRequestNameDiv);
-      friendRequestBtnDiv.appendChild(acceptButton);
-      friendRequestBtnDiv.appendChild(declineButton);
-      friendRequestItemDiv.appendChild(friendRequestInfoDiv);
-      friendRequestItemDiv.appendChild(friendRequestBtnDiv);
-      friendRequestItemDiv.appendChild(friendRequestProfileDiv);
-      requestItem.appendChild(friendRequestItemDiv);
-      requestList.appendChild(requestItem);
-    });
   }
 }
 
@@ -398,13 +407,14 @@ function set2fa() {
     });
   }
 }
+
 export function profile() {
   setProfile();
   setHistoryList();
   setFriendList();
   setRequestList();
-  setModal();
   setLanguage();
   set2fa();
   updateContent();
+  setModal();
 }
