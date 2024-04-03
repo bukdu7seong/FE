@@ -92,19 +92,17 @@ async function requestLogin(credentials) {
       const responseData = await response.json(); // 비동기
       setCookie(responseData);
       requestUserInfo();
-      userState.setState({
+      globalState.setState({
         isLoggedIn: true,
       });
 
       firstRoute('/profile');
     } else if (response.status === 301) {
       const responseData = await response.json();
-      console.log('responseData: ', responseData.email);
       userState.setState({
-        isLoggedIn: true,
         userEmail: responseData.email,
       });
-      redirectRoute('/twofa');
+      redirectRoute('/twofa', false);
     } else {
       throw new Error(response.status.toString());
     }
@@ -122,7 +120,7 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign in process. Please login again.');
         break;
     }
-    redirectRoute('/login');
+    redirectRoute('/login', false);
   }
 }
 
@@ -188,7 +186,6 @@ function handleSignInClick() {
         username: username,
         password: password,
       };
-
       // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
       requestLogin(credentials);
     });

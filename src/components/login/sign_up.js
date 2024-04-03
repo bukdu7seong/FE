@@ -39,9 +39,11 @@ async function requestSignUp(formData) {
         alert('415: Unsupported Media Type. Try logging in again.');
         break;
       default:
-        alert('Failed to proceed sign up process. Please login again. /api/account/signup/');
+        alert(
+          'Failed to proceed sign up process. Please login again. /api/account/signup/'
+        );
     }
-    redirectRoute('/login');
+    redirectRoute('/login', false);
   }
 }
 
