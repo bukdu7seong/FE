@@ -118,8 +118,14 @@ export class userProfileModal {
       this.modalInstance._element.querySelector('.modal-loss span');
 
     if (userData.image) {
-      userPhoto.src = await getImageData(userData.image);
+      const userImage = await getImageData(userData.image);
+      userPhoto.src = userImage
+        ? userImage
+        : '/assets/images/profile/default.png';
+    } else {
+      userPhoto.src = '/assets/images/profile/default.png';
     }
+
     userName.textContent = userData.username;
     userWinRate.textContent = userData.win_rate;
     userWin.textContent = userData.wins;

@@ -1,6 +1,6 @@
 import { userState } from '../../../lib/state/state.js';
 
-export function listenFriendLogin() {
+export function listenFriendLogin(array) {
   const userData = userState.getState();
   const userSocket = userData.userSocket;
 
@@ -20,21 +20,31 @@ export function listenFriendLogin() {
 
   waitForSocketOpen
     .then(() => {
-      userSocket.onmessage = (event) => {
-        console.log(event);
-        const loginStatusList = JSON.parse(event.data); // {}
+      const checkLoginInterval = setInterval(() => {
+        userSocket.send(JSON.stringify({ userid: array }));
+      }, 1000);
 
-        loginStatusList.forEach((loginStatus) => {
-          for (let [key, value] of Object.entries(loginStatus)) {
-            const friendItem = document.getElementById(key);
-            const loginStatusDiv = friendItem.querySelector('.login-status');
-            if (value) {
-              loginStatusDiv.classList.remove('logout');
-              loginStatusDiv.classList.add('login');
-            } else {
-              loginStatusDiv.classList.remove('login');
-              loginStatusDiv.classList.add('logout');
-            }
+      if (userState.getState().socketFunction) {
+        const previousInterval = userState.getState().socketFunction;
+        clearInterval(previousInterval);
+      } else {
+        userState.setState({ socketFunction: checkLoginInterval });
+      }
+
+      userSocket.onmessage = (event) => {
+        const loginStatusList = JSON.parse(event.data); // { "1": true, "2": false, ... }
+
+        Object.entries(loginStatusList).forEach(([userId, isLoggedIn]) => {
+          const friendItem = document.getElementById(userId);
+          if (!friendItem) return;
+
+          const loginStatusDiv = friendItem.querySelector('.login-status');
+          if (isLoggedIn) {
+            loginStatusDiv.classList.remove('logout');
+            loginStatusDiv.classList.add('login');
+          } else {
+            loginStatusDiv.classList.remove('login');
+            loginStatusDiv.classList.add('logout');
           }
         });
       };

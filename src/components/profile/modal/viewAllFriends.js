@@ -1,6 +1,7 @@
 import { userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
 import { getFriendData } from '../data/friendData.js';
+import { getImageData } from '../data/imageData.js';
 import { userProfileModal } from './userProfile.js';
 
 function modalHTML(modalId) {
@@ -137,9 +138,12 @@ export class viewAllFriendsModal {
         friendItem.textContent = 'No data';
         friendList.appendChild(friendItem);
       } else {
-        friendData.friends.forEach((result) => {
+        friendData.friends.forEach(async (result) => {
           const friendItem = document.createElement('li');
-          const friendImgSrc = `data:image/png;base64,${result.user_img}`;
+          const userImage = await getImageData(result.img);
+          const friendImgSrc = userImage
+            ? userImage
+            : '/assets/images/profile/default.png';
 
           // Friend List Item
           const friendListItemDiv = document.createElement('div');
@@ -177,6 +181,12 @@ export class viewAllFriendsModal {
           friendProfileBtn.classList.add('btn', 'btn-outline-light');
           friendProfileBtn.classList.add('userProfile');
           friendProfileBtn.textContent = 'Profile';
+
+          friendProfileBtn.addEventListener('click', () => {
+            const userId = result.id;
+            const modal = new userProfileModal(userId);
+            modal.show();
+          });
 
           friendInfoDiv.appendChild(friendPhotoDiv);
           friendInfoDiv.appendChild(friendNameDiv);

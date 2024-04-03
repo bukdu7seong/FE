@@ -200,16 +200,21 @@ async function setFriendList() {
     friendList.appendChild(friendItem);
   } else {
     const firstTwoResults = friendData.friends.slice(0, 2);
+    let friendIdArray = [];
 
-    firstTwoResults.forEach((result) => {
+    firstTwoResults.forEach(async (result) => {
       const friendItem = document.createElement('li');
-      const friendImgSrc = `data:image/png;base64,${result.user_img}`;
+      const userImage = await getImageData(result.img);
+      const friendImgSrc = userImage
+        ? userImage
+        : '/assets/images/profile/default.png';
 
       // Friend List Item
       const friendListItemDiv = document.createElement('div');
       friendListItemDiv.classList.add('item');
       friendListItemDiv.classList.add('friend-list-item');
       friendListItemDiv.id = escapeHtml(result.id.toString());
+      friendIdArray.push(result.id);
 
       // Login Status
       const loginStatusDiv = document.createElement('div');
@@ -240,6 +245,12 @@ async function setFriendList() {
       friendProfileBtn.classList.add('userProfile', 'btn', 'btn-outline-light');
       friendProfileBtn.textContent = 'Profile';
 
+      friendProfileBtn.addEventListener('click', () => {
+        const userId = result.id;
+        const modal = new userProfileModal(userId);
+        modal.show();
+      });
+
       friendInfoDiv.appendChild(friendPhotoDiv);
       friendInfoDiv.appendChild(friendNameDiv);
       friendListItemDiv.appendChild(loginStatusDiv);
@@ -250,7 +261,7 @@ async function setFriendList() {
       friendList.appendChild(friendItem);
     });
 
-    listenFriendLogin();
+    listenFriendLogin(friendIdArray);
   }
 }
 
@@ -265,93 +276,91 @@ async function setRequestList() {
     requestItem.textContent = 'No data';
     requestList.appendChild(requestItem);
   } else {
-    const firstTwoResults = requestData.friends
-      .slice(0, 2)
-      .map(async (result) => {
-        const requestItem = document.createElement('li');
-        const userImage = await getImageData(result.img);
-        const requestImgSrc = userImage
-          ? userImage
-          : '/assets/images/profile/default.png';
+    requestData.friends.slice(0, 2).map(async (result) => {
+      const requestItem = document.createElement('li');
+      const userImage = await getImageData(result.img);
+      const requestImgSrc = userImage
+        ? userImage
+        : '/assets/images/profile/default.png';
 
-        // Friend Request Item
-        const friendRequestItemDiv = document.createElement('div');
-        friendRequestItemDiv.classList.add('item');
-        friendRequestItemDiv.classList.add('friend-request-item');
-        friendRequestItemDiv.id = escapeHtml(result.id.toString());
+      // Friend Request Item
+      const friendRequestItemDiv = document.createElement('div');
+      friendRequestItemDiv.classList.add('item');
+      friendRequestItemDiv.classList.add('friend-request-item');
+      friendRequestItemDiv.id = escapeHtml(result.id.toString());
 
-        // Friend Request Info
-        const friendRequestInfoDiv = document.createElement('div');
-        friendRequestInfoDiv.className = 'friend-request-info';
+      // Friend Request Info
+      const friendRequestInfoDiv = document.createElement('div');
+      friendRequestInfoDiv.className = 'friend-request-info';
 
-        const friendRequestPhotoDiv = document.createElement('div');
-        friendRequestPhotoDiv.className = 'friend-request-photo';
-        const friendRequestPhotoImg = document.createElement('img');
-        friendRequestPhotoImg.src = requestImgSrc;
-        friendRequestPhotoImg.alt = 'friend request photo';
-        friendRequestPhotoDiv.appendChild(friendRequestPhotoImg);
+      const friendRequestPhotoDiv = document.createElement('div');
+      friendRequestPhotoDiv.className = 'friend-request-photo';
+      const friendRequestPhotoImg = document.createElement('img');
+      friendRequestPhotoImg.src = requestImgSrc;
+      friendRequestPhotoImg.alt = 'friend request photo';
+      friendRequestPhotoDiv.appendChild(friendRequestPhotoImg);
 
-        const friendRequestNameDiv = document.createElement('div');
-        friendRequestNameDiv.className = 'friend-request-name';
-        const friendRequestNameSpan = document.createElement('span');
-        friendRequestNameSpan.textContent = escapeHtml(result.username);
-        friendRequestNameDiv.appendChild(friendRequestNameSpan);
+      const friendRequestNameDiv = document.createElement('div');
+      friendRequestNameDiv.className = 'friend-request-name';
+      const friendRequestNameSpan = document.createElement('span');
+      friendRequestNameSpan.textContent = escapeHtml(result.username);
+      friendRequestNameDiv.appendChild(friendRequestNameSpan);
 
-        // Friend Request Buttons
-        const friendRequestBtnDiv = document.createElement('div');
-        friendRequestBtnDiv.className = 'friend-request-btn';
+      // Friend Request Buttons
+      const friendRequestBtnDiv = document.createElement('div');
+      friendRequestBtnDiv.className = 'friend-request-btn';
 
-        const acceptButton = document.createElement('button');
-        acceptButton.type = 'button';
-        acceptButton.className = 'btn btn-success';
-        const acceptImg = document.createElement('img');
-        acceptImg.src = '../assets/images/icon/check-lg.svg';
-        acceptImg.alt = 'accept';
-        acceptButton.appendChild(acceptImg);
+      const acceptButton = document.createElement('button');
+      acceptButton.type = 'button';
+      acceptButton.className = 'btn btn-success';
+      const acceptImg = document.createElement('img');
+      acceptImg.src = '../assets/images/icon/check-lg.svg';
+      acceptImg.alt = 'accept';
+      acceptButton.appendChild(acceptImg);
 
-        acceptButton.addEventListener('click', () => {
-          updateRequest(result.id, true);
-          setRequestList();
-        });
-
-        const declineButton = document.createElement('button');
-        declineButton.type = 'button';
-        declineButton.className = 'btn btn-danger';
-        const declineImg = document.createElement('img');
-        declineImg.src = '../assets/images/icon/x-lg.svg';
-        declineImg.alt = 'decline';
-        declineButton.appendChild(declineImg);
-
-        declineButton.addEventListener('click', () => {
-          updateRequest(result.id, false);
-          setRequestList();
-        });
-
-        // Friend Request Profile
-        const friendRequestProfileDiv = document.createElement('div');
-        friendRequestProfileDiv.className = 'friend-request-profile';
-        const profileButton = document.createElement('button');
-        profileButton.type = 'button';
-        profileButton.classList.add('userProfile', 'btn', 'btn-outline-light');
-        profileButton.textContent = 'Profile';
-
-        profileButton.addEventListener('click', () => {
-          const userId = result.id;
-          const modal = new userProfileModal(userId);
-          modal.show();
-        });
-
-        friendRequestProfileDiv.appendChild(profileButton);
-        friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
-        friendRequestInfoDiv.appendChild(friendRequestNameDiv);
-        friendRequestBtnDiv.appendChild(acceptButton);
-        friendRequestBtnDiv.appendChild(declineButton);
-        friendRequestItemDiv.appendChild(friendRequestInfoDiv);
-        friendRequestItemDiv.appendChild(friendRequestBtnDiv);
-        friendRequestItemDiv.appendChild(friendRequestProfileDiv);
-        requestItem.appendChild(friendRequestItemDiv);
-        requestList.appendChild(requestItem);
+      acceptButton.addEventListener('click', async () => {
+        await updateRequest(result.id, true);
+        setRequestList();
       });
+
+      const declineButton = document.createElement('button');
+      declineButton.type = 'button';
+      declineButton.className = 'btn btn-danger';
+      const declineImg = document.createElement('img');
+      declineImg.src = '../assets/images/icon/x-lg.svg';
+      declineImg.alt = 'decline';
+      declineButton.appendChild(declineImg);
+
+      declineButton.addEventListener('click', async () => {
+        await updateRequest(result.id, false);
+        setRequestList();
+      });
+
+      // Friend Request Profile
+      const friendRequestProfileDiv = document.createElement('div');
+      friendRequestProfileDiv.className = 'friend-request-profile';
+      const profileButton = document.createElement('button');
+      profileButton.type = 'button';
+      profileButton.classList.add('userProfile', 'btn', 'btn-outline-light');
+      profileButton.textContent = 'Profile';
+
+      profileButton.addEventListener('click', () => {
+        const userId = result.id;
+        const modal = new userProfileModal(userId);
+        modal.show();
+      });
+
+      friendRequestProfileDiv.appendChild(profileButton);
+      friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
+      friendRequestInfoDiv.appendChild(friendRequestNameDiv);
+      friendRequestBtnDiv.appendChild(acceptButton);
+      friendRequestBtnDiv.appendChild(declineButton);
+      friendRequestItemDiv.appendChild(friendRequestInfoDiv);
+      friendRequestItemDiv.appendChild(friendRequestBtnDiv);
+      friendRequestItemDiv.appendChild(friendRequestProfileDiv);
+      requestItem.appendChild(friendRequestItemDiv);
+      requestList.appendChild(requestItem);
+    });
   }
 }
 
