@@ -8,7 +8,7 @@ export async function checkLogin() {
     window.location.search.includes('code')
   ) {
     localStorage.setItem('code', window.location.search);
-    redirectRoute('/signup');
+    // redirectRoute('/signup');
     return;
   }
 
