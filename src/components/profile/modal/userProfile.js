@@ -10,7 +10,7 @@ function modalHTML(modalId) {
           </div>
           <div class="modal-body modal-player-profile">
             <div class="modal-profile-photo">
-              <img src="../../assets/images/profile/default.png" alt="profile photo">
+              <img src="/assets/images/profile/default_profile.png" alt="profile photo">
             </div>
             <div class="modal-profile-info">
               <div class="modal-profile-wrapper">

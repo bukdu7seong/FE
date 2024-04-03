@@ -22,7 +22,6 @@ async function requestResend() {
       // 응답 본문을 JSON으로 파싱
       const data = await response.json();
       console.log(data); // JSON 응답 본문을 로깅
-      alert('인증 코드가 다시 발송되었습니다.');
     } else {
       console.log(response.status.toString());
       throw new Error(response.status.toString());
@@ -69,20 +68,11 @@ async function requestTwoFACode(code) {
     }
   } catch (e) {
     switch (e.message) {
-      case '400':
-        alert('400: Bad Request');
-        break;
-      case '404':
-        alert('404: Not Found');
-        route('/404', true, false);
-        break;
       case '409':
         alert('409: Conflict');
         break;
-      default:
-        alert('Failed to proceed sign up process. Please login again. /api/account/2fa/');
     }
-    redirectRoute('/login');
+    // redirectRoute('/login');
   }
 }
 
@@ -101,9 +91,6 @@ function verifyCode() {
   const code = document.getElementById('two-f-a-code');
   code.addEventListener('keyup', function (e) {
     if (e.key == 'Enter') {
-      alert(
-        'Two-factor authentication completed successfully. You are now logged in.'
-      );
       requestTwoFACode(code.value);
     }
   });
