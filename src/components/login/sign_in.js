@@ -136,13 +136,20 @@ async function request42OAuth() {
       },
     });
 
+    console.log(response.status);
     if (response.status === 200) {
       const data = await response.json();
-      window.location.href = data.url; // signup/
-    } else {
+      console.log(data.url);
+      window.location.href = data.url;
+    }
+    else if (response.status === 301) {
+      console.log(data.url);
+    }
+    else {
+
       throw new Error(response.status.toString());
     }
-  } catch (e) {
+    } catch (e) {
     switch (e.message) {
       case '404':
         alert('404 Not Found: The user does not exist.');

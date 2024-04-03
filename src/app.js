@@ -27,6 +27,7 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { updateUserBox } from './utils/updateUserBox.js';
 import { checkLogin } from './utils/checkLogin.js';
+import { handleOAuth2Redirect } from './pages/login/oauth2RedirectHandler.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -55,6 +56,7 @@ function init() {
         updateTournamentBoxContent,
         updateUserBox
       );
+      setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
 
       userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);

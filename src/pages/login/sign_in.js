@@ -31,9 +31,7 @@ export function pageLogIn() {
               id="sign-up"
               href="/signup"
               style="text-decoration: none; color: turquoise"
-              >Sign up</a
-            >
-            with 42 Authenticator to continue.
+              ></a
           </p>
           <button type="submit" class="btn btn-outline-light form-signin">
 		  	Log in
