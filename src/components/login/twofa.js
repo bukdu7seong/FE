@@ -41,7 +41,6 @@ async function requestResend() {
 
 // [2FA 코드 인증 요청]
 async function requestTwoFACode(code) {
-  //   console.log(code);
   try {
     const response = await fetch('http://localhost:8000/api/account/2fa/', {
       method: 'POST',
@@ -72,6 +71,7 @@ async function requestTwoFACode(code) {
         alert('409: Conflict');
         break;
     }
+    // 2fa 코드 인증에서 문제가 발생할 경우 에러 처리 필요
     // redirectRoute('/login');
   }
 }

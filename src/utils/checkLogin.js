@@ -7,6 +7,7 @@ export async function checkLogin() {
   const signUpCode = localStorage.getItem('code') || null;
 
   if (signUpCode) {
+    redirectRoute('/signup');
     return;
   }
 
