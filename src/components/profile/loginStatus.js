@@ -1,4 +1,4 @@
-import { userState } from '../../../lib/state/state.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 
 export function listenFriendLogin(array) {
   const userData = userState.getState();
@@ -28,23 +28,65 @@ export function listenFriendLogin(array) {
         const previousInterval = userState.getState().socketFunction;
         clearInterval(previousInterval);
       } else {
-        userState.setState({ socketFunction: checkLoginInterval });
+        userState.setState({ socketFunction: checkLoginInterval }, false);
       }
 
       userSocket.onmessage = (event) => {
-        const loginStatusList = JSON.parse(event.data); // { "1": true, "2": false, ... }
+        const loginStatusList = JSON.parse(event.data);
 
         Object.entries(loginStatusList).forEach(([userId, isLoggedIn]) => {
-          const friendItem = document.getElementById(userId);
-          if (!friendItem) return;
+          const profileModal = globalState.getState().profileModal;
+          const viewAllModal = globalState.getState().viewAllModal;
 
-          const loginStatusDiv = friendItem.querySelector('.login-status');
-          if (isLoggedIn) {
-            loginStatusDiv.classList.remove('logout');
-            loginStatusDiv.classList.add('login');
-          } else {
-            loginStatusDiv.classList.remove('login');
-            loginStatusDiv.classList.add('logout');
+          if (!profileModal && !viewAllModal) {
+            // friends
+            const friendItem = document.getElementById(userId);
+            if (!friendItem) return;
+
+            const loginStatusDiv = friendItem.querySelector('.login-status');
+            if (isLoggedIn) {
+              loginStatusDiv.classList.remove('logout');
+              loginStatusDiv.classList.add('login');
+            } else {
+              loginStatusDiv.classList.remove('login');
+              loginStatusDiv.classList.add('logout');
+            }
+          }
+
+          if (profileModal) {
+            // profile modal
+            const modalElement = profileModal.modalInstance._element;
+            const modalUserId = profileModal.userId;
+
+            if (modalElement && modalUserId === +userId) {
+              const modalLoginStatusDiv =
+                modalElement.querySelector('.login-status');
+              if (isLoggedIn) {
+                modalLoginStatusDiv.classList.remove('logout');
+                modalLoginStatusDiv.classList.add('login');
+              } else {
+                modalLoginStatusDiv.classList.remove('login');
+                modalLoginStatusDiv.classList.add('logout');
+              }
+            }
+          }
+
+          if (viewAllModal) {
+            // view all modal
+            const modalElement = viewAllModal.modalInstance._element;
+            const modalItem = modalElement.querySelector(`[id="${userId}"]`);
+            if (!modalItem) return;
+
+            const modalLoginStatusDiv = modalItem.querySelector(
+              '.modal-login-status'
+            );
+            if (isLoggedIn) {
+              modalLoginStatusDiv.classList.remove('modal-logout');
+              modalLoginStatusDiv.classList.add('modal-login');
+            } else {
+              modalLoginStatusDiv.classList.remove('modal-login');
+              modalLoginStatusDiv.classList.add('modal-logout');
+            }
           }
         });
       };

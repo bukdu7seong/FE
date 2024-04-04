@@ -1,4 +1,4 @@
-import { userState } from '../../../../lib/state/state.js';
+import { globalState, userState } from '../../../../lib/state/state.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { redirectError, toastError } from '../../../utils/error.js';
 import { getImageData } from '../data/imageData.js';
@@ -150,25 +150,37 @@ export class userProfileModal {
 
     waitForSocketOpen
       .then(() => {
-        userSocket.onmessage = (event) => {
-          const loginStatusList = JSON.parse(event.data); // {}
+        const array = [this.userId];
 
-          loginStatusList.forEach((loginStatus) => {
-            for (let [key, value] of Object.entries(loginStatus)) {
-              if (key === this.userId) {
-                const loginStatusDiv =
-                  this.modalInstance._element.querySelector('.login-status');
-                if (value) {
-                  loginStatusDiv.classList.remove('logout');
-                  loginStatusDiv.classList.add('login');
-                } else {
-                  loginStatusDiv.classList.remove('login');
-                  loginStatusDiv.classList.add('logout');
-                }
-              }
-            }
-          });
-        };
+        const checkLoginInterval = setInterval(() => {
+          userSocket.send(JSON.stringify({ userid: array }));
+        }, 1000);
+
+        if (userState.getState().socketProfile) {
+          const previousInterval = userState.getState().socketProfile;
+          clearInterval(previousInterval);
+        } else {
+          userState.setState({ socketProfile: checkLoginInterval }, false);
+        }
+
+        // userSocket.onmessage = (event) => {
+        //   console.log('userProfile');
+        //   const loginStatusList = JSON.parse(event.data);
+
+        //   Object.entries(loginStatusList).forEach(([userId, isLoggedIn]) => {
+        //     if (+userId === this.userId) {
+        //       const loginStatusDiv =
+        //         this.modalInstance._element.querySelector('.login-status');
+        //       if (isLoggedIn) {
+        //         loginStatusDiv.classList.remove('logout');
+        //         loginStatusDiv.classList.add('login');
+        //       } else {
+        //         loginStatusDiv.classList.remove('login');
+        //         loginStatusDiv.classList.add('logout');
+        //       }
+        //     }
+        //   });
+        // };
       })
       .catch(() => {
         const loginStatusDiv =
@@ -180,6 +192,9 @@ export class userProfileModal {
 
   handleHidden() {
     this.modalInstance._element.remove();
+    clearInterval(userState.getState().socketProfile);
+    userState.setState({ socketProfile: null }, false);
+    globalState.setState({ profileModal: null });
   }
 
   show() {

@@ -1,4 +1,4 @@
-import { userState } from '../../../lib/state/state.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 import { listenFriendLogin } from './loginStatus.js';
 import { changeDateFormat } from '../../utils/date.js';
 import { escapeHtml } from '../../utils/validateInput.js';
@@ -52,6 +52,7 @@ function setModal() {
             break;
           case 'viewAllFriends':
             modal = new viewAllFriendsModal();
+            globalState.setState({ viewAllModal: modal });
             break;
           case 'viewAllRequests':
             modal = new viewAllRequestsModal();
@@ -248,6 +249,7 @@ async function setFriendList() {
       friendProfileBtn.addEventListener('click', () => {
         const userId = result.id;
         const modal = new userProfileModal(userId);
+        globalState.setState({ profileModal: modal });
         modal.show();
       });
 

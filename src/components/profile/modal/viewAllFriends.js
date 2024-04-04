@@ -1,4 +1,4 @@
-import { userState } from '../../../../lib/state/state.js';
+import { globalState, userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
 import { getFriendData } from '../data/friendData.js';
 import { getImageData } from '../data/imageData.js';
@@ -138,6 +138,8 @@ export class viewAllFriendsModal {
         friendItem.textContent = 'No data';
         friendList.appendChild(friendItem);
       } else {
+        let friendIdArray = [];
+
         friendData.friends.forEach(async (result) => {
           const friendItem = document.createElement('li');
           const userImage = await getImageData(result.img);
@@ -150,6 +152,7 @@ export class viewAllFriendsModal {
           friendListItemDiv.classList.add('modal-item');
           friendListItemDiv.classList.add('modal-friend-list-item');
           friendListItemDiv.id = escapeHtml(result.id.toString());
+          friendIdArray.push(result.id);
 
           // Login Status
           const loginStatusDiv = document.createElement('div');
@@ -185,6 +188,7 @@ export class viewAllFriendsModal {
           friendProfileBtn.addEventListener('click', () => {
             const userId = result.id;
             const modal = new userProfileModal(userId);
+            globalState.setState({ profileModal: modal });
             modal.show();
           });
 
@@ -198,7 +202,7 @@ export class viewAllFriendsModal {
           friendList.appendChild(friendItem);
         });
 
-        this.listenFriendLogin();
+        this.listenFriendLogin(friendIdArray);
         this.setProfileModal();
       }
     });
@@ -216,7 +220,7 @@ export class viewAllFriendsModal {
     });
   }
 
-  listenFriendLogin() {
+  listenFriendLogin(array) {
     if (userState.getState().socketStatus === 'offline') {
       const allLoginStatus = this.modalInstance._element.querySelectorAll(
         '.modal-login-status'
@@ -245,24 +249,16 @@ export class viewAllFriendsModal {
 
     waitForSocketOpen
       .then(() => {
-        userSocket.onmessage = (event) => {
-          const loginStatusList = JSON.parse(event.data); // {}
+        const checkLoginInterval = setInterval(() => {
+          userSocket.send(JSON.stringify({ userid: array }));
+        }, 1000);
 
-          loginStatusList.forEach((loginStatus) => {
-            for (let [key, value] of Object.entries(loginStatus)) {
-              const friendItem =
-                this.modalInstance._element.getElementById(key);
-              const loginStatusDiv = friendItem.querySelector('.login-status');
-              if (value) {
-                loginStatusDiv.classList.remove('logout');
-                loginStatusDiv.classList.add('login');
-              } else {
-                loginStatusDiv.classList.remove('login');
-                loginStatusDiv.classList.add('logout');
-              }
-            }
-          });
-        };
+        if (userState.getState().socketViewAll) {
+          const previousInterval = userState.getState().socketViewAll;
+          clearInterval(previousInterval);
+        } else {
+          userState.setState({ socketViewAll: checkLoginInterval }, false);
+        }
       })
       .catch(() => {
         const allLoginStatus = this.modalInstance._element.querySelectorAll(
@@ -292,6 +288,9 @@ export class viewAllFriendsModal {
 
   handleHidden() {
     this.modalInstance._element.remove();
+    clearInterval(userState.getState().socketViewAll);
+    userState.setState({ socketViewAll: null }, false);
+    globalState.setState({ viewAllModal: null });
   }
 
   show() {
