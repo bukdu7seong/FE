@@ -4,9 +4,8 @@ import {
   redirectRoute,
   route,
 } from '../../../lib/router/router.js';
-import { userState } from '../../../lib/state/state.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 import { requestUserInfo } from './sign_in.js';
-
 
 async function requestResend() {
   try {
@@ -15,7 +14,7 @@ async function requestResend() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email: userState.getState().userEmail })
+      body: JSON.stringify({ email: userState.getState().userEmail }),
     });
 
     if (response.status === 200) {
@@ -33,15 +32,15 @@ async function requestResend() {
         alert('400: 잘못된 요청입니다.');
         break;
       default:
-        alert(`회원가입 절차를 진행할 수 없습니다. 다시 시도해 주세요. 오류: ${e.message}`);
+        alert(
+          `회원가입 절차를 진행할 수 없습니다. 다시 시도해 주세요. 오류: ${e.message}`
+        );
     }
   }
 }
 
-
 // [2FA 코드 인증 요청]
 async function requestTwoFACode(code) {
-  //   console.log(code);
   try {
     const response = await fetch('http://localhost:8000/api/account/2fa/', {
       method: 'POST',
@@ -58,7 +57,7 @@ async function requestTwoFACode(code) {
       const responseData = await response.json();
       setCookie(responseData);
       requestUserInfo();
-      userState.setState({
+      globalState.setState({
         isLoggedIn: true,
       });
 
@@ -72,6 +71,7 @@ async function requestTwoFACode(code) {
         alert('409: Conflict');
         break;
     }
+    // 2fa 코드 인증에서 문제가 발생할 경우 에러 처리 필요
     // redirectRoute('/login');
   }
 }

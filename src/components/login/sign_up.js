@@ -1,4 +1,4 @@
-import { userState } from '../../../lib/state/state.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 import { redirectRoute, route } from '../../../lib/router/router.js';
 import { setCookie } from '../../../src/utils/cookie.js';
 import {
@@ -22,13 +22,16 @@ async function requestSignUp(formData) {
     console.log('sign up data:', data);
     console.log('sign up data:', data.username);
     console.log('sign up data:', data.email);
-    userState.setState({
-      isLoggedIn: true,
-      username: data.username,
-      userEmail: data.email,
-    });
+    userState.setState(
+      {
+        username: data.username,
+        userEmail: data.email,
+      },
+      false
+    );
     redirectRoute('/twofa');
   } catch (e) {
+    console.log(e);
     switch (e.message) {
       case '400':
         alert(
@@ -39,9 +42,11 @@ async function requestSignUp(formData) {
         alert('415: Unsupported Media Type. Try logging in again.');
         break;
       default:
-        alert('Failed to proceed sign up process. Please login again. /api/account/signup/');
+        alert(
+          'Failed to proceed sign up process. Please login again. /api/account/signup/'
+        );
     }
-    redirectRoute('/login');
+    redirectRoute('/login', false);
   }
 }
 

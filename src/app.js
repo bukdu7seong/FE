@@ -62,7 +62,7 @@ function init() {
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
 
-      firstRoute(setDefaultPath(window.location.pathname));
+      firstRoute(setDefaultPath(window.location.href));
     };
 
     window.addEventListener('popstate', () => {
@@ -99,7 +99,11 @@ function init() {
             }
             hideModal();
             renderPage(pageBoard(), 'game-box');
-            const pongGame = new PingPong(selectedMode, userState.getState().userName, player2Name);
+            const pongGame = new PingPong(
+              selectedMode,
+              userState.getState().userName,
+              player2Name
+            );
             gameState.setState({ currentGame: pongGame }, false);
             gameState.setState({ currentGameStatus: 'start' }, false);
             gameState.setState({ gameType: 'classic' }, false);
