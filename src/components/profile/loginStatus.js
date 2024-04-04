@@ -38,7 +38,7 @@ export function listenFriendLogin(array) {
           const profileModal = globalState.getState().profileModal;
           const viewAllModal = globalState.getState().viewAllModal;
 
-          if (!profileModal && !viewAllModal) {
+          if (!viewAllModal && !profileModal) {
             // friends
             const friendItem = document.getElementById(userId);
             if (!friendItem) return;

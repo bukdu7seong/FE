@@ -162,25 +162,6 @@ export class userProfileModal {
         } else {
           userState.setState({ socketProfile: checkLoginInterval }, false);
         }
-
-        // userSocket.onmessage = (event) => {
-        //   console.log('userProfile');
-        //   const loginStatusList = JSON.parse(event.data);
-
-        //   Object.entries(loginStatusList).forEach(([userId, isLoggedIn]) => {
-        //     if (+userId === this.userId) {
-        //       const loginStatusDiv =
-        //         this.modalInstance._element.querySelector('.login-status');
-        //       if (isLoggedIn) {
-        //         loginStatusDiv.classList.remove('logout');
-        //         loginStatusDiv.classList.add('login');
-        //       } else {
-        //         loginStatusDiv.classList.remove('login');
-        //         loginStatusDiv.classList.add('logout');
-        //       }
-        //     }
-        //   });
-        // };
       })
       .catch(() => {
         const loginStatusDiv =

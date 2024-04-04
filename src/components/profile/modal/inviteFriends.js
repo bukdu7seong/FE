@@ -1,4 +1,4 @@
-import { userState } from '../../../../lib/state/state.js';
+import { globalState, userState } from '../../../../lib/state/state.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { redirectError, toastError } from '../../../utils/error.js';
 import { escapeHtml, validateInput } from '../../../utils/validateInput.js';
@@ -78,7 +78,9 @@ async function inviteUser(friendId) {
     );
 
     if (!response.ok) {
-      if (response.status === 401) {
+      if (response.status === 400) {
+        throw new Error('Already invited or already friends.');
+      } else if (response.status === 401) {
         redirectError('Unauthorized access token. Please login again.');
         return;
       } else {
@@ -153,6 +155,7 @@ export class inviteFriendsModal {
     userList.innerHTML = '';
 
     const user = await searchUser(this.inputData);
+    let userIdArray = [];
 
     if (!user) {
       const userItem = document.createElement('li');
@@ -170,6 +173,7 @@ export class inviteFriendsModal {
       userListItemDiv.classList.add('modal-item');
       userListItemDiv.classList.add('modal-user-list-item');
       userListItemDiv.id = escapeHtml(user.id.toString());
+      userIdArray.push(user.id);
 
       // User Status
       const loginStatusDiv = document.createElement('div');
@@ -211,12 +215,12 @@ export class inviteFriendsModal {
       userList.appendChild(userItem);
     }
 
-    this.listenUserLogin();
+    this.listenUserLogin(userIdArray);
     this.checkUserIsFriend();
     this.inviteUser();
   }
 
-  listenUserLogin() {
+  listenUserLogin(array) {
     if (userState.getState().socketStatus === 'offline') {
       const allLoginStatus = this.modalInstance._element.querySelectorAll(
         '.modal-login-status'
@@ -245,24 +249,16 @@ export class inviteFriendsModal {
 
     waitForSocketOpen
       .then(() => {
-        userSocket.onmessage = (event) => {
-          const loginStatusList = JSON.parse(event.data); // {}
+        const checkLoginInterval = setInterval(() => {
+          userSocket.send(JSON.stringify({ userid: array }));
+        }, 1000);
 
-          loginStatusList.forEach((loginStatus) => {
-            for (let [key, value] of Object.entries(loginStatus)) {
-              const friendItem =
-                this.modalInstance._element.getElementById(key);
-              const loginStatusDiv = friendItem.querySelector('.login-status');
-              if (value) {
-                loginStatusDiv.classList.remove('logout');
-                loginStatusDiv.classList.add('login');
-              } else {
-                loginStatusDiv.classList.remove('login');
-                loginStatusDiv.classList.add('logout');
-              }
-            }
-          });
-        };
+        if (userState.getState().socketViewAll) {
+          const previousInterval = userState.getState().socketViewAll;
+          clearInterval(previousInterval);
+        } else {
+          userState.setState({ socketViewAll: checkLoginInterval }, false);
+        }
       })
       .catch(() => {
         const allLoginStatus = this.modalInstance._element.querySelectorAll(
@@ -312,6 +308,9 @@ export class inviteFriendsModal {
 
   handleHidden() {
     this.modalInstance._element.remove();
+    clearInterval(userState.getState().socketViewAll);
+    userState.setState({ socketViewAll: null }, false);
+    globalState.setState({ viewAllModal: null });
   }
 
   show() {

@@ -56,9 +56,11 @@ function setModal() {
             break;
           case 'viewAllRequests':
             modal = new viewAllRequestsModal();
+            globalState.setState({ viewAllModal: modal });
             break;
           case 'inviteFriends':
             modal = new inviteFriendsModal();
+            globalState.setState({ viewAllModal: modal });
             break;
           // case 'userProfile':
           //   const userId = event.target.closest('.item').id;
@@ -349,6 +351,7 @@ async function setRequestList() {
       profileButton.addEventListener('click', () => {
         const userId = result.id;
         const modal = new userProfileModal(userId);
+        globalState.setState({ profileModal: modal });
         modal.show();
       });
 
