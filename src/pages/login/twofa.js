@@ -41,7 +41,7 @@ export function pageTwoFA() {
       <input class="twofacode form-control btn btn-outline-light" type="text" placeholder="ㅁㅁㅁ-ㅁㅁㅁ" aria-label="default input example" id="two-f-a-code">
       
       <!-- 5분 타이머 -->
-      <p id="timer2" class="timer">5:00</p>
+      <p id="timer2" class="timer">05:00</p>
     </div>
   `;
 
