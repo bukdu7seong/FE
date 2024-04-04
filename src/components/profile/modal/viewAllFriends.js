@@ -203,20 +203,7 @@ export class viewAllFriendsModal {
         });
 
         this.listenFriendLogin(friendIdArray);
-        this.setProfileModal();
       }
-    });
-  }
-
-  setProfileModal() {
-    const userProfileBtns =
-      this.modalInstance._element.querySelectorAll('.userProfile');
-    userProfileBtns.forEach((userProfileBtn) => {
-      userProfileBtn.addEventListener('click', (event) => {
-        const friendId = event.target.parentElement.parentElement.id;
-        this.profileModalInstance = new userProfileModal(friendId);
-        this.profileModalInstance.show();
-      });
     });
   }
 
