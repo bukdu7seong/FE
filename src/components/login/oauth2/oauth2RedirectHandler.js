@@ -32,7 +32,10 @@ async function sendAuthCodeToBackend(code) {
         userEmail: responseData.email,
       });
       redirectRoute('/twofa', false); // 2FA 페이지로 리다이렉트
-      // console.log('301: Two Factor Authentication required');
+    }
+    else if (response.status === 404) {
+
+      redirectRoute('/signup', false); // 2FA 페이지로 리다이렉트
     } else {
       // 서버가 응답한 다른 상태 코드 처리
       const errorData = await response.json();
