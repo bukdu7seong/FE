@@ -2,6 +2,7 @@ import { userState } from '../../../../lib/state/state.js';
 import { successToast } from '../toast/success.js';
 import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getCookie } from '../../../utils/cookie.js';
+import { getImageData } from '../data/imageData.js';
 
 function modalHTML(modalId) {
   return `
@@ -47,29 +48,17 @@ async function updateUserImage(image) {
         redirectError('Unauthorized access token. Please login again.');
         return;
       } else {
-        throwError('Failed to update user image.');
+        throw new Error('Failed to update user image.');
       }
     } else {
       const responseData = await response.json();
       const imagePath = responseData.image;
-      const imageResponse = await fetch(`http://localhost:8000${imagePath}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const image = await getImageData(imagePath);
 
-      if (!imageResponse.ok) {
-        throwError('Failed to fetch user image.');
-        return;
-      }
-
-      userState.setState({ userImage: imageResponse.url });
-      document.querySelector('.profile-photo img').src = imageResponse.url;
+      userState.setState({ userImage: image });
+      document.querySelector('.profile-photo img').src = image;
     }
   } catch (error) {
-    console.log(error);
     toastError(error.message);
   }
 }

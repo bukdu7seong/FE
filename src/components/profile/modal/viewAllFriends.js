@@ -1,10 +1,7 @@
-import { userState } from '../../../../lib/state/state.js';
+import { globalState, userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
-import {
-  testFriendData,
-  testFriendData2,
-  testFriendData3,
-} from '../testData.js';
+import { getFriendData } from '../data/friendData.js';
+import { getImageData } from '../data/imageData.js';
 import { userProfileModal } from './userProfile.js';
 
 function modalHTML(modalId) {
@@ -56,14 +53,7 @@ function modalHTML(modalId) {
 }
 
 async function fetchFriendData(pageNumber = 1) {
-  // API로 변경해야 한다
-  if (pageNumber === 1) {
-    return testFriendData;
-  } else if (pageNumber === 2) {
-    return testFriendData2;
-  } else if (pageNumber === 3) {
-    return testFriendData3;
-  }
+  return await getFriendData(pageNumber);
 }
 
 export class viewAllFriendsModal {
@@ -104,27 +94,31 @@ export class viewAllFriendsModal {
     );
 
     prevBigButton.addEventListener('click', () => {
-      this.currentPage = 1;
-      this.setFriendList(1);
+      if (this.currentPage > 1) {
+        this.currentPage = 1;
+        this.setHistoryList(1);
+      }
     });
 
     prevSmallButton.addEventListener('click', () => {
       if (this.currentPage > 1) {
         this.currentPage -= 1;
-        this.setFriendList(this.currentPage);
+        this.setHistoryList(this.currentPage);
       }
     });
 
     nextSmallButton.addEventListener('click', () => {
       if (this.currentPage < this.maxPage) {
         this.currentPage += 1;
-        this.setFriendList(this.currentPage);
+        this.setHistoryList(this.currentPage);
       }
     });
 
     nextBigButton.addEventListener('click', () => {
-      this.currentPage = this.maxPage;
-      this.setFriendList(this.maxPage);
+      if (this.currentPage < this.maxPage) {
+        this.currentPage = this.maxPage;
+        this.setHistoryList(this.maxPage);
+      }
     });
   }
 
@@ -144,15 +138,21 @@ export class viewAllFriendsModal {
         friendItem.textContent = 'No data';
         friendList.appendChild(friendItem);
       } else {
-        friendData.friends.forEach((result) => {
+        let friendIdArray = [];
+
+        friendData.friends.forEach(async (result) => {
           const friendItem = document.createElement('li');
-          const friendImgSrc = `data:image/png;base64,${result.user_img}`;
+          const userImage = await getImageData(result.img);
+          const friendImgSrc = userImage
+            ? userImage
+            : '/assets/images/profile/default.png';
 
           // Friend List Item
           const friendListItemDiv = document.createElement('div');
           friendListItemDiv.classList.add('modal-item');
           friendListItemDiv.classList.add('modal-friend-list-item');
           friendListItemDiv.id = escapeHtml(result.id.toString());
+          friendIdArray.push(result.id);
 
           // Login Status
           const loginStatusDiv = document.createElement('div');
@@ -185,6 +185,13 @@ export class viewAllFriendsModal {
           friendProfileBtn.classList.add('userProfile');
           friendProfileBtn.textContent = 'Profile';
 
+          friendProfileBtn.addEventListener('click', () => {
+            const userId = result.id;
+            const modal = new userProfileModal(userId);
+            globalState.setState({ profileModal: modal });
+            modal.show();
+          });
+
           friendInfoDiv.appendChild(friendPhotoDiv);
           friendInfoDiv.appendChild(friendNameDiv);
           friendListItemDiv.appendChild(loginStatusDiv);
@@ -195,25 +202,12 @@ export class viewAllFriendsModal {
           friendList.appendChild(friendItem);
         });
 
-        this.listenFriendLogin();
-        this.setProfileModal();
+        this.listenFriendLogin(friendIdArray);
       }
     });
   }
 
-  setProfileModal() {
-    const userProfileBtns =
-      this.modalInstance._element.querySelectorAll('.userProfile');
-    userProfileBtns.forEach((userProfileBtn) => {
-      userProfileBtn.addEventListener('click', (event) => {
-        const friendId = event.target.parentElement.parentElement.id;
-        this.profileModalInstance = new userProfileModal(friendId);
-        this.profileModalInstance.show();
-      });
-    });
-  }
-
-  listenFriendLogin() {
+  listenFriendLogin(array) {
     if (userState.getState().socketStatus === 'offline') {
       const allLoginStatus = this.modalInstance._element.querySelectorAll(
         '.modal-login-status'
@@ -242,24 +236,16 @@ export class viewAllFriendsModal {
 
     waitForSocketOpen
       .then(() => {
-        userSocket.onmessage = (event) => {
-          const loginStatusList = JSON.parse(event.data); // {}
+        const checkLoginInterval = setInterval(() => {
+          userSocket.send(JSON.stringify({ userid: array }));
+        }, 1000);
 
-          loginStatusList.forEach((loginStatus) => {
-            for (let [key, value] of Object.entries(loginStatus)) {
-              const friendItem =
-                this.modalInstance._element.getElementById(key);
-              const loginStatusDiv = friendItem.querySelector('.login-status');
-              if (value) {
-                loginStatusDiv.classList.remove('logout');
-                loginStatusDiv.classList.add('login');
-              } else {
-                loginStatusDiv.classList.remove('login');
-                loginStatusDiv.classList.add('logout');
-              }
-            }
-          });
-        };
+        if (userState.getState().socketViewAll) {
+          const previousInterval = userState.getState().socketViewAll;
+          clearInterval(previousInterval);
+        } else {
+          userState.setState({ socketViewAll: checkLoginInterval }, false);
+        }
       })
       .catch(() => {
         const allLoginStatus = this.modalInstance._element.querySelectorAll(
@@ -289,6 +275,9 @@ export class viewAllFriendsModal {
 
   handleHidden() {
     this.modalInstance._element.remove();
+    clearInterval(userState.getState().socketViewAll);
+    userState.setState({ socketViewAll: null }, false);
+    globalState.setState({ viewAllModal: null });
   }
 
   show() {

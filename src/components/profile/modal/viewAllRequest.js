@@ -1,10 +1,7 @@
-import { userState } from '../../../../lib/state/state.js';
+import { globalState, userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
-import {
-  testFriendData,
-  testFriendData2,
-  testFriendData3,
-} from '../testData.js';
+import { getImageData } from '../data/imageData.js';
+import { getRequestData } from '../data/requestData.js';
 import { updateRequest } from '../updateRequest.js';
 import { userProfileModal } from './userProfile.js';
 
@@ -57,14 +54,7 @@ function modalHTML(modalId) {
 }
 
 async function fetchRequestData(pageNumber = 1) {
-  // API로 변경해야 한다
-  if (pageNumber === 1) {
-    return testFriendData;
-  } else if (pageNumber === 2) {
-    return testFriendData2;
-  } else if (pageNumber === 3) {
-    return testFriendData3;
-  }
+  return await getRequestData(pageNumber);
 }
 
 export class viewAllRequestsModal {
@@ -105,8 +95,10 @@ export class viewAllRequestsModal {
     );
 
     prevBigButton.addEventListener('click', () => {
-      this.currentPage = 1;
-      this.setRequestList(this.currentPage);
+      if (this.currentPage > 1) {
+        this.currentPage = 1;
+        this.setHistoryList(1);
+      }
     });
 
     prevSmallButton.addEventListener('click', () => {
@@ -124,8 +116,10 @@ export class viewAllRequestsModal {
     });
 
     nextBigButton.addEventListener('click', () => {
-      this.currentPage = this.maxPage;
-      this.setRequestList(this.currentPage);
+      if (this.currentPage < this.maxPage) {
+        this.currentPage = this.maxPage;
+        this.setHistoryList(this.maxPage);
+      }
     });
   }
 
@@ -146,15 +140,21 @@ export class viewAllRequestsModal {
         requestItem.textContent = 'No Friend Request';
         requestList.appendChild(requestItem);
       } else {
-        requestData.friends.forEach((result) => {
+        let requestIdArray = [];
+
+        requestData.friends.forEach(async (result) => {
           const requestItem = document.createElement('li');
-          const requestImgSrc = `data:image/png;base64,${result.user_img}`;
+          const requestImage = await getImageData(result.img);
+          const requestImgSrc = requestImage
+            ? requestImage
+            : '/assets/images/profile/default.png';
 
           // Friend Request Item
           const friendRequestItemDiv = document.createElement('div');
           friendRequestItemDiv.classList.add('modal-item');
           friendRequestItemDiv.classList.add('modal-friend-request-item');
           friendRequestItemDiv.id = escapeHtml(result.id.toString());
+          requestIdArray.push(result.id);
 
           // Login Status
           const loginStatusDiv = document.createElement('div');
@@ -191,7 +191,7 @@ export class viewAllRequestsModal {
           acceptButton.appendChild(acceptImg);
 
           acceptButton.addEventListener('click', () => {
-            updateRequest(requestData.friends);
+            updateRequest(result.id, true);
             this.setRequestList(this.currentPage);
           });
 
@@ -204,19 +204,26 @@ export class viewAllRequestsModal {
           declineButton.appendChild(declineImg);
 
           declineButton.addEventListener('click', () => {
-            updateRequest(requestData.friends);
+            updateRequest(result.id, false);
             this.setRequestList(this.currentPage);
           });
 
           // Friend Request Profile
           const friendRequestProfileDiv = document.createElement('div');
           friendRequestProfileDiv.className = 'friend-request-profile';
-          const profileButton = document.createElement('button');
-          profileButton.type = 'button';
-          profileButton.classList.add('btn', 'btn-outline-light');
-          profileButton.classList.add('userProfile');
-          profileButton.textContent = 'Profile';
-          friendRequestProfileDiv.appendChild(profileButton);
+          const requestProfileBtn = document.createElement('button');
+          requestProfileBtn.type = 'button';
+          requestProfileBtn.classList.add('btn', 'btn-outline-light');
+          requestProfileBtn.classList.add('userProfile');
+          requestProfileBtn.textContent = 'Profile';
+          friendRequestProfileDiv.appendChild(requestProfileBtn);
+
+          requestProfileBtn.addEventListener('click', () => {
+            const userId = result.id;
+            const modal = new userProfileModal(userId);
+            globalState.setState({ profileModal: modal });
+            modal.show();
+          });
 
           friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
           friendRequestInfoDiv.appendChild(friendRequestNameDiv);
@@ -230,25 +237,12 @@ export class viewAllRequestsModal {
           requestList.appendChild(requestItem);
         });
 
-        this.listenFriendLogin();
-        this.setProfileModal();
+        this.listenFriendLogin(requestIdArray);
       }
     });
   }
 
-  setProfileModal() {
-    const userProfileBtns =
-      this.modalInstance._element.querySelectorAll('.userProfile');
-    userProfileBtns.forEach((userProfileBtn) => {
-      userProfileBtn.addEventListener('click', (event) => {
-        const friendId = event.target.parentElement.parentElement.id;
-        this.profileModalInstance = new userProfileModal(friendId);
-        this.profileModalInstance.show();
-      });
-    });
-  }
-
-  listenFriendLogin() {
+  listenFriendLogin(array) {
     if (userState.getState().socketStatus === 'offline') {
       const allLoginStatus = this.modalInstance._element.querySelectorAll(
         '.modal-login-status'
@@ -277,24 +271,16 @@ export class viewAllRequestsModal {
 
     waitForSocketOpen
       .then(() => {
-        userSocket.onmessage = (event) => {
-          const loginStatusList = JSON.parse(event.data); // {}
+        const checkLoginInterval = setInterval(() => {
+          userSocket.send(JSON.stringify({ userid: array }));
+        }, 1000);
 
-          loginStatusList.forEach((loginStatus) => {
-            for (let [key, value] of Object.entries(loginStatus)) {
-              const friendItem =
-                this.modalInstance._element.getElementById(key);
-              const loginStatusDiv = friendItem.querySelector('.login-status');
-              if (value) {
-                loginStatusDiv.classList.remove('logout');
-                loginStatusDiv.classList.add('login');
-              } else {
-                loginStatusDiv.classList.remove('login');
-                loginStatusDiv.classList.add('logout');
-              }
-            }
-          });
-        };
+        if (userState.getState().socketViewAll) {
+          const previousInterval = userState.getState().socketViewAll;
+          clearInterval(previousInterval);
+        } else {
+          userState.setState({ socketViewAll: checkLoginInterval }, false);
+        }
       })
       .catch(() => {
         const allLoginStatus = this.modalInstance._element.querySelectorAll(
@@ -324,6 +310,9 @@ export class viewAllRequestsModal {
 
   handleHidden() {
     this.modalInstance._element.remove();
+    clearInterval(userState.getState().socketViewAll);
+    userState.setState({ socketViewAll: null }, false);
+    globalState.setState({ viewAllModal: null });
   }
 
   show() {

@@ -1,4 +1,4 @@
-import { userState } from '../../../lib/state/state.js';
+import { globalState, userState } from '../../../lib/state/state.js';
 import { listenFriendLogin } from './loginStatus.js';
 import { changeDateFormat } from '../../utils/date.js';
 import { escapeHtml } from '../../utils/validateInput.js';
@@ -12,15 +12,13 @@ import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
 import { changeLanguage, updateContent } from './language.js';
-
-import {
-  testFriendData,
-  testHistoryData,
-  testRequestData,
-} from './testData.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
 import { getCookie } from '../../utils/cookie.js';
+import { getHistoryData } from './data/historyData.js';
+import { getFriendData } from './data/friendData.js';
+import { getRequestData } from './data/requestData.js';
+import { getImageData } from './data/imageData.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -29,7 +27,7 @@ const BUTTONS = [
   'viewAllFriends',
   'viewAllRequests',
   'inviteFriends',
-  'userProfile',
+  // 'userProfile',
   // '2fa',
   'change-password',
   'unsubscribe',
@@ -54,21 +52,24 @@ function setModal() {
             break;
           case 'viewAllFriends':
             modal = new viewAllFriendsModal();
+            globalState.setState({ viewAllModal: modal });
             break;
           case 'viewAllRequests':
             modal = new viewAllRequestsModal();
+            globalState.setState({ viewAllModal: modal });
             break;
           case 'inviteFriends':
             modal = new inviteFriendsModal();
+            globalState.setState({ viewAllModal: modal });
             break;
-          case 'userProfile':
-            const userId = event.target.closest('.item').id;
-            modal = new userProfileModal(userId);
-            break;
+          // case 'userProfile':
+          //   const userId = event.target.closest('.item').id;
+          //   modal = new userProfileModal(userId);
+          //   break;
           // case '2fa':
           //   const twoFAModal = new change2FA();
           //   twoFAModal.toggle2FA();
-            break;
+          // break;
           case 'change-password':
             modal = new changePasswordModal();
             break;
@@ -116,21 +117,22 @@ function setProfile() {
   }
 }
 
-function setHistoryList() {
+async function setHistoryList() {
   const historyList = document.querySelector('.history-list ul');
-  const historyData = testHistoryData; // JSON
-  if (!historyData.results.length) {
+  const historyData = await getHistoryData();
+
+  if (!historyData.games.length) {
     const historyItem = document.createElement('li');
     historyItem.textContent = 'No data';
     historyList.appendChild(historyItem);
   } else {
-    const firstTwoResults = historyData.results.slice(0, 2);
+    const firstTwoResults = historyData.games.slice(0, 2);
 
-    firstTwoResults.forEach((result) => {
+    firstTwoResults.forEach(async (result) => {
       const historyItem = document.createElement('li');
-      const iconThumb =
-        result.winner === userState.getState().userName ? 'up' : 'down';
-      const userImgSrc = `data:image/png;base64,${result.player2_img}`;
+      const iconThumb = result.winner ? 'up' : 'down';
+      const userImage = await getImageData(result.other_img);
+      const userImgSrc = userImage;
 
       const historyItemDiv = document.createElement('div');
       historyItemDiv.classList.add('history-item');
@@ -159,7 +161,7 @@ function setHistoryList() {
       const historyUserNameDiv = document.createElement('div');
       historyUserNameDiv.classList.add('history-user-name');
       const userNameSpan = document.createElement('span');
-      userNameSpan.textContent = escapeHtml(result.player2);
+      userNameSpan.textContent = escapeHtml(result.other);
       historyUserNameDiv.appendChild(userNameSpan);
 
       const historyGameModeDiv = document.createElement('div');
@@ -188,25 +190,34 @@ function setHistoryList() {
   }
 }
 
-function setFriendList() {
+async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
-  const friendData = testFriendData; // JSON
+  const friendData = await getFriendData();
+
+  friendList.innerHTML = '';
+
+  // listenFriendLogin();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
     friendItem.textContent = 'No data';
     friendList.appendChild(friendItem);
   } else {
     const firstTwoResults = friendData.friends.slice(0, 2);
+    let friendIdArray = [];
 
-    firstTwoResults.forEach((result) => {
+    firstTwoResults.forEach(async (result) => {
       const friendItem = document.createElement('li');
-      const friendImgSrc = `data:image/png;base64,${result.user_img}`;
+      const userImage = await getImageData(result.img);
+      const friendImgSrc = userImage
+        ? userImage
+        : '/assets/images/profile/default.png';
 
       // Friend List Item
       const friendListItemDiv = document.createElement('div');
       friendListItemDiv.classList.add('item');
       friendListItemDiv.classList.add('friend-list-item');
       friendListItemDiv.id = escapeHtml(result.id.toString());
+      friendIdArray.push(result.id);
 
       // Login Status
       const loginStatusDiv = document.createElement('div');
@@ -234,9 +245,15 @@ function setFriendList() {
       friendProfileDiv.classList.add('friend-profile');
       const friendProfileBtn = document.createElement('button');
       friendProfileBtn.type = 'button';
-      friendProfileBtn.classList.add('btn', 'btn-outline-light');
-      friendProfileBtn.classList.add('userProfile');
+      friendProfileBtn.classList.add('userProfile', 'btn', 'btn-outline-light');
       friendProfileBtn.textContent = 'Profile';
+
+      friendProfileBtn.addEventListener('click', () => {
+        const userId = result.id;
+        const modal = new userProfileModal(userId);
+        globalState.setState({ profileModal: modal });
+        modal.show();
+      });
 
       friendInfoDiv.appendChild(friendPhotoDiv);
       friendInfoDiv.appendChild(friendNameDiv);
@@ -248,25 +265,27 @@ function setFriendList() {
       friendList.appendChild(friendItem);
     });
 
-    listenFriendLogin();
+    listenFriendLogin(friendIdArray);
   }
 }
 
-function setRequestList() {
+async function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
+  const requestData = await getRequestData();
+
   requestList.innerHTML = '';
 
-  const requestData = testRequestData; // JSON
-  if (!requestData.requests.length) {
+  if (!requestData.friends.length) {
     const requestItem = document.createElement('li');
     requestItem.textContent = 'No data';
     requestList.appendChild(requestItem);
   } else {
-    const firstTwoResults = requestData.requests.slice(0, 2);
-
-    firstTwoResults.forEach((result) => {
+    requestData.friends.slice(0, 2).map(async (result) => {
       const requestItem = document.createElement('li');
-      const requestImgSrc = `data:image/png;base64,${result.user_img}`;
+      const userImage = await getImageData(result.img);
+      const requestImgSrc = userImage
+        ? userImage
+        : '/assets/images/profile/default.png';
 
       // Friend Request Item
       const friendRequestItemDiv = document.createElement('div');
@@ -303,8 +322,8 @@ function setRequestList() {
       acceptImg.alt = 'accept';
       acceptButton.appendChild(acceptImg);
 
-      acceptButton.addEventListener('click', () => {
-        updateRequest(requestData.requests);
+      acceptButton.addEventListener('click', async () => {
+        await updateRequest(result.id, true);
         setRequestList();
       });
 
@@ -316,8 +335,8 @@ function setRequestList() {
       declineImg.alt = 'decline';
       declineButton.appendChild(declineImg);
 
-      declineButton.addEventListener('click', () => {
-        updateRequest(requestData.requests);
+      declineButton.addEventListener('click', async () => {
+        await updateRequest(result.id, false);
         setRequestList();
       });
 
@@ -326,11 +345,17 @@ function setRequestList() {
       friendRequestProfileDiv.className = 'friend-request-profile';
       const profileButton = document.createElement('button');
       profileButton.type = 'button';
-      profileButton.classList.add('btn', 'btn-outline-light');
-      profileButton.classList.add('userProfile');
+      profileButton.classList.add('userProfile', 'btn', 'btn-outline-light');
       profileButton.textContent = 'Profile';
-      friendRequestProfileDiv.appendChild(profileButton);
 
+      profileButton.addEventListener('click', () => {
+        const userId = result.id;
+        const modal = new userProfileModal(userId);
+        globalState.setState({ profileModal: modal });
+        modal.show();
+      });
+
+      friendRequestProfileDiv.appendChild(profileButton);
       friendRequestInfoDiv.appendChild(friendRequestPhotoDiv);
       friendRequestInfoDiv.appendChild(friendRequestNameDiv);
       friendRequestBtnDiv.appendChild(acceptButton);
@@ -358,7 +383,7 @@ function setLanguage() {
 }
 
 async function updateUserLanguage(language) {
-  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
   const url = 'http://localhost:8000/api/account/update-language/'; // 엔드포인트
 
   try {
@@ -366,9 +391,9 @@ async function updateUserLanguage(language) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
       },
-      body: JSON.stringify({ language: language.toUpperCase() }) // 언어 설정 데이터 포함
+      body: JSON.stringify({ language: language.toUpperCase() }), // 언어 설정 데이터 포함
     });
 
     if (!response.ok) {
@@ -396,15 +421,14 @@ function set2fa() {
     });
   }
 }
+
 export function profile() {
   setProfile();
   setHistoryList();
   setFriendList();
   setRequestList();
-  setModal();
   setLanguage();
   set2fa();
   updateContent();
+  setModal();
 }
-
-
