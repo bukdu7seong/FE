@@ -92,19 +92,17 @@ async function requestLogin(credentials) {
       const responseData = await response.json(); // 비동기
       setCookie(responseData);
       requestUserInfo();
-      userState.setState({
+      globalState.setState({
         isLoggedIn: true,
       });
 
       firstRoute('/profile');
     } else if (response.status === 301) {
       const responseData = await response.json();
-      console.log('responseData: ', responseData.email);
       userState.setState({
-        isLoggedIn: true,
         userEmail: responseData.email,
       });
-      redirectRoute('/twofa');
+      redirectRoute('/twofa', false);
     } else {
       throw new Error(response.status.toString());
     }
@@ -122,7 +120,7 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign in process. Please login again.');
         break;
     }
-    redirectRoute('/login');
+    redirectRoute('/login', false);
   }
 }
 
@@ -136,13 +134,20 @@ async function request42OAuth() {
       },
     });
 
+    console.log(response.status);
     if (response.status === 200) {
       const data = await response.json();
-      window.location.href = data.url; // signup/
-    } else {
+      console.log(data.url);
+      window.location.href = data.url;
+    }
+    else if (response.status === 301) {
+      console.log(data.url);
+    }
+    else {
+
       throw new Error(response.status.toString());
     }
-  } catch (e) {
+    } catch (e) {
     switch (e.message) {
       case '404':
         alert('404 Not Found: The user does not exist.');
@@ -188,7 +193,6 @@ function handleSignInClick() {
         username: username,
         password: password,
       };
-
       // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
       requestLogin(credentials);
     });

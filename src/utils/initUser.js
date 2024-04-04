@@ -47,8 +47,8 @@ export async function initUserInfo() {
     } else if (imageResponse.status === 401) {
       throwError('Unauthorized access token. Please login again.');
     } else {
-      alert('Failed to fetch user image.');
-      userImage = '../assets/images/profile/default.png';
+      // alert('Failed to fetch user image.');
+      userImage = '/assets/images/profile/default_profile.png';
     }
 
     userState.setState(

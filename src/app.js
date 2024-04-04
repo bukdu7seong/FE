@@ -27,6 +27,7 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { updateUserBox } from './utils/updateUserBox.js';
 import { checkLogin } from './utils/checkLogin.js';
+import { handleOAuth2Redirect } from './pages/login/oauth2RedirectHandler.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -55,12 +56,13 @@ function init() {
         updateTournamentBoxContent,
         updateUserBox
       );
+      setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
 
       userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
 
-      firstRoute(setDefaultPath(window.location.pathname));
+      firstRoute(setDefaultPath(window.location.href));
     };
 
     window.addEventListener('popstate', () => {
@@ -97,7 +99,11 @@ function init() {
             }
             hideModal();
             renderPage(pageBoard(), 'game-box');
-            const pongGame = new PingPong(selectedMode, userState.getState().userName, player2Name);
+            const pongGame = new PingPong(
+              selectedMode,
+              userState.getState().userName,
+              player2Name
+            );
             gameState.setState({ currentGame: pongGame }, false);
             gameState.setState({ currentGameStatus: 'start' }, false);
             gameState.setState({ gameType: 'classic' }, false);

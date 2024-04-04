@@ -15,7 +15,9 @@ export function sidebar(routes) {
 
   navbarBrand.addEventListener('click', (e) => {
     e.preventDefault(); // 기본 동작 방지
-    const profileRoute = Object.keys(routes).find(key => routes[key].name === 'Profile');
+    const profileRoute = Object.keys(routes).find(
+      (key) => routes[key].name === 'Profile'
+    );
     if (profileRoute) {
       route(profileRoute); // 프로필 페이지로 라우팅
     }

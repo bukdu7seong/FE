@@ -221,7 +221,7 @@ export default class PingPong {
   async fetchGameResults() {
     try {
       const accessToken = getCookie("accessToken"); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
-      let winner = userState.getState().userEmail;
+      let winner = userState.getState().userId;
       let loser = null;
       // winner = 'jwee@stude321seoul.kr';
       if (this.winner === this.player2.playerName) {
