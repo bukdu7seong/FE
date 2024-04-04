@@ -27,7 +27,7 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { updateUserBox } from './utils/updateUserBox.js';
 import { checkLogin } from './utils/checkLogin.js';
-import { handleOAuth2Redirect } from './pages/login/oauth2RedirectHandler.js';
+import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
