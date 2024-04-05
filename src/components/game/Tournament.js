@@ -100,8 +100,8 @@ function showTournamentRoundModal(pingpong, round, player1, player2) {
   document.getElementById('tournamentRoundModalLabel').textContent = 'TOURNAMENT ROUND ' + round;
 
   // 플레이어 이름 업데이트
-  document.getElementById('player1-name').value = player1;
-  document.getElementById('player2-name').value = player2;
+  document.getElementById('round-player1-name').value = player1;
+  document.getElementById('round-player2-name').value = player2;
 
   // 모달 생성
   const tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'), {
