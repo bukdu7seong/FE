@@ -10,30 +10,28 @@ async function sendAuthCodeToBackend(code) {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.status === 200) {
       const responseData = await response.json(); // 비동기
       // console.log(responseData);
-      setCookie(responseData);
+      setCookie('accessToken', responseData.access);
       requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
       });
       localStorage.removeItem('code');
       firstRoute('/profile'); // 성공적인 로그인 후 리다이렉트
-    }
-    else if (response.status === 301) {
+    } else if (response.status === 301) {
       const responseData = await response.json();
       console.log(responseData);
       userState.setState({
         userEmail: responseData.email,
       });
       redirectRoute('/twofa', false); // 2FA 페이지로 리다이렉트
-    }
-    else if (response.status === 404) {
+    } else if (response.status === 404) {
       redirectRoute('/signup', false); // 2FA 페이지로 리다이렉트
     } else {
       // 서버가 응답한 다른 상태 코드 처리

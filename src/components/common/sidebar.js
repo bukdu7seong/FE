@@ -50,6 +50,9 @@ export function sidebar(routes) {
     Logout: 'assets/images/icon/door-closed-fill.svg'
   };
 
+  // Logout을 위한 임시 객체 생성
+  routes.Logout = { name: 'Logout' };
+
   // 라우트 및 메뉴 아이템 생성
   Object.entries(routes).forEach(([route, { name }]) => {
     if (icons[name]) {

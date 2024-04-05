@@ -91,7 +91,7 @@ async function requestLogin(credentials) {
 
     if (response.status === 200) {
       const responseData = await response.json(); // 비동기
-      setCookie(responseData);
+      setCookie('accessToken', responseData.access);
       requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
