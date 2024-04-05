@@ -103,7 +103,9 @@ i18next.init({
         'searchButton' : 'Search',
         'onlyAlphanumeric' : 'Only alphanumeric characters are allowed.',
         'enterUsername' : 'Please enter a username.',
-        'inviteFriendsModalNoData' : 'No data'
+        'inviteFriendsModalNoData' : 'No data',
+        'viewAllRequestsModalTitle' : 'Friend Request',
+        'viewAllRequestsModalNoFriend' : 'No Friend Request',
       }
     },
     kr: {
@@ -209,6 +211,8 @@ i18next.init({
         'onlyAlphanumeric': '알파벳과 숫자만 사용할 수 있습니다.',
         'enterUsername': '사용자 이름을 입력해주세요.',
         'inviteFriendsModalNoData' : '데이터 없음',
+        'viewAllRequestsModalTitle': '친구 요청',
+        'viewAllRequestsModalNoFriend': '친구 요청 없음',
       }
     },
     fr: {
@@ -314,6 +318,9 @@ i18next.init({
         'onlyAlphanumeric': 'Seuls les caractères alphanumériques sont autorisés.',
         'enterUsername': 'Veuillez entrer un nom d’utilisateur.',
         'inviteFriendsModalNoData' : 'Aucune donnée',
+        'viewAllRequestsModalTitle': 'Demande d’ami',
+        'viewAllRequestsModalNoFriend': 'Aucune demande d’ami',
+
       }
     }
   },
