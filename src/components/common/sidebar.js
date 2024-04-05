@@ -47,7 +47,7 @@ export function sidebar(routes) {
     Profile: 'assets/images/icon/house-solid.svg',
     Game: 'assets/images/icon/gamepad-solid.svg',
     Tournament: 'assets/images/icon/trophy-solid.svg',
-    Logout: 'assets/images/icon/sign-out-solid.svg'
+    Logout: 'assets/images/icon/door-closed-fill.svg'
   };
 
   // 라우트 및 메뉴 아이템 생성
