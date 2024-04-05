@@ -26,7 +26,6 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { checkLogin } from './utils/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
-import { createLogoutModal } from './pages/logoutModal.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -41,10 +40,6 @@ function hideModal() {
 function init() {
   try {
     window.onload = function () {
-      setComponent(routes['/profile'], sidebar(routes));
-      setComponent(routes['/game'], sidebar(routes));
-      setComponent(routes['/tournament'], sidebar(routes));
-
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
@@ -52,7 +47,11 @@ function init() {
       setOnRender(routes['/game'], updateGameBoxContent);
       setOnRender(routes['/tournament'], updateTournamentBoxContent);
       setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
-      // setOnRender(routes['/logout'], createLogoutModal);
+
+      const sidebarComponent = sidebar(routes);
+      setComponent(routes['/profile'], sidebarComponent);
+      setComponent(routes['/game'], sidebarComponent);
+      setComponent(routes['/tournament'], sidebarComponent);
 
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
