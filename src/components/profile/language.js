@@ -117,6 +117,10 @@ i18next.init({
         historyItemNoData: 'No data',
         friendItemNoData: 'No data',
         requestItemNoData: 'No data',
+        playerHistoryViewAll: 'View all',
+        friendListViewAll: 'View all',
+        friendRequestInvite: 'Invite friends',
+        friendRequestViewAll: 'View all',
       },
     },
     kr: {
@@ -234,6 +238,10 @@ i18next.init({
         historyItemNoData: '데이터 없음',
         friendItemNoData: '데이터 없음',
         requestItemNoData: '데이터 없음',
+        playerHistoryViewAll: '모두 보기',
+        friendListViewAll: '모두 보기',
+        friendRequestInvite: '친구 초대',
+        friendRequestViewAll: '모두 보기'
       },
     },
     fr: {
@@ -355,6 +363,10 @@ i18next.init({
         historyItemNoData: 'Aucune donnée',
         friendItemNoData: 'Aucune donnée',
         requestItemNoData: 'Aucune donnée',
+        playerHistoryViewAll: 'Voir tout',
+        friendListViewAll: 'Voir tout',
+        friendRequestInvite: 'Inviter des amis',
+        friendRequestViewAll: 'Voir tout'
       },
     },
   },

@@ -19,6 +19,7 @@ import { getHistoryData } from './data/historyData.js';
 import { getFriendData } from './data/friendData.js';
 import { getRequestData } from './data/requestData.js';
 import { getImageData } from './data/imageData.js';
+import { updateMultilingualContent } from '../../pages/profile.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -448,4 +449,5 @@ export function profile() {
   set2fa();
   updateContent();
   setModal();
+  updateMultilingualContent();
 }

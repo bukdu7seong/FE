@@ -1,5 +1,6 @@
 import { routes } from '../../lib/router/router.js';
 import { sidebar } from '../components/common/sidebar.js';
+import { applyLauguage } from '../components/profile/language.js';
 
 const playerProfile = `
   <div class="profile-photo">
@@ -40,7 +41,7 @@ const playerHistory = `
     <ul></ul>
   </div>
   <div class="history-view-all viewAllHistory">
-    <button type="button" class="btn btn-outline-light">View all</button>
+    <button type="button" class="btn btn-outline-light" id="playerHistoryViewAll">View all</button>
   </div>
 `;
 
@@ -52,7 +53,7 @@ const friendList = `
     <ul></ul>
   </div>
   <div class="friend-view-all viewAllFriends">
-    <button type="button" class="btn btn-outline-light">View all</button>
+    <button type="button" class="btn btn-outline-light" id="friendListViewAll">View all</button>
   </div>
 `;
 
@@ -65,10 +66,10 @@ const friendRequest = `
   </div>
   <div class="friend-request-btn-wrapper">
     <div class="invite-friends inviteFriends">
-      <button type="button" class="btn btn-success">Invite friends</button>
+      <button type="button" class="btn btn-success" id="friendRequestInvite">Invite friends</button>
     </div>
     <div class="friend-request-view-all viewAllRequests">
-      <button type="button" class="btn btn-outline-light">View all</button>
+      <button type="button" class="btn btn-outline-light" id="friendRequestViewAll">View all</button>
     </div>
   </div>
 `;
@@ -134,4 +135,24 @@ export function pageProfile() {
   page.innerHTML = content;
   page.appendChild(navbar);
   return page;
+}
+
+
+export function updateMultilingualContent() {
+  document.getElementById('playerHistoryViewAll').innerHTML = i18next.t('playerHistoryViewAll');
+  document.getElementById('friendListViewAll').innerHTML = i18next.t('friendListViewAll');
+  document.getElementById('friendRequestInvite').innerHTML = i18next.t('friendRequestInvite');
+  document.getElementById('friendRequestViewAll').innerHTML = i18next.t('friendRequestViewAll');
+  applyLauguage().set({
+    id: 'playerHistoryViewAll'
+  });
+  applyLauguage().set({
+    id: 'friendListViewAll'
+  });
+  applyLauguage().set({
+    id: 'friendRequestInvite'
+  });
+  applyLauguage().set({
+    id: 'friendRequestViewAll'
+  });
 }
