@@ -1,6 +1,6 @@
 // [쿠키 설정]
-export function setCookie(data) {
-  document.cookie = `accessToken=${data.access}; path=/; secure;`;
+export function setCookie(name, data) {
+  document.cookie = `${name}=${data}; path=/; secure;`;
 }
 
 export function getCookie(name) {
@@ -17,7 +17,6 @@ export function getCookie(name) {
   return null; // 해당하는 쿠키가 없다면 null을 반환합니다.
 }
 
-export function removeCookie() {
-  document.cookie =
-    'accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+export function removeCookie(name) {
+  document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }

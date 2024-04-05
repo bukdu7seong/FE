@@ -55,7 +55,7 @@ async function requestTwoFACode(code) {
 
     if (response.ok) {
       const responseData = await response.json();
-      setCookie(responseData);
+      setCookie('accessToken', responseData.access);
       requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
