@@ -2,7 +2,6 @@ import { getCookie } from '../../utils/cookie.js';
 import { redirectError, toastError } from '../../utils/error.js';
 
 export async function updateRequest(userId, accept) {
-  console.log(userId);
   if (accept) {
     try {
       const accessToken = getCookie('accessToken');
