@@ -108,6 +108,13 @@ i18next.init({
         'viewAllRequestsModalNoFriend' : 'No Friend Request',
         'viewAllFriendsModalTitle' : 'Friends',
         'viewAllFriendsModalNoData' : 'No data',
+        'logoutModalLabel' : 'LOGOUT',
+        'logoutModalBody' : 'Do you want to log out?',
+        'logout-no' : 'NO',
+        'logout-confirm' : 'YES',
+        'historyItemNoData' : 'No data',
+        'friendItemNoData' : 'No data',
+        'requestItemNoData' : 'No data',
       }
     },
     kr: {
@@ -217,6 +224,13 @@ i18next.init({
         'viewAllRequestsModalNoFriend': '친구 요청 없음',
         'viewAllFriendsModalTitle': '친구들',
         'viewAllFriendsModalNoData': '데이터 없음',
+        'logoutModalLabel': '로그아웃',
+        'logoutModalBody': '로그아웃 하시겠습니까?',
+        'logout-no': '아니오',
+        'logout-confirm': '예',
+        'historyItemNoData' : '데이터 없음',
+        'friendItemNoData' : '데이터 없음',
+        'requestItemNoData' : '데이터 없음',
       }
     },
     fr: {
@@ -326,6 +340,13 @@ i18next.init({
         'viewAllRequestsModalNoFriend': 'Aucune demande d’ami',
         'viewAllFriendsModalTitle': 'Amis',
         'viewAllFriendsModalNoData': 'Aucune donnée',
+        'logoutModalLabel': 'DÉCONNEXION',
+        'logoutModalBody': 'Voulez-vous vous déconnecter ?',
+        'logout-no': 'NON',
+        'logout-confirm': 'OUI',
+        'historyItemNoData' : 'Aucune donnée',
+        'friendItemNoData' : 'Aucune donnée',
+        'requestItemNoData' : 'Aucune donnée',
       }
     }
   },
