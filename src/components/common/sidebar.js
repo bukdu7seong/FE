@@ -44,10 +44,10 @@ export function sidebar(routes) {
 
   // 아이콘 및 라우트 매핑
   const icons = {
-    Profile: 'house-solid',
-    Game: 'gamepad-solid',
-    Tournament: 'trophy-solid',
-    Logout: 'sign-out-solid',
+    Profile: 'assets/images/icon/house-solid.svg',
+    Game: 'assets/images/icon/gamepad-solid.svg',
+    Tournament: 'assets/images/icon/trophy-solid.svg',
+    Logout: 'assets/images/icon/sign-out-solid.svg'
   };
 
   // 라우트 및 메뉴 아이템 생성
@@ -58,28 +58,46 @@ export function sidebar(routes) {
 
       const link = document.createElement('a');
       link.className = 'nav-link';
-      link.href = ''; // 여기에 실제 링크를 입력하거나, 자바스크립트 라우터 기능을 사용
-      link.textContent = name; // 메뉴 이름
+      link.href = ''; // 실제 링크 입력 또는 자바스크립트 라우터 기능 사용
       link.setAttribute('route', route);
+
+      // 아이콘 이미지 추가
+      const iconImg = document.createElement('img');
+      iconImg.src = icons[name]; // 이미지 경로
+      iconImg.alt = name; // 대체 텍스트
+      iconImg.className = 'navbar-icon'; // 필요한 경우 추가 클래스 설정
+
+      // 링크에 아이콘 이미지 추가
+      link.appendChild(iconImg);
+
+      // 선택적으로 텍스트 라벨 추가 (필요하지 않다면 이 부분은 제거 가능)
+      // const textNode = document.createTextNode(' ' + name);
+      // link.appendChild(textNode);
 
       menuItem.appendChild(link);
       menuList.appendChild(menuItem);
     }
   });
 
+
   menuDiv.appendChild(menuList);
   navbar.appendChild(menuDiv);
 
   // 클릭 이벤트 리스너
+// 클릭 이벤트 리스너
   navbar.addEventListener('click', (e) => {
     const targetLink = e.target.closest('a[route]');
     if (targetLink) {
       e.preventDefault();
-      if (targetLink.textContent === 'Logout') {
+
+      // 이미지 아이콘에 대한 대체 텍스트를 기반으로 'Logout' 버튼 식별
+      const iconImg = targetLink.querySelector('img.navbar-icon');
+      if (iconImg && iconImg.alt === 'Logout') {
         createLogoutModal();
         return;
       }
 
+      // 다른 라우트로 이동
       route(targetLink.getAttribute('route'));
     }
   });
