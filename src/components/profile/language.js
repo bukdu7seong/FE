@@ -92,7 +92,10 @@ i18next.init({
         'change-username': 'Change Username',
         'newUsername' : 'Enter new username (maximum length: 10)',
         'changeUserNameModalCloseButton' : 'Close',
-        'changeUserNameModalSaveButton' : 'Save'
+        'changeUserNameModalSaveButton' : 'Save',
+        'changeUserImageModalh1' : 'Change Profile Image',
+        'changeUserImageModalCloseButton' : 'Close',
+        'changeUserImageModalSaveButton' : 'Save'
       }
     },
     kr: {
@@ -186,7 +189,10 @@ i18next.init({
         'change-username': '사용자 이름 변경',
         'newUsername': '새 사용자 이름 입력 (최대 길이: 10)',
         'changeUserNameModalCloseButton': '닫기',
-        'changeUserNameModalSaveButton': '저장'
+        'changeUserNameModalSaveButton': '저장',
+        'changeUserImageModalh1': '프로필 이미지 변경',
+        'changeUserImageModalCloseButton': '닫기',
+        'changeUserImageModalSaveButton': '저장'
       }
     },
     fr: {
@@ -280,7 +286,10 @@ i18next.init({
         'change-username': 'Changer le nom d’utilisateur',
         'newUsername': 'Entrez le nouveau nom d’utilisateur (longueur maximale : 10)',
         'changeUserNameModalCloseButton': 'Fermer',
-        'changeUserNameModalSaveButton': 'Enregistrer'
+        'changeUserNameModalSaveButton': 'Enregistrer',
+        'changeUserImageModalh1': 'Changer l’image de profil',
+        'changeUserImageModalCloseButton': 'Fermer',
+        'changeUserImageModalSaveButton': 'Enregistrer'
       }
     }
   },

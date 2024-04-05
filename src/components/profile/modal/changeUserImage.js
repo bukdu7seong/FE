@@ -10,15 +10,15 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5">Change Profile Image</h1>
+            <h1 class="modal-title fs-5" id="changeUserImageModalh1">Change Profile Image</h1>
           </div>
           <div class="modal-body">
             <input type="file" id="newProfileImage" accept="image/*" required>
             <div id="error-message" class="text-danger"></div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="changeUserImageModalCloseButton">Close</button>
+            <button type="button" class="btn btn-primary" id="changeUserImageModalSaveButton">Save</button>
           </div>
         </div>
       </div>
@@ -122,10 +122,16 @@ export class changeUserImageModal {
   }
 
   show() {
+    updateMultilingualContent();
     this.modalInstance.show();
   }
 
   hide() {
     this.modalInstance.hide();
   }
+}
+function updateMultilingualContent() {
+  document.getElementById('changeUserImageModalh1').innerHTML = i18next.t('changeUserImageModalh1');
+  document.getElementById('changeUserImageModalCloseButton').innerHTML = i18next.t('changeUserImageModalCloseButton');
+  document.getElementById('changeUserImageModalSaveButton').innerHTML = i18next.t('changeUserImageModalSaveButton');
 }
