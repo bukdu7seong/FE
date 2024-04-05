@@ -82,8 +82,8 @@ const setting = `
       </label>
     </div>
     <div class="setting-option" id="language-settings">
-      <label class="name" for="language" id='language'></label>
-      <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language">
+      <label class="name" for="language-btn" id='language'></label>
+      <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language-btn">
         <img src="../assets/images/icon/globe2.svg" alt="language">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
