@@ -98,6 +98,12 @@ i18next.init({
         'changeUserImageModalSaveButton' : 'Save',
         'viewAllHistoryModalH2' : 'Game History',
         'viewAllHistoryModalNoData' : 'No data',
+        'inviteFriendsModalTitle' : 'Invite Friends',
+        'searchFriends' : 'Search',
+        'searchButton' : 'Search',
+        'onlyAlphanumeric' : 'Only alphanumeric characters are allowed.',
+        'enterUsername' : 'Please enter a username.',
+        'inviteFriendsModalNoData' : 'No data'
       }
     },
     kr: {
@@ -197,6 +203,12 @@ i18next.init({
         'changeUserImageModalSaveButton': '저장',
         'viewAllHistoryModalH2': '게임 기록',
         'viewAllHistoryModalNoData': '데이터 없음',
+        'inviteFriendsModalTitle': '친구 초대하기',
+        'searchFriends': '검색',
+        'searchButton': '검색',
+        'onlyAlphanumeric': '알파벳과 숫자만 사용할 수 있습니다.',
+        'enterUsername': '사용자 이름을 입력해주세요.',
+        'inviteFriendsModalNoData' : '데이터 없음',
       }
     },
     fr: {
@@ -296,6 +308,12 @@ i18next.init({
         'changeUserImageModalSaveButton': 'Enregistrer',
         'viewAllHistoryModalH2': 'Historique des jeux',
         'viewAllHistoryModalNoData': 'Aucune donnée',
+        'inviteFriendsModalTitle': 'Inviter des amis',
+        'searchFriends': 'Recherche',
+        'searchButton': 'Rechercher',
+        'onlyAlphanumeric': 'Seuls les caractères alphanumériques sont autorisés.',
+        'enterUsername': 'Veuillez entrer un nom d’utilisateur.',
+        'inviteFriendsModalNoData' : 'Aucune donnée',
       }
     }
   },
