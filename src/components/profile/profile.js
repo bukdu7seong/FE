@@ -11,7 +11,11 @@ import { viewAllRequestsModal } from './modal/viewAllRequest.js';
 import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
-import { applyLauguage, changeLanguage, updateContent } from './language.js';
+import {
+  applyLauguage,
+  changeLanguage,
+  updateContent,
+} from '../language/language.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
 import { getCookie } from '../../utils/cookie.js';
