@@ -38,6 +38,12 @@ body {
 /* Bootstrap 오버로딩 스타일 */
 
 /* Button */
+
+.btn {
+  padding: min(1vw, 1vh);
+  font-size: min(2vw, 2vh);
+}
+
 .btn.btn-outline-light {
   background-color: #131313;
 }

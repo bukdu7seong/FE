@@ -24,13 +24,20 @@ export function createLogoutModal() {
   `;
 
   // 모달을 DOM에 추가하고 Bootstrap 모달 인스턴스 생성
-  document.body.innerHTML += modalHTML;
+  let parser = new DOMParser();
+  let doc = parser.parseFromString(modalHTML, 'text/html');
+  document.body.appendChild(doc.body.firstChild);
+
   let logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
   logoutModal.show();
 
+  logoutModal._element.addEventListener('hidden.bs.modal', () => {
+    document.getElementById('logoutModal').remove();
+  });
+
   // '예' 버튼 클릭 이벤트 리스너
   document.getElementById('logout-confirm').addEventListener('click', () => {
-    logout();
     logoutModal.hide();
+    logout();
   });
 }

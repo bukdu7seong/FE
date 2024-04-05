@@ -4,7 +4,9 @@
   line-height: 2rem;
 }
 
-.btn {
+.btn.form-signin,
+.btn.form-signup,
+.btn.form-2fa {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 1rem;
