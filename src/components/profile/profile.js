@@ -31,8 +31,6 @@ const BUTTONS = [
   'viewAllFriends',
   'viewAllRequests',
   'inviteFriends',
-  // 'userProfile',
-  // '2fa',
   'change-password',
   'unsubscribe',
 ];
@@ -40,6 +38,11 @@ const BUTTONS = [
 function setModal() {
   BUTTONS.forEach((button) => {
     const modalTrigger = document.getElementsByClassName(button);
+
+    if (!modalTrigger) {
+      return;
+    }
+
     Array.from(modalTrigger).forEach((trigger) => {
       trigger.addEventListener('click', () => {
         let modal = null;
@@ -66,14 +69,6 @@ function setModal() {
             modal = new inviteFriendsModal();
             globalState.setState({ viewAllModal: modal });
             break;
-          // case 'userProfile':
-          //   const userId = event.target.closest('.item').id;
-          //   modal = new userProfileModal(userId);
-          //   break;
-          // case '2fa':
-          //   const twoFAModal = new change2FA();
-          //   twoFAModal.toggle2FA();
-          // break;
           case 'change-password':
             modal = new changePasswordModal();
             break;
@@ -115,15 +110,27 @@ function setProfile() {
     const win = profileStats.querySelector('.win span');
     const loss = profileStats.querySelector('.loss span');
 
-    winRate.textContent = `${userData.WinRate}%`;
-    win.textContent = `${userData.Wins}`;
-    loss.textContent = `${userData.Losses}`;
+    if (winRate) {
+      winRate.textContent = `${userData.WinRate}%`;
+    }
+
+    if (win) {
+      win.textContent = `${userData.Wins}`;
+    }
+
+    if (loss) {
+      loss.textContent = `${userData.Losses}`;
+    }
   }
 }
 
 async function setHistoryList() {
   const historyList = document.querySelector('.history-list ul');
   const historyData = await getHistoryData();
+
+  if (!historyList) {
+    return;
+  }
 
   if (!historyData.games.length) {
     const historyItem = document.createElement('li');
@@ -201,6 +208,10 @@ async function setHistoryList() {
 export async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
   const friendData = await getFriendData();
+
+  if (!friendList) {
+    return;
+  }
 
   friendList.innerHTML = '';
 
@@ -284,6 +295,10 @@ export async function setFriendList() {
 export async function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
   const requestData = await getRequestData();
+
+  if (!requestList) {
+    return;
+  }
 
   requestList.innerHTML = '';
 
@@ -391,16 +406,19 @@ export async function setRequestList() {
 
 // 드롭다운 메뉴 이벤트 리스너 설정
 function setLanguage() {
-  document
-    .getElementById('language-settings')
-    .addEventListener('click', (event) => {
-      if (event.target.classList.contains('dropdown-item')) {
-        const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
-        changeLanguage(languageCode);
-        updateUserLanguage(languageCode);
-        applyLauguage().call();
-      }
-    });
+  const languageElement = document.getElementById('language-settings');
+  if (!languageElement) {
+    return;
+  }
+
+  languageElement.addEventListener('click', (event) => {
+    if (event.target.classList.contains('dropdown-item')) {
+      const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
+      changeLanguage(languageCode);
+      updateUserLanguage(languageCode);
+      applyLauguage().call();
+    }
+  });
 }
 
 async function updateUserLanguage(language) {
@@ -433,14 +451,23 @@ async function updateUserLanguage(language) {
     return null;
   }
 }
+
 function set2fa() {
   const twoFACheckbox = document.getElementById('2fa');
-  if (twoFACheckbox) {
-    twoFACheckbox.addEventListener('change', () => {
-      const twoFAModal = new change2FA();
-      twoFAModal.toggle2FA();
-    });
+  if (!twoFACheckbox) {
+    return;
   }
+
+  if (userState.getState().user2fa) {
+    twoFACheckbox.checked = true;
+  } else {
+    twoFACheckbox.checked = false;
+  }
+
+  twoFACheckbox.addEventListener('change', () => {
+    const twoFAModal = new change2FA();
+    twoFAModal.toggle2FA();
+  });
 }
 
 export function profile() {
