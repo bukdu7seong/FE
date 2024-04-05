@@ -123,7 +123,7 @@ async function setHistoryList() {
 
   if (!historyData.games.length) {
     const historyItem = document.createElement('li');
-    historyItem.textContent = 'No data';
+    historyItem.textContent = i18next.t('historyItemNoData');
     historyList.appendChild(historyItem);
   } else {
     const firstTwoResults = historyData.games.slice(0, 2);
@@ -199,7 +199,7 @@ async function setFriendList() {
   // listenFriendLogin();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
-    friendItem.textContent = 'No data';
+    friendItem.textContent = i18next.t('friendItemNoData');
     friendList.appendChild(friendItem);
   } else {
     const firstTwoResults = friendData.friends.slice(0, 2);
@@ -277,7 +277,7 @@ async function setRequestList() {
 
   if (!requestData.friends.length) {
     const requestItem = document.createElement('li');
-    requestItem.textContent = 'No data';
+    requestItem.textContent = i18next.t('requestItemNoData');
     requestList.appendChild(requestItem);
   } else {
     requestData.friends.slice(0, 2).map(async (result) => {
