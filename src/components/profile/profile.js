@@ -190,7 +190,7 @@ async function setHistoryList() {
   }
 }
 
-async function setFriendList() {
+export async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
   const friendData = await getFriendData();
 
@@ -269,7 +269,7 @@ async function setFriendList() {
   }
 }
 
-async function setRequestList() {
+export async function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
   const requestData = await getRequestData();
 
@@ -323,8 +323,10 @@ async function setRequestList() {
       acceptButton.appendChild(acceptImg);
 
       acceptButton.addEventListener('click', async () => {
-        await updateRequest(result.id, true);
-        setRequestList();
+        updateRequest(result.id, true).then(async () => {
+          await setRequestList();
+          await setFriendList();
+        });
       });
 
       const declineButton = document.createElement('button');
@@ -336,8 +338,10 @@ async function setRequestList() {
       declineButton.appendChild(declineImg);
 
       declineButton.addEventListener('click', async () => {
-        await updateRequest(result.id, false);
-        setRequestList();
+        updateRequest(result.id, false).then(async () => {
+          await setRequestList();
+          await setFriendList();
+        });
       });
 
       // Friend Request Profile

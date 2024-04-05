@@ -2,6 +2,7 @@ import { globalState, userState } from '../../../../lib/state/state.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
 import { getImageData } from '../data/imageData.js';
 import { getRequestData } from '../data/requestData.js';
+import { setFriendList, setRequestList } from '../profile.js';
 import { updateRequest } from '../updateRequest.js';
 import { userProfileModal } from './userProfile.js';
 
@@ -192,8 +193,9 @@ export class viewAllRequestsModal {
           acceptButton.appendChild(acceptImg);
 
           acceptButton.addEventListener('click', () => {
-            updateRequest(result.id, true);
-            this.setRequestList(this.currentPage);
+            updateRequest(result.id, true).then(() => {
+              this.setRequestList(this.currentPage);
+            });
           });
 
           const declineButton = document.createElement('button');
@@ -205,8 +207,9 @@ export class viewAllRequestsModal {
           declineButton.appendChild(declineImg);
 
           declineButton.addEventListener('click', () => {
-            updateRequest(result.id, false);
-            this.setRequestList(this.currentPage);
+            updateRequest(result.id, false).then(() => {
+              this.setRequestList(this.currentPage);
+            });
           });
 
           // Friend Request Profile
@@ -309,11 +312,13 @@ export class viewAllRequestsModal {
       `;
   }
 
-  handleHidden() {
+  async handleHidden() {
     this.modalInstance._element.remove();
     clearInterval(userState.getState().socketViewAll);
     userState.setState({ socketViewAll: null }, false);
     globalState.setState({ viewAllModal: null });
+    await setRequestList();
+    await setFriendList();
   }
 
   show() {
@@ -327,5 +332,7 @@ export class viewAllRequestsModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('viewAllRequestsModalTitle').innerHTML = i18next.t('viewAllRequestsModalTitle');
+  document.getElementById('viewAllRequestsModalTitle').innerHTML = i18next.t(
+    'viewAllRequestsModalTitle'
+  );
 }
