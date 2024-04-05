@@ -1,7 +1,6 @@
 let timerId2 = null;
 
 function startTimer(duration, display) {
-
   if (timerId2) {
     clearInterval(timerId2); // 기존 타이머 인스턴스를 정지
   }
@@ -11,14 +10,14 @@ function startTimer(duration, display) {
     let minutes = parseInt(timer / 60, 10);
     let seconds = parseInt(timer % 60, 10);
 
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
 
-    display.textContent = minutes + ":" + seconds;
+    display.textContent = minutes + ':' + seconds;
 
     if (--timer < 0) {
       clearInterval(timerId2);
-      display.textContent = "EXPIRED";
+      display.textContent = 'EXPIRED';
     }
   }, 1000);
 }
@@ -38,7 +37,7 @@ export function pageTwoFA() {
       </button>
       
       <!-- 2FA 코드 입력 -->
-      <input class="twofacode form-control btn btn-outline-light" type="text" placeholder="ㅁㅁㅁ-ㅁㅁㅁ" aria-label="default input example" id="two-f-a-code">
+      <input class="twofacode form-control btn btn-outline-light form-2fa" type="text" placeholder="ㅁㅁㅁ-ㅁㅁㅁ" aria-label="default input example" id="two-f-a-code">
       
       <!-- 5분 타이머 -->
       <p id="timer2" class="timer">05:00</p>
@@ -51,7 +50,7 @@ export function pageTwoFA() {
 
   // 타이머 초기화 및 재전송 버튼에 이벤트 리스너 추가
   startTimer(60 * 5, timerDisplay); // 타이머 초기화 (5분)
-  resendButton.addEventListener('click', function() {
+  resendButton.addEventListener('click', function () {
     startTimer(60 * 5, timerDisplay); // 재전송 버튼 클릭 시 타이머 리셋
   });
 
