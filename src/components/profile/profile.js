@@ -11,7 +11,7 @@ import { viewAllRequestsModal } from './modal/viewAllRequest.js';
 import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
-import { changeLanguage, updateContent } from './language.js';
+import { applyLauguage, changeLanguage, updateContent } from './language.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
 import { getCookie } from '../../utils/cookie.js';
@@ -123,7 +123,11 @@ async function setHistoryList() {
 
   if (!historyData.games.length) {
     const historyItem = document.createElement('li');
+    historyItem.id = 'historyItemNoData';
     historyItem.textContent = i18next.t('historyItemNoData');
+    applyLauguage().set({
+      id: 'historyItemNoData',
+    });
     historyList.appendChild(historyItem);
   } else {
     const firstTwoResults = historyData.games.slice(0, 2);
@@ -200,6 +204,10 @@ async function setFriendList() {
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
     friendItem.textContent = i18next.t('friendItemNoData');
+    friendItem.id = 'friendItemNoData';
+    applyLauguage().set({
+      id: 'friendItemNoData',
+    });
     friendList.appendChild(friendItem);
   } else {
     const firstTwoResults = friendData.friends.slice(0, 2);
@@ -278,6 +286,10 @@ async function setRequestList() {
   if (!requestData.friends.length) {
     const requestItem = document.createElement('li');
     requestItem.textContent = i18next.t('requestItemNoData');
+    requestItem.id = 'requestItemNoData';
+    applyLauguage().set({
+      id: 'requestItemNoData',
+    });
     requestList.appendChild(requestItem);
   } else {
     requestData.friends.slice(0, 2).map(async (result) => {
@@ -378,6 +390,7 @@ function setLanguage() {
         const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
         changeLanguage(languageCode);
         updateUserLanguage(languageCode);
+        applyLauguage().call();
       }
     });
 }
