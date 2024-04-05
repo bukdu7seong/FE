@@ -88,7 +88,11 @@ i18next.init({
         'startRoundButton': 'START',
         'tournamentWinnerModalLabel' : 'TOURNAMENT WINNER!',
         'tournament_player' : 'Player',
-        'restartGameButton': 'OK'
+        'restartGameButton': 'OK',
+        'change-username': 'Change Username',
+        'newUsername' : 'Enter new username (maximum length: 10)',
+        'changeUserNameModalCloseButton' : 'Close',
+        'changeUserNameModalSaveButton' : 'Save'
       }
     },
     kr: {
@@ -178,7 +182,11 @@ i18next.init({
         'startRoundButton' : '시작',
         'tournamentWinnerModalLabel' : '토너먼트 우승자!',
         'tournament_player' : '플레이어',
-        'restartGameButton' : '확인'
+        'restartGameButton' : '확인',
+        'change-username': '사용자 이름 변경',
+        'newUsername': '새 사용자 이름 입력 (최대 길이: 10)',
+        'changeUserNameModalCloseButton': '닫기',
+        'changeUserNameModalSaveButton': '저장'
       }
     },
     fr: {
@@ -268,7 +276,11 @@ i18next.init({
         'startRoundButton' : 'COMMENCER',
         'tournamentWinnerModalLabel' : 'VAINQUEUR DU TOURNOI !',
         'tournament_player' : 'Joueur',
-        'restartGameButton': 'OK'
+        'restartGameButton': 'OK',
+        'change-username': 'Changer le nom d’utilisateur',
+        'newUsername': 'Entrez le nouveau nom d’utilisateur (longueur maximale : 10)',
+        'changeUserNameModalCloseButton': 'Fermer',
+        'changeUserNameModalSaveButton': 'Enregistrer'
       }
     }
   },

@@ -10,7 +10,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5">Change Username</h1>
+            <h1 class="modal-title fs-5" id="change-username">Change Username</h1>
           </div>
           <div class="modal-body">
             <input type="text" class="form-control" id="newUsername"
@@ -18,8 +18,8 @@ function modalHTML(modalId) {
             <div id="error-message" class="text-danger"></div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="changeUserNameModalCloseButton">Close</button>
+            <button type="button" class="btn btn-primary" id="changeUserNameModalSaveButton">Save</button>
           </div>
         </div>
       </div>
@@ -131,10 +131,18 @@ export class changeUserNameModal {
   }
 
   show() {
+    updateMultilingualContent();
     this.modalInstance.show();
   }
 
   hide() {
     this.modalInstance.hide();
   }
+}
+
+function updateMultilingualContent() {
+  document.getElementById('change-username').innerHTML = i18next.t('change-username');
+  document.getElementById('newUsername').placeholder = i18next.t('newUsername');
+  document.getElementById('changeUserNameModalCloseButton').innerHTML = i18next.t('changeUserNameModalCloseButton');
+  document.getElementById('changeUserNameModalSaveButton').innerHTML = i18next.t('changeUserNameModalSaveButton');
 }
