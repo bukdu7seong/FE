@@ -11,7 +11,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-friend-request-content">
           <div class="modal-header">
-            <h2 class="modal-title">Friend Request</h2>
+            <h2 class="modal-title" id="viewAllRequestsModalTitle">Friend Request</h2>
           </div>
           <div class="modal-body modal-friend-request-list-body">
             <div class="modal-friend-request-list">
@@ -138,6 +138,7 @@ export class viewAllRequestsModal {
       if (!requestData.friends.length) {
         const requestItem = document.createElement('li');
         requestItem.textContent = 'No Friend Request';
+        requestItem.textContent = i18next.t('viewAllRequestsModalNoFriend');
         requestList.appendChild(requestItem);
       } else {
         let requestIdArray = [];
@@ -316,6 +317,7 @@ export class viewAllRequestsModal {
   }
 
   show() {
+    updateMultilingualContent();
     this.modalInstance.show();
     this.setRequestList(this.currentPage);
   }
@@ -323,4 +325,7 @@ export class viewAllRequestsModal {
   hide() {
     this.modalInstance.hide();
   }
+}
+function updateMultilingualContent() {
+  document.getElementById('viewAllRequestsModalTitle').innerHTML = i18next.t('viewAllRequestsModalTitle');
 }

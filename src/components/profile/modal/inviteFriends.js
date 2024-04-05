@@ -11,7 +11,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header" data-bs-theme="dark">
-          <h2 class="modal-title">Invite Friends</h2>
+          <h2 class="modal-title" id="inviteFriendsModalTitle">Invite Friends</h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -137,9 +137,13 @@ export class inviteFriendsModal {
     if (!validateInput(this.inputData)) {
       this.modalInstance._element.querySelector('#error-message').textContent =
         'Only alphanumeric characters are allowed.';
+      this.modalInstance._element.querySelector('#error-message').textContent =
+        i18next.t('onlyAlphanumeric');
     } else if (this.inputData.length === 0) {
       this.modalInstance._element.querySelector('#error-message').textContent =
         'Please enter a username.';
+      this.modalInstance._element.querySelector('#error-message').textContent =
+        i18next.t('enterUsername');
     } else {
       this.searchFriend();
       this.modalInstance._element.querySelector('#error-message').textContent =
@@ -159,7 +163,7 @@ export class inviteFriendsModal {
 
     if (!user) {
       const userItem = document.createElement('li');
-      userItem.textContent = 'No data';
+      userItem.textContent = i18next.t('inviteFriendsModalNoData');
       userList.appendChild(userItem);
     } else {
       const userItem = document.createElement('li');
@@ -314,10 +318,17 @@ export class inviteFriendsModal {
   }
 
   show() {
+    updateMultilingualContent();
     this.modalInstance.show();
   }
 
   hide() {
     this.modalInstance.hide();
   }
+}
+
+function updateMultilingualContent() {
+  document.getElementById('inviteFriendsModalTitle').innerHTML = i18next.t('inviteFriendsModalTitle');
+  document.getElementById('searchFriends').placeholder = i18next.t('searchFriends');
+  document.getElementById('searchButton').innerHTML = i18next.t('searchButton');
 }

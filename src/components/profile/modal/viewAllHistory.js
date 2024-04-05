@@ -10,7 +10,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-history-content">
           <div class="modal-header">
-            <h2 class="modal-title">Game History</h2>
+            <h2 class="modal-title" id="viewAllHistoryModalH2">Game History</h2>
           </div>
           <div class="modal-body modal-history-list-body">
             <div class="modal-history-list">
@@ -132,7 +132,7 @@ export class viewAllHistoryModal {
 
       if (!historyData.games.length) {
         const historyItem = document.createElement('li');
-        historyItem.textContent = 'No data';
+        historyItem.textContent = i18next.t('viewAllHistoryModalNoData');
         historyList.appendChild(historyItem);
       } else {
         historyData.games.forEach(async (result) => {
@@ -218,6 +218,7 @@ export class viewAllHistoryModal {
   }
 
   show() {
+    updateMultilingualContent();
     this.modalInstance.show();
     this.setHistoryList(this.currentPage);
   }
@@ -225,4 +226,7 @@ export class viewAllHistoryModal {
   hide() {
     this.modalInstance.hide();
   }
+}
+function updateMultilingualContent() {
+  document.getElementById('viewAllHistoryModalH2').innerHTML = i18next.t('viewAllHistoryModalH2');
 }

@@ -115,11 +115,11 @@ export function pageTournament() {
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-center">
                         <div class="h6" id='round-player1'>Player 1</div>
-                        <input type="text" class="form-control bg-secondary text-white" id="player1-name" value="joyoujeo" readonly>
+                        <input type="text" class="form-control bg-secondary text-white" id="round-player1-name" value="joyoujeo" readonly>
                     </div>
                     <div class="text-center">
                         <div class="h6" id='round-player2'>Player 2</div>
-                        <input type="text" class="form-control bg-secondary text-white" id="player2-name" value="gychoi" readonly>
+                        <input type="text" class="form-control bg-secondary text-white" id="round-player2-name" value="gychoi" readonly>
                     </div>
                 </div>
                 <div class="text-center my-3" id='round-content'>
@@ -180,7 +180,7 @@ function updateTournamentSettingModalContent() {
   document.getElementById("tournamentSettingModalLabel").innerHTML = i18next.t("tournamentSettingModalLabel");
   document.getElementById('t-player1-label').innerHTML = i18next.t('t-player1-label');
   document.getElementById('player1-name').placeholder = i18next.t('player1-name');
-  document.getElementById('t-player2-label').innerHTML = i18next.t('t-player1-label');
+  document.getElementById('t-player2-label').innerHTML = i18next.t('t-player2-label');
   document.getElementById('player2-name').placeholder = i18next.t('player2-name');
   document.getElementById('t-player3-label').innerHTML = i18next.t('t-player3-label');
   document.getElementById('player3-name').placeholder = i18next.t('player3-name');

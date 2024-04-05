@@ -10,7 +10,7 @@ function modalHTML(modalId) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-friend-content">
           <div class="modal-header">
-            <h2 class="modal-title">Friends</h2>
+            <h2 class="modal-title" id="viewAllFriendsModalTitle">Friends</h2>
           </div>
           <div class="modal-body modal-friend-list-body">
             <div class="modal-friend-list-list">
@@ -135,7 +135,7 @@ export class viewAllFriendsModal {
 
       if (!friendData.friends.length) {
         const friendItem = document.createElement('li');
-        friendItem.textContent = 'No data';
+        friendItem.textContent = i18next.t('viewAllFriendsModalNoData');
         friendList.appendChild(friendItem);
       } else {
         let friendIdArray = [];
@@ -281,6 +281,7 @@ export class viewAllFriendsModal {
   }
 
   show() {
+    updateMultilingualContent();
     this.modalInstance.show();
     this.setFriendList(this.currentPage);
   }
@@ -288,4 +289,7 @@ export class viewAllFriendsModal {
   hide() {
     this.modalInstance.hide();
   }
+}
+function updateMultilingualContent() {
+  document.getElementById('viewAllFriendsModalTitle').innerHTML = i18next.t('viewAllFriendsModalTitle');
 }
