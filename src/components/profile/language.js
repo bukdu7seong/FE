@@ -106,6 +106,8 @@ i18next.init({
         'inviteFriendsModalNoData' : 'No data',
         'viewAllRequestsModalTitle' : 'Friend Request',
         'viewAllRequestsModalNoFriend' : 'No Friend Request',
+        'viewAllFriendsModalTitle' : 'Friends',
+        'viewAllFriendsModalNoData' : 'No data',
       }
     },
     kr: {
@@ -213,6 +215,8 @@ i18next.init({
         'inviteFriendsModalNoData' : '데이터 없음',
         'viewAllRequestsModalTitle': '친구 요청',
         'viewAllRequestsModalNoFriend': '친구 요청 없음',
+        'viewAllFriendsModalTitle': '친구들',
+        'viewAllFriendsModalNoData': '데이터 없음',
       }
     },
     fr: {
@@ -320,7 +324,8 @@ i18next.init({
         'inviteFriendsModalNoData' : 'Aucune donnée',
         'viewAllRequestsModalTitle': 'Demande d’ami',
         'viewAllRequestsModalNoFriend': 'Aucune demande d’ami',
-
+        'viewAllFriendsModalTitle': 'Amis',
+        'viewAllFriendsModalNoData': 'Aucune donnée',
       }
     }
   },
