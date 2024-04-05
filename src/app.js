@@ -14,7 +14,6 @@ import { pageBoard, updateGameBoxContent } from './pages/game.js';
 import { updateTournamentBoxContent } from './pages/tournament.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
-import { userBox } from './components/common/userBox.js';
 import { profile } from './components/profile/profile.js';
 import { signIn } from './components/login/sign_in.js';
 import { signUp } from './components/login/sign_up.js';
@@ -25,9 +24,9 @@ import { gameState, routeState, userState } from '../lib/state/state.js';
 import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 // utils
-import { updateUserBox } from './utils/updateUserBox.js';
 import { checkLogin } from './utils/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
+import { createLogoutModal } from './pages/logoutModal.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -42,23 +41,19 @@ function hideModal() {
 function init() {
   try {
     window.onload = function () {
-      setComponent(routes['/profile'], sidebar(routes), userBox());
-      setComponent(routes['/game'], sidebar(routes), userBox());
-      setComponent(routes['/tournament'], sidebar(routes), userBox());
+      setComponent(routes['/profile'], sidebar(routes));
+      setComponent(routes['/game'], sidebar(routes));
+      setComponent(routes['/tournament'], sidebar(routes));
 
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
-      setOnRender(routes['/profile'], profile, updateUserBox);
-      setOnRender(routes['/game'], updateGameBoxContent, updateUserBox);
-      setOnRender(
-        routes['/tournament'],
-        updateTournamentBoxContent,
-        updateUserBox
-      );
+      setOnRender(routes['/profile'], profile);
+      setOnRender(routes['/game'], updateGameBoxContent);
+      setOnRender(routes['/tournament'], updateTournamentBoxContent);
       setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
+      // setOnRender(routes['/logout'], createLogoutModal);
 
-      userState.subscribe(updateUserBox);
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
 
@@ -77,16 +72,8 @@ function init() {
 
       switch (currentRoute.currentRoute.name) {
         case 'Profile':
-          // console.log('profile');
           break;
         case 'Game':
-          // if (className === 'player-option') {
-          //   // modal을 클릭하는 것으로 변경해야 한다.
-          //   renderPage(pageBoard(), 'game-box');
-          //   // 현재 로그인한 사용자와 모달에서 상대방의 이름을 넘겨줘야 한다.
-          //   const pongGame = new PingPong('object', 'salee2', 'gychoi');
-          //   pongGame.startGame();
-          // }
           if (elementId === 'startGameButton') {
             const player2Name = document.getElementById('player-name').value;
             const gameModes = document.getElementsByName('gameMode');

@@ -1,4 +1,5 @@
 import { route } from '../../../lib/router/router.js';
+import { createLogoutModal } from '../../pages/logoutModal.js';
 
 export function sidebar(routes) {
   // 네비게이션 바를 위한 <nav> 태그 생성
@@ -74,6 +75,11 @@ export function sidebar(routes) {
     const targetLink = e.target.closest('a[route]');
     if (targetLink) {
       e.preventDefault();
+      if (targetLink.textContent === 'Logout') {
+        createLogoutModal();
+        return;
+      }
+
       route(targetLink.getAttribute('route'));
     }
   });
