@@ -263,7 +263,7 @@ export async function sendEmailCode() {
   // 이메일 유효성 검사
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent = 'Invalid email format';
+    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');
     return;
   }
 

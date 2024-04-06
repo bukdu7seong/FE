@@ -61,16 +61,12 @@ i18next.init({
         'win-label': 'WIN',
         'lose-label': 'LOSE',
         'save-score': 'SAVE SCORE',
-
-
         email2faModalLabel: 'Email Verification',
         'emailAddressLabel': 'Email Address',
         emailInput: 'Enter your email (e.g., name@example.com)',
         'send-email-code-button' : 'Send Code',
         codeInputLabel : 'Verification Code',
         'send-verification-code-button': 'SAVE SCORE',
-
-
         'tournament-pong': 'PONG',
         'tournament-header': 'TOURNAMENT',
         'tournament-player1': 'PLAYER 1',
@@ -126,6 +122,9 @@ i18next.init({
         friendListViewAll: 'View all',
         friendRequestInvite: 'Invite friends',
         friendRequestViewAll: 'View all',
+
+        invalidEmailFormat : 'Invalid email format',
+        verificationFailed : 'Verification failed. Please try again.',
       },
     },
     kr: {
@@ -187,16 +186,12 @@ i18next.init({
         'win-label': '승리',
         'lose-label': '패배',
         'save-score': '점수 저장',
-
-
         email2faModalLabel: '이메일 인증',
         'emailAddressLabel': '이메일 주소',
         emailInput: '이메일 입력 (예: name@example.com)',
         'send-email-code-button': '코드 보내기',
         codeInputLabel: '인증 코드',
         'send-verification-code-button': '점수 저장',
-
-
         'tournament-pong': '퐁',
         'tournament-header': '토너먼트',
         'tournament-player1': '플레이어 1',
@@ -251,7 +246,10 @@ i18next.init({
         playerHistoryViewAll: '모두 보기',
         friendListViewAll: '모두 보기',
         friendRequestInvite: '친구 초대',
-        friendRequestViewAll: '모두 보기'
+        friendRequestViewAll: '모두 보기',
+
+        invalidEmailFormat : '잘못된 이메일 형식',
+        verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.'
       },
     },
     fr: {
@@ -315,16 +313,12 @@ i18next.init({
         'win-label': 'GAGNER',
         'lose-label': 'PERDRE',
         'save-score': 'ENREGISTRER LE SCORE',
-
-
         email2faModalLabel: 'Vérification de l’Email',
         'emailAddressLabel': 'Adresse Email',
         emailInput: 'Entrez votre email (par ex. name@example.com)',
         'send-email-code-button': 'Envoyer le Code',
         codeInputLabel: 'Code de Vérification',
         'send-verification-code-button': 'ENREGISTRER LE SCORE',
-
-
         'tournament-pong': 'PONG',
         'tournament-header': 'TOURNOI',
         'tournament-player1': 'JOUEUR 1',
@@ -381,7 +375,10 @@ i18next.init({
         playerHistoryViewAll: 'Voir tout',
         friendListViewAll: 'Voir tout',
         friendRequestInvite: 'Inviter des amis',
-        friendRequestViewAll: 'Voir tout'
+        friendRequestViewAll: 'Voir tout',
+
+        invalidEmailFormat : "Format d'email invalide",
+        verificationFailed : 'Échec de la vérification. Veuillez réessayer.'
       },
     },
   },

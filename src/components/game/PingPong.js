@@ -430,7 +430,7 @@ async function submitVerificationCode(gameId) {
 
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent = 'Invalid email format';
+    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');;
     return;
   } else {
     emailErrorDiv.style.display = 'none';
@@ -460,7 +460,7 @@ async function submitVerificationCode(gameId) {
   } catch (error) {
     // console.error('Error verifying code:', error);
     codeErrorDiv.style.display = 'block';
-    codeErrorDiv.textContent = 'Verification failed. Please try again.';
+    codeErrorDiv.textContent = i18next.t('verificationFailed');
     // 실패 처리, 예를 들어 오류 메시지 표시
   }
 }
