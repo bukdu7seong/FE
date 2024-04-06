@@ -328,7 +328,7 @@ export default class PingPong {
             sendVerificationEmail(gameId, patchGameResult);
           });
 
-          document.getElementById('submit-verification-code-button').addEventListener('click', () => {
+          document.getElementById('send-verification-code-button').addEventListener('click', () => {
             submitVerificationCode(gameId);
           });
         }

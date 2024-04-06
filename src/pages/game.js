@@ -363,7 +363,7 @@ function createEmail2faModal() {
             </div>
             <div class="codeError text-danger mt-2" id='codeError' style="display: none;"></div>
             <div class="d-grid gap-2">
-              <button type="button" class="btn btn-success" id='submit-verification-code-button'>Verify and Save</button>
+              <button type="button" class="btn btn-success" id='send-verification-code-button'>Verify and Save</button>
             </div>
           </form>
         </div>
@@ -398,8 +398,8 @@ export function updateScoreModalContent() {
   document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
   document.getElementById('emailAddressLabel').innerHTML = i18next.t('emailAddressLabel');
   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  document.getElementById('send-email-code-button').placeholder = i18next.t('send-email-code-button');
-  document.getElementById('codeInputLabel').placeholder = i18next.t('codeInputLabel');
+  document.getElementById('send-email-code-button').innerHTML = i18next.t('send-email-code-button');
+  document.getElementById('codeInputLabel').innerHTML = i18next.t('codeInputLabel');
   document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
 }
 
