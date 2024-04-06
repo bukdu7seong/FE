@@ -349,7 +349,7 @@ function createEmail2faModal() {
           <form id="emailVerificationForm">
             <!-- Email address input -->
             <div class="mb-3">
-              <label for="emailInput" class="form-label">Email Address</label>
+              <label for="emailInput" class="form-label" id="emailAddressLabel">Email Address</label>
               <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
             </div>
             <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div>
@@ -358,7 +358,7 @@ function createEmail2faModal() {
             </div>
             <!-- Verification code input -->
             <div class="mb-3">
-              <label for="codeInput" class="form-label">Verification Code</label>
+              <label for="codeInput" class="form-label" id="codeInputLabel">Verification Code</label>
               <input type="text" class="form-control" id="codeInput" required>
             </div>
             <div class="codeError text-danger mt-2" id='codeError' style="display: none;"></div>
@@ -395,16 +395,12 @@ export function updateScoreModalContent() {
   document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
   document.getElementById('save-score').innerHTML = i18next.t('save-score');
 
-  // document.getElementById('score-player2').innerHTML =
-  //   i18next.t('score-player2');
-  // document.getElementById('save-score').innerHTML = i18next.t('save-score');
-  //
-  // document.getElementById('email2faModalLabel').innerHTML =
-  //   i18next.t('email2faModalLabel');
-  // document.getElementById('email-input-label').innerHTML =
-  //   i18next.t('email-input-label');
-  // document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  // document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
+  document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
+  document.getElementById('emailAddressLabel').innerHTML = i18next.t('emailAddressLabel');
+  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
+  document.getElementById('send-email-code-button').placeholder = i18next.t('send-email-code-button');
+  document.getElementById('codeInputLabel').placeholder = i18next.t('codeInputLabel');
+  document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
 }
 
 function formatCurrentTime() {

@@ -57,16 +57,20 @@ i18next.init({
         'speed-label': 'speed',
         'object-label': 'object',
         startGameButton: 'START',
-
         scoreModalLabel: 'SCORE',
         'win-label': 'WIN',
         'lose-label': 'LOSE',
-        'score-player2': 'Player 2',
         'save-score': 'SAVE SCORE',
+
+
         email2faModalLabel: 'Email Verification',
-        'email-input-label': 'Email Address',
+        'emailAddressLabel': 'Email Address',
         emailInput: 'Enter your email (e.g., name@example.com)',
-        // 'send-verification-code-button': 'SAVE SCORE',
+        'send-email-code-button' : 'Send Code',
+        codeInputLabel : 'Verification Code',
+        'send-verification-code-button': 'SAVE SCORE',
+
+
         'tournament-pong': 'PONG',
         'tournament-header': 'TOURNAMENT',
         'tournament-player1': 'PLAYER 1',
@@ -179,16 +183,20 @@ i18next.init({
         'speed-label': '스피드',
         'object-label': '오브젝트',
         startGameButton: '시작',
-
         scoreModalLabel: '점수',
         'win-label': '승리',
         'lose-label': '패배',
-        'score-player2': '플레이어 2',
         'save-score': '점수 저장',
+
+
         email2faModalLabel: '이메일 인증',
-        'email-input-label': '이메일 주소',
+        'emailAddressLabel': '이메일 주소',
         emailInput: '이메일 입력 (예: name@example.com)',
-        // 'send-verification-code-button': '점수 저장',
+        'send-email-code-button': '코드 보내기',
+        codeInputLabel: '인증 코드',
+        'send-verification-code-button': '점수 저장',
+
+
         'tournament-pong': '퐁',
         'tournament-header': '토너먼트',
         'tournament-player1': '플레이어 1',
@@ -303,16 +311,20 @@ i18next.init({
         'speed-label': 'vitesse',
         'object-label': 'objet',
         startGameButton: 'COMMENCER',
-
         scoreModalLabel: 'SCORE',
         'win-label': 'GAGNER',
         'lose-label': 'PERDRE',
-        'score-player2': 'Joueur 2',
         'save-score': 'ENREGISTRER LE SCORE',
-        email2faModalLabel: "Vérification d'email",
-        'email-input-label': 'Adresse e-mail',
-        emailInput: 'Entrez votre e-mail (par ex., name@example.com)',
-        // 'send-verification-code-button': 'ENREGISTRER LE SCORE',
+
+
+        email2faModalLabel: 'Vérification de l’Email',
+        'emailAddressLabel': 'Adresse Email',
+        emailInput: 'Entrez votre email (par ex. name@example.com)',
+        'send-email-code-button': 'Envoyer le Code',
+        codeInputLabel: 'Code de Vérification',
+        'send-verification-code-button': 'ENREGISTRER LE SCORE',
+
+
         'tournament-pong': 'PONG',
         'tournament-header': 'TOURNOI',
         'tournament-player1': 'JOUEUR 1',
