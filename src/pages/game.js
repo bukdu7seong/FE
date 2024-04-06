@@ -9,7 +9,6 @@ export function pageGame() {
   const navbar = sidebar(routes);
 
   const content = `
-<!--        <div class="side-bar"></div>-->
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id='game'>
@@ -20,8 +19,32 @@ export function pageGame() {
               <div class="divider"></div>
               <div class="player-option" id="player2">PLAYER 2</div>
             </div>
-            
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
+          </div>
+        </div>
+      `;
+
+  const winner = {
+    name: 'Player 1',
+    image: 'path_to_winner_image'
+  };
+  const loser = {
+    name: 'Player 2',
+    image: 'path_to_loser_image'
+  };
+  page.innerHTML = content;
+  page.appendChild(navbar);
+  page.appendChild(createGameSettingModal());
+  page.appendChild(createScoreModal({winner, loser}));
+  page.appendChild(createEmail2faModal());
+  setupGameSettingModal(page);
+  return page;
+}
+
+function createGameSettingModal() {
+  // 게임 설정 모달의 HTML 구성을 반환
+  const modalContainer = document.createElement('div');
+  modalContainer.innerHTML = `
+     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
 <div class="modal fade" id="gameSettingModal" tabindex="-1" aria-labelledby="gameSettingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -69,67 +92,15 @@ export function pageGame() {
             </div>
             <div class="modal-footer border-0">
       <button type="button" id="startGameButton" class="btn btn-md btn-success w-100">START</button>
-
             </div>
         </div>
     </div>
 </div>
-
-          </div>
-          
-        </div>
-      `;
-  page.innerHTML = content;
-  page.appendChild(navbar);
-
-  // 이벤트 리스너 제거는 SPA 페이지 전환시 필요한 경우에만 구현합니다.
-  // function removeGameBoxListener() {
-  //   gameBox.removeEventListener('click', function() {
-  //     gameSettingModal.show();
-  //   });
-  // }
-
-  //   gameState.setState({ currentGameStatus: 'idle' });
-  //   let gameBox = page.querySelector('#game');
-  //   let gameSettingModal = new bootstrap.Modal(page.querySelector('#gameSettingModal'), {
-  //     keyboard: false
-  //   });
-  //   let startGameButton = page.querySelector('#startGameButton');
-  //
-  //   startGameButton.addEventListener('click', function() {
-  //     gameState.setState({ currentGameStatus: 'playing' }); // 게임 상태를 'playing'으로 변경
-  //     gameSettingModal.hide(); // 모달을 숨깁니다.
-  //   });
-  //
-  //   document.addEventListener('keydown', function(event) {
-  //     if (event.key === 'Escape') {
-  //       // 'Escape' 키가 눌렸을 때의 조건
-  //       if (gameState.getState().currentGameStatus === 'idle') {
-  //         gameSettingModal.hide(); // 모달을 숨깁니다.
-  //       }
-  //     }
-  //   });
-  //
-  // // game-box 클릭 이벤트
-  //   gameBox.addEventListener('click', function() {
-  //     if (gameState.getState().currentGameStatus === 'idle') {
-  //       gameSettingModal.show(); // 게임 상태가 'idle'일 때만 모달을 표시합니다.
-  //     }
-  //   });
-
-  const email2faModal = createEmail2faModal();
-  page.appendChild(email2faModal);
-
-  const sendEmailButton = email2faModal.querySelector(
-    '#send-email-code-button'
-  );
-  sendEmailButton.addEventListener('click', sendEmailCode);
-  initGameEvents(page);
-
-  return page;
+  `;
+  return modalContainer;
 }
 
-export function initGameEvents(page) {
+export function setupGameSettingModal(page) {
   let gameSettingModal = new bootstrap.Modal(
     page.querySelector('#gameSettingModal'),
     {
@@ -162,6 +133,11 @@ export function initGameEvents(page) {
       gameSettingModal.show();
     }
   });
+
+  const sendEmailButton = page.querySelector('#send-email-code-button');
+  if (sendEmailButton) {
+    sendEmailButton.addEventListener('click', sendEmailCode);
+  }
 }
 
 export function updateGameBoxContent() {
@@ -237,17 +213,8 @@ async function verifyCodeWithServer(code) {
   }
 }
 
-export function createScoreModal(gameResult) {
-  if (!gameResult) {
-    console.error('gameResult is undefined or null');
-    return; // 함수를 빠져나가거나 적절한 처리를 합니다.
-  }
-
-  const currentTime = formatCurrentTime();
-  const winnerName = gameResult.winner.name; // 승자의 닉네임
-  const winnerImage = gameResult.winner.image; // 승자의 이미지
-  const loserName = gameResult.loser.name; // 패자의 닉네임
-  const loserImage = gameResult.loser.image; // 패자의 이미지
+export function createScoreModal() {
+  const currentTime = formatCurrentTime(); // 현재 시간 포맷팅
 
   const scoreModal = document.createElement('div');
   scoreModal.className = 'modal fade';
@@ -260,23 +227,23 @@ export function createScoreModal(gameResult) {
       <div class="modal-content bg-dark text-white">
             <div class="modal-header border-0">
                 <h1 class="modal-title fs-1 w-100 text-center" id="scoreModalLabel">SCORE</h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" id="scoreModalCloseButton" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
                 <!-- Winner section -->
                 <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
                     <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
-                    <img src="${winnerImage}" class="rounded-circle me-2" alt="${winnerName}" style="width: 50px; height: 50px;">
-                    <span class="fw-bold flex-grow-1">${winnerName}</span>
-                    <span class="time-score rounded-pill bg-secondary px-3">${currentTime}</span>
+                    <img src="winner-image-placeholder" class="rounded-circle me-2" id="classic-winner-image" alt="Winner" style="width: 50px; height: 50px;">
+                    <span class="fw-bold flex-grow-1" id="classic-winner-name">Winner Name</span>
+                    <span class="time-score rounded-pill bg-secondary px-3" id="win-time">${currentTime}</span>
                 </div>
                 <!-- Loser section -->
                 <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
                     <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
-                    <img src="${loserImage}" class="rounded-circle me-2" alt="${loserName}" style="width: 50px; height: 50px;">
-                    <span class="fw-bold flex-grow-1">${loserName}</span>
-                    <span class="time-score rounded-pill bg-secondary px-3">${currentTime}</span>
+                    <img src="loser-image-placeholder" class="rounded-circle me-2" id="classic-loser-image" alt="Loser" style="width: 50px; height: 50px;">
+                    <span class="fw-bold flex-grow-1" id="classic-loser-name">Loser Name</span>
+                    <span class="time-score rounded-pill bg-secondary px-3" id="lose-time">${currentTime}</span>
                 </div>
             </div>
 
@@ -422,19 +389,21 @@ function createEmail2faModal() {
   return email2faModal;
 }
 export function updateScoreModalContent() {
-  document.getElementById('scoreModalLabel').innerHTML =
-    i18next.t('scoreModalLabel');
+  document.getElementById('scoreModalLabel').innerHTML = i18next.t('scoreModalLabel');
+  document.getElementById('win-label').innerHTML = i18next.t('win-label');
   document.getElementById('win-label').innerHTML = i18next.t('win-label');
   document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
-  document.getElementById('score-player2').innerHTML =
-    i18next.t('score-player2');
   document.getElementById('save-score').innerHTML = i18next.t('save-score');
 
-  document.getElementById('email2faModalLabel').innerHTML =
-    i18next.t('email2faModalLabel');
-  document.getElementById('email-input-label').innerHTML =
-    i18next.t('email-input-label');
-  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
+  // document.getElementById('score-player2').innerHTML =
+  //   i18next.t('score-player2');
+  // document.getElementById('save-score').innerHTML = i18next.t('save-score');
+  //
+  // document.getElementById('email2faModalLabel').innerHTML =
+  //   i18next.t('email2faModalLabel');
+  // document.getElementById('email-input-label').innerHTML =
+  //   i18next.t('email-input-label');
+  // document.getElementById('emailInput').placeholder = i18next.t('emailInput');
   // document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
 }
 
@@ -445,4 +414,20 @@ function formatCurrentTime() {
   const hours = now.getHours();
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${month}/${day}, ${hours}:${minutes}`;
+}
+
+
+export function updateScoreModal(gameResult) {
+  const winnerInfo = gameResult.winner;
+  const loserInfo = gameResult.loser;
+
+  const winnerNameElement = document.getElementById('classic-winner-name');
+  const loserNameElement = document.getElementById('classic-loser-name');
+  const winnerImageElement = document.getElementById('classic-winner-image');
+  const loserImageElement = document.getElementById('classic-loser-image');
+
+  winnerNameElement.textContent = winnerInfo.name;
+  loserNameElement.textContent = loserInfo.name;
+  winnerImageElement.src = winnerInfo.image;
+  loserImageElement.src = loserInfo.image;
 }

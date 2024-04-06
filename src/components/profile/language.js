@@ -57,6 +57,7 @@ i18next.init({
         'speed-label': 'speed',
         'object-label': 'object',
         startGameButton: 'START',
+
         scoreModalLabel: 'SCORE',
         'win-label': 'WIN',
         'lose-label': 'LOSE',
@@ -178,6 +179,7 @@ i18next.init({
         'speed-label': '스피드',
         'object-label': '오브젝트',
         startGameButton: '시작',
+
         scoreModalLabel: '점수',
         'win-label': '승리',
         'lose-label': '패배',
@@ -301,6 +303,7 @@ i18next.init({
         'speed-label': 'vitesse',
         'object-label': 'objet',
         startGameButton: 'COMMENCER',
+
         scoreModalLabel: 'SCORE',
         'win-label': 'GAGNER',
         'lose-label': 'PERDRE',
