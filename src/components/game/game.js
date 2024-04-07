@@ -125,3 +125,15 @@ export function updateScoreModalResult(gameResult) {
     }
   }
 }
+export function initializeGameResultData() {
+  return {
+    winner: {
+      name: 'Player 1',
+      image: 'path_to_winner_image'
+    },
+    loser: {
+      name: 'Player 2',
+      image: 'path_to_loser_image'
+    }
+  };
+}

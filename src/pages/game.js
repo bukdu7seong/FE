@@ -2,7 +2,7 @@ import { gameState } from '../../lib/state/state.js';
 import { getCookie } from '../utils/cookie.js';
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import { setupGameSettingModal } from '../components/game/game.js';
+import { initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -32,21 +32,6 @@ export function pageGame() {
   setupGameSettingModal(page);
   return page;
 }
-
-function initializeGameResultData() {
-  // 임시 게임 결과 데이터
-  return {
-    winner: {
-      name: 'Player 1',
-      image: 'path_to_winner_image'
-    },
-    loser: {
-      name: 'Player 2',
-      image: 'path_to_loser_image'
-    }
-  };
-}
-
 
 function createGameSettingModal() {
   // 게임 설정 모달의 HTML 구성을 반환
