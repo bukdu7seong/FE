@@ -106,3 +106,22 @@ export function updateScoreModalMultilingualContent() {
     }
   }
 }
+export function updateScoreModalResult(gameResult) {
+  const elementsToUpdate = {
+    'classic-winner-name': gameResult.winner.name,
+    'classic-loser-name': gameResult.loser.name,
+    'classic-winner-image': gameResult.winner.image,
+    'classic-loser-image': gameResult.loser.image
+  };
+
+  for (const [id, value] of Object.entries(elementsToUpdate)) {
+    const element = document.getElementById(id);
+    if (element) {
+      if (id.includes('image')) {
+        element.src = value; // 이미지 요소의 경우 src 속성 업데이트
+      } else {
+        element.textContent = value; // 텍스트 콘텐츠 업데이트
+      }
+    }
+  }
+}

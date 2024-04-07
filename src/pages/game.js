@@ -328,7 +328,6 @@ function createEmail2faModal() {
   return email2faModal;
 }
 
-
 function formatCurrentTime() {
   const now = new Date();
   const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
@@ -339,17 +338,3 @@ function formatCurrentTime() {
 }
 
 
-export function updateScoreModal(gameResult) {
-  const winnerInfo = gameResult.winner;
-  const loserInfo = gameResult.loser;
-
-  const winnerNameElement = document.getElementById('classic-winner-name');
-  const loserNameElement = document.getElementById('classic-loser-name');
-  const winnerImageElement = document.getElementById('classic-winner-image');
-  const loserImageElement = document.getElementById('classic-loser-image');
-
-  winnerNameElement.textContent = winnerInfo.name;
-  loserNameElement.textContent = loserInfo.name;
-  winnerImageElement.src = winnerInfo.image;
-  loserImageElement.src = loserInfo.image;
-}

@@ -2,9 +2,9 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
-import { updateScoreModal } from '../../pages/game.js';
+
 import { getCookie } from '../../utils/cookie.js';
-import { updateScoreModalMultilingualContent } from './game.js';
+import { updateScoreModalResult, updateScoreModalMultilingualContent } from './game.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -316,7 +316,7 @@ export default class PingPong {
             console.error('Error in fetchGameResults:', error);
           }
 
-          updateScoreModal(this.determineGameResult());
+          updateScoreModalResult(this.determineGameResult());
           const scoreModalElement = document.getElementById('scoreModal');
           if (scoreModalElement) {
             const scoreModal = new bootstrap.Modal(scoreModalElement);
