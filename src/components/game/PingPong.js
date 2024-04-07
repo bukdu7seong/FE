@@ -4,7 +4,7 @@ import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
 import { updateScoreModal } from '../../pages/game.js';
 import { getCookie } from '../../utils/cookie.js';
-import { updateScoreModalContent } from './game.js';
+import { updateScoreModalMultilingualContent } from './game.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -321,7 +321,7 @@ export default class PingPong {
           if (scoreModalElement) {
             const scoreModal = new bootstrap.Modal(scoreModalElement);
             scoreModal.show();
-            updateScoreModalContent();
+            updateScoreModalMultilingualContent();
           }
 
           document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {

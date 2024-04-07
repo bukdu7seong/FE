@@ -81,17 +81,28 @@ export function updateGameSettingModalMultilingualContent() {
   }
 }
 
-export function updateScoreModalContent() {
-  document.getElementById('scoreModalLabel').innerHTML = i18next.t('scoreModalLabel');
-  document.getElementById('win-label').innerHTML = i18next.t('win-label');
-  document.getElementById('win-label').innerHTML = i18next.t('win-label');
-  document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
-  document.getElementById('save-score').innerHTML = i18next.t('save-score');
+export function updateScoreModalMultilingualContent() {
+  const elementsToUpdate = {
+    'scoreModalLabel': i18next.t('scoreModalLabel'),
+    'win-label': i18next.t('win-label'),
+    'lose-label': i18next.t('lose-label'),
+    'save-score': i18next.t('save-score'),
+    'email2faModalLabel': i18next.t('email2faModalLabel'),
+    'emailAddressLabel': i18next.t('emailAddressLabel'),
+    'emailInput': i18next.t('emailInput'), // placeholder의 경우 추가 처리 필요
+    'send-email-code-button': i18next.t('send-email-code-button'),
+    'codeInputLabel': i18next.t('codeInputLabel'),
+    'send-verification-code-button': i18next.t('send-verification-code-button')
+  };
 
-  document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
-  document.getElementById('emailAddressLabel').innerHTML = i18next.t('emailAddressLabel');
-  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  document.getElementById('send-email-code-button').innerHTML = i18next.t('send-email-code-button');
-  document.getElementById('codeInputLabel').innerHTML = i18next.t('codeInputLabel');
-  document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
+  for (const [id, text] of Object.entries(elementsToUpdate)) {
+    const element = document.getElementById(id);
+    if (element) {
+      if (id === 'emailInput') {
+        element.placeholder = text; // placeholder의 경우 별도 처리
+      } else {
+        element.innerHTML = text;
+      }
+    }
+  }
 }
