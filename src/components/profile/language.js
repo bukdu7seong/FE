@@ -397,7 +397,7 @@ export function changeLanguage(languageCode) {
 
   i18next.changeLanguage(languageCode, (err, t) => {
     if (err) return console.error(err);
-    updateContent();
+    // updateContent();
   });
 }
 
