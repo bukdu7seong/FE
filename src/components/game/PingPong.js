@@ -2,8 +2,9 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
-import { updateScoreModal, updateScoreModalContent } from '../../pages/game.js';
+import { updateScoreModal } from '../../pages/game.js';
 import { getCookie } from '../../utils/cookie.js';
+import { updateScoreModalContent } from './game.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
