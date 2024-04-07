@@ -1,5 +1,5 @@
 // logoutModal.js
-import { logout } from '../components/common/logout.js';
+import { logout } from './logout.js';
 
 export function createLogoutModal() {
   // Bootstrap 모달 HTML 구조

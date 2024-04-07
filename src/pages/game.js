@@ -25,16 +25,16 @@ export function pageGame() {
 
   const winner = {
     name: 'Player 1',
-    image: 'path_to_winner_image'
+    image: 'path_to_winner_image',
   };
   const loser = {
     name: 'Player 2',
-    image: 'path_to_loser_image'
+    image: 'path_to_loser_image',
   };
   page.innerHTML = content;
   page.appendChild(navbar);
   page.appendChild(createGameSettingModal());
-  page.appendChild(createScoreModal({winner, loser}));
+  page.appendChild(createScoreModal({ winner, loser }));
   page.appendChild(createEmail2faModal());
   setupGameSettingModal(page);
   return page;
@@ -182,7 +182,7 @@ export function pageBoard() {
 
   function loadScript() {
     let script = document.createElement('script');
-    script.src = 'src/pages/sendVerificationEmail.js'; // 스크립트 파일 경로
+    script.src = 'src/components/common/sendVerificationEmail.js'; // 스크립트 파일 경로
     document.body.appendChild(script); // <head>에 스크립트 추가
   }
 
@@ -263,7 +263,7 @@ export async function sendEmailCode() {
   // 이메일 유효성 검사
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');
+    emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
     return;
   }
 
@@ -389,18 +389,25 @@ function createEmail2faModal() {
   return email2faModal;
 }
 export function updateScoreModalContent() {
-  document.getElementById('scoreModalLabel').innerHTML = i18next.t('scoreModalLabel');
+  document.getElementById('scoreModalLabel').innerHTML =
+    i18next.t('scoreModalLabel');
   document.getElementById('win-label').innerHTML = i18next.t('win-label');
   document.getElementById('win-label').innerHTML = i18next.t('win-label');
   document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
   document.getElementById('save-score').innerHTML = i18next.t('save-score');
 
-  document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
-  document.getElementById('emailAddressLabel').innerHTML = i18next.t('emailAddressLabel');
+  document.getElementById('email2faModalLabel').innerHTML =
+    i18next.t('email2faModalLabel');
+  document.getElementById('emailAddressLabel').innerHTML =
+    i18next.t('emailAddressLabel');
   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  document.getElementById('send-email-code-button').innerHTML = i18next.t('send-email-code-button');
-  document.getElementById('codeInputLabel').innerHTML = i18next.t('codeInputLabel');
-  document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
+  document.getElementById('send-email-code-button').innerHTML = i18next.t(
+    'send-email-code-button'
+  );
+  document.getElementById('codeInputLabel').innerHTML =
+    i18next.t('codeInputLabel');
+  document.getElementById('send-verification-code-button').innerHTML =
+    i18next.t('send-verification-code-button');
 }
 
 function formatCurrentTime() {
@@ -411,7 +418,6 @@ function formatCurrentTime() {
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${month}/${day}, ${hours}:${minutes}`;
 }
-
 
 export function updateScoreModal(gameResult) {
   const winnerInfo = gameResult.winner;
