@@ -129,7 +129,7 @@ export function setupGameSettingModal(page) {
   // 게임 박스 클릭 이벤트
   gameBox.addEventListener('click', function () {
     if (gameState.getState().currentGameStatus === 'idle') {
-      updateGameSettingModalContent();
+      updateGameSettingModalMultilingualContent();
       gameSettingModal.show();
     }
   });
@@ -139,7 +139,6 @@ export function setupGameSettingModal(page) {
     sendEmailButton.addEventListener('click', sendEmailCode);
   }
 }
-
 export function updateGameBoxMultilingualContent() {
   const elementsToUpdate = {
     'pong': i18next.t('pong'),
@@ -156,19 +155,28 @@ export function updateGameBoxMultilingualContent() {
   }
 }
 
-function updateGameSettingModalContent() {
-  document.getElementById('gameSettingModalLabel').innerHTML = i18next.t(
-    'gameSettingModalLabel'
-  );
-  document.getElementById('player2-label').innerHTML =
-    i18next.t('player2-label');
-  document.getElementById('player-name').placeholder = i18next.t('player-name');
-  document.getElementById('mode').innerHTML = i18next.t('mode');
-  document.getElementById('normal-label').innerHTML = i18next.t('normal-label');
-  document.getElementById('speed-label').innerHTML = i18next.t('speed-label');
-  document.getElementById('object-label').innerHTML = i18next.t('object-label');
-  document.getElementById('startGameButton').innerHTML =
-    i18next.t('startGameButton');
+export function updateGameSettingModalMultilingualContent() {
+  const elementsToUpdate = {
+    'gameSettingModalLabel': i18next.t('gameSettingModalLabel'),
+    'player2-label': i18next.t('player2-label'),
+    'player-name': i18next.t('player-name'), // placeholder의 경우 추가 처리 필요
+    'mode': i18next.t('mode'),
+    'normal-label': i18next.t('normal-label'),
+    'speed-label': i18next.t('speed-label'),
+    'object-label': i18next.t('object-label'),
+    'startGameButton': i18next.t('startGameButton')
+  };
+
+  for (const [id, text] of Object.entries(elementsToUpdate)) {
+    const element = document.getElementById(id);
+    if (element) {
+      if (id === 'player-name') {
+        element.placeholder = text; // placeholder의 경우 별도 처리
+      } else {
+        element.innerHTML = text;
+      }
+    }
+  }
 }
 
 export function pageBoard() {
