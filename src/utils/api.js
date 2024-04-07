@@ -1,2 +1,2 @@
-export const ACCOUNT_API_URL = 'http://localhost:6000';
-export const GAME_API_URL = 'http://localhost:6001';
+export const ACCOUNT_API_URL = 'https://localhost:6000';
+export const GAME_API_URL = 'https://localhost:6001';
