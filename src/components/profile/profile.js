@@ -212,7 +212,7 @@ export async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
   const friendData = await getFriendData();
 
-  if (!friendList || friendData) {
+  if (!friendList || !friendData) {
     return;
   }
 
@@ -299,7 +299,7 @@ export async function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
   const requestData = await getRequestData();
 
-  if (!requestList || requestData) {
+  if (!requestList || !requestData) {
     return;
   }
 
