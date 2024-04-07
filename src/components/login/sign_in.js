@@ -1,10 +1,7 @@
-import {
-  firstRoute,
-  redirectRoute,
-  route,
-} from '../../../lib/router/router.js';
+import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
 import { getCookie, setCookie } from '../../../src/utils/cookie.js';
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { request42OAuth } from './oauth2/request42OAuth.js';
 
 // [유저 이미지 요청]
@@ -30,58 +27,10 @@ async function requestImageFormData(url) {
   }
 }
 
-// [유저 정보 요청]
-export async function requestUserInfo() {
-  try {
-    const accessToken = getCookie('accessToken');
-    const response = await fetch(
-      'http://localhost:8000/api/account/user/profile-stats/',
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (response.status === 200) {
-      const data = await response.json();
-      const userData = data.user_info;
-      const userGameInfo = data.game_info;
-
-      userState.setState(
-        {
-          userImage: userData.img,
-          userId: userData.user_id,
-          userName: userData.username,
-          userLanguage: userData.language,
-          user2fa: userData.is_2fa,
-          WinRate: userGameInfo.win_rate,
-          Wins: userGameInfo.wins,
-          Losses: userGameInfo.losses,
-        },
-        false
-      );
-    } else {
-      throw new Error(response.status.toString());
-    }
-  } catch (e) {
-    switch (e.message) {
-      case '400':
-        alert('400: Bad Request');
-        break;
-      default:
-        alert('Failed to proceed sign in process. Please login again.');
-        break;
-    }
-  }
-}
-
 // [로그인 요청]
 async function requestLogin(credentials) {
   try {
-    const response = await fetch('http://localhost:8000/api/account/signin/', {
+    const response = await fetch(`${ACCOUNT_API_URL}/api/account/signin/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +41,6 @@ async function requestLogin(credentials) {
     if (response.status === 200) {
       const responseData = await response.json(); // 비동기
       setCookie('accessToken', responseData.access);
-      requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
       });

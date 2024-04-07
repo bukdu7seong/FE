@@ -1,3 +1,4 @@
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { toastError } from '../../../utils/error.js';
 
@@ -6,7 +7,7 @@ export async function getFriendData(pageNumber = 1) {
     const accessToken = getCookie('accessToken');
 
     const response = await fetch(
-      `http://localhost:8000/api/friend/accepted-friends/?page=${pageNumber}&pageSize=5`,
+      `${ACCOUNT_API_URL}/api/friend/accepted-friends/?page=${pageNumber}&pageSize=5`,
       {
         method: 'GET',
         headers: {

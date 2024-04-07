@@ -1,8 +1,8 @@
-
-import { validatePassword } from '../../../utils/formValidator.js';
-import { failureToast } from '../toast/failure.js';
-import { successToast } from '../toast/success.js';
+import { validatePassword } from '../../login/formValidator.js';
+import { failureToast } from '../../common/toast/failure.js';
+import { successToast } from '../../common/toast/success.js';
 import { getCookie } from '../../../utils/cookie.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 
 function modalHTML(modalId) {
   return `
@@ -41,20 +41,20 @@ function modalHTML(modalId) {
 }
 
 async function changeUserPassword(oldPassword, newPassword) {
-  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
-  const url = 'http://localhost:8000/api/account/change-password/'; // 엔드포인트
+  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const url = `${ACCOUNT_API_URL}/api/account/change-password/`; // 엔드포인트
 
   try {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
       },
       body: JSON.stringify({
         old_password: oldPassword,
-        new_password: newPassword
-      }) // 비밀번호 변경 데이터 포함
+        new_password: newPassword,
+      }), // 비밀번호 변경 데이터 포함
     });
 
     if (!response.ok) {
@@ -73,8 +73,6 @@ async function changeUserPassword(oldPassword, newPassword) {
     return { success: false, status: 'NetworkError', data: error };
   }
 }
-
-
 
 export class changePasswordModal {
   constructor(modalId = 'changePasswordModal') {
@@ -97,7 +95,9 @@ export class changePasswordModal {
     );
 
     // 'submit' 이벤트 리스너 추가
-    const form = this.modalInstance._element.querySelector('#passwordChangeForm');
+    const form = this.modalInstance._element.querySelector(
+      '#passwordChangeForm'
+    );
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // 기본 제출 동작 방지
       this.checkInput();
@@ -109,10 +109,15 @@ export class changePasswordModal {
   }
 
   checkInput() {
-    const currentPassword = this.modalInstance._element.querySelector('#currentPassword').value;
-    const newPassword = this.modalInstance._element.querySelector('#newPassword').value;
-    const confirmPassword = this.modalInstance._element.querySelector('#confirmPassword').value;
-    const errorMessageElement = this.modalInstance._element.querySelector('#password-error-message');
+    const currentPassword =
+      this.modalInstance._element.querySelector('#currentPassword').value;
+    const newPassword =
+      this.modalInstance._element.querySelector('#newPassword').value;
+    const confirmPassword =
+      this.modalInstance._element.querySelector('#confirmPassword').value;
+    const errorMessageElement = this.modalInstance._element.querySelector(
+      '#password-error-message'
+    );
 
     if (!validatePassword(newPassword, errorMessageElement)) {
       errorMessageElement.textContent = '비밀번호 형식이 올바르지 않습니다.';
@@ -128,7 +133,9 @@ export class changePasswordModal {
 
   async changePassword(current, newPass) {
     const result = await changeUserPassword(current, newPass);
-    const errorMessageElement = this.modalInstance._element.querySelector('#password-error-message');
+    const errorMessageElement = this.modalInstance._element.querySelector(
+      '#password-error-message'
+    );
 
     if (result && result.success) {
       this.popToast();
@@ -147,9 +154,10 @@ export class changePasswordModal {
     }
   }
 
-
   popToast() {
-    this.successToast = new successToast('비밀번호가 성공적으로 변경되었습니다!');
+    this.successToast = new successToast(
+      '비밀번호가 성공적으로 변경되었습니다!'
+    );
     this.successToast.show();
     setTimeout(() => {
       this.successToast.hide();
@@ -171,11 +179,19 @@ export class changePasswordModal {
   }
 
   updateModalContent() {
-    document.getElementById('changePasswordModalLabel').innerHTML = i18next.t('changePasswordModalLabel');
-    document.getElementById('change-password-modal-current').innerHTML = i18next.t('change-password-modal-current');
-    document.getElementById('change-password-modal-new').innerHTML = i18next.t('change-password-modal-new');
-    document.getElementById('change-password-modal-new-confirm').innerHTML = i18next.t('change-password-modal-new-confirm');
-    document.getElementById('change-password-modal-cancel').innerHTML = i18next.t('change-password-modal-cancel');
-    document.getElementById('change-password-modal-change').innerHTML = i18next.t('change-password-modal-change');
+    document.getElementById('changePasswordModalLabel').innerHTML = i18next.t(
+      'changePasswordModalLabel'
+    );
+    document.getElementById('change-password-modal-current').innerHTML =
+      i18next.t('change-password-modal-current');
+    document.getElementById('change-password-modal-new').innerHTML = i18next.t(
+      'change-password-modal-new'
+    );
+    document.getElementById('change-password-modal-new-confirm').innerHTML =
+      i18next.t('change-password-modal-new-confirm');
+    document.getElementById('change-password-modal-cancel').innerHTML =
+      i18next.t('change-password-modal-cancel');
+    document.getElementById('change-password-modal-change').innerHTML =
+      i18next.t('change-password-modal-change');
   }
 }

@@ -198,26 +198,25 @@
 // }
 //
 
-import { successToast } from '../toast/success.js';
-import { failureToast } from '../toast/failure.js';
+import { successToast } from '../../common/toast/success.js';
+import { failureToast } from '../../common/toast/failure.js';
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { getCookie } from '../../../utils/cookie.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 
 async function update2FA(is2FAEnabled) {
   const accessToken = getCookie('accessToken');
-  const url = 'http://localhost:8000/api/account/update-2fa/';
+  const url = `${ACCOUNT_API_URL}/api/account/update-2fa/`;
 
   try {
-    const response = await fetch(url,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({ is_2fa: is2FAEnabled })
-      }
-    );
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ is_2fa: is2FAEnabled }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -225,14 +224,18 @@ async function update2FA(is2FAEnabled) {
     }
 
     const data = await response.json();
-    console.log(`2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`);
-    popToast(successToast, `2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`);
+    console.log(
+      `2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`
+    );
+    popToast(
+      successToast,
+      `2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`
+    );
     return data;
   } catch (error) {
     popToast(failureToast, error.message);
   }
 }
-
 
 export class change2FA {
   constructor() {
@@ -242,7 +245,7 @@ export class change2FA {
   toggle2FA() {
     this.is2FAEnabled = !this.is2FAEnabled;
     update2FA(this.is2FAEnabled);
-    userState.setState( {user2fa:this.is2FAEnabled}, false);
+    userState.setState({ user2fa: this.is2FAEnabled }, false);
   }
 }
 

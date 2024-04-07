@@ -1,10 +1,10 @@
 import { firstRoute, redirectRoute } from '../../../../lib/router/router.js';
 import { globalState, userState } from '../../../../lib/state/state.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { setCookie } from '../../../utils/cookie.js';
-import { requestUserInfo } from '../sign_in.js';
 
 async function sendAuthCodeToBackend(code) {
-  const url = `http://localhost:8000/api/account/42code/${code}`;
+  const url = `${ACCOUNT_API_URL}/api/account/42code/${code}`;
 
   try {
     const response = await fetch(url, {
@@ -15,24 +15,27 @@ async function sendAuthCodeToBackend(code) {
     });
 
     if (response.status === 200) {
-      const responseData = await response.json(); // 비동기
-      // console.log(responseData);
+      // 로그인 성공
+      const responseData = await response.json();
       setCookie('accessToken', responseData.access);
-      requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
       });
       localStorage.removeItem('code');
-      firstRoute('/profile'); // 성공적인 로그인 후 리다이렉트
+      firstRoute('/profile');
+    } else if (response.status === 206) {
+      // 회원가입
+      const responseData = await response.json();
+      setCookie('accessToken', responseData.access);
+      redirectRoute('/signup', false);
     } else if (response.status === 301) {
+      // 2FA 리다이렉트
       const responseData = await response.json();
       console.log(responseData);
       userState.setState({
         userEmail: responseData.email,
       });
-      redirectRoute('/twofa', false); // 2FA 페이지로 리다이렉트
-    } else if (response.status === 404) {
-      redirectRoute('/signup', false); // 2FA 페이지로 리다이렉트
+      redirectRoute('/twofa', false);
     } else {
       // 서버가 응답한 다른 상태 코드 처리
       const errorData = await response.json();

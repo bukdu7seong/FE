@@ -1,4 +1,5 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { redirectError, toastError } from '../../../utils/error.js';
 import { getImageData } from '../data/imageData.js';
@@ -48,7 +49,7 @@ async function fetchUserProfile(userId) {
   try {
     const accessToken = getCookie('accessToken');
     const response = await fetch(
-      `http://localhost:8000/api/account/user-stats/${userId}/`,
+      `${ACCOUNT_API_URL}/api/account/user-stats/${userId}/`,
       {
         method: 'GET',
         headers: {

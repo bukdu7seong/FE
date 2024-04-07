@@ -1,8 +1,9 @@
-import { globalState, userState } from '../../lib/state/state.js';
-import { getCookie } from './cookie.js';
-import { toastSuccess } from './success.js';
-import { redirectError, throwError, toastError } from './error.js';
-import { changeLanguage } from '../components/language/language.js';
+import { globalState, userState } from '../../../lib/state/state.js';
+import { getCookie } from '../../utils/cookie.js';
+import { toastSuccess } from '../../utils/success.js';
+import { redirectError, throwError, toastError } from '../../utils/error.js';
+import { changeLanguage } from '../language/language.js';
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 
 export async function initUserInfo() {
   if (!globalState.getState().isLoggedIn) {
@@ -12,7 +13,7 @@ export async function initUserInfo() {
   try {
     const accessToken = getCookie('accessToken');
     const response = await fetch(
-      'http://localhost:8000/api/account/user/profile-stats/',
+      `${ACCOUNT_API_URL}/api/account/user/profile-stats/`,
       {
         method: 'GET',
         headers: {
@@ -33,7 +34,7 @@ export async function initUserInfo() {
     const data = await response.json();
     const userData = data.user_info;
     const userGameInfo = data.game_info;
-    const imageResponse = await fetch(`http://localhost:8000${userData.img}`, {
+    const imageResponse = await fetch(`${ACCOUNT_API_URL}${userData.img}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

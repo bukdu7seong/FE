@@ -1,3 +1,4 @@
+import { ACCOUNT_API_URL } from './api.js';
 import { getCookie, removeCookie, setCookie } from './cookie.js';
 
 function parseJwt(token) {
@@ -30,7 +31,7 @@ export async function getAccessToken() {
   if (expireTime <= currentTime) {
     removeCookie('accessToken');
     try {
-      const response = fetch('http://localhost:8000/api/account/reissue/', {
+      const response = fetch(`${ACCOUNT_API_URL}/api/account/reissue/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

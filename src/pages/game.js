@@ -2,7 +2,12 @@ import { gameState } from '../../lib/state/state.js';
 import { getCookie } from '../utils/cookie.js';
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import { formatCurrentTime, initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
+import { ACCOUNT_API_URL } from '../utils/api.js';
+import {
+  formatCurrentTime,
+  initializeGameResultData,
+  setupGameSettingModal,
+} from '../components/game/game.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -24,10 +29,19 @@ export function pageGame() {
         </div>
       `;
 
+  const winner = {
+    name: 'Player 1',
+    image: 'path_to_winner_image',
+  };
+  const loser = {
+    name: 'Player 2',
+    image: 'path_to_loser_image',
+  };
   page.innerHTML = content;
   page.appendChild(navbar);
   page.appendChild(createScoreModal(initializeGameResultData()));
   page.appendChild(createGameSettingModal());
+  page.appendChild(createScoreModal({ winner, loser }));
   page.appendChild(createEmail2faModal());
   setupGameSettingModal(page);
   return page;
@@ -113,7 +127,7 @@ export function pageBoard() {
 
   function loadScript() {
     let script = document.createElement('script');
-    script.src = 'src/pages/sendVerificationEmail.js'; // 스크립트 파일 경로
+    script.src = 'src/components/common/sendVerificationEmail.js'; // 스크립트 파일 경로
     document.body.appendChild(script); // <head>에 스크립트 추가
   }
 
@@ -194,7 +208,7 @@ export async function sendEmailCode() {
   // 이메일 유효성 검사
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');
+    emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
     return;
   }
 
@@ -203,7 +217,7 @@ export async function sendEmailCode() {
   try {
     const accessToken = getCookie('accessToken'); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
     const response = await fetch(
-      'http://localhost:8000/api/account/request-2fa/',
+      `${ACCOUNT_API_URL}/api/account/request-2fa/`,
       {
         method: 'POST',
         headers: {
@@ -319,4 +333,48 @@ function createEmail2faModal() {
 
   return email2faModal;
 }
+export function updateScoreModalContent() {
+  document.getElementById('scoreModalLabel').innerHTML =
+    i18next.t('scoreModalLabel');
+  document.getElementById('win-label').innerHTML = i18next.t('win-label');
+  document.getElementById('win-label').innerHTML = i18next.t('win-label');
+  document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
+  document.getElementById('save-score').innerHTML = i18next.t('save-score');
 
+  document.getElementById('email2faModalLabel').innerHTML =
+    i18next.t('email2faModalLabel');
+  document.getElementById('emailAddressLabel').innerHTML =
+    i18next.t('emailAddressLabel');
+  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
+  document.getElementById('send-email-code-button').innerHTML = i18next.t(
+    'send-email-code-button'
+  );
+  document.getElementById('codeInputLabel').innerHTML =
+    i18next.t('codeInputLabel');
+  document.getElementById('send-verification-code-button').innerHTML =
+    i18next.t('send-verification-code-button');
+}
+
+// function formatCurrentTime() {
+//   const now = new Date();
+//   const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
+//   const day = now.getDate();
+//   const hours = now.getHours();
+//   const minutes = now.getMinutes().toString().padStart(2, '0');
+//   return `${month}/${day}, ${hours}:${minutes}`;
+// }
+
+export function updateScoreModal(gameResult) {
+  const winnerInfo = gameResult.winner;
+  const loserInfo = gameResult.loser;
+
+  const winnerNameElement = document.getElementById('classic-winner-name');
+  const loserNameElement = document.getElementById('classic-loser-name');
+  const winnerImageElement = document.getElementById('classic-winner-image');
+  const loserImageElement = document.getElementById('classic-loser-image');
+
+  winnerNameElement.textContent = winnerInfo.name;
+  loserNameElement.textContent = loserInfo.name;
+  winnerImageElement.src = winnerInfo.image;
+  loserImageElement.src = loserInfo.image;
+}

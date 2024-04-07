@@ -1,4 +1,5 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { redirectError, toastError } from '../../../utils/error.js';
 import { escapeHtml, validateInput } from '../../../utils/validateInput.js';
@@ -34,7 +35,7 @@ async function searchUser(username) {
     const accessToken = getCookie('accessToken');
 
     const response = await fetch(
-      `http://localhost:8000/api/account/search/${username}/`,
+      `${ACCOUNT_API_URL}/api/account/search/${username}/`,
       {
         method: 'GET',
         headers: {
@@ -66,7 +67,7 @@ async function inviteUser(friendId) {
     const accessToken = getCookie('accessToken');
 
     const response = await fetch(
-      `http://localhost:8000/api/friend/send-friend-request/`,
+      `${ACCOUNT_API_URL}/api/friend/send-friend-request/`,
       {
         method: 'POST',
         headers: {
@@ -328,7 +329,10 @@ export class inviteFriendsModal {
 }
 
 function updateMultilingualContent() {
-  document.getElementById('inviteFriendsModalTitle').innerHTML = i18next.t('inviteFriendsModalTitle');
-  document.getElementById('searchFriends').placeholder = i18next.t('searchFriends');
+  document.getElementById('inviteFriendsModalTitle').innerHTML = i18next.t(
+    'inviteFriendsModalTitle'
+  );
+  document.getElementById('searchFriends').placeholder =
+    i18next.t('searchFriends');
   document.getElementById('searchButton').innerHTML = i18next.t('searchButton');
 }

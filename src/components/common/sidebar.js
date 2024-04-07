@@ -1,5 +1,5 @@
 import { route } from '../../../lib/router/router.js';
-import { createLogoutModal } from '../../pages/logoutModal.js';
+import { createLogoutModal } from './logoutModal.js';
 
 export function sidebar(routes) {
   // 네비게이션 바를 위한 <nav> 태그 생성
@@ -47,7 +47,7 @@ export function sidebar(routes) {
     Profile: 'assets/images/icon/house-solid.svg',
     Game: 'assets/images/icon/gamepad-solid.svg',
     Tournament: 'assets/images/icon/trophy-solid.svg',
-    Logout: 'assets/images/icon/door-closed-fill.svg'
+    Logout: 'assets/images/icon/door-closed-fill.svg',
   };
 
   // Logout을 위한 임시 객체 생성
@@ -82,12 +82,10 @@ export function sidebar(routes) {
     }
   });
 
-
   menuDiv.appendChild(menuList);
   navbar.appendChild(menuDiv);
 
   // 클릭 이벤트 리스너
-// 클릭 이벤트 리스너
   navbar.addEventListener('click', (e) => {
     const targetLink = e.target.closest('a[route]');
     if (targetLink) {

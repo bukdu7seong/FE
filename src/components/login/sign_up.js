@@ -1,14 +1,11 @@
-import { globalState, userState } from '../../../lib/state/state.js';
+import { userState } from '../../../lib/state/state.js';
 import { redirectRoute, route } from '../../../lib/router/router.js';
-import { setCookie } from '../../../src/utils/cookie.js';
-import {
-  validateUsername,
-  validatePassword,
-} from '../../utils/formValidator.js';
+import { validateUsername, validatePassword } from './formValidator.js';
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 
 async function requestSignUp(formData) {
   try {
-    const response = await fetch('http://localhost:8000/api/account/signup/', {
+    const response = await fetch(`${ACCOUNT_API_URL}/api/account/signup/`, {
       method: 'POST',
       body: formData, // JSON 대신 formData 사용
     });
