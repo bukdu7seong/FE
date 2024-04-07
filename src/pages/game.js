@@ -24,22 +24,29 @@ export function pageGame() {
         </div>
       `;
 
-  const winner = {
-    name: 'Player 1',
-    image: 'path_to_winner_image'
-  };
-  const loser = {
-    name: 'Player 2',
-    image: 'path_to_loser_image'
-  };
   page.innerHTML = content;
   page.appendChild(navbar);
+  page.appendChild(createScoreModal(initializeGameResultData()));
   page.appendChild(createGameSettingModal());
-  page.appendChild(createScoreModal({winner, loser}));
   page.appendChild(createEmail2faModal());
   setupGameSettingModal(page);
   return page;
 }
+
+function initializeGameResultData() {
+  // 임시 게임 결과 데이터
+  return {
+    winner: {
+      name: 'Player 1',
+      image: 'path_to_winner_image'
+    },
+    loser: {
+      name: 'Player 2',
+      image: 'path_to_loser_image'
+    }
+  };
+}
+
 
 function createGameSettingModal() {
   // 게임 설정 모달의 HTML 구성을 반환
@@ -336,5 +343,3 @@ function formatCurrentTime() {
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${month}/${day}, ${hours}:${minutes}`;
 }
-
-
