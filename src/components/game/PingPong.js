@@ -2,7 +2,7 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
-import { createScoreModal, sendEmailCode, updateScoreModalContent } from '../../pages/game.js';
+import { updateScoreModal, updateScoreModalContent } from '../../pages/game.js';
 import { getCookie } from '../../utils/cookie.js';
 
 const KEY_CODES = {
@@ -253,6 +253,26 @@ export default class PingPong {
     }
   }
 
+  determineGameResult() {
+    const player1Info = {
+      name: userState.getState().userName,
+      image: userState.getState().userImage
+    };
+    const player2Info = {
+      name: this.player2.playerName,
+      image: '/assets/images/profile/default_profile.png'
+    };
+
+    let winner = player1Info; // 초기 가정: player1이 승리
+    let loser = player2Info;
+
+    // 승자가 player2인 경우, 승자와 패자 정보를 스왑
+    if (this.winner !== this.player1.playerName) {
+      [winner, loser] = [loser, winner];
+    }
+
+    return { winner, loser };
+  }
   async updatePlayersScore() {
     if (this.ball.leftOut(this.boardCoord)) {
       this.player2.updateScore();
@@ -295,32 +315,20 @@ export default class PingPong {
             console.error('Error in fetchGameResults:', error);
           }
 
-          const player1Info = {
-            name: userState.getState().userName,
-            image: userState.getState().userImage
-          };
-          const player2Info = {
-            name: this.player2.playerName,
-            image: '/assets/images/profile/default_profile.png'
-          };
-
-          let winner = player1Info; // 가정: player1이 승리한 경우
-          let loser = player2Info;
-          if (this.winner !== this.player1.playerName) {
-            [winner, loser] = [loser, winner]; // 스왑
+          updateScoreModal(this.determineGameResult());
+          const scoreModalElement = document.getElementById('scoreModal');
+          if (scoreModalElement) {
+            const scoreModal = new bootstrap.Modal(scoreModalElement);
+            scoreModal.show();
+            updateScoreModalContent();
           }
-
-          const scoreModalElement = createScoreModal({ winner, loser });
-          document.body.appendChild(scoreModalElement); // 모달을 DOM에 추가
-          const scoreModal = new bootstrap.Modal(scoreModalElement);
-          scoreModal.show();
 
           document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {
             event.preventDefault(); // 폼의 기본 제출 동작을 취소
             sendVerificationEmail(gameId, patchGameResult);
           });
 
-          document.getElementById('submit-verification-code-button').addEventListener('click', () => {
+          document.getElementById('send-verification-code-button').addEventListener('click', () => {
             submitVerificationCode(gameId);
           });
         }
@@ -422,7 +430,7 @@ async function submitVerificationCode(gameId) {
 
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent = 'Invalid email format';
+    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');;
     return;
   } else {
     emailErrorDiv.style.display = 'none';
@@ -452,7 +460,9 @@ async function submitVerificationCode(gameId) {
   } catch (error) {
     // console.error('Error verifying code:', error);
     codeErrorDiv.style.display = 'block';
-    codeErrorDiv.textContent = 'Verification failed. Please try again.';
+    codeErrorDiv.textContent = i18next.t('verificationFailed');
     // 실패 처리, 예를 들어 오류 메시지 표시
   }
 }
+
+

@@ -16,7 +16,7 @@ async function sendVerificationEmail(gameId) {
 
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent = 'Invalid email format';
+    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');
     return;
   } else {
     emailErrorDiv.style.display = 'none';

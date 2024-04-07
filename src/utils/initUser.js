@@ -2,6 +2,7 @@ import { globalState, userState } from '../../lib/state/state.js';
 import { getCookie } from './cookie.js';
 import { toastSuccess } from './success.js';
 import { redirectError, throwError, toastError } from './error.js';
+import { changeLanguage } from '../components/profile/language.js';
 
 export async function initUserInfo() {
   if (!globalState.getState().isLoggedIn) {
@@ -51,6 +52,7 @@ export async function initUserInfo() {
       userImage = '/assets/images/profile/default_profile.png';
     }
 
+    changeLanguage(userData.language.toLowerCase());
     userState.setState(
       {
         userImage: userImage,
