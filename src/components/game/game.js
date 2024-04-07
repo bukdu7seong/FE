@@ -137,3 +137,11 @@ export function initializeGameResultData() {
     }
   };
 }
+export function formatCurrentTime() {
+  const now = new Date();
+  const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
+  const day = now.getDate();
+  const hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  return `${month}/${day}, ${hours}:${minutes}`;
+}

@@ -2,7 +2,7 @@ import { gameState } from '../../lib/state/state.js';
 import { getCookie } from '../utils/cookie.js';
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import { initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
+import { formatCurrentTime, initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -320,11 +320,3 @@ function createEmail2faModal() {
   return email2faModal;
 }
 
-function formatCurrentTime() {
-  const now = new Date();
-  const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
-  const day = now.getDate();
-  const hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  return `${month}/${day}, ${hours}:${minutes}`;
-}
