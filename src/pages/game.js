@@ -2,6 +2,7 @@ import { gameState } from '../../lib/state/state.js';
 import { getCookie } from '../utils/cookie.js';
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
+import { formatCurrentTime, initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -23,18 +24,10 @@ export function pageGame() {
         </div>
       `;
 
-  const winner = {
-    name: 'Player 1',
-    image: 'path_to_winner_image'
-  };
-  const loser = {
-    name: 'Player 2',
-    image: 'path_to_loser_image'
-  };
   page.innerHTML = content;
   page.appendChild(navbar);
+  page.appendChild(createScoreModal(initializeGameResultData()));
   page.appendChild(createGameSettingModal());
-  page.appendChild(createScoreModal({winner, loser}));
   page.appendChild(createEmail2faModal());
   setupGameSettingModal(page);
   return page;
@@ -98,68 +91,6 @@ function createGameSettingModal() {
 </div>
   `;
   return modalContainer;
-}
-
-export function setupGameSettingModal(page) {
-  let gameSettingModal = new bootstrap.Modal(
-    page.querySelector('#gameSettingModal'),
-    {
-      keyboard: false,
-    }
-  );
-  let startGameButton = page.querySelector('#startGameButton');
-  let gameBox = page.querySelector('#game');
-
-  // 게임 시작 버튼 이벤트
-  startGameButton.addEventListener('click', function () {
-    gameState.setState({ currentGameStatus: 'playing' });
-    gameSettingModal.hide();
-  });
-
-  // Escape 키 이벤트
-  document.addEventListener('keydown', function (event) {
-    if (
-      event.key === 'Escape' &&
-      gameState.getState().currentGameStatus === 'idle'
-    ) {
-      gameSettingModal.hide();
-    }
-  });
-
-  // 게임 박스 클릭 이벤트
-  gameBox.addEventListener('click', function () {
-    if (gameState.getState().currentGameStatus === 'idle') {
-      updateGameSettingModalContent();
-      gameSettingModal.show();
-    }
-  });
-
-  const sendEmailButton = page.querySelector('#send-email-code-button');
-  if (sendEmailButton) {
-    sendEmailButton.addEventListener('click', sendEmailCode);
-  }
-}
-
-export function updateGameBoxContent() {
-  document.getElementById('pong').innerHTML = i18next.t('pong');
-  document.getElementById('classic').innerHTML = i18next.t('classic');
-  document.getElementById('player1').innerHTML = i18next.t('player1');
-  document.getElementById('player2').innerHTML = i18next.t('player2');
-}
-
-function updateGameSettingModalContent() {
-  document.getElementById('gameSettingModalLabel').innerHTML = i18next.t(
-    'gameSettingModalLabel'
-  );
-  document.getElementById('player2-label').innerHTML =
-    i18next.t('player2-label');
-  document.getElementById('player-name').placeholder = i18next.t('player-name');
-  document.getElementById('mode').innerHTML = i18next.t('mode');
-  document.getElementById('normal-label').innerHTML = i18next.t('normal-label');
-  document.getElementById('speed-label').innerHTML = i18next.t('speed-label');
-  document.getElementById('object-label').innerHTML = i18next.t('object-label');
-  document.getElementById('startGameButton').innerHTML =
-    i18next.t('startGameButton');
 }
 
 export function pageBoard() {
@@ -388,42 +319,4 @@ function createEmail2faModal() {
 
   return email2faModal;
 }
-export function updateScoreModalContent() {
-  document.getElementById('scoreModalLabel').innerHTML = i18next.t('scoreModalLabel');
-  document.getElementById('win-label').innerHTML = i18next.t('win-label');
-  document.getElementById('win-label').innerHTML = i18next.t('win-label');
-  document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
-  document.getElementById('save-score').innerHTML = i18next.t('save-score');
 
-  document.getElementById('email2faModalLabel').innerHTML = i18next.t('email2faModalLabel');
-  document.getElementById('emailAddressLabel').innerHTML = i18next.t('emailAddressLabel');
-  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  document.getElementById('send-email-code-button').innerHTML = i18next.t('send-email-code-button');
-  document.getElementById('codeInputLabel').innerHTML = i18next.t('codeInputLabel');
-  document.getElementById('send-verification-code-button').innerHTML = i18next.t('send-verification-code-button');
-}
-
-function formatCurrentTime() {
-  const now = new Date();
-  const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
-  const day = now.getDate();
-  const hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  return `${month}/${day}, ${hours}:${minutes}`;
-}
-
-
-export function updateScoreModal(gameResult) {
-  const winnerInfo = gameResult.winner;
-  const loserInfo = gameResult.loser;
-
-  const winnerNameElement = document.getElementById('classic-winner-name');
-  const loserNameElement = document.getElementById('classic-loser-name');
-  const winnerImageElement = document.getElementById('classic-winner-image');
-  const loserImageElement = document.getElementById('classic-loser-image');
-
-  winnerNameElement.textContent = winnerInfo.name;
-  loserNameElement.textContent = loserInfo.name;
-  winnerImageElement.src = winnerInfo.image;
-  loserImageElement.src = loserInfo.image;
-}

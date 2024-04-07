@@ -10,7 +10,7 @@ import {
 } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
-import { pageBoard, updateGameBoxContent } from './pages/game.js';
+import { pageBoard } from './pages/game.js';
 import { updateTournamentBoxContent } from './pages/tournament.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
@@ -18,6 +18,7 @@ import { profile } from './components/profile/profile.js';
 import { signIn } from './components/login/sign_in.js';
 import { signUp } from './components/login/sign_up.js';
 import { twoFA } from './components/login/twofa.js';
+import { updateGameBoxMultilingualContent } from './components/game/game.js';
 // state
 import { gameState, routeState, userState } from '../lib/state/state.js';
 // game
@@ -26,6 +27,7 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { checkLogin } from './utils/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
+
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -44,7 +46,7 @@ function init() {
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
       setOnRender(routes['/profile'], profile);
-      setOnRender(routes['/game'], updateGameBoxContent);
+      setOnRender(routes['/game'], updateGameBoxMultilingualContent);
       setOnRender(routes['/tournament'], updateTournamentBoxContent);
       setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
 
