@@ -9,6 +9,7 @@ import {
   updateScoreModalResult,
   updateScoreModalMultilingualContent,
 } from './game.js';
+import { getAccessToken } from '../../utils/token.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -225,7 +226,7 @@ export default class PingPong {
 
   async fetchGameResults() {
     try {
-      const accessToken = getCookie('accessToken'); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
+      const accessToken = getAccessToken(); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
       let winner = userState.getState().userId;
       let loser = null;
       // winner = 'jwee@stude321seoul.kr';
@@ -403,7 +404,7 @@ export function setGameCondition() {
 }
 
 async function patchGameResult(email, gameId) {
-  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
   const url = `${GAME_API_URL}/api/games/result/${gameId}/`; // 게임 ID를 URL에 포함
 
   try {
@@ -446,7 +447,7 @@ async function submitVerificationCode(gameId) {
     emailErrorDiv.style.display = 'none';
   }
 
-  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
   const url = `${ACCOUNT_API_URL}/api/account/verify-2fa/`; // 게임 ID를 URL에 포함
 
   const response = await fetch(url, {

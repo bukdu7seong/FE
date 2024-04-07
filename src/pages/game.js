@@ -8,6 +8,7 @@ import {
   initializeGameResultData,
   setupGameSettingModal,
 } from '../components/game/game.js';
+import { getAccessToken } from '../utils/token.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -215,7 +216,7 @@ export async function sendEmailCode() {
   emailErrorDiv.style.display = 'none';
 
   try {
-    const accessToken = getCookie('accessToken'); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
+    const accessToken = getAccessToken(); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/account/request-2fa/`,
       {

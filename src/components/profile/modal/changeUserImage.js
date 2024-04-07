@@ -4,6 +4,7 @@ import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { getImageData } from '../data/imageData.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 function modalHTML(modalId) {
   return `
@@ -30,7 +31,7 @@ function modalHTML(modalId) {
 async function updateUserImage(image) {
   try {
     const formData = new FormData();
-    const accessToken = getCookie('accessToken');
+    const accessToken = getAccessToken();
     formData.append('image', image);
 
     const response = await fetch(

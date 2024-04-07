@@ -5,6 +5,7 @@ import { redirectError, toastError } from '../../../utils/error.js';
 import { escapeHtml, validateInput } from '../../../utils/validateInput.js';
 import { getFriendData } from '../data/friendData.js';
 import { getImageData } from '../data/imageData.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 function modalHTML(modalId) {
   return `
@@ -32,7 +33,7 @@ function modalHTML(modalId) {
 
 async function searchUser(username) {
   try {
-    const accessToken = getCookie('accessToken');
+    const accessToken = getAccessToken();
 
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/account/search/${username}/`,
@@ -64,7 +65,7 @@ async function searchUser(username) {
 
 async function inviteUser(friendId) {
   try {
-    const accessToken = getCookie('accessToken');
+    const accessToken = getAccessToken();
 
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/friend/send-friend-request/`,

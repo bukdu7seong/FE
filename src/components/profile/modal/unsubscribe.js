@@ -4,6 +4,7 @@ import { successToast } from '../../common/toast/success.js';
 import { failureToast } from '../../common/toast/failure.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 // 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
@@ -212,7 +213,7 @@ deleteUserModal.prototype.finalizeDeletion = async function () {
 
 async function deleteUserAccount(password) {
   try {
-    const accessToken = getCookie('accessToken');
+    const accessToken = getAccessToken();
     const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
     const response = await fetch(url, {
       method: 'DELETE',

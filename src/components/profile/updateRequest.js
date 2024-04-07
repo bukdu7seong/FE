@@ -1,11 +1,12 @@
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getCookie } from '../../utils/cookie.js';
 import { redirectError, toastError } from '../../utils/error.js';
+import { getAccessToken } from '../../utils/token.js';
 
 export async function updateRequest(userId, accept) {
   if (accept) {
     try {
-      const accessToken = getCookie('accessToken');
+      const accessToken = getAccessToken();
 
       const response = await fetch(
         `${ACCOUNT_API_URL}/api/friend/accept-friend-request/`,
@@ -32,7 +33,7 @@ export async function updateRequest(userId, accept) {
     }
   } else {
     try {
-      const accessToken = getCookie('accessToken');
+      const accessToken = getAccessToken();
 
       const response = await fetch(
         `${ACCOUNT_API_URL}/api/friend/delete-friend-request/?friend_request_id=${userId}`,
