@@ -6,7 +6,7 @@ import {
   validateImage,
 } from './formValidator.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
-import { getCookie, setCookie } from '../../utils/cookie.js';
+import { getCookie, removeCookie, setCookie } from '../../utils/cookie.js';
 
 async function requestSignUp(formData) {
   const tempToken = getCookie('tempToken');
@@ -15,7 +15,6 @@ async function requestSignUp(formData) {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/signup`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${tempToken}`,
       },
       body: formData,
@@ -150,7 +149,7 @@ function handleSignUpSubmit() {
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
-    formData.append('image', '');
+    formData.append('image', imageFile);
 
     // for (let [key, value] of formData.entries()) {
     //   console.log(`${key}: ${value}`);
