@@ -1,6 +1,6 @@
-import { redirectRoute, route } from '../../lib/router/router.js';
-import { globalState, routeState } from '../../lib/state/state.js';
-import { getCookie } from './cookie.js';
+import { redirectRoute, route } from '../../../lib/router/router.js';
+import { globalState, routeState } from '../../../lib/state/state.js';
+import { getCookie } from '../../utils/cookie.js';
 
 export async function checkLogin() {
   const accessToken = getCookie('accessToken') || null;

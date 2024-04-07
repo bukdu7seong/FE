@@ -1,5 +1,5 @@
 // logoutModal.js
-import { logout } from '../utils/logout.js';
+import { logout } from '../components/common/logout.js';
 
 export function createLogoutModal() {
   // Bootstrap 모달 HTML 구조
@@ -44,8 +44,11 @@ export function createLogoutModal() {
 }
 
 function updateMultilingualContent() {
-  document.getElementById('logoutModalLabel').innerHTML = i18next.t('logoutModalLabel');
-  document.getElementById('logoutModalBody').innerHTML = i18next.t('logoutModalBody');
+  document.getElementById('logoutModalLabel').innerHTML =
+    i18next.t('logoutModalLabel');
+  document.getElementById('logoutModalBody').innerHTML =
+    i18next.t('logoutModalBody');
   document.getElementById('logout-no').innerHTML = i18next.t('logout-no');
-  document.getElementById('logout-confirm').innerHTML = i18next.t('logout-confirm');
+  document.getElementById('logout-confirm').innerHTML =
+    i18next.t('logout-confirm');
 }

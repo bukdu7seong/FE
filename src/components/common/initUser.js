@@ -1,8 +1,8 @@
-import { globalState, userState } from '../../lib/state/state.js';
-import { getCookie } from './cookie.js';
-import { toastSuccess } from './success.js';
-import { redirectError, throwError, toastError } from './error.js';
-import { changeLanguage } from '../components/language/language.js';
+import { globalState, userState } from '../../../lib/state/state.js';
+import { getCookie } from '../../utils/cookie.js';
+import { toastSuccess } from '../../utils/success.js';
+import { redirectError, throwError, toastError } from '../../utils/error.js';
+import { changeLanguage } from '../language/language.js';
 
 export async function initUserInfo() {
   if (!globalState.getState().isLoggedIn) {

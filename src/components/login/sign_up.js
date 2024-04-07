@@ -1,10 +1,6 @@
-import { globalState, userState } from '../../../lib/state/state.js';
+import { userState } from '../../../lib/state/state.js';
 import { redirectRoute, route } from '../../../lib/router/router.js';
-import { setCookie } from '../../../src/utils/cookie.js';
-import {
-  validateUsername,
-  validatePassword,
-} from '../../utils/formValidator.js';
+import { validateUsername, validatePassword } from './formValidator.js';
 
 async function requestSignUp(formData) {
   try {

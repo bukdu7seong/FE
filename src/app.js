@@ -24,7 +24,7 @@ import { gameState, routeState, userState } from '../lib/state/state.js';
 import PingPong, { setGameCondition } from './components/game/PingPong.js';
 import Tournament from './components/game/Tournament.js';
 // utils
-import { checkLogin } from './utils/checkLogin.js';
+import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
 
 function hideModal() {
