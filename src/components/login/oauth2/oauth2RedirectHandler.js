@@ -2,7 +2,6 @@ import { firstRoute, redirectRoute } from '../../../../lib/router/router.js';
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { setCookie } from '../../../utils/cookie.js';
-import { requestUserInfo } from '../sign_in.js';
 
 async function sendAuthCodeToBackend(code) {
   const url = `${ACCOUNT_API_URL}/api/account/42code/${code}`;
@@ -19,7 +18,6 @@ async function sendAuthCodeToBackend(code) {
       const responseData = await response.json(); // 비동기
       // console.log(responseData);
       setCookie('accessToken', responseData.access);
-      requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
       });

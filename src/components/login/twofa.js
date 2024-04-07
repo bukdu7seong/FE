@@ -1,11 +1,6 @@
 import { setCookie } from '../../utils/cookie.js';
-import {
-  firstRoute,
-  redirectRoute,
-  route,
-} from '../../../lib/router/router.js';
+import { firstRoute } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
-import { requestUserInfo } from './sign_in.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 
 async function requestResend() {
@@ -57,7 +52,6 @@ async function requestTwoFACode(code) {
     if (response.ok) {
       const responseData = await response.json();
       setCookie('accessToken', responseData.access);
-      requestUserInfo();
       globalState.setState({
         isLoggedIn: true,
       });
