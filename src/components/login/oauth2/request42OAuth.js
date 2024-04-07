@@ -1,7 +1,6 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 
 export async function request42OAuth() {
-  console.log('request42OAuth');
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/42oauth`, {
       method: 'GET',
