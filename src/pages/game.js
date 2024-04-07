@@ -140,11 +140,20 @@ export function setupGameSettingModal(page) {
   }
 }
 
-export function updateGameBoxContent() {
-  document.getElementById('pong').innerHTML = i18next.t('pong');
-  document.getElementById('classic').innerHTML = i18next.t('classic');
-  document.getElementById('player1').innerHTML = i18next.t('player1');
-  document.getElementById('player2').innerHTML = i18next.t('player2');
+export function updateGameBoxMultilingualContent() {
+  const elementsToUpdate = {
+    'pong': i18next.t('pong'),
+    'classic': i18next.t('classic'),
+    'player1': i18next.t('player1'),
+    'player2': i18next.t('player2')
+  };
+
+  for (const [id, text] of Object.entries(elementsToUpdate)) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.innerHTML = text;
+    }
+  }
 }
 
 function updateGameSettingModalContent() {

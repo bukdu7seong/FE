@@ -10,7 +10,7 @@ import {
 } from '../lib/router/router.js';
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
-import { pageBoard, updateGameBoxContent } from './pages/game.js';
+import { pageBoard, updateGameBoxMultilingualContent } from './pages/game.js';
 import { updateTournamentBoxContent } from './pages/tournament.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
@@ -44,7 +44,7 @@ function init() {
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
       setOnRender(routes['/profile'], profile);
-      setOnRender(routes['/game'], updateGameBoxContent);
+      setOnRender(routes['/game'], updateGameBoxMultilingualContent);
       setOnRender(routes['/tournament'], updateTournamentBoxContent);
       setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
 
