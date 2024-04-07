@@ -11,27 +11,24 @@ import { getCookie, setCookie } from '../../utils/cookie.js';
 async function requestSignUp(formData) {
   const tempToken = getCookie('tempToken');
 
-  console.log(tempToken);
-
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/signup`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${tempToken}`,
       },
       body: formData,
     });
 
-    console.log(response);
-
     if (response.status !== 201) {
       throw new Error(response.status);
     }
 
+    removeCookie('tempToken');
+
     const data = await response.json();
 
-    removeCookie('tempToken');
     setCookie('accessToken', data.access);
     userState.setState({
       userEmail: data.email,
@@ -39,6 +36,7 @@ async function requestSignUp(formData) {
 
     redirectRoute('/twofa');
   } catch (e) {
+    console.log(e);
     switch (e.message) {
       case '400':
         alert('Failed to fetch 42 authentication token. Try login again.');
@@ -108,7 +106,6 @@ function handleSignUpSubmit() {
   }
 
   signUpForm.addEventListener('submit', async function (e) {
-    alert('asdf');
     e.preventDefault();
 
     const usernameInput = document.getElementById('usernameInput');
