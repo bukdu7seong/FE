@@ -1,6 +1,6 @@
 import { routes } from '../../lib/router/router.js';
 import { sidebar } from '../components/common/sidebar.js';
-import { applyLauguage } from '../components/profile/language.js';
+import { applyLauguage } from '../components/language/language.js';
 
 const playerProfile = `
   <div class="profile-photo">
@@ -137,22 +137,28 @@ export function pageProfile() {
   return page;
 }
 
-
 export function updateMultilingualContent() {
-  document.getElementById('playerHistoryViewAll').innerHTML = i18next.t('playerHistoryViewAll');
-  document.getElementById('friendListViewAll').innerHTML = i18next.t('friendListViewAll');
-  document.getElementById('friendRequestInvite').innerHTML = i18next.t('friendRequestInvite');
-  document.getElementById('friendRequestViewAll').innerHTML = i18next.t('friendRequestViewAll');
+  document.getElementById('playerHistoryViewAll').innerHTML = i18next.t(
+    'playerHistoryViewAll'
+  );
+  document.getElementById('friendListViewAll').innerHTML =
+    i18next.t('friendListViewAll');
+  document.getElementById('friendRequestInvite').innerHTML = i18next.t(
+    'friendRequestInvite'
+  );
+  document.getElementById('friendRequestViewAll').innerHTML = i18next.t(
+    'friendRequestViewAll'
+  );
   applyLauguage().set({
-    id: 'playerHistoryViewAll'
+    id: 'playerHistoryViewAll',
   });
   applyLauguage().set({
-    id: 'friendListViewAll'
+    id: 'friendListViewAll',
   });
   applyLauguage().set({
-    id: 'friendRequestInvite'
+    id: 'friendRequestInvite',
   });
   applyLauguage().set({
-    id: 'friendRequestViewAll'
+    id: 'friendRequestViewAll',
   });
 }
