@@ -4,6 +4,7 @@ import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
 import { updateScoreModal, updateScoreModalContent } from '../../pages/game.js';
 import { getCookie } from '../../utils/cookie.js';
+import { ACCOUNT_API_URL, GAME_API_URL } from '../../utils/api.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -220,7 +221,7 @@ export default class PingPong {
 
   async fetchGameResults() {
     try {
-      const accessToken = getCookie("accessToken"); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
+      const accessToken = getCookie('accessToken'); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
       let winner = userState.getState().userId;
       let loser = null;
       // winner = 'jwee@stude321seoul.kr';
@@ -229,7 +230,7 @@ export default class PingPong {
         winner = loser;
         loser = temp;
       }
-      const response = await fetch('http://localhost:8000/api/games/results', {
+      const response = await fetch(`${GAME_API_URL}/api/games/results`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -256,11 +257,11 @@ export default class PingPong {
   determineGameResult() {
     const player1Info = {
       name: userState.getState().userName,
-      image: userState.getState().userImage
+      image: userState.getState().userImage,
     };
     const player2Info = {
       name: this.player2.playerName,
-      image: '/assets/images/profile/default_profile.png'
+      image: '/assets/images/profile/default_profile.png',
     };
 
     let winner = player1Info; // 초기 가정: player1이 승리
@@ -323,14 +324,18 @@ export default class PingPong {
             updateScoreModalContent();
           }
 
-          document.getElementById('emailVerificationForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // 폼의 기본 제출 동작을 취소
-            sendVerificationEmail(gameId, patchGameResult);
-          });
+          document
+            .getElementById('emailVerificationForm')
+            .addEventListener('submit', function (event) {
+              event.preventDefault(); // 폼의 기본 제출 동작을 취소
+              sendVerificationEmail(gameId, patchGameResult);
+            });
 
-          document.getElementById('send-verification-code-button').addEventListener('click', () => {
-            submitVerificationCode(gameId);
-          });
+          document
+            .getElementById('send-verification-code-button')
+            .addEventListener('click', () => {
+              submitVerificationCode(gameId);
+            });
         }
 
         if (this.onGameEnd) {
@@ -379,7 +384,6 @@ export default class PingPong {
 
     // If any other custom event listeners were added, remove them here as well
   }
-
 }
 
 export function setGameCondition() {
@@ -395,17 +399,17 @@ export function setGameCondition() {
 }
 
 async function patchGameResult(email, gameId) {
-  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
-  const url = `http://localhost:8000/api/games/result/${gameId}/`; // 게임 ID를 URL에 포함
+  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const url = `${GAME_API_URL}/api/games/result/${gameId}/`; // 게임 ID를 URL에 포함
 
   try {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}` // 헤더에 토큰 포함
+        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
       },
-      body: JSON.stringify({ player2: email }) // 이메일 데이터 포함
+      body: JSON.stringify({ player2: email }), // 이메일 데이터 포함
     });
 
     if (!response.ok) {
@@ -424,31 +428,32 @@ async function patchGameResult(email, gameId) {
 async function submitVerificationCode(gameId) {
   const email = document.getElementById('emailInput').value;
   const code = document.getElementById('codeInput').value;
-  const emailModal = bootstrap.Modal.getInstance(document.getElementById('email2faModal')) || new bootstrap.Modal(document.getElementById('email2faModal'));
+  const emailModal =
+    bootstrap.Modal.getInstance(document.getElementById('email2faModal')) ||
+    new bootstrap.Modal(document.getElementById('email2faModal'));
   const emailErrorDiv = document.getElementById('emailError');
   const codeErrorDiv = document.getElementById('codeError');
 
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');;
+    emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
     return;
   } else {
     emailErrorDiv.style.display = 'none';
   }
 
-  const accessToken = getCookie("accessToken"); // 쿠키에서 사용자 토큰 가져오기
-  const url = 'http://localhost:8000/api/account/verify-2fa/'; // 게임 ID를 URL에 포함
+  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const url = `${ACCOUNT_API_URL}/api/account/verify-2fa/`; // 게임 ID를 URL에 포함
 
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({ email: email, code: code, game_id: gameId })
+    body: JSON.stringify({ email: email, code: code, game_id: gameId }),
   });
   try {
-
     if (!response.ok) {
       throw new Error(`Server responded with status: ${response.status}`);
     }
@@ -464,5 +469,3 @@ async function submitVerificationCode(gameId) {
     // 실패 처리, 예를 들어 오류 메시지 표시
   }
 }
-
-

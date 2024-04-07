@@ -1,8 +1,9 @@
 // 필요한 모듈 또는 유틸리티 가져오기
 import { globalState, userState } from '../../../../lib/state/state.js';
-import { successToast } from '../toast/success.js';
-import { failureToast } from '../toast/failure.js';
+import { successToast } from '../../common/toast/success.js';
+import { failureToast } from '../../common/toast/failure.js';
 import { getCookie } from '../../../utils/cookie.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 
 // 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
@@ -109,10 +110,12 @@ export class deleteUserModal {
       .querySelector('.btn-danger')
       .addEventListener('click', this.finalizeDeletion.bind(this));
 
-    document.getElementById('passwordConfirmForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      this.finalizeDeletion();
-    });
+    document
+      .getElementById('passwordConfirmForm')
+      .addEventListener('submit', (event) => {
+        event.preventDefault();
+        this.finalizeDeletion();
+      });
   }
 
   confirm() {
@@ -121,19 +124,20 @@ export class deleteUserModal {
     this.backModalInstance.show();
   }
 
-
-
   finalizeDeletion() {
-    const password = this.finalModalInstance._element.querySelector('#accountPassword').value;
+    const password =
+      this.finalModalInstance._element.querySelector('#accountPassword').value;
     if (password) {
       // 여기서 비밀번호 검증 및 탈퇴 처리 로직을 수행합니다.
-      deleteUserAccount(password).then(() => {
-        // 성공 메시지 및 후속 처리
-        popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
-      }).catch(error => {
-        // 오류 메시지 처리
-        popToast(failureToast, error.message);
-      });
+      deleteUserAccount(password)
+        .then(() => {
+          // 성공 메시지 및 후속 처리
+          popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
+        })
+        .catch((error) => {
+          // 오류 메시지 처리
+          popToast(failureToast, error.message);
+        });
     } else {
       // 비밀번호 입력 오류 메시지
       popToast(failureToast, '비밀번호를 입력해야 합니다.');
@@ -161,14 +165,24 @@ export class deleteUserModal {
   }
 
   updateModalContent() {
-    document.getElementById("confirmDeletionModalLabel").innerHTML = i18next.t("confirmDeletionModalLabel");
-    document.getElementById('confirm-deletion-modal-content').innerHTML = i18next.t('confirm-deletion-modal-content');
-    document.getElementById('confirm-deletion-modal-cancel').innerHTML = i18next.t('confirm-deletion-modal-cancel');
-    document.getElementById('confirm-deletion-modal-confirm').innerHTML = i18next.t('confirm-deletion-modal-confirm');
-    document.getElementById('passwordConfirmModalLabel').innerHTML = i18next.t('passwordConfirmModalLabel');
-    document.getElementById('password-confirm-form-content').innerHTML = i18next.t('password-confirm-form-content')
-    document.getElementById('password-confirm-form-input').placeholder = i18next.t('password-confirm-form-input');
-    document.getElementById('password-confirm-form-confirm').innerHTML = i18next.t('password-confirm-form-confirm');
+    document.getElementById('confirmDeletionModalLabel').innerHTML = i18next.t(
+      'confirmDeletionModalLabel'
+    );
+    document.getElementById('confirm-deletion-modal-content').innerHTML =
+      i18next.t('confirm-deletion-modal-content');
+    document.getElementById('confirm-deletion-modal-cancel').innerHTML =
+      i18next.t('confirm-deletion-modal-cancel');
+    document.getElementById('confirm-deletion-modal-confirm').innerHTML =
+      i18next.t('confirm-deletion-modal-confirm');
+    document.getElementById('passwordConfirmModalLabel').innerHTML = i18next.t(
+      'passwordConfirmModalLabel'
+    );
+    document.getElementById('password-confirm-form-content').innerHTML =
+      i18next.t('password-confirm-form-content');
+    document.getElementById('password-confirm-form-input').placeholder =
+      i18next.t('password-confirm-form-input');
+    document.getElementById('password-confirm-form-confirm').innerHTML =
+      i18next.t('password-confirm-form-confirm');
   }
 }
 
@@ -198,15 +212,15 @@ deleteUserModal.prototype.finalizeDeletion = async function () {
 
 async function deleteUserAccount(password) {
   try {
-    const accessToken = getCookie("accessToken");
-    const url = 'http://localhost:8000/api/account/delete-account/';
+    const accessToken = getCookie('accessToken');
+    const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ password })
+      body: JSON.stringify({ password }),
     });
 
     if (response.status === 204) {

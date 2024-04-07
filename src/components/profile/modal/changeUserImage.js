@@ -1,8 +1,9 @@
 import { userState } from '../../../../lib/state/state.js';
-import { successToast } from '../toast/success.js';
+import { successToast } from '../../common/toast/success.js';
 import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { getImageData } from '../data/imageData.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 
 function modalHTML(modalId) {
   return `
@@ -33,7 +34,7 @@ async function updateUserImage(image) {
     formData.append('image', image);
 
     const response = await fetch(
-      'http://localhost:8000/api/account/update-image/',
+      `${ACCOUNT_API_URL}/api/account/update-image/`,
       {
         method: 'PATCH',
         headers: {
@@ -131,7 +132,11 @@ export class changeUserImageModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('changeUserImageModalh1').innerHTML = i18next.t('changeUserImageModalh1');
-  document.getElementById('changeUserImageModalCloseButton').innerHTML = i18next.t('changeUserImageModalCloseButton');
-  document.getElementById('changeUserImageModalSaveButton').innerHTML = i18next.t('changeUserImageModalSaveButton');
+  document.getElementById('changeUserImageModalh1').innerHTML = i18next.t(
+    'changeUserImageModalh1'
+  );
+  document.getElementById('changeUserImageModalCloseButton').innerHTML =
+    i18next.t('changeUserImageModalCloseButton');
+  document.getElementById('changeUserImageModalSaveButton').innerHTML =
+    i18next.t('changeUserImageModalSaveButton');
 }

@@ -1,5 +1,5 @@
 import { globalState } from '../../lib/state/state.js';
-import { failureToast } from '../components/profile/toast/failure.js';
+import { failureToast } from '../components/common/toast/failure.js';
 import { logout } from '../components/common/logout.js';
 
 export function throwError(message) {

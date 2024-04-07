@@ -10,13 +10,15 @@ function isValidEmail(email) {
 async function sendVerificationEmail(gameId) {
   const email = document.getElementById('emailInput').value;
   const code = document.getElementById('codeInput').value; // 인증 코드 입력값
-  const emailModal = bootstrap.Modal.getInstance(document.getElementById('email2faModal')) || new bootstrap.Modal(document.getElementById('email2faModal'));
+  const emailModal =
+    bootstrap.Modal.getInstance(document.getElementById('email2faModal')) ||
+    new bootstrap.Modal(document.getElementById('email2faModal'));
   const emailErrorDiv = document.getElementById('emailError');
   const codeErrorDiv = document.getElementById('codeError'); // 인증 코드 에러 표시 구역
 
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent =  i18next.t('invalidEmailFormat');
+    emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
     return;
   } else {
     emailErrorDiv.style.display = 'none';
@@ -32,4 +34,3 @@ async function sendVerificationEmail(gameId) {
   // 모든 검증을 통과하면 모달 닫기
   emailModal.hide();
 }
-

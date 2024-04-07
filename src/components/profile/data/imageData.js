@@ -1,13 +1,14 @@
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { toastError } from '../../../utils/error.js';
 
 export async function getImageData(imagePath) {
   try {
     const accessToken = getCookie('accessToken');
-    const url = new URL(imagePath, 'http://localhost:8000');
+    const url = new URL(imagePath, ACCOUNT_API_URL);
     const path = url.pathname;
 
-    const imageResponse = await fetch(`http://localhost:8000${path}`, {
+    const imageResponse = await fetch(`${ACCOUNT_API_URL}${path}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

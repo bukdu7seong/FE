@@ -86,7 +86,6 @@ export function sidebar(routes) {
   navbar.appendChild(menuDiv);
 
   // 클릭 이벤트 리스너
-  // 클릭 이벤트 리스너
   navbar.addEventListener('click', (e) => {
     const targetLink = e.target.closest('a[route]');
     if (targetLink) {

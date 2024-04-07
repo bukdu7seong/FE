@@ -6,10 +6,11 @@ import {
 } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
 import { requestUserInfo } from './sign_in.js';
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 
 async function requestResend() {
   try {
-    const response = await fetch('http://localhost:8000/api/account/2fa/re/', {
+    const response = await fetch(`${ACCOUNT_API_URL}/api/account/2fa/re/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ async function requestResend() {
 // [2FA 코드 인증 요청]
 async function requestTwoFACode(code) {
   try {
-    const response = await fetch('http://localhost:8000/api/account/2fa/', {
+    const response = await fetch(`${ACCOUNT_API_URL}/api/account/2fa/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

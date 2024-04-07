@@ -24,6 +24,7 @@ import { getFriendData } from './data/friendData.js';
 import { getRequestData } from './data/requestData.js';
 import { getImageData } from './data/imageData.js';
 import { updateMultilingualContent } from '../../pages/profile.js';
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -424,7 +425,7 @@ function setLanguage() {
 
 async function updateUserLanguage(language) {
   const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
-  const url = 'http://localhost:8000/api/account/update-language/'; // 엔드포인트
+  const url = `${ACCOUNT_API_URL}/api/account/update-language/`; // 엔드포인트
 
   try {
     const response = await fetch(url, {

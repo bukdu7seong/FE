@@ -1,10 +1,11 @@
 import { firstRoute, redirectRoute } from '../../../../lib/router/router.js';
 import { globalState, userState } from '../../../../lib/state/state.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { setCookie } from '../../../utils/cookie.js';
 import { requestUserInfo } from '../sign_in.js';
 
 async function sendAuthCodeToBackend(code) {
-  const url = `http://localhost:8000/api/account/42code/${code}`;
+  const url = `${ACCOUNT_API_URL}/api/account/42code/${code}`;
 
   try {
     const response = await fetch(url, {

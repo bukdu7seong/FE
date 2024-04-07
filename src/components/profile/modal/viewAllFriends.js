@@ -291,5 +291,7 @@ export class viewAllFriendsModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('viewAllFriendsModalTitle').innerHTML = i18next.t('viewAllFriendsModalTitle');
+  document.getElementById('viewAllFriendsModalTitle').innerHTML = i18next.t(
+    'viewAllFriendsModalTitle'
+  );
 }

@@ -1,10 +1,7 @@
-import {
-  firstRoute,
-  redirectRoute,
-  route,
-} from '../../../lib/router/router.js';
+import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
 import { getCookie, setCookie } from '../../../src/utils/cookie.js';
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { request42OAuth } from './oauth2/request42OAuth.js';
 
 // [유저 이미지 요청]
@@ -35,7 +32,7 @@ export async function requestUserInfo() {
   try {
     const accessToken = getCookie('accessToken');
     const response = await fetch(
-      'http://localhost:8000/api/account/user/profile-stats/',
+      `${ACCOUNT_API_URL}/api/account/user/profile-stats/`,
       {
         method: 'GET',
         headers: {
@@ -81,7 +78,7 @@ export async function requestUserInfo() {
 // [로그인 요청]
 async function requestLogin(credentials) {
   try {
-    const response = await fetch('http://localhost:8000/api/account/signin/', {
+    const response = await fetch(`${ACCOUNT_API_URL}/api/account/signin/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

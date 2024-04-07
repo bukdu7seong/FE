@@ -1,8 +1,9 @@
 import { userState } from '../../../../lib/state/state.js';
-import { successToast } from '../toast/success.js';
+import { successToast } from '../../common/toast/success.js';
 import { validateInput } from '../../../utils/validateInput.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { throwError, toastError } from '../../../utils/error.js';
+import { ACCOUNT_API_URL } from '../../../utils/api.js';
 
 function modalHTML(modalId) {
   return `
@@ -31,7 +32,7 @@ async function updateUserName(name) {
   try {
     const accessToken = getCookie('accessToken');
     const response = await fetch(
-      'http://localhost:8000/api/account/change-username/',
+      `${ACCOUNT_API_URL}/api/account/change-username/`,
       {
         method: 'PATCH',
         headers: {
@@ -141,8 +142,11 @@ export class changeUserNameModal {
 }
 
 function updateMultilingualContent() {
-  document.getElementById('change-username').innerHTML = i18next.t('change-username');
+  document.getElementById('change-username').innerHTML =
+    i18next.t('change-username');
   document.getElementById('newUsername').placeholder = i18next.t('newUsername');
-  document.getElementById('changeUserNameModalCloseButton').innerHTML = i18next.t('changeUserNameModalCloseButton');
-  document.getElementById('changeUserNameModalSaveButton').innerHTML = i18next.t('changeUserNameModalSaveButton');
+  document.getElementById('changeUserNameModalCloseButton').innerHTML =
+    i18next.t('changeUserNameModalCloseButton');
+  document.getElementById('changeUserNameModalSaveButton').innerHTML =
+    i18next.t('changeUserNameModalSaveButton');
 }

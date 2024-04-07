@@ -7,7 +7,6 @@ export function PageNotFound() {
   page.setAttribute('class', 'container');
   const navbar = sidebar(routes);
   const content = `
-<!--            <div id="side-bar"></div>-->
             <div class="container">
               <h1>404</h1>
               <p>Page not found</p>

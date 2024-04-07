@@ -1,3 +1,4 @@
+import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getCookie } from '../../utils/cookie.js';
 import { redirectError, toastError } from '../../utils/error.js';
 
@@ -7,7 +8,7 @@ export async function updateRequest(userId, accept) {
       const accessToken = getCookie('accessToken');
 
       const response = await fetch(
-        `http://localhost:8000/api/friend/accept-friend-request/`,
+        `${ACCOUNT_API_URL}/api/friend/accept-friend-request/`,
         {
           method: 'POST',
           headers: {
@@ -34,7 +35,7 @@ export async function updateRequest(userId, accept) {
       const accessToken = getCookie('accessToken');
 
       const response = await fetch(
-        `http://localhost:8000/api/friend/delete-friend-request/?friend_request_id=${userId}`,
+        `${ACCOUNT_API_URL}/api/friend/delete-friend-request/?friend_request_id=${userId}`,
         {
           method: 'DELETE',
           headers: {
