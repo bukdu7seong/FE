@@ -2,7 +2,7 @@ import { gameState } from '../../lib/state/state.js';
 import { getCookie } from '../utils/cookie.js';
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import { ACCOUNT_API_URL } from '../utils/api.js';
+import { GAME_API_URL } from '../utils/api.js';
 import {
   formatCurrentTime,
   initializeGameResultData,
@@ -218,7 +218,7 @@ export async function sendEmailCode() {
   try {
     const accessToken = await getAccessToken(); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
     const response = await fetch(
-      `${ACCOUNT_API_URL}/api/account/request-2fa/`,
+      `${GAME_API_URL}/api/games/request-2fa/`,
       {
         method: 'POST',
         headers: {

@@ -448,7 +448,7 @@ async function submitVerificationCode(gameId) {
   }
 
   const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
-  const url = `${ACCOUNT_API_URL}/api/account/verify-2fa/`; // 게임 ID를 URL에 포함
+  const url = `${GAME_API_URL}/api/games/verify-2fa/`; // 게임 ID를 URL에 포함
 
   const response = await fetch(url, {
     method: 'POST',
