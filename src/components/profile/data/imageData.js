@@ -5,7 +5,7 @@ import { getAccessToken } from '../../../utils/token.js';
 
 export async function getImageData(imagePath) {
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
     const url = new URL(imagePath, ACCOUNT_API_URL);
     const path = url.pathname;
 

@@ -5,7 +5,7 @@ import { getAccessToken } from '../../../utils/token.js';
 
 export async function getFriendData(pageNumber = 1) {
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/friend/accepted-friends/?page=${pageNumber}&pageSize=5`,

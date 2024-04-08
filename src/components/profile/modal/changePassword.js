@@ -42,7 +42,7 @@ function modalHTML(modalId) {
 }
 
 async function changeUserPassword(oldPassword, newPassword) {
-  const accessToken = getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
   const url = `${ACCOUNT_API_URL}/api/account/change-password/`; // 엔드포인트
 
   try {

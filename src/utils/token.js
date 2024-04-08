@@ -19,7 +19,10 @@ function parseJwt(token) {
 }
 
 export async function getAccessToken() {
+  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyNTUzMTc5LCJpYXQiOjE3MTI1NTEzNzksImp0aSI6ImRmODRmNzAwYjUyNTQyYWFiMDk5NjM0ZTJhZGY5MDY5IiwidXNlcl9pZCI6OX0.1Gj_XUvd7g82cfG8ACvm9HNgXPYmr0JwmuFNbdPTpik';
+
   const accessToken = getCookie('accessToken');
+
   if (!accessToken) {
     return null;
   }

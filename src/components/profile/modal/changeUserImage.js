@@ -31,7 +31,7 @@ function modalHTML(modalId) {
 async function updateUserImage(image) {
   try {
     const formData = new FormData();
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
     formData.append('image', image);
 
     const response = await fetch(

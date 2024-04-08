@@ -218,6 +218,7 @@ export async function setFriendList() {
 
   friendList.innerHTML = '';
 
+  console.log(friendData);
   // listenFriendLogin();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
@@ -425,7 +426,7 @@ function setLanguage() {
 }
 
 async function updateUserLanguage(language) {
-  const accessToken = getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
   const url = `${ACCOUNT_API_URL}/api/account/update-language/`; // 엔드포인트
 
   try {

@@ -48,7 +48,7 @@ function modalHTML(modalId) {
 
 async function fetchUserProfile(userId) {
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/account/user-stats/${userId}/`,
       {

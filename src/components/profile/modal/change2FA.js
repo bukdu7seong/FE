@@ -206,7 +206,7 @@ import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
 
 async function update2FA(is2FAEnabled) {
-  const accessToken = getAccessToken();
+  const accessToken = await getAccessToken();
   const url = `${ACCOUNT_API_URL}/api/account/update-2fa/`;
 
   try {

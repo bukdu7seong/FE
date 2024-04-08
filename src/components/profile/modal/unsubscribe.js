@@ -213,7 +213,7 @@ deleteUserModal.prototype.finalizeDeletion = async function () {
 
 async function deleteUserAccount(password) {
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
     const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
     const response = await fetch(url, {
       method: 'DELETE',

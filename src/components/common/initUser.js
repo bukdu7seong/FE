@@ -12,7 +12,7 @@ export async function initUserInfo() {
   }
 
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/account/user/profile-stats/`, //
       {
@@ -72,7 +72,7 @@ export async function initUserInfo() {
 
     const connectWebSocket = async (attempt = 1) => {
       console.log('connecting...');
-      const accessToken = getAccessToken();
+      const accessToken = await getAccessToken();
       const socket = new WebSocket(
         `ws://localhost:8000/ws/friend/status?token=${accessToken}`
       );

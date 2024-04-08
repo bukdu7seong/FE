@@ -33,7 +33,7 @@ function modalHTML(modalId) {
 
 async function searchUser(username) {
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/account/search/${username}/`,
@@ -65,7 +65,7 @@ async function searchUser(username) {
 
 async function inviteUser(friendId) {
   try {
-    const accessToken = getAccessToken();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/friend/send-friend-request/`,

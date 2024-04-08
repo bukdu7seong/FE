@@ -6,7 +6,7 @@ import { getAccessToken } from '../../utils/token.js';
 export async function updateRequest(userId, accept) {
   if (accept) {
     try {
-      const accessToken = getAccessToken();
+      const accessToken = await getAccessToken();
 
       const response = await fetch(
         `${ACCOUNT_API_URL}/api/friend/accept-friend-request/`,
@@ -33,7 +33,7 @@ export async function updateRequest(userId, accept) {
     }
   } else {
     try {
-      const accessToken = getAccessToken();
+      const accessToken = await getAccessToken();
 
       const response = await fetch(
         `${ACCOUNT_API_URL}/api/friend/delete-friend-request/?friend_request_id=${userId}`,
