@@ -47,7 +47,7 @@ async function changeUserPassword(oldPassword, newPassword) {
 
   try {
     const response = await fetch(url, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
