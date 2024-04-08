@@ -25,6 +25,7 @@ import { getRequestData } from './data/requestData.js';
 import { getImageData } from './data/imageData.js';
 import { updateMultilingualContent } from '../../pages/profile.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
+import { getAccessToken } from '../../utils/token.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -130,7 +131,7 @@ async function setHistoryList() {
   const historyList = document.querySelector('.history-list ul');
   const historyData = await getHistoryData();
 
-  if (!historyList) {
+  if (!historyList || !historyData) {
     return;
   }
 
@@ -211,12 +212,13 @@ export async function setFriendList() {
   const friendList = document.querySelector('.friend-list-list ul');
   const friendData = await getFriendData();
 
-  if (!friendList) {
+  if (!friendList || !friendData) {
     return;
   }
 
   friendList.innerHTML = '';
 
+  console.log(friendData);
   // listenFriendLogin();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
@@ -298,7 +300,7 @@ export async function setRequestList() {
   const requestList = document.querySelector('.friend-request-list ul');
   const requestData = await getRequestData();
 
-  if (!requestList) {
+  if (!requestList || !requestData) {
     return;
   }
 
@@ -424,7 +426,7 @@ function setLanguage() {
 }
 
 async function updateUserLanguage(language) {
-  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
   const url = `${ACCOUNT_API_URL}/api/account/update-language/`; // 엔드포인트
 
   try {

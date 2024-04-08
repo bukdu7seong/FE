@@ -203,9 +203,10 @@ import { failureToast } from '../../common/toast/failure.js';
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 async function update2FA(is2FAEnabled) {
-  const accessToken = getCookie('accessToken');
+  const accessToken = await getAccessToken();
   const url = `${ACCOUNT_API_URL}/api/account/update-2fa/`;
 
   try {
