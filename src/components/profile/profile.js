@@ -218,7 +218,6 @@ export async function setFriendList() {
 
   friendList.innerHTML = '';
 
-  console.log(friendData);
   // listenFriendLogin();
   if (!friendData.friends.length) {
     const friendItem = document.createElement('li');
