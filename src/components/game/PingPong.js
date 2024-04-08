@@ -52,7 +52,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2;
+    this.scoreToWin = 11;
     this.onGameEnd = null;
     window.addEventListener('popstate', this.handlePopState.bind(this));
     this.timeoutId = null;
