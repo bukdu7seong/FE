@@ -62,6 +62,11 @@ export function validatePassword(password, passwordError) {
 }
 
 export function validateImage(file, imageError) {
+  if (!file) {
+    imageError.textContent = 'Please select an image file.';
+    return false;
+  }
+
   // 이미지 파일 확장자 검증
   if (!file.type.match('image.*')) {
     imageError.textContent = 'You can only upload image files.';
@@ -69,8 +74,8 @@ export function validateImage(file, imageError) {
   }
 
   // 이미지 파일 크기 검증
-  if (file.size > 1024 * 1024) {
-    imageError.textContent = 'Image file size must be less than 1MB.';
+  if (file.size > 2 * 1024 * 1024) {
+    imageError.textContent = 'Image file size must be less than 2MB.';
     return false;
   }
 

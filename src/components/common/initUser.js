@@ -3,7 +3,7 @@ import { getCookie } from '../../utils/cookie.js';
 import { toastSuccess } from '../../utils/success.js';
 import { redirectError, throwError, toastError } from '../../utils/error.js';
 import { changeLanguage } from '../language/language.js';
-import { ACCOUNT_API_URL, GAME_API_URL } from '../../utils/api.js';
+import { ACCOUNT_API_URL, GAME_API_URL, SOCKET_URL } from '../../utils/api.js';
 import { getAccessToken } from '../../utils/token.js';
 
 export async function initUserInfo() {
@@ -90,7 +90,7 @@ export async function initUserInfo() {
       console.log('connecting...');
       const accessToken = await getAccessToken();
       const socket = new WebSocket(
-        `ws://localhost:8000/ws/friend/status?token=${accessToken}`
+        `${SOCKET_URL}/ws/friend/status?token=${accessToken}`
       );
 
       const timeout = setTimeout(() => {

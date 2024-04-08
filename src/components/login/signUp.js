@@ -139,7 +139,7 @@ function handleSignUpSubmit() {
       return;
     }
 
-    const imageFile = imageInput.files[0];
+    const imageFile = imageInput.files[0] || '';
     if (!validateImage(imageFile, imageError)) {
       return;
     }
