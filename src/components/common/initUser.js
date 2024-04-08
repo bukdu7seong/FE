@@ -13,7 +13,8 @@ export async function initUserInfo() {
 
   try {
     const accessToken = await getAccessToken();
-    const accountStats = await fetch(
+
+    const accountResponse = await fetch(
       `${ACCOUNT_API_URL}/api/account/stats/`,
       {
         method: 'GET',
@@ -24,60 +25,55 @@ export async function initUserInfo() {
       }
     );
 
-    if (!accountStats.ok) {
-      if (accountStats.status === 401) {
+    if (!accountResponse.ok) {
+      if (accountResponse.status === 401) {
         throwError('Unauthorized access token. Please login again.');
       } else {
         throwError('Failed to fetch user data. Please login again.');
       }
     }
 
-    const userData = await accountStats.json();
+    const gameResponse = await fetch(`${GAME_API_URL}/api/games/stats/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-    const gameState = await fetch(
-      `${GAME_API_URL}/api/games/stats/`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (!gameState.ok) {
-      if (gameState.status === 401) {
+    if (!gameResponse.ok) {
+      if (gameResponse.status === 401) {
         throwError('Unauthorized access token. Please login again.');
       } else {
         throwError('Failed to fetch user data. Please login again.');
       }
     }
 
-    const userGameInfo = await gameState.json();
+    const userData = await accountResponse.json();
+    const userGameInfo = await gameResponse.json();
+    let userImage = '';
 
-    // const imageResponse = await fetch(`${ACCOUNT_API_URL}${userData.img}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${accessToken}`,
-    //   },
-    // });
-    //
-    // let userImage = '';
-    //
-    // if (imageResponse.ok) {
-    //   userImage = imageResponse.url;
-    // } else if (imageResponse.status === 401) {
-    //   throwError('Unauthorized access token. Please login again.');
-    // } else {
-    //   // alert('Failed to fetch user image.');
-    //   userImage = '/assets/images/profile/default_profile.png';
-    // }
+    const imageResponse = await fetch(`${ACCOUNT_API_URL}${userData.img}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (imageResponse.ok) {
+      userImage = imageResponse.url;
+    } else if (imageResponse.status === 401) {
+      throwError('Unauthorized access token. Please login again.');
+    } else {
+      // alert('Failed to fetch user image.');
+      userImage = '/assets/images/profile/default_profile.png';
+    }
 
     changeLanguage(userData.language.toLowerCase());
     userState.setState(
       {
-        userImage: userData.img,
+        userImage: userImage,
         userId: userData.user_id,
         userName: userData.username,
         // userEmail: userData.email, // 필요한 값인가? 안들어
