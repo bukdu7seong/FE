@@ -15,8 +15,8 @@ import { updateTournamentBoxContent } from './pages/tournament.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { profile } from './components/profile/profile.js';
-import { signIn } from './components/login/sign_in.js';
-import { signUp } from './components/login/sign_up.js';
+import { signIn } from './components/login/signIn.js';
+import { signUp } from './components/login/signUp.js';
 import { twoFA } from './components/login/twofa.js';
 import { updateGameBoxMultilingualContent } from './components/game/game.js';
 // state
@@ -27,7 +27,6 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
-
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');

@@ -1,13 +1,14 @@
 export function validateUsername(username, usernameError) {
   // 아이디 길이 검증
   if (username.length < 2) {
-    usernameError.textContent = '아이디는 최소 2자 이상이어야 합니다.';
+    usernameError.textContent = 'username must be at least 2 characters long.';
     return false;
   }
 
   // 영문 소문자 검증
   if (!username.match(/[a-z]/)) {
-    usernameError.textContent = '아이디에는 영문 소문자가 포함 되어야 합니다.';
+    usernameError.textContent =
+      'username must contain at least one lowercase letter.';
     return false;
   }
 
@@ -17,7 +18,7 @@ export function validateUsername(username, usernameError) {
       /[\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]\{\}\;\:\'\"\<\>\,\.\?\/\~\`]/
     )
   ) {
-    usernameError.textContent = '아이디에는 특수문자가 포함될 수 없습니다.';
+    usernameError.textContent = 'username cannot contain special characters.';
     return false;
   }
 
@@ -28,21 +29,20 @@ export function validateUsername(username, usernameError) {
 export function validatePassword(password, passwordError) {
   // 비밀번호 길이 검증
   if (password.length < 8) {
-    passwordError.textContent = '비밀번호는 최소 8자 이상이어야 합니다.';
+    passwordError.textContent = 'password must be at least 8 characters long.';
     return false;
   }
 
   // 숫자 포함 검증
   if (!password.match(/\d/)) {
-    passwordError.textContent =
-      '비밀번호에는 최소 한 개의 숫자가 포함되어야 합니다.';
+    passwordError.textContent = 'password must contain at least one number.';
     return false;
   }
 
   // 소문자 포함 검증
   if (!password.match(/[a-z]/)) {
     passwordError.textContent =
-      '비밀번호에는 최소 한 개의 소문자가 포함되어야 합니다.';
+      'password must contain at least one lowercase letter.';
     return false;
   }
 
@@ -53,7 +53,7 @@ export function validatePassword(password, passwordError) {
     )
   ) {
     passwordError.textContent =
-      '비밀번호에는 최소 한 개의 특수 문자가 포함되어야 합니다.';
+      'password must contain at least one special character.';
     return false;
   }
 
@@ -61,10 +61,19 @@ export function validatePassword(password, passwordError) {
   return true;
 }
 
-// export function validateInput(input) {
-//   const alphanumeric = /^[a-zA-Z0-9]*$/;
-//   if (!input.match(alphanumeric)) {
-//     return false;
-//   }
-//   return true;
-// }
+export function validateImage(file, imageError) {
+  // 이미지 파일 확장자 검증
+  if (!file.type.match('image.*')) {
+    imageError.textContent = 'You can only upload image files.';
+    return false;
+  }
+
+  // 이미지 파일 크기 검증
+  if (file.size > 1024 * 1024) {
+    imageError.textContent = 'Image file size must be less than 1MB.';
+    return false;
+  }
+
+  imageError.textContent = '';
+  return true;
+}

@@ -1,7 +1,7 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { logout } from '../../common/logout.js';
 
 export async function request42OAuth() {
-  console.log('request42OAuth');
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/42oauth`, {
       method: 'GET',
@@ -29,5 +29,6 @@ export async function request42OAuth() {
         alert(`Error ${e.message}: Failed to fetch 42 OAuth:`);
         break;
     }
+    logout();
   }
 }

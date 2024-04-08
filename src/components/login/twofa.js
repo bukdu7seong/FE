@@ -3,7 +3,7 @@ import { firstRoute } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 
-async function requestResend() {
+async function requestResend(resendInfo, resendError) {
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/2fa/re/`, {
       method: 'POST',
@@ -14,29 +14,38 @@ async function requestResend() {
     });
 
     if (response.status === 200) {
-      // 응답 본문을 JSON으로 파싱
-      const data = await response.json();
-      console.log(data); // JSON 응답 본문을 로깅
+      if (resendInfo) {
+        resendInfo.textContent = 'Email sent successfully.';
+      } else {
+        alert('Email sent successfully.');
+      }
     } else {
-      console.log(response.status.toString());
       throw new Error(response.status.toString());
     }
   } catch (e) {
-    console.log(e); // 실제 오류 객체를 로깅
     switch (e.message) {
       case '400':
-        alert('400: 잘못된 요청입니다.');
+        if (!resendError) {
+          alert('400 Bad Request');
+        } else {
+          resendError.textContent = '400 Bad Request';
+        }
         break;
       default:
-        alert(
-          `회원가입 절차를 진행할 수 없습니다. 다시 시도해 주세요. 오류: ${e.message}`
-        );
+        if (!resendError) {
+          alert(
+            `An unexpected error occurred: ${e.message} while resending the email.`
+          );
+        } else {
+          resendError.textContent = `An unexpected error occurred: ${e.message}`;
+        }
+        break;
     }
   }
 }
 
 // [2FA 코드 인증 요청]
-async function requestTwoFACode(code) {
+async function requestTwoFACode(code, codeError) {
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/2fa/`, {
       method: 'POST',
@@ -62,33 +71,38 @@ async function requestTwoFACode(code) {
     }
   } catch (e) {
     switch (e.message) {
-      case '409':
-        alert('409: Conflict');
+      case '400':
+        if (!codeError) {
+          alert('Invalid 2FA code.');
+        } else {
+          codeError.textContent = 'Invalid 2FA code.';
+        }
+        break;
+      default:
+        if (!codeError) {
+          alert(`An unexpected error occurred: ${e.message}`);
+        } else {
+          codeError.textContent = `An unexpected error occurred: ${e.message}`;
+        }
         break;
     }
-    // 2fa 코드 인증에서 문제가 발생할 경우 에러 처리 필요
-    // redirectRoute('/login');
+    return;
   }
 }
 
 // [2FA 코드 재전송]
 function resendEmail() {
-  document
-    .getElementById('resendEmailButton')
-    .addEventListener('click', function () {
-      requestResend();
-    });
-  //
-}
+  const resendBtn = document.getElementById('resendEmailButton');
+  if (!resendBtn) {
+    return;
+  }
 
-// [2FA 코드 입력]
-function verifyCode() {
-  const code = document.getElementById('two-f-a-code');
-  code.addEventListener('keyup', function (e) {
-    if (e.key == 'Enter') {
-      requestTwoFACode(code.value);
-    }
+  resendBtn.addEventListener('click', function () {
+    const resendInfo = document.getElementById('resendInfo') || null;
+    const resendError = document.getElementById('resendError') || null;
+    requestResend(resendInfo, resendError);
   });
+  //
 }
 
 // [2FA 타이머]
@@ -119,9 +133,24 @@ function timer() {
   }, 1000);
 }
 
+// [2FA 코드 입력]
+function verifyCode() {
+  const codeBtn = document.getElementById('two-f-a-code');
+  if (!codeBtn) {
+    return;
+  }
+
+  codeBtn.addEventListener('keyup', function (e) {
+    if (e.key == 'Enter') {
+      const codeError = document.getElementById('codeError') || null;
+      requestTwoFACode(codeBtn.value, codeError);
+    }
+  });
+}
+
 // [2FA]
 export function twoFA() {
   resendEmail();
-  verifyCode();
   timer();
+  verifyCode();
 }

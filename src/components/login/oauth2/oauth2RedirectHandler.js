@@ -1,7 +1,9 @@
 import { firstRoute, redirectRoute } from '../../../../lib/router/router.js';
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { setCookie } from '../../../utils/cookie.js';
+import { getCode, setCode } from '../../../utils/code.js';
+import { getCookie, removeCookie, setCookie } from '../../../utils/cookie.js';
+import { logout } from '../../common/logout.js';
 
 async function sendAuthCodeToBackend(code) {
   const url = `${ACCOUNT_API_URL}/api/account/42code/${code}`;
@@ -14,6 +16,8 @@ async function sendAuthCodeToBackend(code) {
       },
     });
 
+    // localStorage.removeItem('code');
+
     if (response.status === 200) {
       // 로그인 성공
       const responseData = await response.json();
@@ -21,30 +25,30 @@ async function sendAuthCodeToBackend(code) {
       globalState.setState({
         isLoggedIn: true,
       });
-      localStorage.removeItem('code');
+
       firstRoute('/profile');
     } else if (response.status === 206) {
       // 회원가입
       const responseData = await response.json();
-      setCookie('accessToken', responseData.access);
-      redirectRoute('/signup', false);
+      const tempToken = getCookie('tempToken');
+      if (tempToken) {
+        removeCookie('tempToken');
+      }
+      setCookie('tempToken', responseData.access);
+
+      redirectRoute('/signup');
     } else if (response.status === 301) {
       // 2FA 리다이렉트
       const responseData = await response.json();
-      console.log(responseData);
       userState.setState({
         userEmail: responseData.email,
       });
-      redirectRoute('/twofa', false);
+
+      redirectRoute('/twofa');
     } else {
-      // 서버가 응답한 다른 상태 코드 처리
-      const errorData = await response.json();
-      console.error(`Error ${response.status}:`, errorData);
       throw new Error(response.status.toString());
     }
   } catch (e) {
-    // 네트워크 오류 또는 response.ok가 false일 때의 예외 처리
-    console.error('Error:', e);
     switch (e.message) {
       case '400':
         alert('400: Bad Request');
@@ -53,26 +57,23 @@ async function sendAuthCodeToBackend(code) {
         alert('404: Not Found');
         break;
       default:
-        alert('An unexpected error occurred');
+        alert(`An unexpected error occurred: ${e.message}`);
         break;
     }
-    redirectRoute('/error', false); // 오류 페이지로 리다이렉트
+    logout();
   }
 }
 
 export function handleOAuth2Redirect() {
-  const code = localStorage.getItem('code');
+  setCode(localStorage.getItem('code'));
+
+  const code = getCode();
 
   if (code) {
-    console.log('Authorization code:', code);
-    console.log('API 호출 전');
-    sendAuthCodeToBackend(code); // API 호출 후 완료를 기다림
-    console.log('API 호출 후');
-
-    // 리다이렉트 수행
-    // 예: redirectRoute('/login');
+    localStorage.removeItem('code');
+    sendAuthCodeToBackend(code);
   } else {
-    // 에러 처리
-    console.error('OAuth2 Error:', error);
+    alert('No redirect code found.');
+    logout();
   }
 }

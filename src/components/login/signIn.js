@@ -1,41 +1,19 @@
 import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
-import { getCookie, setCookie } from '../../../src/utils/cookie.js';
+import { getCookie, setCookie } from '../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { request42OAuth } from './oauth2/request42OAuth.js';
-
-// [유저 이미지 요청]
-async function requestImageFormData(url) {
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.status === 200) {
-      return response;
-    }
-    throw new Error(response.status.toString());
-  } catch (e) {
-    if (e.message === '400') {
-      alert('400: Bad Request in requestImageFormData');
-    } else {
-      console.log('error: ', e);
-    }
-  }
-}
+import { logout } from '../common/logout.js';
 
 // [로그인 요청]
-async function requestLogin(credentials) {
+async function requestLogin(userInfo) {
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/signin/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(userInfo),
     });
 
     if (response.status === 200) {
@@ -51,7 +29,8 @@ async function requestLogin(credentials) {
       userState.setState({
         userEmail: responseData.email,
       });
-      redirectRoute('/twofa', false);
+
+      redirectRoute('/twofa');
     } else {
       throw new Error(response.status.toString());
     }
@@ -69,13 +48,17 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign in process. Please login again.');
         break;
     }
-    redirectRoute('/login', false);
   }
+  logout();
 }
 
 // [42 OAuth 버튼]
 function handleOAuthClick() {
   const oAuth = document.getElementById('42-Button');
+  if (!oAuth) {
+    return;
+  }
+
   oAuth.addEventListener('click', function (e) {
     e.preventDefault();
     request42OAuth();
@@ -83,36 +66,43 @@ function handleOAuthClick() {
 }
 
 // [회원가입 버튼]
-function handleSignUpClick() {
-  const signUp = document.getElementById('sign-up');
-  signUp.addEventListener('click', function (e) {
-    e.preventDefault();
-    request42OAuth();
-  });
-}
+// function handleSignUpClick() {
+//   const signUp = document.getElementById('sign-up');
+//   signUp.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     request42OAuth();
+//   });
+// }
 
 // [로그인 버튼]
 function handleSignInClick() {
-  // [유저] ID와 PASSWORD 입력
-  document
-    .getElementById('signin-form')
-    .addEventListener('submit', function (e) {
-      e.preventDefault(); // 폼 제출 기본 이벤트 막기 (새로고침 방지) 보통 폼 제출, 링크 클릭 시 새로고침이 일어나는데 이를 막기 위해 사용
-      const username = document.getElementById('floatingInput').value;
-      const password = document.getElementById('floatingPassword').value;
+  const signInForm = document.getElementById('signin-form');
+  if (!signInForm) {
+    return;
+  }
 
-      const credentials = {
-        username: username,
-        password: password,
-      };
-      // [프론트 -> 백] 로그인 요청과 함께 credentials 전달
-      requestLogin(credentials);
-    });
+  signInForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const usernameInput = document.getElementById('floatingInput');
+    const passwordInput = document.getElementById('floatingPassword');
+    if (!usernameInput || !passwordInput) {
+      return;
+    }
+
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+    const userInfo = {
+      username: username,
+      password: password,
+    };
+
+    requestLogin(userInfo);
+  });
 }
 
 // [버튼 리스너]
 export function signIn() {
   handleSignInClick();
-  handleSignUpClick();
+  // handleSignUpClick();
   handleOAuthClick();
 }
