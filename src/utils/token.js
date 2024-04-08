@@ -19,7 +19,7 @@ function parseJwt(token) {
 }
 
 export async function getAccessToken() {
-  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyNTU1NDgyLCJpYXQiOjE3MTI1NTM2ODIsImp0aSI6IjhhYjYyYjk3YzkzYTQzMTZiODJlMTQ3YWY5OGE3NDQ5IiwidXNlcl9pZCI6OX0.Im9gTjfVbaObpWYhdST6KsfwHSKYFgH_6y9KA6N0Ll0';
+  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyNTU5MjQ3LCJpYXQiOjE3MTI1NTc0NDcsImp0aSI6IjMxZDg2M2JiODQyMzRlMzI5NjUyNTYxYmY5ODVmYjc0IiwidXNlcl9pZCI6OX0.YXqhb_detuMpdHYA_CpYmWPeVD9NBCsukvAQX2CDyCk';
 
   const accessToken = getCookie('accessToken');
 
