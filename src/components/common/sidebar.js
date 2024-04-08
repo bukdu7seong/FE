@@ -4,7 +4,7 @@ import { createLogoutModal } from './logoutModal.js';
 export function sidebar(routes) {
   // 네비게이션 바를 위한 <nav> 태그 생성
   const navbar = document.createElement('nav');
-  navbar.className = 'navbar navbar-dark navbar-expand-md py-0 px-3 fixed-top';
+  navbar.className = 'navbar navbar-dark navbar-expand-sm py-0 px-3 fixed-top';
   navbar.id = 'mainNavbar';
 
   // 로고나 브랜드 이름을 위한 <a> 태그
