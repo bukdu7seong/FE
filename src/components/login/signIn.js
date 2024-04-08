@@ -48,8 +48,8 @@ async function requestLogin(userInfo) {
         alert('Failed to proceed sign in process. Please login again.');
         break;
     }
+    logout();
   }
-  logout();
 }
 
 // [42 OAuth 버튼]
