@@ -227,14 +227,15 @@ export default class PingPong {
   async fetchGameResults() {
     try {
       const accessToken = await getAccessToken(); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
-      let winner = userState.getState().userId;
-      let loser = null;
-      // winner = 'jwee@stude321seoul.kr';
-      if (this.winner === this.player2.playerName) {
-        const temp = winner;
-        winner = loser;
-        loser = temp;
+      const is_winner = this.player1.score >= this.scoreToWin;
+      let win_score = this.player1.score;
+      let lose_score = this.player2.score;
+      if (!is_winner) {
+        const temp = win_score;
+        win_score = lose_score;
+        lose_score = temp;
       }
+
       const response = await fetch(`${GAME_API_URL}/api/games/results`, {
         method: 'POST',
         headers: {
@@ -242,16 +243,19 @@ export default class PingPong {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          winner: winner,
-          loser: loser,
-          game_mode: this.mode,
+          is_winner : is_winner,
+          win_score : win_score,
+          lose_score : lose_score,
+          game_mode : this.mode
         }),
       });
+
       if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
       const data = await response.json();
+      // console.log(data);
       return data.gameId; // JSON 결과에서 gameId 반환
     } catch (error) {
       // console.error('Fetching error:', error);
