@@ -2,8 +2,9 @@ import { userState } from '../../../../lib/state/state.js';
 import { successToast } from '../../common/toast/success.js';
 import { validateInput } from '../../../utils/validateInput.js';
 import { getCookie } from '../../../utils/cookie.js';
-import { throwError, toastError } from '../../../utils/error.js';
+import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 function modalHTML(modalId) {
   return `
@@ -30,7 +31,7 @@ function modalHTML(modalId) {
 
 async function updateUserName(name) {
   try {
-    const accessToken = getCookie('accessToken');
+    const accessToken = await getAccessToken();
     const response = await fetch(
       `${ACCOUNT_API_URL}/api/account/change-username/`,
       {

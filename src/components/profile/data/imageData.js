@@ -1,10 +1,11 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { toastError } from '../../../utils/error.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 export async function getImageData(imagePath) {
   try {
-    const accessToken = getCookie('accessToken');
+    const accessToken = await getAccessToken();
     const url = new URL(imagePath, ACCOUNT_API_URL);
     const path = url.pathname;
 

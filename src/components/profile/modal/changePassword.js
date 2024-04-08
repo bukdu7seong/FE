@@ -3,6 +3,7 @@ import { failureToast } from '../../common/toast/failure.js';
 import { successToast } from '../../common/toast/success.js';
 import { getCookie } from '../../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { getAccessToken } from '../../../utils/token.js';
 
 function modalHTML(modalId) {
   return `
@@ -41,7 +42,7 @@ function modalHTML(modalId) {
 }
 
 async function changeUserPassword(oldPassword, newPassword) {
-  const accessToken = getCookie('accessToken'); // 쿠키에서 사용자 토큰 가져오기
+  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
   const url = `${ACCOUNT_API_URL}/api/account/change-password/`; // 엔드포인트
 
   try {
