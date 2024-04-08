@@ -3,6 +3,7 @@ import { globalState, userState } from '../../../../lib/state/state.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getCode, setCode } from '../../../utils/code.js';
 import { getCookie, removeCookie, setCookie } from '../../../utils/cookie.js';
+import { logout } from '../../common/logout.js';
 
 async function sendAuthCodeToBackend(code) {
   const url = `${ACCOUNT_API_URL}/api/account/42code/${code}`;
@@ -59,20 +60,20 @@ async function sendAuthCodeToBackend(code) {
         alert(`An unexpected error occurred: ${e.message}`);
         break;
     }
-    redirectRoute('/login', false);
+    logout();
   }
 }
 
 export function handleOAuth2Redirect() {
   setCode(localStorage.getItem('code'));
-  localStorage.removeItem('code');
 
   const code = getCode();
 
   if (code) {
+    localStorage.removeItem('code');
     sendAuthCodeToBackend(code);
   } else {
     alert('No redirect code found.');
-    redirectRoute('/login', false);
+    logout();
   }
 }

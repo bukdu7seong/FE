@@ -1,4 +1,5 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
+import { logout } from '../../common/logout.js';
 
 export async function request42OAuth() {
   try {
@@ -28,5 +29,6 @@ export async function request42OAuth() {
         alert(`Error ${e.message}: Failed to fetch 42 OAuth:`);
         break;
     }
+    logout();
   }
 }

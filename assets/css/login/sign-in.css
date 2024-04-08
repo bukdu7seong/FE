@@ -47,6 +47,13 @@ body {
   height: 100%;
 }
 
+.text-success {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  height: 100%;
+}
+
 .form-group {
   margin-bottom: -20px;
 }

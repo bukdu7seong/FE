@@ -7,6 +7,7 @@ import {
 } from './formValidator.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getCookie, removeCookie, setCookie } from '../../utils/cookie.js';
+import { logout } from '../common/logout.js';
 
 async function requestSignUp(formData) {
   const tempToken = getCookie('tempToken');
@@ -24,18 +25,15 @@ async function requestSignUp(formData) {
       throw new Error(response.status);
     }
 
-    removeCookie('tempToken');
-
     const data = await response.json();
 
-    setCookie('accessToken', data.access);
+    removeCookie('tempToken');
     userState.setState({
       userEmail: data.email,
     });
 
     redirectRoute('/twofa');
   } catch (e) {
-    console.log(e);
     switch (e.message) {
       case '400':
         alert('Failed to fetch 42 authentication token. Try login again.');
@@ -46,7 +44,7 @@ async function requestSignUp(formData) {
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
-    redirectRoute('/login', false);
+    logout();
   }
 }
 

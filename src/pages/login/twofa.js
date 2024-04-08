@@ -35,10 +35,13 @@ export function pageTwoFA() {
       <button type="button" class="btn btn-outline-light form-signin" id="resendEmailButton">
         Resend 2FA Code
       </button>
+      <div id="resendInfo" class="text-success"></div>
+      <div id="resendError" class="text-danger"></div>
       
       <!-- 2FA 코드 입력 -->
-      <input class="twofacode form-control btn btn-outline-light form-2fa" type="text" placeholder="ㅁㅁㅁ-ㅁㅁㅁ" aria-label="default input example" id="two-f-a-code">
-      
+      <input class="twofacode form-control btn btn-outline-light form-2fa" type="text" placeholder="" aria-label="default input example" id="two-f-a-code">
+      <div id="codeError" class="text-danger"></div>
+
       <!-- 5분 타이머 -->
       <p id="timer2" class="timer">05:00</p>
     </div>

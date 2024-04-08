@@ -3,16 +3,17 @@ import { globalState, userState } from '../../../lib/state/state.js';
 import { getCookie, setCookie } from '../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { request42OAuth } from './oauth2/request42OAuth.js';
+import { logout } from '../common/logout.js';
 
 // [로그인 요청]
-async function requestLogin(credentials) {
+async function requestLogin(userInfo) {
   try {
     const response = await fetch(`${ACCOUNT_API_URL}/api/account/signin/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(userInfo),
     });
 
     if (response.status === 200) {
@@ -29,7 +30,7 @@ async function requestLogin(credentials) {
         userEmail: responseData.email,
       });
 
-      redirectRoute('/twofa', false);
+      redirectRoute('/twofa');
     } else {
       throw new Error(response.status.toString());
     }
@@ -47,8 +48,8 @@ async function requestLogin(credentials) {
         alert('Failed to proceed sign in process. Please login again.');
         break;
     }
-    redirectRoute('/login', false);
   }
+  logout();
 }
 
 // [42 OAuth 버튼]
@@ -90,12 +91,12 @@ function handleSignInClick() {
 
     const username = usernameInput.value;
     const password = passwordInput.value;
-    const credentials = {
+    const userInfo = {
       username: username,
       password: password,
     };
 
-    requestLogin(credentials);
+    requestLogin(userInfo);
   });
 }
 
