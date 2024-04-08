@@ -6,7 +6,7 @@ import {
   validateImage,
 } from './formValidator.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
-import { getCookie, removeCookie, setCookie } from '../../utils/cookie.js';
+import { getCookie, removeCookie } from '../../utils/cookie.js';
 import { logout } from '../common/logout.js';
 
 async function requestSignUp(formData) {
@@ -25,11 +25,11 @@ async function requestSignUp(formData) {
       throw new Error(response.status);
     }
 
-    const data = await response.json();
+    const responseData = await response.json();
 
     removeCookie('tempToken');
     userState.setState({
-      userEmail: data.email,
+      userEmail: responseData.email,
     });
 
     redirectRoute('/twofa');
