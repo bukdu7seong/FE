@@ -51,7 +51,7 @@ async function requestSignUp(formData) {
 async function checkUsername(username, usernameError) {
   try {
     const response = await fetch(
-      `${ACCOUNT_API_URL}/api/account/check/?username=${username}`,
+      `${ACCOUNT_API_URL}/api/account/check/username/?username=${username}`,
       {
         method: 'GET',
         headers: {
