@@ -1,10 +1,9 @@
 import { userState } from '../../../../lib/state/state.js';
-import { successToast } from '../../common/toast/success.js';
 import { validateInput } from '../../../utils/validateInput.js';
-import { getCookie } from '../../../utils/cookie.js';
-import { redirectError, throwError, toastError } from '../../../utils/error.js';
+import { redirectError, toastError } from '../../../utils/error.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastSuccess } from '../../../utils/success.js';
 
 function modalHTML(modalId) {
   return `
@@ -69,7 +68,6 @@ export class changeUserNameModal {
     this.modalId = modalId;
     this.inputData = '';
     this.modalInstance = null;
-    this.successToast = null;
     this.initModal();
   }
 
@@ -102,7 +100,7 @@ export class changeUserNameModal {
         'Please enter a username.';
     } else {
       if (await this.changeName()) {
-        this.popSuccessToast();
+        toastSuccess('changeUserNameSuccess');
         this.hide();
       }
     }
@@ -117,15 +115,6 @@ export class changeUserNameModal {
       }
     }
     return result;
-  }
-
-  popSuccessToast() {
-    this.successToast = new successToast('Successfully changed username!');
-    this.successToast.show();
-    setTimeout(() => {
-      this.successToast.hide();
-      this.successToast = null;
-    }, 3000);
   }
 
   handleHidden() {

@@ -133,6 +133,9 @@ i18next.init({
 
         change2faSuccess: '2FA authentication changed successfully',
 
+        changeUserNameSuccess : 'Successfully changed username',
+
+
       },
     },
     kr: {
@@ -265,6 +268,9 @@ i18next.init({
         passwordChangeFail: "비밀번호 변경 실패",
 
         change2faSuccess: '2단계 인증 변경 성공',
+
+        changeUserNameSuccess: '사용자 이름 변경 성공',
+
 
       },
     },
@@ -402,6 +408,8 @@ i18next.init({
         passwordChangeFail: "Échec du changement de mot de passe",
 
         change2faSuccess: 'Authentification 2FA modifiée avec succès',
+
+        changeUserNameSuccess: "Changement de nom d'utilisateur réussi",
       },
     },
   },
