@@ -135,7 +135,7 @@ i18next.init({
 
         changeUserNameSuccess : 'Successfully changed username',
 
-
+        changeUserImageSuccess : 'Successfully changed image',
       },
     },
     kr: {
@@ -271,7 +271,7 @@ i18next.init({
 
         changeUserNameSuccess: '사용자 이름 변경 성공',
 
-
+        changeUserImageSuccess: '이미지 변경 성공',
       },
     },
     fr: {
@@ -410,6 +410,8 @@ i18next.init({
         change2faSuccess: 'Authentification 2FA modifiée avec succès',
 
         changeUserNameSuccess: "Changement de nom d'utilisateur réussi",
+
+        changeUserImageSuccess: "Changement d'image réussi",
       },
     },
   },
