@@ -136,7 +136,7 @@ export class deleteUserModal {
     this.processing = true;
 
     try {
-      const success = await deleteUserAccount(password);
+      const success = await this.deleteUserAccount(password);
       if (success) {
         toastSuccess('unsubscribeSuccess');
         this.backModalInstance.hide();
@@ -167,6 +167,31 @@ export class deleteUserModal {
     // userState.setState()
   }
 
+  async deleteUserAccount(password) {
+    try {
+      const accessToken = await getAccessToken();
+      const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.status === 204) {
+        return true;
+      } else if (response.status === 403) {
+        throw new Error('비밀번호가 올바르지 않습니다.');
+      } else {
+        throw new Error('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   updateModalContent() {
     document.getElementById('confirmDeletionModalLabel').innerHTML = i18next.t(
       'confirmDeletionModalLabel'
@@ -186,54 +211,5 @@ export class deleteUserModal {
       i18next.t('password-confirm-form-input');
     document.getElementById('password-confirm-form-confirm').innerHTML =
       i18next.t('password-confirm-form-confirm');
-  }
-}
-
-// deleteUserModal.prototype.finalizeDeletion = async function () {
-//   const passwordInput = document.getElementById('password-confirm-form-input');
-//   const password = passwordInput.value;
-//   if (!password) {
-//     toastFail('unsubscribePassword');
-//     return;
-//   }
-//
-//   if (this.processing) return;
-//   this.processing = true;
-//
-//   try {
-//     const success = await deleteUserAccount(password);
-//     if (success) {
-//       toastSuccess('unsubscribeSuccess');
-//       this.backModalInstance.hide();
-//     }
-//     this.processing = false;
-//   } catch (error) {
-//     popToast(failureToast, error.message);
-//     this.processing = false;
-//   }
-// };
-
-async function deleteUserAccount(password) {
-  try {
-    const accessToken = await getAccessToken();
-    const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ password }),
-    });
-
-    if (response.status === 204) {
-      return true;
-    } else if (response.status === 403) {
-      throw new Error('비밀번호가 올바르지 않습니다.');
-    } else {
-      throw new Error('오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  } catch (error) {
-    throw error;
   }
 }
