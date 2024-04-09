@@ -1,6 +1,5 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
-import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { getCookie } from '../../../utils/cookie.js';
+import { ACCOUNT_API_URL, GAME_API_URL } from '../../../utils/api.js';
 import { redirectError, toastError } from '../../../utils/error.js';
 import { getImageData } from '../data/imageData.js';
 import { getAccessToken } from '../../../utils/token.js';
@@ -49,8 +48,9 @@ function modalHTML(modalId) {
 async function fetchUserProfile(userId) {
   try {
     const accessToken = await getAccessToken();
-    const response = await fetch(
-      `${ACCOUNT_API_URL}/api/account/user-stats/${userId}/`,
+
+    const userResponse = await fetch(
+      `${ACCOUNT_API_URL}/api/account/user-stats/?user_id=${userId}`,
       {
         method: 'GET',
         headers: {
@@ -60,18 +60,49 @@ async function fetchUserProfile(userId) {
       }
     );
 
-    if (!response.ok) {
-      if (response.status === 401) {
+    if (!userResponse.ok) {
+      if (userResponse.status === 401) {
         redirectError('Unauthorized access token. Please login again.');
         return;
-      } else if (response.status === 404) {
+      } else if (userResponse.status === 404) {
         throw new Error('User not found.');
       } else {
         throw new Error('Failed to fetch user profile.');
       }
-    } else {
-      return await response.json();
     }
+
+    const gameResponse = await fetch(
+      `${GAME_API_URL}/api/games/user-stats/?user_id=${userId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!gameResponse.ok) {
+      if (gameResponse.status === 401) {
+        redirectError('Unauthorized access token. Please login again.');
+        return;
+      } else {
+        throw new Error('Failed to fetch user game data.');
+      }
+    }
+
+    const userData = await userResponse.json();
+    const gameData = await gameResponse.json();
+
+    const response = {
+      username: userData.username,
+      image: userData.img,
+      win_rate: gameData.win_rate,
+      wins: gameData.wins,
+      losses: gameData.losses,
+    };
+
+    return response;
   } catch (error) {
     toastError(error.message);
   }
