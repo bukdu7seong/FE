@@ -131,6 +131,8 @@ i18next.init({
         passwordChangeSuccess: "Password changed successfully",
         passwordChangeFail: "Password change failed",
 
+        change2faSuccess: '2FA authentication changed successfully',
+
       },
     },
     kr: {
@@ -260,7 +262,10 @@ i18next.init({
         connectSuccess : '연결 성공',
 
         passwordChangeSuccess: "비밀번호가 성공적으로 변경되었습니다",
-        passwordChangeFail: "비밀번호 변경 실패"
+        passwordChangeFail: "비밀번호 변경 실패",
+
+        change2faSuccess: '2단계 인증 변경 성공',
+
       },
     },
     fr: {
@@ -394,7 +399,9 @@ i18next.init({
         connectSuccess: "Connexion réussie",
 
         passwordChangeSuccess: "Le mot de passe a été changé avec succès",
-        passwordChangeFail: "Échec du changement de mot de passe"
+        passwordChangeFail: "Échec du changement de mot de passe",
+
+        change2faSuccess: 'Authentification 2FA modifiée avec succès',
       },
     },
   },

@@ -1,8 +1,8 @@
-import { successToast } from '../../common/toast/success.js';
 import { failureToast } from '../../common/toast/failure.js';
 import { userState } from '../../../../lib/state/state.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastSuccess } from '../../../utils/success.js';
 
 async function update2FA(is2FAEnabled) {
   const accessToken = await getAccessToken();
@@ -27,10 +27,7 @@ async function update2FA(is2FAEnabled) {
     console.log(
       `2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`
     );
-    popToast(
-      successToast,
-      `2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`
-    );
+    toastSuccess('change2faSuccess');
     return data;
   } catch (error) {
     popToast(failureToast, error.message);
