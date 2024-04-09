@@ -141,6 +141,8 @@ i18next.init({
         newPasswordNotMatch: 'New password does not match.',
         incorrectCurrentPassword: 'Incorrect current password.',
 
+        unsubscribeSuccess: 'Account successfully unsubscribed.',
+        unsubscribePassword: 'Password is required.'
       },
     },
     kr: {
@@ -281,6 +283,9 @@ i18next.init({
         invalidPasswordFormat: '비밀번호 형식이 올바르지 않습니다.',
         newPasswordNotMatch: '새 비밀번호가 일치하지 않습니다.',
         incorrectCurrentPassword: '현재 비밀번호가 정확하지 않습니다.',
+
+        unsubscribeSuccess: '계정이 성공적으로 삭제되었습니다.',
+        unsubscribePassword: '비밀번호를 입력해야 합니다.'
       },
     },
     fr: {
@@ -424,7 +429,10 @@ i18next.init({
 
         invalidPasswordFormat: 'Format de mot de passe invalide.',
         newPasswordNotMatch: 'Le nouveau mot de passe ne correspond pas.',
-        incorrectCurrentPassword: 'Mot de passe actuel incorrect.'
+        incorrectCurrentPassword: 'Mot de passe actuel incorrect.',
+
+        unsubscribeSuccess: 'Désinscription réussie.',
+        unsubscribePassword: 'Le mot de passe est requis.'
       },
     },
   },

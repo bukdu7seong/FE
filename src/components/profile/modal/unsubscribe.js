@@ -1,10 +1,9 @@
 // 필요한 모듈 또는 유틸리티 가져오기
-import { globalState, userState } from '../../../../lib/state/state.js';
-import { successToast } from '../../common/toast/success.js';
 import { failureToast } from '../../common/toast/failure.js';
-import { getCookie } from '../../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastSuccess } from '../../../utils/success.js';
+import { toastFail } from '../../../utils/fail.js';
 
 // 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
@@ -125,26 +124,29 @@ export class deleteUserModal {
     this.backModalInstance.show();
   }
 
-  finalizeDeletion() {
-    const password =
-      this.finalModalInstance._element.querySelector('#accountPassword').value;
-    if (password) {
-      // 여기서 비밀번호 검증 및 탈퇴 처리 로직을 수행합니다.
-      deleteUserAccount(password)
-        .then(() => {
-          // 성공 메시지 및 후속 처리
-          popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
-        })
-        .catch((error) => {
-          // 오류 메시지 처리
-          popToast(failureToast, error.message);
-        });
-    } else {
-      // 비밀번호 입력 오류 메시지
-      popToast(failureToast, '비밀번호를 입력해야 합니다.');
+  async finalizeDeletion() {
+    const passwordInput = document.getElementById('password-confirm-form-input');
+    const password = passwordInput.value;
+    if (!password) {
+      toastFail('unsubscribePassword');
+      return;
+    }
+
+    if (this.processing) return;
+    this.processing = true;
+
+    try {
+      const success = await this.deleteUserAccount(password);
+      if (success) {
+        toastSuccess('unsubscribeSuccess');
+        this.backModalInstance.hide();
+      }
+      this.processing = false;
+    } catch (error) {
+      popToast(failureToast, error.message);
+      this.processing = false;
     }
   }
-
   handleBackHidden() {
     this.backModalInstance._element.remove();
   }
@@ -163,6 +165,31 @@ export class deleteUserModal {
     this.updateModalContent();
     this.frontModalInstance.show();
     // userState.setState()
+  }
+
+  async deleteUserAccount(password) {
+    try {
+      const accessToken = await getAccessToken();
+      const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.status === 204) {
+        return true;
+      } else if (response.status === 403) {
+        throw new Error('비밀번호가 올바르지 않습니다.');
+      } else {
+        throw new Error('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   updateModalContent() {
@@ -184,54 +211,5 @@ export class deleteUserModal {
       i18next.t('password-confirm-form-input');
     document.getElementById('password-confirm-form-confirm').innerHTML =
       i18next.t('password-confirm-form-confirm');
-  }
-}
-
-deleteUserModal.prototype.finalizeDeletion = async function () {
-  const passwordInput = document.getElementById('password-confirm-form-input');
-  const password = passwordInput.value;
-  if (!password) {
-    popToast(failureToast, '비밀번호를 입력해야 합니다.');
-    return;
-  }
-
-  if (this.processing) return;
-  this.processing = true;
-
-  try {
-    const success = await deleteUserAccount(password);
-    if (success) {
-      popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
-      this.backModalInstance.hide();
-    }
-    this.processing = false;
-  } catch (error) {
-    popToast(failureToast, error.message);
-    this.processing = false;
-  }
-};
-
-async function deleteUserAccount(password) {
-  try {
-    const accessToken = await getAccessToken();
-    const url = `${ACCOUNT_API_URL}/api/account/delete-account/`;
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ password }),
-    });
-
-    if (response.status === 204) {
-      return true;
-    } else if (response.status === 403) {
-      throw new Error('비밀번호가 올바르지 않습니다.');
-    } else {
-      throw new Error('오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  } catch (error) {
-    throw error;
   }
 }
