@@ -45,7 +45,7 @@ export async function getAccessToken() {
         setCookie('accessToken', data.access);
         return data.access;
       } else {
-        throw new Error(response.status.toString());
+        throw new Error('Failed to reissue access token.');
       }
     } catch (e) {
       alert(e.message);
