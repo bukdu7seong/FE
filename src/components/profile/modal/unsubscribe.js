@@ -124,26 +124,29 @@ export class deleteUserModal {
     this.backModalInstance.show();
   }
 
-  finalizeDeletion() {
-    const password =
-      this.finalModalInstance._element.querySelector('#accountPassword').value;
-    if (password) {
-      // 여기서 비밀번호 검증 및 탈퇴 처리 로직을 수행합니다.
-      deleteUserAccount(password)
-        .then(() => {
-          // 성공 메시지 및 후속 처리
-          toastSuccess('unsubscribeSuccess');
-        })
-        .catch((error) => {
-          // 오류 메시지 처리
-          popToast(failureToast, error.message);
-        });
-    } else {
-      // 비밀번호 입력 오류 메시지
+  async finalizeDeletion() {
+    const passwordInput = document.getElementById('password-confirm-form-input');
+    const password = passwordInput.value;
+    if (!password) {
       toastFail('unsubscribePassword');
+      return;
+    }
+
+    if (this.processing) return;
+    this.processing = true;
+
+    try {
+      const success = await deleteUserAccount(password);
+      if (success) {
+        toastSuccess('unsubscribeSuccess');
+        this.backModalInstance.hide();
+      }
+      this.processing = false;
+    } catch (error) {
+      popToast(failureToast, error.message);
+      this.processing = false;
     }
   }
-
   handleBackHidden() {
     this.backModalInstance._element.remove();
   }
@@ -186,29 +189,29 @@ export class deleteUserModal {
   }
 }
 
-deleteUserModal.prototype.finalizeDeletion = async function () {
-  const passwordInput = document.getElementById('password-confirm-form-input');
-  const password = passwordInput.value;
-  if (!password) {
-    toastFail('unsubscribePassword');
-    return;
-  }
-
-  if (this.processing) return;
-  this.processing = true;
-
-  try {
-    const success = await deleteUserAccount(password);
-    if (success) {
-      toastSuccess('unsubscribeSuccess');
-      this.backModalInstance.hide();
-    }
-    this.processing = false;
-  } catch (error) {
-    popToast(failureToast, error.message);
-    this.processing = false;
-  }
-};
+// deleteUserModal.prototype.finalizeDeletion = async function () {
+//   const passwordInput = document.getElementById('password-confirm-form-input');
+//   const password = passwordInput.value;
+//   if (!password) {
+//     toastFail('unsubscribePassword');
+//     return;
+//   }
+//
+//   if (this.processing) return;
+//   this.processing = true;
+//
+//   try {
+//     const success = await deleteUserAccount(password);
+//     if (success) {
+//       toastSuccess('unsubscribeSuccess');
+//       this.backModalInstance.hide();
+//     }
+//     this.processing = false;
+//   } catch (error) {
+//     popToast(failureToast, error.message);
+//     this.processing = false;
+//   }
+// };
 
 async function deleteUserAccount(password) {
   try {
