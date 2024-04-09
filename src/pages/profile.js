@@ -1,6 +1,5 @@
 import { routes } from '../../lib/router/router.js';
 import { sidebar } from '../components/common/sidebar.js';
-import { applyLauguage } from '../components/language/language.js';
 
 const playerProfile = `
   <div class="profile-photo">

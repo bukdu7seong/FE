@@ -1,4 +1,4 @@
-import { applyLauguage } from './language.js';
+import { applyLanguage } from './language.js';
 
 export default function applyLanguageProfile() {
   const elementsToUpdate = {
@@ -28,7 +28,7 @@ export default function applyLanguageProfile() {
     const element = document.getElementById(id);
     if (element) {
       element.innerHTML = text;
-      applyLauguage().set({
+      applyLanguage().set({
         id: id
       });
     }

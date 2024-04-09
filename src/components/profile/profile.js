@@ -12,7 +12,7 @@ import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
 import {
-  applyLauguage,
+  applyLanguage,
   changeLanguage,
 } from '../language/language.js';
 import { updateRequest } from './updateRequest.js';
@@ -137,7 +137,7 @@ async function setHistoryList() {
     const historyItem = document.createElement('li');
     historyItem.id = 'historyItemNoData';
     historyItem.textContent = i18next.t('historyItemNoData');
-    applyLauguage().set({
+    applyLanguage().set({
       id: 'historyItemNoData',
     });
     historyList.appendChild(historyItem);
@@ -221,7 +221,7 @@ export async function setFriendList() {
     const friendItem = document.createElement('li');
     friendItem.textContent = i18next.t('friendItemNoData');
     friendItem.id = 'friendItemNoData';
-    applyLauguage().set({
+    applyLanguage().set({
       id: 'friendItemNoData',
     });
     friendList.appendChild(friendItem);
@@ -307,7 +307,7 @@ export async function setRequestList() {
     const requestItem = document.createElement('li');
     requestItem.textContent = i18next.t('requestItemNoData');
     requestItem.id = 'requestItemNoData';
-    applyLauguage().set({
+    applyLanguage().set({
       id: 'requestItemNoData',
     });
     requestList.appendChild(requestItem);
@@ -417,7 +417,7 @@ function setLanguage() {
       const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
       changeLanguage(languageCode);
       updateUserLanguage(languageCode);
-      applyLauguage().call();
+      applyLanguage().call();
     }
   });
 }

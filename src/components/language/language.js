@@ -402,7 +402,7 @@ export function changeLanguage(languageCode) {
 
 let updates = [];
 
-export function applyLauguage() {
+export function applyLanguage() {
   function setUpdate({ id }) {
     updates.push({ id });
   }
