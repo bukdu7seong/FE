@@ -9,14 +9,13 @@ export async function updateRequest(userId, accept) {
       const accessToken = await getAccessToken();
 
       const response = await fetch(
-        `${ACCOUNT_API_URL}/api/friend/accept-friend-request/`,
+        `${ACCOUNT_API_URL}/api/friend/accept-friend-request/?user_id=${userId}`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ friend_request_id: userId }),
         }
       );
 
@@ -36,7 +35,7 @@ export async function updateRequest(userId, accept) {
       const accessToken = await getAccessToken();
 
       const response = await fetch(
-        `${ACCOUNT_API_URL}/api/friend/delete-friend-request/?friend_request_id=${userId}`,
+        `${ACCOUNT_API_URL}/api/friend/delete-friend-request/?user_id=${userId}`,
         {
           method: 'DELETE',
           headers: {
