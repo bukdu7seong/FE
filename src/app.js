@@ -18,7 +18,6 @@ import { profile } from './components/profile/profile.js';
 import { signIn } from './components/login/signIn.js';
 import { signUp } from './components/login/signUp.js';
 import { twoFA } from './components/login/twofa.js';
-import { updateGameBoxMultilingualContent } from './components/game/game.js';
 // state
 import { gameState, routeState, userState } from '../lib/state/state.js';
 // game
@@ -27,6 +26,7 @@ import Tournament from './components/game/Tournament.js';
 // utils
 import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
+import applyLanguageClassic from './components/language/applyLanguageClassic.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -45,7 +45,7 @@ function init() {
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
       setOnRender(routes['/profile'], profile);
-      setOnRender(routes['/game'], updateGameBoxMultilingualContent);
+      setOnRender(routes['/game'], applyLanguageClassic);
       setOnRender(routes['/tournament'], updateTournamentBoxContent);
       setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
 
