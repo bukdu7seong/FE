@@ -33,6 +33,7 @@ export function listenFriendLogin(array) {
 
       userSocket.onmessage = (event) => {
         const loginStatusList = JSON.parse(event.data);
+        // console.log('list: ', loginStatusList);
 
         Object.entries(loginStatusList).forEach(([userId, isLoggedIn]) => {
           const profileModal = globalState.getState().profileModal;

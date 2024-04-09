@@ -11,10 +11,7 @@ import { viewAllRequestsModal } from './modal/viewAllRequest.js';
 import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
-import {
-  applyLanguage,
-  changeLanguage,
-} from '../language/language.js';
+import { applyLanguage, changeLanguage } from '../language/language.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
 import { getHistoryData } from './data/historyData.js';
@@ -215,6 +212,7 @@ export async function setFriendList() {
   }
 
   friendList.innerHTML = '';
+  let friendIdArray = [];
 
   // listenFriendLogin();
   if (!friendData.friends.length) {
@@ -227,7 +225,6 @@ export async function setFriendList() {
     friendList.appendChild(friendItem);
   } else {
     const firstTwoResults = friendData.friends.slice(0, 2);
-    let friendIdArray = [];
 
     firstTwoResults.forEach(async (result) => {
       const friendItem = document.createElement('li');
@@ -288,9 +285,8 @@ export async function setFriendList() {
       friendItem.appendChild(friendListItemDiv);
       friendList.appendChild(friendItem);
     });
-
-    listenFriendLogin(friendIdArray);
   }
+  listenFriendLogin(friendIdArray);
 }
 
 export async function setRequestList() {
