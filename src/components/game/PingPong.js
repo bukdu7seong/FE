@@ -7,9 +7,9 @@ import { getCookie } from '../../utils/cookie.js';
 import { ACCOUNT_API_URL, GAME_API_URL } from '../../utils/api.js';
 import {
   updateScoreModalResult,
-  updateScoreModalMultilingualContent,
 } from './game.js';
 import { getAccessToken } from '../../utils/token.js';
+import applyLanguageClassicScoreModal from '../language/applyLanguageClassicScoreModal.js';
 
 const KEY_CODES = {
   MOVE_UP_PLAYER1: 'KeyW',
@@ -329,8 +329,8 @@ export default class PingPong {
           const scoreModalElement = document.getElementById('scoreModal');
           if (scoreModalElement) {
             const scoreModal = new bootstrap.Modal(scoreModalElement);
+            applyLanguageClassicScoreModal();
             scoreModal.show();
-            updateScoreModalMultilingualContent();
           }
 
           document

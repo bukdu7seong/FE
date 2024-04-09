@@ -125,6 +125,22 @@ i18next.init({
 
         invalidEmailFormat : 'Invalid email format',
         verificationFailed : 'Verification failed. Please try again.',
+
+        connectSuccess : 'Connect Success',
+
+        passwordChangeSuccess: "Password changed successfully",
+        passwordChangeFail: "Password change failed",
+
+        change2faSuccess: '2FA authentication changed successfully',
+
+        changeUserNameSuccess : 'Successfully changed username',
+
+        changeUserImageSuccess : 'Successfully changed image',
+
+        invalidPasswordFormat: 'Invalid password format.',
+        newPasswordNotMatch: 'New password does not match.',
+        incorrectCurrentPassword: 'Incorrect current password.',
+
       },
     },
     kr: {
@@ -249,7 +265,22 @@ i18next.init({
         friendRequestViewAll: '모두 보기',
 
         invalidEmailFormat : '잘못된 이메일 형식',
-        verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.'
+        verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.',
+
+        connectSuccess : '연결 성공',
+
+        passwordChangeSuccess: "비밀번호가 성공적으로 변경되었습니다",
+        passwordChangeFail: "비밀번호 변경 실패",
+
+        change2faSuccess: '2단계 인증 변경 성공',
+
+        changeUserNameSuccess: '사용자 이름 변경 성공',
+
+        changeUserImageSuccess: '이미지 변경 성공',
+
+        invalidPasswordFormat: '비밀번호 형식이 올바르지 않습니다.',
+        newPasswordNotMatch: '새 비밀번호가 일치하지 않습니다.',
+        incorrectCurrentPassword: '현재 비밀번호가 정확하지 않습니다.',
       },
     },
     fr: {
@@ -378,7 +409,22 @@ i18next.init({
         friendRequestViewAll: 'Voir tout',
 
         invalidEmailFormat : "Format d'email invalide",
-        verificationFailed : 'Échec de la vérification. Veuillez réessayer.'
+        verificationFailed : 'Échec de la vérification. Veuillez réessayer.',
+
+        connectSuccess: "Connexion réussie",
+
+        passwordChangeSuccess: "Le mot de passe a été changé avec succès",
+        passwordChangeFail: "Échec du changement de mot de passe",
+
+        change2faSuccess: 'Authentification 2FA modifiée avec succès',
+
+        changeUserNameSuccess: "Changement de nom d'utilisateur réussi",
+
+        changeUserImageSuccess: "Changement d'image réussi",
+
+        invalidPasswordFormat: 'Format de mot de passe invalide.',
+        newPasswordNotMatch: 'Le nouveau mot de passe ne correspond pas.',
+        incorrectCurrentPassword: 'Mot de passe actuel incorrect.'
       },
     },
   },
@@ -397,49 +443,12 @@ export function changeLanguage(languageCode) {
 
   i18next.changeLanguage(languageCode, (err, t) => {
     if (err) return console.error(err);
-    // updateContent();
   });
-}
-
-// // 언어명을 언어 코드로 변환하는 함수
-// function mapLanguageToCode(language) {
-//   const languageMap = {
-//     korean: 'ko',
-//     english: 'en',
-//     french: 'fr'
-//   };
-//   return languageMap[language.toLowerCase()] || 'en'; // 기본값으로 'en' 설정
-// }
-
-// 페이지 콘텐츠 업데이트
-export function updateContent() {
-  document.getElementById('recent-history').innerHTML =
-    i18next.t('recent-history');
-  document.getElementById('friend-request').innerHTML =
-    i18next.t('friend-request');
-  document.getElementById('friends').innerHTML = i18next.t('friends');
-  document.getElementById('rate').innerHTML = i18next.t('rate');
-  document.getElementById('win').innerHTML = i18next.t('win');
-  document.getElementById('loss').innerHTML = i18next.t('loss');
-  document.getElementById('choose-photo').innerHTML = i18next.t('choose-photo');
-  document.getElementById('2fa-option').innerHTML = i18next.t('2fa-option');
-  document.getElementById('language').innerHTML = i18next.t('language');
-  document.getElementById('change-password-guide').innerHTML = i18next.t(
-    'change-password-guide'
-  );
-  document.getElementById('change-password').innerHTML =
-    i18next.t('change-password');
-  document.getElementById('unsubscribe-guide').innerHTML =
-    i18next.t('unsubscribe-guide');
-  document.getElementById('unsubscribe').innerHTML = i18next.t('unsubscribe');
-  document.getElementById('lang-kr').innerHTML = i18next.t('lang-kr');
-  document.getElementById('lang-en').innerHTML = i18next.t('lang-en');
-  document.getElementById('lang-fr').innerHTML = i18next.t('lang-fr');
 }
 
 let updates = [];
 
-export function applyLauguage() {
+export function applyLanguage() {
   function setUpdate({ id }) {
     updates.push({ id });
   }

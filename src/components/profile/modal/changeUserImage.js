@@ -1,10 +1,9 @@
 import { userState } from '../../../../lib/state/state.js';
-import { successToast } from '../../common/toast/success.js';
-import { redirectError, throwError, toastError } from '../../../utils/error.js';
-import { getCookie } from '../../../utils/cookie.js';
+import { redirectError, toastError } from '../../../utils/error.js';
 import { getImageData } from '../data/imageData.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastSuccess } from '../../../utils/success.js';
 
 function modalHTML(modalId) {
   return `
@@ -101,22 +100,13 @@ export class changeUserImageModal {
         'Please select an image.';
     } else {
       this.changeImage();
-      this.popToast();
+      toastSuccess('changeUserImageSuccess');
       this.hide();
     }
   }
 
   changeImage() {
     updateUserImage(this.inputFile);
-  }
-
-  popToast() {
-    this.successToast = new successToast('Successfully changed image!');
-    this.successToast.show();
-    setTimeout(() => {
-      this.successToast.hide();
-      this.successToast = null;
-    }, 4242);
   }
 
   handleHidden() {

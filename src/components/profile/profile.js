@@ -12,20 +12,18 @@ import { change2FA } from './modal/change2FA.js';
 import { changePasswordModal } from './modal/changePassword.js';
 import { deleteUserModal } from './modal/unsubscribe.js';
 import {
-  applyLauguage,
+  applyLanguage,
   changeLanguage,
-  updateContent,
 } from '../language/language.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
-import { getCookie } from '../../utils/cookie.js';
 import { getHistoryData } from './data/historyData.js';
 import { getFriendData } from './data/friendData.js';
 import { getRequestData } from './data/requestData.js';
 import { getImageData } from './data/imageData.js';
-import { updateMultilingualContent } from '../../pages/profile.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getAccessToken } from '../../utils/token.js';
+import applyLanguageProfile from '../language/applyLanguageProfile.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -139,7 +137,7 @@ async function setHistoryList() {
     const historyItem = document.createElement('li');
     historyItem.id = 'historyItemNoData';
     historyItem.textContent = i18next.t('historyItemNoData');
-    applyLauguage().set({
+    applyLanguage().set({
       id: 'historyItemNoData',
     });
     historyList.appendChild(historyItem);
@@ -223,7 +221,7 @@ export async function setFriendList() {
     const friendItem = document.createElement('li');
     friendItem.textContent = i18next.t('friendItemNoData');
     friendItem.id = 'friendItemNoData';
-    applyLauguage().set({
+    applyLanguage().set({
       id: 'friendItemNoData',
     });
     friendList.appendChild(friendItem);
@@ -309,7 +307,7 @@ export async function setRequestList() {
     const requestItem = document.createElement('li');
     requestItem.textContent = i18next.t('requestItemNoData');
     requestItem.id = 'requestItemNoData';
-    applyLauguage().set({
+    applyLanguage().set({
       id: 'requestItemNoData',
     });
     requestList.appendChild(requestItem);
@@ -419,7 +417,7 @@ function setLanguage() {
       const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
       changeLanguage(languageCode);
       updateUserLanguage(languageCode);
-      applyLauguage().call();
+      applyLanguage().call();
     }
   });
 }
@@ -480,7 +478,6 @@ export function profile() {
   setRequestList();
   setLanguage();
   set2fa();
-  updateContent();
   setModal();
-  updateMultilingualContent();
+  applyLanguageProfile();
 }
