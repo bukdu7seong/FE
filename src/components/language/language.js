@@ -125,6 +125,12 @@ i18next.init({
 
         invalidEmailFormat : 'Invalid email format',
         verificationFailed : 'Verification failed. Please try again.',
+
+        connectSuccess : 'Connect Success',
+
+        passwordChangeSuccess: "Password changed successfully",
+        passwordChangeFail: "Password change failed",
+
       },
     },
     kr: {
@@ -249,7 +255,12 @@ i18next.init({
         friendRequestViewAll: '모두 보기',
 
         invalidEmailFormat : '잘못된 이메일 형식',
-        verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.'
+        verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.',
+
+        connectSuccess : '연결 성공',
+
+        passwordChangeSuccess: "비밀번호가 성공적으로 변경되었습니다",
+        passwordChangeFail: "비밀번호 변경 실패"
       },
     },
     fr: {
@@ -378,7 +389,12 @@ i18next.init({
         friendRequestViewAll: 'Voir tout',
 
         invalidEmailFormat : "Format d'email invalide",
-        verificationFailed : 'Échec de la vérification. Veuillez réessayer.'
+        verificationFailed : 'Échec de la vérification. Veuillez réessayer.',
+
+        connectSuccess: "Connexion réussie",
+
+        passwordChangeSuccess: "Le mot de passe a été changé avec succès",
+        passwordChangeFail: "Échec du changement de mot de passe"
       },
     },
   },

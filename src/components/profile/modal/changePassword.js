@@ -1,9 +1,8 @@
 import { validatePassword } from '../../login/formValidator.js';
-import { failureToast } from '../../common/toast/failure.js';
-import { successToast } from '../../common/toast/success.js';
-import { getCookie } from '../../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastSuccess } from '../../../utils/success.js';
+import { toastFail } from '../../../utils/fail.js';
 
 function modalHTML(modalId) {
   return `
@@ -80,7 +79,6 @@ export class changePasswordModal {
     this.modalHTML = modalHTML(modalId);
     this.modalId = modalId;
     this.modalInstance = null;
-    this.successToast = null;
     this.initModal();
   }
 
@@ -139,31 +137,16 @@ export class changePasswordModal {
     );
 
     if (result && result.success) {
-      this.popToast();
+      toastSuccess('passwordChangeSuccess');
       this.hide(); // 변경 성공 시 모달 숨김
     } else {
       // 비밀번호 변경 실패 처리
       if (result.status === 400) {
         errorMessageElement.textContent = '현재 비밀번호가 정확하지 않습니다.';
       } else {
-        const toast = new failureToast('비밀번호 변경 실패');
-        toast.show();
-        setTimeout(() => {
-          toast.hide();
-        }, 3000);
+        toastFail('passwordChangeFail');
       }
     }
-  }
-
-  popToast() {
-    this.successToast = new successToast(
-      '비밀번호가 성공적으로 변경되었습니다!'
-    );
-    this.successToast.show();
-    setTimeout(() => {
-      this.successToast.hide();
-      this.successToast = null;
-    }, 3000);
   }
 
   handleHidden() {

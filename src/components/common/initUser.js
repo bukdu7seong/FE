@@ -101,7 +101,7 @@ export async function initUserInfo() {
         clearTimeout(timeout);
         userState.setState({ userSocket: socket }, false);
         userState.setState({ socketStatus: 'online' }, false);
-        toastSuccess('Connect Success!');
+        toastSuccess('connectSuccess');
       };
 
       socket.onerror = () => {
