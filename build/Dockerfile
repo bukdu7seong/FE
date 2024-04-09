@@ -7,3 +7,4 @@ COPY localhost.key /certs/localhost.key
 COPY localhost.pem /certs/localhost.pem
 
 EXPOSE 443
+EXPOSE 80
