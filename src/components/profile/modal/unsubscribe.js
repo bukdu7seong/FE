@@ -1,10 +1,9 @@
 // 필요한 모듈 또는 유틸리티 가져오기
-import { globalState, userState } from '../../../../lib/state/state.js';
-import { successToast } from '../../common/toast/success.js';
 import { failureToast } from '../../common/toast/failure.js';
-import { getCookie } from '../../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastSuccess } from '../../../utils/success.js';
+import { toastFail } from '../../../utils/fail.js';
 
 // 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
@@ -133,7 +132,7 @@ export class deleteUserModal {
       deleteUserAccount(password)
         .then(() => {
           // 성공 메시지 및 후속 처리
-          popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
+          toastSuccess('unsubscribeSuccess');
         })
         .catch((error) => {
           // 오류 메시지 처리
@@ -141,7 +140,7 @@ export class deleteUserModal {
         });
     } else {
       // 비밀번호 입력 오류 메시지
-      popToast(failureToast, '비밀번호를 입력해야 합니다.');
+      toastFail('unsubscribePassword');
     }
   }
 
@@ -191,7 +190,7 @@ deleteUserModal.prototype.finalizeDeletion = async function () {
   const passwordInput = document.getElementById('password-confirm-form-input');
   const password = passwordInput.value;
   if (!password) {
-    popToast(failureToast, '비밀번호를 입력해야 합니다.');
+    toastFail('unsubscribePassword');
     return;
   }
 
@@ -201,7 +200,7 @@ deleteUserModal.prototype.finalizeDeletion = async function () {
   try {
     const success = await deleteUserAccount(password);
     if (success) {
-      popToast(successToast, '계정이 성공적으로 삭제되었습니다.');
+      toastSuccess('unsubscribeSuccess');
       this.backModalInstance.hide();
     }
     this.processing = false;
