@@ -136,6 +136,11 @@ i18next.init({
         changeUserNameSuccess : 'Successfully changed username',
 
         changeUserImageSuccess : 'Successfully changed image',
+
+        invalidPasswordFormat: 'Invalid password format.',
+        newPasswordNotMatch: 'New password does not match.',
+        incorrectCurrentPassword: 'Incorrect current password.',
+
       },
     },
     kr: {
@@ -272,6 +277,10 @@ i18next.init({
         changeUserNameSuccess: '사용자 이름 변경 성공',
 
         changeUserImageSuccess: '이미지 변경 성공',
+
+        invalidPasswordFormat: '비밀번호 형식이 올바르지 않습니다.',
+        newPasswordNotMatch: '새 비밀번호가 일치하지 않습니다.',
+        incorrectCurrentPassword: '현재 비밀번호가 정확하지 않습니다.',
       },
     },
     fr: {
@@ -412,6 +421,10 @@ i18next.init({
         changeUserNameSuccess: "Changement de nom d'utilisateur réussi",
 
         changeUserImageSuccess: "Changement d'image réussi",
+
+        invalidPasswordFormat: 'Format de mot de passe invalide.',
+        newPasswordNotMatch: 'Le nouveau mot de passe ne correspond pas.',
+        incorrectCurrentPassword: 'Mot de passe actuel incorrect.'
       },
     },
   },

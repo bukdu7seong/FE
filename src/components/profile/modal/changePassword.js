@@ -119,10 +119,10 @@ export class changePasswordModal {
     );
 
     if (!validatePassword(newPassword, errorMessageElement)) {
-      errorMessageElement.textContent = '비밀번호 형식이 올바르지 않습니다.';
+      errorMessageElement.textContent = i18next.t('invalidPasswordFormat');
       return; // 함수 종료
     } else if (newPassword !== confirmPassword) {
-      errorMessageElement.textContent = '새 비밀번호가 일치하지 않습니다.';
+      errorMessageElement.textContent = i18next.t('newPasswordNotMatch');
       return; // 함수 종료
     } else {
       errorMessageElement.textContent = ''; // 에러 메시지 초기화
@@ -142,7 +142,7 @@ export class changePasswordModal {
     } else {
       // 비밀번호 변경 실패 처리
       if (result.status === 400) {
-        errorMessageElement.textContent = '현재 비밀번호가 정확하지 않습니다.';
+        errorMessageElement.textContent = i18next.t('incorrectCurrentPassword');
       } else {
         toastFail('passwordChangeFail');
       }
