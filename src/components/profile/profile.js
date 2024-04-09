@@ -14,18 +14,16 @@ import { deleteUserModal } from './modal/unsubscribe.js';
 import {
   applyLauguage,
   changeLanguage,
-  updateContent,
 } from '../language/language.js';
 import { updateRequest } from './updateRequest.js';
 import { inviteFriendsModal } from './modal/inviteFriends.js';
-import { getCookie } from '../../utils/cookie.js';
 import { getHistoryData } from './data/historyData.js';
 import { getFriendData } from './data/friendData.js';
 import { getRequestData } from './data/requestData.js';
 import { getImageData } from './data/imageData.js';
-import { updateMultilingualContent } from '../../pages/profile.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getAccessToken } from '../../utils/token.js';
+import applyLanguageProfile from '../language/applyLanguageProfile.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -480,7 +478,6 @@ export function profile() {
   setRequestList();
   setLanguage();
   set2fa();
-  updateContent();
   setModal();
-  updateMultilingualContent();
+  applyLanguageProfile();
 }

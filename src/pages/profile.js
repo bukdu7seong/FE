@@ -136,29 +136,3 @@ export function pageProfile() {
   page.appendChild(navbar);
   return page;
 }
-
-export function updateMultilingualContent() {
-  document.getElementById('playerHistoryViewAll').innerHTML = i18next.t(
-    'playerHistoryViewAll'
-  );
-  document.getElementById('friendListViewAll').innerHTML =
-    i18next.t('friendListViewAll');
-  document.getElementById('friendRequestInvite').innerHTML = i18next.t(
-    'friendRequestInvite'
-  );
-  document.getElementById('friendRequestViewAll').innerHTML = i18next.t(
-    'friendRequestViewAll'
-  );
-  applyLauguage().set({
-    id: 'playerHistoryViewAll',
-  });
-  applyLauguage().set({
-    id: 'friendListViewAll',
-  });
-  applyLauguage().set({
-    id: 'friendRequestInvite',
-  });
-  applyLauguage().set({
-    id: 'friendRequestViewAll',
-  });
-}
