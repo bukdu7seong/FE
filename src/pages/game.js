@@ -110,7 +110,7 @@ export function pageBoard() {
   // page.appendChild(createScoreModal());
   page.appendChild(createEmail2faModal());
 
-  const content = `
+  page.innerHTML = `
       <div class="ball">
         <div class="ball_effect"></div>
       </div>
@@ -120,7 +120,6 @@ export function pageBoard() {
       <div class="player_2_score">0</div>
       <div class="message">Press Enter to Play Pong</div>
     `;
-  page.innerHTML = content;
 
   function loadScript() {
     let script = document.createElement('script');

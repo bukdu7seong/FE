@@ -7,7 +7,7 @@ export function pageTournament() {
   page.setAttribute('class', 'full-screen');
   const navbar = sidebar(routes);
 
-  const content = `
+  page.innerHTML = `
 <!--        <div class="side-bar"></div>-->
         <div class="main-box">
           <div class="user-box"></div>
@@ -135,7 +135,6 @@ export function pageTournament() {
 
         
       `;
-  page.innerHTML = content;
   page.appendChild(navbar);
   page.appendChild(createTournamentWinnerModal());
   setupTournamentEvents(page);
