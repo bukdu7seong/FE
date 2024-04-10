@@ -44,24 +44,30 @@ export function setupGameSettingModal(page) {
 }
 
 export function updateScoreModalResult(gameResult) {
+
+  const currentTime = formatCurrentTime();
+
   const elementsToUpdate = {
     'classic-winner-name': gameResult.winner.name,
     'classic-loser-name': gameResult.loser.name,
     'classic-winner-image': gameResult.winner.image,
-    'classic-loser-image': gameResult.loser.image
+    'classic-loser-image': gameResult.loser.image,
+    'win-time': currentTime, // 승자 시간 업데이트
+    'lose-time': currentTime // 패자 시간 업데이트
   };
 
   for (const [id, value] of Object.entries(elementsToUpdate)) {
     const element = document.getElementById(id);
     if (element) {
       if (id.includes('image')) {
-        element.src = value; // 이미지 요소의 경우 src 속성 업데이트
+        element.src = value;
       } else {
-        element.textContent = value; // 텍스트 콘텐츠 업데이트
+        element.textContent = value;
       }
     }
   }
 }
+
 export function initializeGameResultData() {
   return {
     winner: {

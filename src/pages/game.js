@@ -92,8 +92,6 @@ function createGameSettingModal() {
 export function pageBoard() {
   const page = document.createElement('div');
   page.setAttribute('class', 'board');
-  // page.appendChild(createScoreModal());
-  // page.appendChild(createEmail2faModal());
 
   page.innerHTML = `
       <div class="ball">
