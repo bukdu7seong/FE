@@ -24,5 +24,6 @@ export async function getImageData(imagePath) {
     return imageResponse.url;
   } catch (error) {
     toastError(error.message);
+    return null;
   }
 }

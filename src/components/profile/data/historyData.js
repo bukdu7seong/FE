@@ -16,9 +16,18 @@ export async function getHistoryData(pageNumber = 1) {
       }
     );
 
+    if (!response.ok) {
+      if (response.status === 401) {
+        redirectError('Unauthorized access token. Please login again.');
+        return;
+      } else {
+        throwError('Failed to fetch user game data.');
+      }
+    }
+
     return await response.json();
   } catch (error) {
-    // throwError(error.message); // throw? toast?
     toastError(error.message);
+    return null;
   }
 }

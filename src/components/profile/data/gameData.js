@@ -17,15 +17,15 @@ export async function getGameData() {
     if (!response.ok) {
       if (response.status === 401) {
         redirectError('Unauthorized access token. Please login again.');
-        returnl;
+        return;
       } else {
-        throwError('Failed to fetch user data. Please login again.');
+        throwError('Failed to fetch user game data.');
       }
     }
 
     return await response.json();
   } catch (error) {
-    // throwError(error.message); // throw? toast?
     toastError(error.message);
+    return null;
   }
 }

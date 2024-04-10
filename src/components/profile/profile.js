@@ -20,6 +20,7 @@ import { getImageData } from './data/imageData.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getAccessToken } from '../../utils/token.js';
 import applyLanguageProfile from '../language/applyLanguageProfile.js';
+import { getGameData } from './data/gameData.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -84,11 +85,12 @@ function setModal() {
   });
 }
 
-function setProfile() {
-  const userData = userState.getState();
+async function setProfile() {
   const profileName = document.querySelector('.profile-name span');
   const profileImage = document.querySelector('.profile-photo img');
   const profileStats = document.querySelector('.profile-stats');
+
+  const userData = userState.getState();
 
   if (profileName) {
     profileName.textContent = `${userData.userName}`;
@@ -102,21 +104,26 @@ function setProfile() {
     }
   }
 
+  const userGameData = await getGameData();
+  if (!userGameData) {
+    return;
+  }
+
   if (profileStats) {
     const winRate = profileStats.querySelector('.win-rate span');
     const win = profileStats.querySelector('.win span');
     const loss = profileStats.querySelector('.loss span');
 
     if (winRate) {
-      winRate.textContent = `${userData.WinRate}%`;
+      winRate.textContent = `${userGameData.win_rate}%`;
     }
 
     if (win) {
-      win.textContent = `${userData.Wins}`;
+      win.textContent = `${userGameData.wins}`;
     }
 
     if (loss) {
-      loss.textContent = `${userData.Losses}`;
+      loss.textContent = `${userGameData.losses}`;
     }
   }
 }
