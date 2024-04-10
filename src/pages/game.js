@@ -1,12 +1,10 @@
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import { GAME_API_URL } from '../utils/api.js';
 import {
   formatCurrentTime,
   initializeGameResultData,
-  setupGameSettingModal,
+  setupGameSettingModal
 } from '../components/game/game.js';
-import { getAccessToken } from '../utils/token.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -176,82 +174,6 @@ export function createScoreModal() {
   return scoreModal;
 }
 
-export async function sendEmailCode() {
-  const emailInput = document.getElementById('emailInput');
-  const emailErrorDiv = document.getElementById('emailError');
-  const countdownTimerDiv = document.querySelector('.countdown-timer');
-  const email = emailInput.value;
-
-  if (!isValidEmail(email)) {
-    emailErrorDiv.style.display = 'block';
-    emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
-    return;
-  }
-
-  emailErrorDiv.style.display = 'none';
-
-  try {
-    const accessToken = await getAccessToken();
-    const response = await fetch(`${GAME_API_URL}/api/games/request-2fa/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ email: email }),
-    });
-
-    if (response.ok) {
-      // HTTP 상태 코드가 200-299일 경우에만 카운트다운을 시작합니다.
-      startCountdown(5 * 60, countdownTimerDiv);
-    } else {
-      console.error('Response was not OK:', response.status);
-    }
-
-    const data = await response.json();
-    console.log('Email code sent successfully:', data);
-  } catch (error) {
-    console.error('Error sending email code:', error);
-    emailErrorDiv.textContent = error.message;
-    emailErrorDiv.style.display = 'block';
-  }
-}
-
-
-let countdownInterval;
-// 카운트다운 함수
-function startCountdown(duration, display) {
-  // 이전 타이머가 있다면 중지
-  if (countdownInterval) {
-    clearInterval(countdownInterval);
-    display.style.display = 'none';
-  }
-  // 새 타이머 시작
-  let timer = duration;
-  display.style.display = 'block'; // 타이머 보이기
-  updateCountdownDisplay(timer, display);
-
-  countdownInterval = setInterval(function () {
-    timer -= 1;
-    updateCountdownDisplay(timer, display);
-
-    if (timer <= 0) {
-      clearInterval(countdownInterval);
-      display.style.display = 'none'; // 타이머 숨김
-    }
-  }, 1000);
-}
-
-function updateCountdownDisplay(timer, display) {
-  const minutes = parseInt(timer / 60, 10);
-  const seconds = parseInt(timer % 60, 10);
-
-  display.textContent =
-    (minutes < 10 ? '0' + minutes : minutes) +
-    ':' +
-    (seconds < 10 ? '0' + seconds : seconds);
-}
-
 function createEmail2faModal() {
   const email2faModal = document.createElement('div');
 
@@ -310,6 +232,7 @@ function createEmail2faModal() {
 
   return email2faModal;
 }
+
 // export function updateScoreModalContent() {
 //   document.getElementById('scoreModalLabel').innerHTML =
 //     i18next.t('scoreModalLabel');

@@ -1,6 +1,7 @@
 import { gameState } from '../../../lib/state/state.js';
-import { sendEmailCode } from '../../pages/game.js';
 import applyLanguageClassicSetting from '../language/applyLanguageClassicSetting.js';
+import { getAccessToken } from '../../utils/token.js';
+import { GAME_API_URL } from '../../utils/api.js';
 
 export function setupGameSettingModal(page) {
   let gameSettingModal = new bootstrap.Modal(
@@ -42,7 +43,6 @@ export function setupGameSettingModal(page) {
   }
 }
 
-
 export function updateScoreModalResult(gameResult) {
   const elementsToUpdate = {
     'classic-winner-name': gameResult.winner.name,
@@ -81,4 +81,79 @@ export function formatCurrentTime() {
   const hours = now.getHours();
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${month}/${day}, ${hours}:${minutes}`;
+}
+
+async function sendEmailCode() {
+  const emailInput = document.getElementById('emailInput');
+  const emailErrorDiv = document.getElementById('emailError');
+  const countdownTimerDiv = document.querySelector('.countdown-timer');
+  const email = emailInput.value;
+
+  if (!isValidEmail(email)) {
+    emailErrorDiv.style.display = 'block';
+    emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
+    return;
+  }
+
+  emailErrorDiv.style.display = 'none';
+
+  try {
+    const accessToken = await getAccessToken();
+    const response = await fetch(`${GAME_API_URL}/api/games/request-2fa/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ email: email }),
+    });
+
+    if (response.ok) {
+      // HTTP 상태 코드가 200-299일 경우에만 카운트다운을 시작합니다.
+      startCountdown(5 * 60, countdownTimerDiv);
+    } else {
+      console.error('Response was not OK:', response.status);
+    }
+
+    const data = await response.json();
+    console.log('Email code sent successfully:', data);
+  } catch (error) {
+    console.error('Error sending email code:', error);
+    emailErrorDiv.textContent = error.message;
+    emailErrorDiv.style.display = 'block';
+  }
+}
+
+let countdownInterval;
+// 카운트다운 함수
+function startCountdown(duration, display) {
+  // 이전 타이머가 있다면 중지
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    display.style.display = 'none';
+  }
+  // 새 타이머 시작
+  let timer = duration;
+  display.style.display = 'block'; // 타이머 보이기
+  updateCountdownDisplay(timer, display);
+
+  countdownInterval = setInterval(function () {
+    timer -= 1;
+    updateCountdownDisplay(timer, display);
+
+    if (timer <= 0) {
+      clearInterval(countdownInterval);
+      display.style.display = 'none'; // 타이머 숨김
+    }
+  }, 1000);
+}
+
+function updateCountdownDisplay(timer, display) {
+  const minutes = parseInt(timer / 60, 10);
+  const seconds = parseInt(timer % 60, 10);
+
+  display.textContent =
+    (minutes < 10 ? '0' + minutes : minutes) +
+    ':' +
+    (seconds < 10 ? '0' + seconds : seconds);
 }
