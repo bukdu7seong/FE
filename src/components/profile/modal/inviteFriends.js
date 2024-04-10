@@ -80,11 +80,11 @@ async function inviteUser(friendId) {
     );
 
     if (!response.ok) {
-      if (response.status === 400) {
-        throw new Error('Already invited or already friends.');
-      } else if (response.status === 401) {
+      if (response.status === 401) {
         redirectError('Unauthorized access token. Please login again.');
         return;
+      } else if (response.status === 409) {
+        throw new Error('Already invited or already friends.');
       } else {
         throw new Error('Failed to invite friend');
       }
