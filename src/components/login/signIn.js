@@ -106,11 +106,14 @@ function test() {
     return;
   }
 
-  testButton.addEventListener('click', function () {
-    const response = fetch(`${ACCOUNT_API_URL}/api/account/test/`, {
+  testButton.addEventListener('click', async function () {
+    const response = await fetch(`${ACCOUNT_API_URL}/api/account/test/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Accept: '*/*',
+        'Accept-Encoding': 'gzip, deflate, br',
+        Connection: 'keep-alive',
       },
       body: JSON.stringify({
         username: 'user1',
@@ -118,7 +121,7 @@ function test() {
       }),
     });
 
-    const data = response.json();
+    const data = await response.json();
     console.log(data);
     if (!response.ok) {
       alert('TEST FAILED');
@@ -133,4 +136,5 @@ export function signIn() {
   handleSignInClick();
   // handleSignUpClick();
   handleOAuthClick();
+  test();
 }

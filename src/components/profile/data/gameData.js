@@ -1,5 +1,5 @@
 import { GAME_API_URL } from '../../../utils/api.js';
-import { throwError, toastError } from '../../../utils/error.js';
+import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
 
 export async function getGameData() {
@@ -9,13 +9,15 @@ export async function getGameData() {
     const response = await fetch(`${GAME_API_URL}/api/games/stats/`, {
       method: 'GET',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
     if (!response.ok) {
       if (response.status === 401) {
-        throwError('Unauthorized access token. Please login again.');
+        redirectError('Unauthorized access token. Please login again.');
+        returnl;
       } else {
         throwError('Failed to fetch user data. Please login again.');
       }
