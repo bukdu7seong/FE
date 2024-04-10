@@ -14,6 +14,7 @@ async function requestLogin(userInfo) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userInfo),
+      credentials: 'include',
     });
 
     if (response.status === 200) {
