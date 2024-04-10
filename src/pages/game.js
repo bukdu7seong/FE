@@ -69,7 +69,7 @@ function createGameSettingModal() {
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
-                            <label class="form-label d-block" id='mode'>Mode</label>
+                            <span class="form-label d-block" id='mode'>Mode</span>
                         </div>
                         <div class="col">
                             <div class="form-check">
