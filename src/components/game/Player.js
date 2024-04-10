@@ -22,7 +22,7 @@ export default class Player {
     this.paddle.style.top = `${centerPosition}px`;
   }
 
-  moveUp(boardCoord) {
+  moveUp() {
     const currentTop = parseFloat(
       this.paddle.style.top ? this.paddle.style.top : INITIAL_PADDLE_TOP
     );
