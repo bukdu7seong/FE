@@ -6,7 +6,7 @@ export default function applyLanguageClassicScoreModal() {
     'save-score': i18next.t('save-score'),
     'email2faModalLabel': i18next.t('email2faModalLabel'),
     'emailAddressLabel': i18next.t('emailAddressLabel'),
-    'emailInput': i18next.t('emailInput'), // placeholder의 경우 추가 처리 필요
+    'emailInput': i18next.t('emailInput'),
     'send-email-code-button': i18next.t('send-email-code-button'),
     'codeInputLabel': i18next.t('codeInputLabel'),
     'send-verification-code-button': i18next.t('send-verification-code-button')
@@ -16,7 +16,7 @@ export default function applyLanguageClassicScoreModal() {
     const element = document.getElementById(id);
     if (element) {
       if (id === 'emailInput') {
-        element.placeholder = text; // placeholder의 경우 별도 처리
+        element.placeholder = text;
       } else {
         element.innerHTML = text;
       }
