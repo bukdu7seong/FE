@@ -61,7 +61,7 @@ function init() {
     };
 
     window.addEventListener('popstate', () => {
-      route(routeByState(), false);
+      route(routeByState(window.location.pathname), false);
     });
 
     window.onclick = function (event) {
