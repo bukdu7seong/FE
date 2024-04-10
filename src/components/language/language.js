@@ -122,25 +122,17 @@ i18next.init({
         friendListViewAll: 'View all',
         friendRequestInvite: 'Invite friends',
         friendRequestViewAll: 'View all',
-
         invalidEmailFormat : 'Invalid email format',
         verificationFailed : 'Verification failed. Please try again.',
-
         connectSuccess : 'Connect Success',
-
         passwordChangeSuccess: "Password changed successfully",
         passwordChangeFail: "Password change failed",
-
         change2faSuccess: '2FA authentication changed successfully',
-
         changeUserNameSuccess : 'Successfully changed username',
-
         changeUserImageSuccess : 'Successfully changed image',
-
         invalidPasswordFormat: 'Invalid password format.',
         newPasswordNotMatch: 'New password does not match.',
         incorrectCurrentPassword: 'Incorrect current password.',
-
         unsubscribeSuccess: 'Account successfully unsubscribed.',
         unsubscribePassword: 'Password is required.'
       },
@@ -265,25 +257,17 @@ i18next.init({
         friendListViewAll: '모두 보기',
         friendRequestInvite: '친구 초대',
         friendRequestViewAll: '모두 보기',
-
         invalidEmailFormat : '잘못된 이메일 형식',
         verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.',
-
         connectSuccess : '연결 성공',
-
         passwordChangeSuccess: "비밀번호가 성공적으로 변경되었습니다",
         passwordChangeFail: "비밀번호 변경 실패",
-
         change2faSuccess: '2단계 인증 변경 성공',
-
         changeUserNameSuccess: '사용자 이름 변경 성공',
-
         changeUserImageSuccess: '이미지 변경 성공',
-
         invalidPasswordFormat: '비밀번호 형식이 올바르지 않습니다.',
         newPasswordNotMatch: '새 비밀번호가 일치하지 않습니다.',
         incorrectCurrentPassword: '현재 비밀번호가 정확하지 않습니다.',
-
         unsubscribeSuccess: '계정이 성공적으로 삭제되었습니다.',
         unsubscribePassword: '비밀번호를 입력해야 합니다.'
       },
@@ -412,37 +396,26 @@ i18next.init({
         friendListViewAll: 'Voir tout',
         friendRequestInvite: 'Inviter des amis',
         friendRequestViewAll: 'Voir tout',
-
         invalidEmailFormat : "Format d'email invalide",
         verificationFailed : 'Échec de la vérification. Veuillez réessayer.',
-
         connectSuccess: "Connexion réussie",
-
         passwordChangeSuccess: "Le mot de passe a été changé avec succès",
         passwordChangeFail: "Échec du changement de mot de passe",
-
         change2faSuccess: 'Authentification 2FA modifiée avec succès',
-
         changeUserNameSuccess: "Changement de nom d'utilisateur réussi",
-
         changeUserImageSuccess: "Changement d'image réussi",
-
         invalidPasswordFormat: 'Format de mot de passe invalide.',
         newPasswordNotMatch: 'Le nouveau mot de passe ne correspond pas.',
         incorrectCurrentPassword: 'Mot de passe actuel incorrect.',
-
         unsubscribeSuccess: 'Désinscription réussie.',
         unsubscribePassword: 'Le mot de passe est requis.'
       },
     },
   },
   fallbackLng: 'en',
-  debug: true,
+  debug: false
 });
 
-// 기존의 함수들은 변경 없음
-
-// 언어 변경 함수
 export function changeLanguage(languageCode) {
   // 현재 설정된 언어와 같은 경우 변경하지 않음
   if (i18next.language === languageCode) {
