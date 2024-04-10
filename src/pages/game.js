@@ -101,7 +101,6 @@ export function pageBoard() {
       <div class="paddle paddle_2"></div>
       <div class="player_1_score">0</div>
       <div class="player_2_score">0</div>
-      <div class="message">Press Enter to Play Pong</div>
     `;
 
   function loadScript() {

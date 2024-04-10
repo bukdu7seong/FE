@@ -34,7 +34,6 @@ export default class PingPong {
   constructor(mode, player1Name, player2Name) {
     this.state = GameState.READY;
     this.board = document.querySelector('.board');
-    this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
     this.mode = mode;
     this.numObstacle = 15;
@@ -181,7 +180,6 @@ export default class PingPong {
 
   initGameState() {
     this.state = GameState.READY;
-    this.message.innerHTML = 'Press Enter to Play Pong';
   }
 
   startGame() {
@@ -191,7 +189,6 @@ export default class PingPong {
 
   gameStart() {
     this.state = GameState.PLAY;
-    this.message.innerHTML = 'Game Started';
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
     if (this.mode === GameMode.OBJECT && this.obstacles.length === 0) {
@@ -312,7 +309,6 @@ export default class PingPong {
         //   this.ball.initialCoord.left
         // );
 
-        this.message.innerHTML = `${this.winner} Wins!`;
         this.state = GameState.END;
 
         if (gameState.getState().gameType === 'classic') {
