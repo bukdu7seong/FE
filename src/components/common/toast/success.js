@@ -17,7 +17,12 @@ export class successToast {
   }
 
   initToast() {
-    document.body.insertAdjacentHTML('beforeend', this.toastHTML);
+    const toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+      document.body.insertAdjacentHTML('beforeend', this.toastHTML);
+    } else {
+      toastContainer.insertAdjacentHTML('beforeend', this.toastHTML);
+    }
 
     this.toastInstance = new bootstrap.Toast(
       document.getElementById('liveToast')

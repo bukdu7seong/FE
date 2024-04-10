@@ -66,8 +66,7 @@
   top: 50%;
   filter: invert(100%);
   transform: translateY(-50%); /* Y축 기준으로 -50% 만큼 이동하여 중앙 정렬 */
-  background: url('../../../assets/images/icon/camera-fill.svg') no-repeat
-    center center;
+  background: url('/assets/images/icon/camera-fill.png') no-repeat center center;
   background-size: contain;
 }
 

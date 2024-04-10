@@ -19,6 +19,7 @@ export function pageTournament() {
             </div>
           </div>
           <div id="mainNavbar"></div>
+          <div id="toast-container"></div>
         </div>
       `;
   page.appendChild(createTournamentSettingModal());

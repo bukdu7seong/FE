@@ -50,10 +50,10 @@ export function sidebar(routes) {
 
   // 아이콘 및 라우트 매핑
   const icons = {
-    Profile: 'assets/images/icon/house-solid.svg',
-    Game: 'assets/images/icon/gamepad-solid.svg',
-    Tournament: 'assets/images/icon/trophy-solid.svg',
-    Logout: 'assets/images/icon/door-closed-fill.svg',
+    Profile: '/assets/images/icon/house-solid.png',
+    Game: '/assets/images/icon/gamepad-solid.png',
+    Tournament: '/assets/images/icon/trophy-solid.png',
+    Logout: '/assets/images/icon/door-closed-fill.png',
   };
 
   // Logout을 위한 임시 객체 생성
