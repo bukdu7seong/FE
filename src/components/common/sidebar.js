@@ -1,6 +1,12 @@
 import { route } from '../../../lib/router/router.js';
 import { createLogoutModal } from './logoutModal.js';
 
+function matchPath(str1, str2) {
+  str1 = str1.startsWith('/') ? str1.slice(1) : str1;
+  str2 = str2.charAt(0).toLowerCase() + str2.slice(1);
+  return str1 === str2;
+}
+
 export function sidebar(routes) {
   // 네비게이션 바를 위한 <nav> 태그 생성
   const navbar = document.createElement('nav');
@@ -51,11 +57,11 @@ export function sidebar(routes) {
   };
 
   // Logout을 위한 임시 객체 생성
-  routes.Logout = { name: 'Logout' };
+  routes['/logout'] = { name: 'Logout' };
 
   // 라우트 및 메뉴 아이템 생성
   Object.entries(routes).forEach(([route, { name }]) => {
-    if (icons[name]) {
+    if (icons[name] && matchPath(route, name)) {
       const menuItem = document.createElement('li');
       menuItem.className = 'nav-item';
 
