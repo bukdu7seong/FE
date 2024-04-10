@@ -1,6 +1,6 @@
 import { firstRoute, redirectRoute } from '../../../lib/router/router.js';
 import { globalState, userState } from '../../../lib/state/state.js';
-import { getCookie, setCookie } from '../../utils/cookie.js';
+import { setCookie } from '../../utils/cookie.js';
 import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { request42OAuth } from './oauth2/request42OAuth.js';
 import { logout } from '../common/logout.js';
@@ -18,7 +18,7 @@ async function requestLogin(userInfo) {
     });
 
     if (response.status === 200) {
-      const responseData = await response.json(); // 비동기
+      const responseData = await response.json();
       setCookie('accessToken', responseData.access);
       globalState.setState({
         isLoggedIn: true,
