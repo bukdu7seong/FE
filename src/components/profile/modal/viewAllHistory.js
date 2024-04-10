@@ -174,7 +174,10 @@ export class viewAllHistoryModal {
           const historyGameModeDiv = document.createElement('div');
           historyGameModeDiv.classList.add('history-game-mode');
           const gameModeSpan = document.createElement('span');
-          gameModeSpan.textContent = escapeHtml(result.game_mode);
+          const winScore = escapeHtml(result.win_score);
+          const loseScore = escapeHtml(result.lose_score);
+          const gameMode = escapeHtml(result.game_mode);
+          gameModeSpan.textContent = `${gameMode} | ${winScore} : ${loseScore}`;
           historyGameModeDiv.appendChild(gameModeSpan);
 
           // Time
