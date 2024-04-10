@@ -284,8 +284,9 @@ export default class PingPong {
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
-    // this.ball.hide();
     this.ball.init();
+    this.player1.resetPaddlePosition(this.boardCoord.height);
+    this.player2.resetPaddlePosition(this.boardCoord.height);
     this.ball.updateStyle(
       this.boardCoord.height / 2 - this.ball.coord.height / 2,
       this.boardCoord.width / 2 - this.ball.coord.width / 2
