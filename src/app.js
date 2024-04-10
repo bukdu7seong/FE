@@ -28,15 +28,15 @@ import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
 import applyLanguageClassic from './components/language/applyLanguageClassic.js';
 
-function hideModal() {
-  const modalElement = document.getElementById('gameSettingModal');
-  if (modalElement) {
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    if (modalInstance) {
-      modalInstance.hide();
-    }
-  }
-}
+// function hideModal() {
+//   const modalElement = document.getElementById('gameSettingModal');
+//   if (modalElement) {
+//     const modalInstance = bootstrap.Modal.getInstance(modalElement);
+//     if (modalInstance) {
+//       modalInstance.hide();
+//     }
+//   }
+// }
 
 function init() {
   try {
