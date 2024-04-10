@@ -2,9 +2,7 @@ import Ball from './Ball.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
-
-import { getCookie } from '../../utils/cookie.js';
-import { ACCOUNT_API_URL, GAME_API_URL } from '../../utils/api.js';
+import { GAME_API_URL } from '../../utils/api.js';
 import {
   updateScoreModalResult,
 } from './game.js';
@@ -36,7 +34,6 @@ export default class PingPong {
   constructor(mode, player1Name, player2Name) {
     this.state = GameState.READY;
     this.board = document.querySelector('.board');
-    this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
     this.mode = mode;
     this.numObstacle = 15;
@@ -52,7 +49,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 11;
+    this.scoreToWin = 7;
     this.onGameEnd = null;
     window.addEventListener('popstate', this.handlePopState.bind(this));
     this.timeoutId = null;
@@ -70,7 +67,7 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
+    const ballSpeed = this.mode === GameMode.SPEED ? 30 : 15;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
@@ -183,7 +180,6 @@ export default class PingPong {
 
   initGameState() {
     this.state = GameState.READY;
-    this.message.innerHTML = 'Press Enter to Play Pong';
   }
 
   startGame() {
@@ -193,7 +189,6 @@ export default class PingPong {
 
   gameStart() {
     this.state = GameState.PLAY;
-    this.message.innerHTML = 'Game Started';
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
     if (this.mode === GameMode.OBJECT && this.obstacles.length === 0) {
@@ -289,8 +284,9 @@ export default class PingPong {
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
-    // this.ball.hide();
     this.ball.init();
+    this.player1.resetPaddlePosition(this.boardCoord.height);
+    this.player2.resetPaddlePosition(this.boardCoord.height);
     this.ball.updateStyle(
       this.boardCoord.height / 2 - this.ball.coord.height / 2,
       this.boardCoord.width / 2 - this.ball.coord.width / 2
@@ -313,9 +309,8 @@ export default class PingPong {
         //   this.ball.initialCoord.top,
         //   this.ball.initialCoord.left
         // );
-        this.message.innerHTML = `${this.winner} Wins!`;
+
         this.state = GameState.END;
-        console.log('game end');
 
         if (gameState.getState().gameType === 'classic') {
           let gameId;
@@ -333,12 +328,12 @@ export default class PingPong {
             scoreModal.show();
           }
 
-          document
-            .getElementById('emailVerificationForm')
-            .addEventListener('submit', function (event) {
-              event.preventDefault(); // 폼의 기본 제출 동작을 취소
-              sendVerificationEmail(gameId, patchGameResult);
-            });
+          // document
+          //   .getElementById('emailVerificationForm')
+          //   .addEventListener('submit', function (event) {
+          //     event.preventDefault(); // 폼의 기본 제출 동작을 취소
+          //     sendVerificationEmail(patchGameResult);
+          //   });
 
           document
             .getElementById('send-verification-code-button')
@@ -370,7 +365,6 @@ export default class PingPong {
   }
 
   cleanUp() {
-    console.log('cleanUp()');
     if (this.timeoutId !== null) {
       clearTimeout(this.timeoutId);
       this.timeoutId = null; // 타이머 ID 초기화
@@ -407,32 +401,32 @@ export function setGameCondition() {
   gameState.setState({ currentGameStatus: 'idle' });
 }
 
-async function patchGameResult(email, gameId) {
-  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
-  const url = `${GAME_API_URL}/api/games/result/${gameId}/`; // 게임 ID를 URL에 포함
-
-  try {
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
-      },
-      body: JSON.stringify({ player2: email }), // 이메일 데이터 포함
-    });
-
-    if (!response.ok) {
-      // throw new Error(`Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('Game result updated successfully:', data);
-    // 추가적인 성공 처리 로직 (예: 사용자에게 알림 표시)
-  } catch (error) {
-    // console.perror('Error updating game result:', error);
-    // 오류 처리 로직 (예: 오류 메시지 표시)
-  }
-}
+// async function patchGameResult(email, gameId) {
+//   const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
+//   const url = `${GAME_API_URL}/api/games/result/${gameId}/`; // 게임 ID를 URL에 포함
+//
+//   try {
+//     const response = await fetch(url, {
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
+//       },
+//       body: JSON.stringify({ player2: email }), // 이메일 데이터 포함
+//     });
+//
+//     if (!response.ok) {
+//       // throw new Error(`Error: ${response.status}`);
+//     }
+//
+//     const data = await response.json();
+//     console.log('Game result updated successfully:', data);
+//     // 추가적인 성공 처리 로직 (예: 사용자에게 알림 표시)
+//   } catch (error) {
+//     // console.perror('Error updating game result:', error);
+//     // 오류 처리 로직 (예: 오류 메시지 표시)
+//   }
+// }
 
 async function submitVerificationCode(gameId) {
   const email = document.getElementById('emailInput').value;

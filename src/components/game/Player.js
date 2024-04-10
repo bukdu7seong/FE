@@ -16,8 +16,10 @@ export default class Player {
     this.paddle.style.top = `${this.initialTop}px`;
   }
 
-  resetPosition() {
-    this.paddle.style.top = `${this.initialTop}px`;
+  resetPaddlePosition(boardHeight) {
+    const paddleHeight = this.paddle.offsetHeight; // Get the paddle's height
+    const centerPosition = (boardHeight / 2) - (paddleHeight / 2);
+    this.paddle.style.top = `${centerPosition}px`; // Set the paddle's top position to center
   }
 
   moveUp(boardCoord) {
