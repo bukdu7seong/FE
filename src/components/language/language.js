@@ -62,10 +62,10 @@ i18next.init({
         'lose-label': 'LOSE',
         'save-score': 'SAVE SCORE',
         email2faModalLabel: 'Email Verification',
-        'emailAddressLabel': 'Email Address',
+        emailAddressLabel: 'Email Address',
         emailInput: 'Enter your email (e.g., name@example.com)',
-        'send-email-code-button' : 'Send Code',
-        codeInputLabel : 'Verification Code',
+        'send-email-code-button': 'Send Code',
+        codeInputLabel: 'Verification Code',
         'send-verification-code-button': 'SAVE SCORE',
         'tournament-pong': 'PONG',
         'tournament-header': 'TOURNAMENT',
@@ -123,24 +123,23 @@ i18next.init({
         friendRequestInvite: 'Invite friends',
         friendRequestViewAll: 'View all',
 
-        invalidEmailFormat : 'Invalid email format',
-        verificationFailed : 'Verification failed. Please try again.',
+        invalidEmailFormat: 'Invalid email format',
+        verificationFailed: 'Verification failed. Please try again.',
 
-        connectSuccess : 'Connect Success',
+        connectSuccess: 'Connect Success',
 
-        passwordChangeSuccess: "Password changed successfully",
-        passwordChangeFail: "Password change failed",
+        passwordChangeSuccess: 'Password changed successfully',
+        passwordChangeFail: 'Password change failed',
 
         change2faSuccess: '2FA authentication changed successfully',
 
-        changeUserNameSuccess : 'Successfully changed username',
+        changeUserNameSuccess: 'Successfully changed username',
 
-        changeUserImageSuccess : 'Successfully changed image',
+        changeUserImageSuccess: 'Successfully changed image',
 
         invalidPasswordFormat: 'Invalid password format.',
         newPasswordNotMatch: 'New password does not match.',
         incorrectCurrentPassword: 'Incorrect current password.',
-
       },
     },
     kr: {
@@ -203,7 +202,7 @@ i18next.init({
         'lose-label': '패배',
         'save-score': '점수 저장',
         email2faModalLabel: '이메일 인증',
-        'emailAddressLabel': '이메일 주소',
+        emailAddressLabel: '이메일 주소',
         emailInput: '이메일 입력 (예: name@example.com)',
         'send-email-code-button': '코드 보내기',
         codeInputLabel: '인증 코드',
@@ -248,7 +247,7 @@ i18next.init({
         onlyAlphanumeric: '알파벳과 숫자만 사용할 수 있습니다.',
         enterUsername: '사용자 이름을 입력해주세요.',
         inviteFriendsModalNoData: '데이터 없음',
-        viewAllRequestsModalTitle: '친구 요청',
+        viewAllRequestsModalTitle: '친구 추가',
         viewAllRequestsModalNoFriend: '친구 요청 없음',
         viewAllFriendsModalTitle: '친구들',
         viewAllFriendsModalNoData: '데이터 없음',
@@ -264,13 +263,13 @@ i18next.init({
         friendRequestInvite: '친구 초대',
         friendRequestViewAll: '모두 보기',
 
-        invalidEmailFormat : '잘못된 이메일 형식',
-        verificationFailed : '인증에 실패했습니다. 다시 시도해주세요.',
+        invalidEmailFormat: '잘못된 이메일 형식',
+        verificationFailed: '인증에 실패했습니다. 다시 시도해주세요.',
 
-        connectSuccess : '연결 성공',
+        connectSuccess: '연결 성공',
 
-        passwordChangeSuccess: "비밀번호가 성공적으로 변경되었습니다",
-        passwordChangeFail: "비밀번호 변경 실패",
+        passwordChangeSuccess: '비밀번호가 성공적으로 변경되었습니다',
+        passwordChangeFail: '비밀번호 변경 실패',
 
         change2faSuccess: '2단계 인증 변경 성공',
 
@@ -345,7 +344,7 @@ i18next.init({
         'lose-label': 'PERDRE',
         'save-score': 'ENREGISTRER LE SCORE',
         email2faModalLabel: 'Vérification de l’Email',
-        'emailAddressLabel': 'Adresse Email',
+        emailAddressLabel: 'Adresse Email',
         emailInput: 'Entrez votre email (par ex. name@example.com)',
         'send-email-code-button': 'Envoyer le Code',
         codeInputLabel: 'Code de Vérification',
@@ -408,13 +407,13 @@ i18next.init({
         friendRequestInvite: 'Inviter des amis',
         friendRequestViewAll: 'Voir tout',
 
-        invalidEmailFormat : "Format d'email invalide",
-        verificationFailed : 'Échec de la vérification. Veuillez réessayer.',
+        invalidEmailFormat: "Format d'email invalide",
+        verificationFailed: 'Échec de la vérification. Veuillez réessayer.',
 
-        connectSuccess: "Connexion réussie",
+        connectSuccess: 'Connexion réussie',
 
-        passwordChangeSuccess: "Le mot de passe a été changé avec succès",
-        passwordChangeFail: "Échec du changement de mot de passe",
+        passwordChangeSuccess: 'Le mot de passe a été changé avec succès',
+        passwordChangeFail: 'Échec du changement de mot de passe',
 
         change2faSuccess: 'Authentification 2FA modifiée avec succès',
 
@@ -424,7 +423,7 @@ i18next.init({
 
         invalidPasswordFormat: 'Format de mot de passe invalide.',
         newPasswordNotMatch: 'Le nouveau mot de passe ne correspond pas.',
-        incorrectCurrentPassword: 'Mot de passe actuel incorrect.'
+        incorrectCurrentPassword: 'Mot de passe actuel incorrect.',
       },
     },
   },
