@@ -44,6 +44,13 @@ body {
   font-size: min(2vw, 2vh);
 }
 
+.btn.gameSettingModal {
+  padding: 0;
+  --bs-btn-padding-x: 0;
+  font-size: 0;
+  border: none;
+}
+
 .btn.btn-outline-light {
   background-color: #131313;
 }
