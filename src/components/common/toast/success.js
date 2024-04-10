@@ -1,7 +1,7 @@
 function toastHTML(message) {
   return `
     <div id="successToast" class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div id="liveToast" class="toast" role="alert">
+      <div id="liveToast" class="toast fade show" role="alert">
         <div class="toast-body">${message}</div>
         <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
       </div>
@@ -17,12 +17,7 @@ export class successToast {
   }
 
   initToast() {
-    const toastContainer = document.getElementById('toast-container');
-    if (!toastContainer) {
-      document.body.insertAdjacentHTML('beforeend', this.toastHTML);
-    } else {
-      toastContainer.insertAdjacentHTML('beforeend', this.toastHTML);
-    }
+    document.body.insertAdjacentHTML('beforeend', this.toastHTML);
 
     this.toastInstance = new bootstrap.Toast(
       document.getElementById('liveToast')

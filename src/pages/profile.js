@@ -128,7 +128,6 @@ export function pageProfile() {
         </div>
       </div>
       <div id="mainNavbar"></div>
-      <div id="toast-container"></div>
     </div>
   `;
 

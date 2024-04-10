@@ -27,7 +27,6 @@ import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
 import applyLanguageClassic from './components/language/applyLanguageClassic.js';
-import { toastContainer } from './components/common/toast/toastContainer.js';
 
 // function hideModal() {
 //   const modalElement = document.getElementById('gameSettingModal');
@@ -54,11 +53,6 @@ function init() {
       setComponent(routes['/profile'], sidebarComponent);
       setComponent(routes['/game'], sidebarComponent);
       setComponent(routes['/tournament'], sidebarComponent);
-
-      const toastContainerComponent = toastContainer();
-      setComponent(routes['/profile'], toastContainerComponent);
-      setComponent(routes['/game'], toastContainerComponent);
-      setComponent(routes['/tournament'], toastContainerComponent);
 
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
