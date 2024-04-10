@@ -1,5 +1,5 @@
 import { userState } from '../../../lib/state/state.js';
-import { redirectRoute, route } from '../../../lib/router/router.js';
+import { redirectRoute } from '../../../lib/router/router.js';
 import {
   validateUsername,
   validatePassword,
@@ -148,10 +148,6 @@ function handleSignUpSubmit() {
     formData.append('username', username);
     formData.append('password', password);
     formData.append('image', imageFile);
-
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
 
     requestSignUp(formData);
   });

@@ -36,7 +36,7 @@ export default class Tournament {
         gameState.setState({ currentGame: this.semiFinalA  }, false);
         gameState.setState({ gameType: 'semi_a' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
-        // 라운드1에 대한 정보로 모달 표시
+
         showTournamentRoundModal(this.semiFinalA,1, this.playerNames[0], this.playerNames[1]);
       }
       if (this.semiFinalA.state === GameState.END) {
@@ -57,7 +57,7 @@ export default class Tournament {
         gameState.setState({ currentGame: this.semiFinalB  }, false);
         gameState.setState({ gameType: 'semi_b' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
-        // 라운드2에 대한 정보로 모달 표시
+
         showTournamentRoundModal(this.semiFinalB, 2, this.playerNames[2], this.playerNames[3]);
       }
       if (this.semiFinalB.state === GameState.END) {
@@ -74,7 +74,6 @@ export default class Tournament {
           this.finalist[1]
         );
         this.final.onGameEnd = () => this.tournamentStart();
-        // 라운드3에 대한 정보로 모달 표시
 
         gameState.setState({ currentGame: this.final  }, false);
         gameState.setState({ gameType: 'final' }, false);
@@ -96,32 +95,26 @@ export default class Tournament {
 }
 
 function showTournamentRoundModal(pingpong, round, player1, player2) {
-  // 라운드 정보 업데이트
+
   document.getElementById('tournamentRoundModalLabel').textContent = 'TOURNAMENT ROUND ' + round;
 
-  // 플레이어 이름 업데이트
   document.getElementById('round-player1-name').value = player1;
   document.getElementById('round-player2-name').value = player2;
 
-  // 모달 생성
   const tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'), {
-    backdrop: 'static', // 모달 바깥을 클릭해도 닫히지 않게 함
-    keyboard: false // Escape 키를 눌러도 닫히지 않게 함
+    backdrop: 'static',
+    keyboard: false
   });
 
-  // 시작 버튼에 이벤트 리스너 추가
   const startRoundButton = document.getElementById('startRoundButton');
-  // 기존에 등록된 이벤트 리스너가 있다면 제거
+
   startRoundButton.removeEventListener('click', startRoundButton.handler);
-  // 새 이벤트 리스너 정의
   startRoundButton.handler = function() {
-    pingpong.startGame(); // 게임 시작
-    tournamentRoundModal.hide(); // 모달 숨김
+    pingpong.startGame();
+    tournamentRoundModal.hide();
   };
-  // 새 이벤트 리스너 등록
   startRoundButton.addEventListener('click', startRoundButton.handler);
 
-  // 모달 표시
   updateTournamentRoundModalContent(round);
   tournamentRoundModal.show();
 }

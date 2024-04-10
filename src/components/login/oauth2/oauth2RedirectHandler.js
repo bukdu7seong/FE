@@ -17,8 +17,6 @@ async function sendAuthCodeToBackend(code) {
       credentials: 'include',
     });
 
-    // localStorage.removeItem('code');
-
     if (response.status === 200) {
       // 로그인 성공
       const responseData = await response.json();

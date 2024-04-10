@@ -448,7 +448,6 @@ export async function setRequestList() {
   }
 }
 
-// 드롭다운 메뉴 이벤트 리스너 설정
 function setLanguage() {
   const languageElement = document.getElementById('language-settings');
   if (!languageElement) {
@@ -457,7 +456,7 @@ function setLanguage() {
 
   languageElement.addEventListener('click', (event) => {
     if (event.target.classList.contains('dropdown-item')) {
-      const languageCode = event.target.getAttribute('data-lang'); // 언어 코드를 data-lang 속성에서 직접 얻음
+      const languageCode = event.target.getAttribute('data-lang');
       changeLanguage(languageCode);
       updateUserLanguage(languageCode);
       applyLanguage().call();
@@ -466,17 +465,17 @@ function setLanguage() {
 }
 
 async function updateUserLanguage(language) {
-  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
-  const url = `${ACCOUNT_API_URL}/api/account/update-language/`; // 엔드포인트
+  const accessToken = await getAccessToken();
+  const url = `${ACCOUNT_API_URL}/api/account/update-language/`;
 
   try {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
+        Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ language: language.toUpperCase() }), // 언어 설정 데이터 포함
+      body: JSON.stringify({ language: language.toUpperCase() }),
     });
 
     if (!response.ok) {
@@ -486,12 +485,8 @@ async function updateUserLanguage(language) {
     }
 
     const data = await response.json();
-    // console.log('Language updated successfully:', data);
-    // 성공 처리 로직 (예: 사용자에게 알림 표시)
     return data;
   } catch (error) {
-    // console.error('Error updating user language:', error);
-    // 오류 처리 로직 (예: 오류 메시지 표시)
     return null;
   }
 }

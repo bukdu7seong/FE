@@ -1,5 +1,4 @@
 import { ACCOUNT_API_URL } from '../../utils/api.js';
-import { getCookie } from '../../utils/cookie.js';
 import { redirectError, toastError } from '../../utils/error.js';
 import { getAccessToken } from '../../utils/token.js';
 

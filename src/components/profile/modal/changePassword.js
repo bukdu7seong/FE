@@ -41,35 +41,33 @@ function modalHTML(modalId) {
 }
 
 async function changeUserPassword(oldPassword, newPassword) {
-  const accessToken = await getAccessToken(); // 쿠키에서 사용자 토큰 가져오기
-  const url = `${ACCOUNT_API_URL}/api/account/change-password/`; // 엔드포인트
+  const accessToken = await getAccessToken();
+  const url = `${ACCOUNT_API_URL}/api/account/change-password/`;
 
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`, // 헤더에 토큰 포함
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         old_password: oldPassword,
         new_password: newPassword,
-      }), // 비밀번호 변경 데이터 포함
+      }),
     });
 
     if (!response.ok) {
-      // 요청이 성공하지 않은 경우, 응답 본문과 상태 코드를 포함한 오류 객체 반환
       const errorData = await response.json();
       return { success: false, status: response.status, data: errorData };
     }
 
     const data = await response.json();
-    // console.log('Password changed successfully:', data);
-    // 요청이 성공한 경우, 성공 데이터 반환
+
     return { success: true, data: data };
   } catch (error) {
     console.error('Error changing password:', error);
-    // 네트워크 오류 등의 문제가 발생한 경우, 오류 정보 반환
+
     return { success: false, status: 'NetworkError', data: error };
   }
 }
@@ -93,12 +91,11 @@ export class changePasswordModal {
       this.handleHidden.bind(this)
     );
 
-    // 'submit' 이벤트 리스너 추가
     const form = this.modalInstance._element.querySelector(
       '#passwordChangeForm'
     );
     form.addEventListener('submit', (e) => {
-      e.preventDefault(); // 기본 제출 동작 방지
+      e.preventDefault();
       this.checkInput();
     });
 
@@ -120,12 +117,12 @@ export class changePasswordModal {
 
     if (!validatePassword(newPassword, errorMessageElement)) {
       errorMessageElement.textContent = i18next.t('invalidPasswordFormat');
-      return; // 함수 종료
+      return;
     } else if (newPassword !== confirmPassword) {
       errorMessageElement.textContent = i18next.t('newPasswordNotMatch');
-      return; // 함수 종료
+      return;
     } else {
-      errorMessageElement.textContent = ''; // 에러 메시지 초기화
+      errorMessageElement.textContent = '';
       this.changePassword(currentPassword, newPassword);
     }
   }
@@ -138,9 +135,8 @@ export class changePasswordModal {
 
     if (result && result.success) {
       toastSuccess('passwordChangeSuccess');
-      this.hide(); // 변경 성공 시 모달 숨김
+      this.hide();
     } else {
-      // 비밀번호 변경 실패 처리
       if (result.status === 400) {
         errorMessageElement.textContent = i18next.t('incorrectCurrentPassword');
       } else {

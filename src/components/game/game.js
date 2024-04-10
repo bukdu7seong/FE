@@ -39,7 +39,7 @@ export function setupGameSettingModal(page) {
 
   const sendEmailButton = page.querySelector('#send-email-code-button');
   if (sendEmailButton) {
-    sendEmailButton.addEventListener('click', sendEmailCode); //
+    sendEmailButton.addEventListener('click', sendEmailCode);
   }
 }
 
@@ -52,8 +52,8 @@ export function updateScoreModalResult(gameResult) {
     'classic-loser-name': gameResult.loser.name,
     'classic-winner-image': gameResult.winner.image,
     'classic-loser-image': gameResult.loser.image,
-    'win-time': currentTime, // 승자 시간 업데이트
-    'lose-time': currentTime // 패자 시간 업데이트
+    'win-time': currentTime,
+    'lose-time': currentTime
   };
 
   for (const [id, value] of Object.entries(elementsToUpdate)) {
@@ -82,7 +82,7 @@ export function initializeGameResultData() {
 }
 export function formatCurrentTime() {
   const now = new Date();
-  const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
+  const month = now.getMonth() + 1;
   const day = now.getDate();
   const hours = now.getHours();
   const minutes = now.getMinutes().toString().padStart(2, '0');
@@ -124,16 +124,15 @@ async function sendEmailCode() {
 }
 
 let countdownInterval;
-// 카운트다운 함수
+
 function startCountdown(duration, display) {
-  // 이전 타이머가 있다면 중지
   if (countdownInterval) {
     clearInterval(countdownInterval);
     display.style.display = 'none';
   }
-  // 새 타이머 시작
+
   let timer = duration;
-  display.style.display = 'block'; // 타이머 보이기
+  display.style.display = 'block';
   updateCountdownDisplay(timer, display);
 
   countdownInterval = setInterval(function () {
@@ -142,7 +141,7 @@ function startCountdown(duration, display) {
 
     if (timer <= 0) {
       clearInterval(countdownInterval);
-      display.style.display = 'none'; // 타이머 숨김
+      display.style.display = 'none';
     }
   }, 1000);
 }

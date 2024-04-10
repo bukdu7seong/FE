@@ -1,4 +1,3 @@
-// 필요한 모듈 또는 유틸리티 가져오기
 import { failureToast } from '../../common/toast/failure.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
@@ -6,7 +5,6 @@ import { toastSuccess } from '../../../utils/success.js';
 import { toastFail } from '../../../utils/fail.js';
 import { logout } from '../../common/logout.js';
 
-// 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
   return `
 
@@ -160,7 +158,6 @@ export class deleteUserModal {
       this.frontModalInstance._element.remove();
       return;
     }
-    // 한 번에 element가 동시에 생기기에, 모두 없애야 한다.
     this.frontModalInstance._element.remove();
     this.backModalInstance._element.remove();
   }
@@ -168,7 +165,6 @@ export class deleteUserModal {
   show() {
     this.updateModalContent();
     this.frontModalInstance.show();
-    // userState.setState()
   }
 
   async deleteUserAccount(password) {
