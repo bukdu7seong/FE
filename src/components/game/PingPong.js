@@ -49,7 +49,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2;
+    this.scoreToWin = 7;
     this.onGameEnd = null;
     window.addEventListener('popstate', this.handlePopState.bind(this));
     this.timeoutId = null;
@@ -67,7 +67,7 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
+    const ballSpeed = this.mode === GameMode.SPEED ? 30 : 15;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
