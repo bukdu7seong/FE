@@ -7,6 +7,7 @@
   height: 90vh; /* 뷰포트 높이에 맞춤 */
   width: 90vw; /* 뷰포트 너비에 맞춤 */
   column-gap: 20px; /* 열 사이의 간격 설정 */
+  margin-top: 5vh;
   /* background-color: green; */
 }
 
