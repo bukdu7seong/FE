@@ -116,6 +116,9 @@ async function sendEmailCode() {
 
     if (response.ok) {
       startCountdown(5 * 60, countdownTimerDiv);
+    }else {
+      emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
+      emailErrorDiv.style.display = 'block';
     }
   } catch (error) {
     emailErrorDiv.textContent = error.message;
