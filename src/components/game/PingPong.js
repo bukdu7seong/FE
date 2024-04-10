@@ -311,9 +311,9 @@ export default class PingPong {
         //   this.ball.initialCoord.top,
         //   this.ball.initialCoord.left
         // );
+
         this.message.innerHTML = `${this.winner} Wins!`;
         this.state = GameState.END;
-        console.log('game end');
 
         if (gameState.getState().gameType === 'classic') {
           let gameId;
@@ -368,7 +368,6 @@ export default class PingPong {
   }
 
   cleanUp() {
-    console.log('cleanUp()');
     if (this.timeoutId !== null) {
       clearTimeout(this.timeoutId);
       this.timeoutId = null; // 타이머 ID 초기화
