@@ -40,7 +40,7 @@ function hideModal() {
 
 function init() {
   try {
-    window.onload = function () {
+    window.onload = async function () {
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
@@ -57,7 +57,9 @@ function init() {
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
 
-      firstRoute(setDefaultPath(window.location.href));
+      const firstPath = await setDefaultPath(window.location.href);
+
+      firstRoute(firstPath);
     };
 
     window.addEventListener('popstate', () => {
