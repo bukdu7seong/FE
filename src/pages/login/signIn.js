@@ -44,6 +44,9 @@ export function pageLogIn() {
             Log in with 42
           </button>
         </form>
+        <button type="button" id="test">
+          Test me
+        </button>
       </div>
   	`;
 

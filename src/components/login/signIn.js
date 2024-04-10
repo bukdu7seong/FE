@@ -100,6 +100,34 @@ function handleSignInClick() {
   });
 }
 
+function test() {
+  const testButton = document.getElementById('test');
+  if (!testButton) {
+    return;
+  }
+
+  testButton.addEventListener('click', function () {
+    const response = fetch(`${ACCOUNT_API_URL}/api/account/test/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: 'user1',
+        password: 'user123!@#',
+      }),
+    });
+
+    const data = response.json();
+    console.log(data);
+    if (!response.ok) {
+      alert('TEST FAILED');
+    } else {
+      alert('TEST PASSED');
+    }
+  });
+}
+
 // [버튼 리스너]
 export function signIn() {
   handleSignInClick();
