@@ -116,6 +116,9 @@ async function sendEmailCode() {
 
     if (response.ok) {
       startCountdown(5 * 60, countdownTimerDiv);
+    }else {
+      emailErrorDiv.textContent = i18next.t('invalidEmailFormat'); // '유효하지 않은 이메일입니다'와 같은 메시지를 지정하세요.
+      emailErrorDiv.style.display = 'block';
     }
   } catch (error) {
     emailErrorDiv.textContent = error.message;
