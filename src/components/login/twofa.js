@@ -19,6 +19,10 @@ async function requestResend(resendInfo, resendError) {
       } else {
         alert('Email sent successfully.');
       }
+      const button = document.getElementById('resendEmailButton');
+      if (button) {
+        button.disabled = false;
+      }
     } else {
       throw new Error(response.status.toString());
     }
@@ -99,6 +103,7 @@ function resendEmail() {
   }
 
   resendBtn.addEventListener('click', function () {
+    resendBtn.disabled = true;
     const resendInfo = document.getElementById('resendInfo') || null;
     const resendError = document.getElementById('resendError') || null;
     requestResend(resendInfo, resendError);
