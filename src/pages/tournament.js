@@ -190,6 +190,7 @@ function updateTournamentSettingModalContent() {
   document.getElementById('t-normal-label').innerHTML = i18next.t('t-normal-label');
   document.getElementById('t-speed-label').innerHTML = i18next.t('t-speed-label');
   document.getElementById('t-object-label').innerHTML = i18next.t('t-object-label');
+  document.getElementById('startTournamentButton').innerHTML = i18next.t('startTournamentButton');
 }
 
 export function updateTournamentRoundModalContent(round) {
