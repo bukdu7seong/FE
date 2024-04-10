@@ -1,6 +1,10 @@
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import { formatCurrentTime, initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
+import {
+  formatCurrentTime,
+  initializeGameResultData,
+  setupGameSettingModal,
+} from '../components/game/game.js';
 
 export function pageGame() {
   const page = document.createElement('div');
@@ -32,7 +36,7 @@ export function pageGame() {
 function createGameSettingModal() {
   const modalContainer = document.createElement('div');
   modalContainer.innerHTML = `
-     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
+     <button type="button" class="btn gameSettingModal" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
 <div class="modal fade" id="gameSettingModal" tabindex="-1" aria-labelledby="gameSettingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
