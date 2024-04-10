@@ -30,7 +30,6 @@ export function pageGame() {
 }
 
 function createGameSettingModal() {
-  // 게임 설정 모달의 HTML 구성을 반환
   const modalContainer = document.createElement('div');
   modalContainer.innerHTML = `
      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
@@ -105,16 +104,16 @@ export function pageBoard() {
 
   function loadScript() {
     let script = document.createElement('script');
-    script.src = 'src/components/common/sendVerificationEmail.js'; // 스크립트 파일 경로
-    document.body.appendChild(script); // <head>에 스크립트 추가
+    script.src = 'src/components/common/sendVerificationEmail.js';
+    document.body.appendChild(script);
   }
+  loadScript();
 
-  loadScript(); // 스크립트 로드 함수 호출
   return page;
 }
 
 export function createScoreModal() {
-  const currentTime = formatCurrentTime(); // 현재 시간 포맷팅
+  const currentTime = formatCurrentTime();
 
   const scoreModal = document.createElement('div');
   scoreModal.innerHTML = `
@@ -194,50 +193,3 @@ function createEmail2faModal() {
 
   return modalContainer;
 }
-
-
-// export function updateScoreModalContent() {
-//   document.getElementById('scoreModalLabel').innerHTML =
-//     i18next.t('scoreModalLabel');
-//   document.getElementById('win-label').innerHTML = i18next.t('win-label');
-//   document.getElementById('win-label').innerHTML = i18next.t('win-label');
-//   document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
-//   document.getElementById('save-score').innerHTML = i18next.t('save-score');
-//
-//   document.getElementById('email2faModalLabel').innerHTML =
-//     i18next.t('email2faModalLabel');
-//   document.getElementById('emailAddressLabel').innerHTML =
-//     i18next.t('emailAddressLabel');
-//   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-//   document.getElementById('send-email-code-button').innerHTML = i18next.t(
-//     'send-email-code-button'
-//   );
-//   document.getElementById('codeInputLabel').innerHTML =
-//     i18next.t('codeInputLabel');
-//   document.getElementById('send-verification-code-button').innerHTML =
-//     i18next.t('send-verification-code-button');
-// }
-
-// function formatCurrentTime() {
-//   const now = new Date();
-//   const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1
-//   const day = now.getDate();
-//   const hours = now.getHours();
-//   const minutes = now.getMinutes().toString().padStart(2, '0');
-//   return `${month}/${day}, ${hours}:${minutes}`;
-// }
-
-// export function updateScoreModal(gameResult) {
-//   const winnerInfo = gameResult.winner;
-//   const loserInfo = gameResult.loser;
-//
-//   const winnerNameElement = document.getElementById('classic-winner-name');
-//   const loserNameElement = document.getElementById('classic-loser-name');
-//   const winnerImageElement = document.getElementById('classic-winner-image');
-//   const loserImageElement = document.getElementById('classic-loser-image');
-//
-//   winnerNameElement.textContent = winnerInfo.name;
-//   loserNameElement.textContent = loserInfo.name;
-//   winnerImageElement.src = winnerInfo.image;
-//   loserImageElement.src = loserInfo.image;
-// }
