@@ -152,6 +152,16 @@ function verifyCode() {
       requestTwoFACode(codeBtn.value, codeError);
     }
   });
+
+  const submitBtn = document.getElementById('submitTwoFA');
+  if (!submitBtn) {
+    return;
+  }
+
+  submitBtn.addEventListener('click', function () {
+    const codeError = document.getElementById('codeError') || null;
+    requestTwoFACode(codeBtn.value, codeError);
+  });
 }
 
 // [2FA]

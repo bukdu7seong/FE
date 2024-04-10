@@ -39,7 +39,10 @@ export function pageTwoFA() {
       <div id="resendError" class="text-danger"></div>
       
       <!-- 2FA 코드 입력 -->
-      <input class="twofacode form-control btn btn-outline-light form-2fa" type="text" placeholder="" aria-label="default input example" id="two-f-a-code">
+      <div class="input-group">
+        <input class="twofacode form-control btn btn-outline-light form-2fa" type="text" placeholder="" aria-label="default input example" id="two-f-a-code">
+        <button class="submit-btn btn btn-outline-light form-2fa" type="button" id="submitTwoFA">Submit</button>
+      </div>
       <div id="codeError" class="text-danger"></div>
 
       <!-- 5분 타이머 -->
