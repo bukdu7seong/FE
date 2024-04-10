@@ -118,102 +118,84 @@ export function createScoreModal() {
   const currentTime = formatCurrentTime(); // 현재 시간 포맷팅
 
   const scoreModal = document.createElement('div');
-  scoreModal.className = 'modal fade';
-  scoreModal.id = 'scoreModal';
-  scoreModal.tabIndex = -1;
-  scoreModal.setAttribute('aria-labelledby', 'scoreModalLabel');
-  scoreModal.setAttribute('aria-hidden', 'true');
   scoreModal.innerHTML = `
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content bg-dark text-white">
-            <div class="modal-header border-0">
-                <h1 class="modal-title fs-1 w-100 text-center" id="scoreModalLabel">SCORE</h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" id="scoreModalCloseButton" aria-label="Close"></button>
+    <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header border-0">
+            <h1 class="modal-title fs-1 w-100 text-center" id="scoreModalLabel">SCORE</h1>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Winner section -->
+            <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
+              <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
+              <img src="winner-image-placeholder" class="rounded-circle me-2" id="classic-winner-image" alt="Winner" style="width: 50px; height: 50px;">
+              <span class="fw-bold flex-grow-1" id="classic-winner-name">Winner Name</span>
+              <span class="time-score rounded-pill bg-secondary px-3" id="win-time">${currentTime}</span>
             </div>
-
-            <div class="modal-body">
-                <!-- Winner section -->
-                <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
-                    <img src="winner-image-placeholder" class="rounded-circle me-2" id="classic-winner-image" alt="Winner" style="width: 50px; height: 50px;">
-                    <span class="fw-bold flex-grow-1" id="classic-winner-name">Winner Name</span>
-                    <span class="time-score rounded-pill bg-secondary px-3" id="win-time">${currentTime}</span>
-                </div>
-                <!-- Loser section -->
-                <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
-                    <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
-                    <img src="loser-image-placeholder" class="rounded-circle me-2" id="classic-loser-image" alt="Loser" style="width: 50px; height: 50px;">
-                    <span class="fw-bold flex-grow-1" id="classic-loser-name">Loser Name</span>
-                    <span class="time-score rounded-pill bg-secondary px-3" id="lose-time">${currentTime}</span>
-                </div>
+            <!-- Loser section -->
+            <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
+              <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
+              <img src="loser-image-placeholder" class="rounded-circle me-2" id="classic-loser-image" alt="Loser" style="width: 50px; height: 50px;">
+              <span class="fw-bold flex-grow-1" id="classic-loser-name">Loser Name</span>
+              <span class="time-score rounded-pill bg-secondary px-3" id="lose-time">${currentTime}</span>
             </div>
-
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal" id='save-score'>SAVE SCORE</button>
-            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-lg btn-success w-100 mb-2 rounded-pill" data-bs-target="#email2faModal" data-bs-toggle="modal" id='save-score'>SAVE SCORE</button>
+          </div>
+        </div>
       </div>
     </div>`;
+
   return scoreModal;
 }
 
 function createEmail2faModal() {
-  const email2faModal = document.createElement('div');
-
-  email2faModal.className = 'modal fade';
-  email2faModal.id = 'email2faModal';
-  email2faModal.tabIndex = -1;
-  email2faModal.setAttribute('aria-labelledby', 'email2faModalLabel');
-  email2faModal.setAttribute('aria-hidden', 'true');
-  email2faModal.innerHTML = `
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="emailVerificationForm">
-            <!-- Email address input -->
-            <div class="mb-3">
-              <label for="emailInput" class="form-label" id="emailAddressLabel">Email Address</label>
-              <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
-            </div>
-            <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div>
-            <div class="d-grid gap-2 mb-3">
-              <button type="button" class="btn btn-primary" id='send-email-code-button'>Send Code</button>
-            </div>
-            <!-- Verification code input -->
-            <div class="mb-3">
-              <label for="codeInput" class="form-label" id="codeInputLabel">Verification Code</label>
-              <input type="text" class="form-control" id="codeInput" required>
-            </div>
-            <div class="codeError text-danger mt-2" id='codeError' style="display: none;"></div>
-            <div class="d-grid gap-2">
-              <button type="button" class="btn btn-success" id='send-verification-code-button'>Verify and Save</button>
-            </div>
-          </form>
+  const modalContainer = document.createElement('div');
+  modalContainer.innerHTML = `
+    <div class="modal fade" id="email2faModal" tabindex="-1" aria-labelledby="email2faModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="email2faModalLabel">Email Verification</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="emailVerificationForm">
+              <!-- Email address input -->
+              <div class="mb-3">
+                <label for="emailInput" class="form-label" id="emailAddressLabel">Email Address</label>
+                <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+              </div>
+              <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div>
+              <div class="d-grid gap-2 mb-3">
+                <button type="button" class="btn btn-primary" id='send-email-code-button'>Send Code</button>
+              </div>
+              <!-- Verification code input -->
+              <div class="mb-3">
+                <label for="codeInput" class="form-label" id="codeInputLabel">Verification Code</label>
+                <input type="text" class="form-control" id="codeInput" required>
+              </div>
+              <div class="codeError text-danger mt-2" id='codeError' style="display: none;"></div>
+              <div class="d-grid gap-2">
+                <button type="button" class="btn btn-success" id='send-verification-code-button'>Verify and Save</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>`;
 
   const countdownTimerDiv = document.createElement('div');
   countdownTimerDiv.className = 'countdown-timer text-center my-2';
-  countdownTimerDiv.style.display = 'none'; // 처음에는 숨김
-  email2faModal.querySelector('.modal-body').appendChild(countdownTimerDiv);
+  countdownTimerDiv.style.display = 'none';
+  modalContainer.querySelector('.modal-body').appendChild(countdownTimerDiv);
 
-  // // 이메일 전송 버튼에 이벤트 리스너 추가
-  // const sendEmailButton = email2faModal.querySelector(
-  //   '#send-email-code-button'
-  // );
-  // sendEmailButton.addEventListener('click', function () {
-  //   if (isValidEmail(document.getElementById('emailInput').value)) {
-  //     // const countdownTimerDiv = email2faModal.querySelector('.countdown-timer');
-  //     // startCountdown(5 * 60, countdownTimerDiv); //
-  //   }
-  // });
-
-  return email2faModal;
+  return modalContainer;
 }
+
 
 // export function updateScoreModalContent() {
 //   document.getElementById('scoreModalLabel').innerHTML =
