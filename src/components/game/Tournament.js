@@ -110,8 +110,8 @@ function showTournamentRoundModal(pingpong, round, player1, player2) {
 
   startRoundButton.removeEventListener('click', startRoundButton.handler);
   startRoundButton.handler = function() {
-    pingpong.startGame(); // 게임 시작
-    tournamentRoundModal.hide(); // 모달 숨김
+    pingpong.startGame();
+    tournamentRoundModal.hide();
   };
   startRoundButton.addEventListener('click', startRoundButton.handler);
 
