@@ -4,6 +4,7 @@ import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
 import { toastSuccess } from '../../../utils/success.js';
 import { toastFail } from '../../../utils/fail.js';
+import { logout } from '../../common/logout.js';
 
 // 회원 탈퇴 확인 모달 HTML
 function confirmDeletionModalHTML(modalId, finalModalId) {
@@ -125,7 +126,9 @@ export class deleteUserModal {
   }
 
   async finalizeDeletion() {
-    const passwordInput = document.getElementById('password-confirm-form-input');
+    const passwordInput = document.getElementById(
+      'password-confirm-form-input'
+    );
     const password = passwordInput.value;
     if (!password) {
       toastFail('unsubscribePassword');
@@ -140,6 +143,7 @@ export class deleteUserModal {
       if (success) {
         toastSuccess('unsubscribeSuccess');
         this.backModalInstance.hide();
+        logout();
       }
       this.processing = false;
     } catch (error) {

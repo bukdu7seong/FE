@@ -1,3 +1,4 @@
+import { logout } from '../components/common/logout.js';
 import { ACCOUNT_API_URL } from './api.js';
 import { getCookie, removeCookie, setCookie } from './cookie.js';
 
@@ -48,6 +49,7 @@ export async function getAccessToken() {
       }
     } catch (e) {
       alert(e.message);
+      logout();
       return null;
     }
   } else {
