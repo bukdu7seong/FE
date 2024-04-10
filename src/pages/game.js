@@ -9,7 +9,6 @@ import {
 export function pageGame() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  const navbar = sidebar(routes);
 
   page.innerHTML = `
         <div class="main-box">
@@ -23,9 +22,9 @@ export function pageGame() {
               <div class="player-option" id="player2">PLAYER 2</div>
             </div>
           </div>
+          <div id="mainNavbar"></div>
         </div>
       `;
-  page.appendChild(navbar);
   page.appendChild(createGameSettingModal());
   page.appendChild(createScoreModal(initializeGameResultData()));
   page.appendChild(createEmail2faModal());

@@ -105,7 +105,6 @@ const setting = `
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  const navbar = sidebar(routes);
 
   const content = `
     <div class="main-box">
@@ -128,10 +127,10 @@ export function pageProfile() {
           ${setting}
         </div>
       </div>
+      <div id="mainNavbar"></div>
     </div>
   `;
 
   page.innerHTML = content;
-  page.appendChild(navbar);
   return page;
 }

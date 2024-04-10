@@ -5,7 +5,6 @@ import { routes } from '../../lib/router/router.js';
 export function pageTournament() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  const navbar = sidebar(routes);
 
   page.innerHTML = `
         <div class="main-box">
@@ -19,9 +18,9 @@ export function pageTournament() {
               <div class="player-option" id="tournament-player2">PLAYER 2</div>
             </div>
           </div>
+          <div id="mainNavbar"></div>
         </div>
       `;
-  page.appendChild(navbar);
   page.appendChild(createTournamentSettingModal());
   page.appendChild(createTournamentRoundModal());
   page.appendChild(createTournamentWinnerModal());
