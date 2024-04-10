@@ -2,10 +2,10 @@ import CollisionDetector from './CollisionDetector.js';
 
 export default class Ball {
   constructor(element, initialCoord, speed) {
-    this.element = element; // 공의 DOM 요소
-    this.coord = initialCoord; // 초기 좌표
+    this.element = element;
+    this.coord = initialCoord;
     this.initialCoord = initialCoord;
-    this.speed = speed; // 공의 속도
+    this.speed = speed;
     this.ballFrame = null;
     this.radius = 15;
     this.isVisible = true;
@@ -14,7 +14,7 @@ export default class Ball {
   hide() {
     this.element.style.display = 'none';
     this.isVisible = false;
-    cancelAnimationFrame(this.ballFrame); // Cancel animation when hiding
+    cancelAnimationFrame(this.ballFrame);
   }
 
   show() {
@@ -98,7 +98,7 @@ export default class Ball {
 
     if (this.outOfBoard(pingPong.boardCoord)) {
       pingPong.updatePlayersScore();
-      return; // 승리 조건을 만족하면 이동을 중단합니다.
+      return;
     }
     const currentTop = parseFloat(
       this.element.style.top
