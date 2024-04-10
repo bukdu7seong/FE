@@ -115,16 +115,9 @@ async function sendEmailCode() {
     });
 
     if (response.ok) {
-      // HTTP 상태 코드가 200-299일 경우에만 카운트다운을 시작합니다.
       startCountdown(5 * 60, countdownTimerDiv);
-    } else {
-      console.error('Response was not OK:', response.status);
     }
-
-    const data = await response.json();
-    console.log('Email code sent successfully:', data);
   } catch (error) {
-    console.error('Error sending email code:', error);
     emailErrorDiv.textContent = error.message;
     emailErrorDiv.style.display = 'block';
   }
