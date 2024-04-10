@@ -1,5 +1,5 @@
 import { GAME_API_URL } from '../../../utils/api.js';
-import { throwError, toastError } from '../../../utils/error.js';
+import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
 
 export async function getHistoryData(pageNumber = 1) {
@@ -16,9 +16,18 @@ export async function getHistoryData(pageNumber = 1) {
       }
     );
 
+    if (!response.ok) {
+      if (response.status === 401) {
+        redirectError('Unauthorized access token. Please login again.');
+        return;
+      } else {
+        throwError('Failed to fetch user game data.');
+      }
+    }
+
     return await response.json();
   } catch (error) {
-    // throwError(error.message); // throw? toast?
     toastError(error.message);
+    return null;
   }
 }

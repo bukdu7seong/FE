@@ -14,6 +14,7 @@ async function requestLogin(userInfo) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userInfo),
+      credentials: 'include',
     });
 
     if (response.status === 200) {
@@ -65,15 +66,6 @@ function handleOAuthClick() {
   });
 }
 
-// [회원가입 버튼]
-// function handleSignUpClick() {
-//   const signUp = document.getElementById('sign-up');
-//   signUp.addEventListener('click', function (e) {
-//     e.preventDefault();
-//     request42OAuth();
-//   });
-// }
-
 // [로그인 버튼]
 function handleSignInClick() {
   const signInForm = document.getElementById('signin-form');
@@ -103,6 +95,5 @@ function handleSignInClick() {
 // [버튼 리스너]
 export function signIn() {
   handleSignInClick();
-  // handleSignUpClick();
   handleOAuthClick();
 }

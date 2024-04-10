@@ -1,20 +1,19 @@
-import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { redirectError, toastError } from '../../../utils/error.js';
+import { GAME_API_URL } from '../../../utils/api.js';
+import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
 
-export async function getRequestData(pageNumber = 1) {
+export async function getGameData() {
   try {
     const accessToken = await getAccessToken();
 
-    const response = await fetch(
-      `${ACCOUNT_API_URL}/api/friend/pending-friends/?page=${pageNumber}&pageSize=5`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await fetch(`${GAME_API_URL}/api/games/stats/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
     if (!response.ok) {
       if (response.status === 401) {
         redirectError('Unauthorized access token. Please login again.');

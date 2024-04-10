@@ -56,6 +56,7 @@ async function requestTwoFACode(code, codeError) {
         code: code,
         email: userState.getState().userEmail,
       }),
+      credentials: 'include',
     });
 
     if (response.ok) {

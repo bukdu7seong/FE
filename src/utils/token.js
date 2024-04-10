@@ -20,7 +20,6 @@ function parseJwt(token) {
 
 export async function getAccessToken() {
   const accessToken = getCookie('accessToken');
-
   if (!accessToken) {
     return null;
   }
@@ -32,12 +31,12 @@ export async function getAccessToken() {
   if (expireTime <= currentTime) {
     removeCookie('accessToken');
     try {
-      const response = fetch(`${ACCOUNT_API_URL}/api/account/reissue/`, {
-        method: 'GET',
+      const response = await fetch(`${ACCOUNT_API_URL}/api/account/reissue`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
         },
+        credentials: 'include',
       });
 
       if (response.status === 200) {

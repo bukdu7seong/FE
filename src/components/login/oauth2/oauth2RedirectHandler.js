@@ -14,6 +14,7 @@ async function sendAuthCodeToBackend(code) {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
 
     // localStorage.removeItem('code');

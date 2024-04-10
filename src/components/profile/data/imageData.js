@@ -1,5 +1,4 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { getCookie } from '../../../utils/cookie.js';
 import { toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
 
@@ -24,5 +23,6 @@ export async function getImageData(imagePath) {
     return imageResponse.url;
   } catch (error) {
     toastError(error.message);
+    return null;
   }
 }
