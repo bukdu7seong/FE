@@ -66,15 +66,6 @@ function handleOAuthClick() {
   });
 }
 
-// [회원가입 버튼]
-// function handleSignUpClick() {
-//   const signUp = document.getElementById('sign-up');
-//   signUp.addEventListener('click', function (e) {
-//     e.preventDefault();
-//     request42OAuth();
-//   });
-// }
-
 // [로그인 버튼]
 function handleSignInClick() {
   const signInForm = document.getElementById('signin-form');
@@ -101,41 +92,8 @@ function handleSignInClick() {
   });
 }
 
-function test() {
-  const testButton = document.getElementById('test');
-  if (!testButton) {
-    return;
-  }
-
-  testButton.addEventListener('click', async function () {
-    const response = await fetch(`${ACCOUNT_API_URL}/api/account/test/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: '*/*',
-        'Accept-Encoding': 'gzip, deflate, br',
-        Connection: 'keep-alive',
-      },
-      body: JSON.stringify({
-        username: 'user1',
-        password: 'user123!@#',
-      }),
-    });
-
-    const data = await response.json();
-    console.log(data);
-    if (!response.ok) {
-      alert('TEST FAILED');
-    } else {
-      alert('TEST PASSED');
-    }
-  });
-}
-
 // [버튼 리스너]
 export function signIn() {
   handleSignInClick();
-  // handleSignUpClick();
   handleOAuthClick();
-  test();
 }
