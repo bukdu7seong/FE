@@ -231,14 +231,14 @@ export class viewAllFriendsModal {
           clearInterval(checkInterval);
           reject(new Error('Socket is offline'));
         }
-      }, 1000);
+      }, 420);
     });
 
     waitForSocketOpen
       .then(() => {
         const checkLoginInterval = setInterval(() => {
           userSocket.send(JSON.stringify({ userid: array }));
-        }, 1000);
+        }, 420);
 
         if (userState.getState().socketViewAll) {
           const previousInterval = userState.getState().socketViewAll;

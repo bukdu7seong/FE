@@ -55,7 +55,7 @@ body {
 }
 
 .form-group {
-  margin-bottom: -20px;
+  /* margin-bottom: -20px; */
 }
 
 .form-group input[type='checkbox'] {

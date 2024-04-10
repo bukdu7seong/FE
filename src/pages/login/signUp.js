@@ -39,7 +39,7 @@ export function pageSignUp() {
 			<div id="imageError" class="text-danger"></div>
 			<div class="form-group">
 				<input type="checkbox" id="agree" name="agree">
-				<label for="agree"><a href="privacy_policy.html" target="_blank">개인정보 처리방침</a>에 동의합니다.</label>
+				<label for="agree"><a href="/assets/html/privacyPolicy.html" target="_blank">개인정보 처리방침</a>에 동의합니다.</label>
 			</div>
 			<button type="submit" class="btn btn-outline-light form-signup">
 			  Sign Up

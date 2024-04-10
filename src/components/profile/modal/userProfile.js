@@ -187,7 +187,7 @@ export class userProfileModal {
 
         const checkLoginInterval = setInterval(() => {
           userSocket.send(JSON.stringify({ userid: array }));
-        }, 1000);
+        }, 420);
 
         if (userState.getState().socketProfile) {
           const previousInterval = userState.getState().socketProfile;
