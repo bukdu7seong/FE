@@ -85,44 +85,56 @@ export async function initUserInfo() {
       false
     );
 
-    const connectWebSocket = async (attempt = 1) => {
-      console.log('connecting...');
-      const accessToken = await getAccessToken();
-      const socket = new WebSocket(
-        `${SOCKET_URL}/ws/friend/status?token=${accessToken}`
-      );
+    const connectWebSocket = (attempt = 1) => {
+      return new Promise(async (resolve, reject) => {
+        console.log('connecting...');
+        const accessToken = await getAccessToken();
+        const socket = new WebSocket(
+          `${SOCKET_URL}/ws/friend/status?token=${accessToken}`
+        );
 
-      const timeout = setTimeout(() => {
-        socket.close();
-      }, 4242);
+        const timeout = setTimeout(() => {
+          socket.close();
+          reject(new Error('WebSocket connection timeout'));
+        }, 4242);
 
-      socket.onopen = () => {
-        clearTimeout(timeout);
-        userState.setState({ userSocket: socket }, false);
-        userState.setState({ socketStatus: 'online' }, false);
-        toastSuccess('connectSuccess');
-      };
+        socket.onopen = () => {
+          clearTimeout(timeout);
+          userState.setState({ userSocket: socket }, false);
+          userState.setState({ socketStatus: 'online' }, false);
+          resolve();
+        };
 
-      socket.onerror = () => {
-        clearTimeout(timeout);
-        socket.close();
-      };
+        socket.onerror = () => {
+          clearTimeout(timeout);
+          socket.close();
+          reject(new Error('WebSocket connection error'));
+        };
 
-      socket.onclose = () => {
-        clearTimeout(timeout);
-        if (attempt < 3) {
-          setTimeout(() => {
-            connectWebSocket(attempt + 1);
-          }, 2121);
-        } else {
-          toastError('Failed to connect to WebSocket server.');
-          userState.setState({ userSocket: null }, false);
-          userState.setState({ socketStatus: 'offline' }, false);
-        }
-      };
+        socket.onclose = () => {
+          clearTimeout(timeout);
+          if (attempt < 3) {
+            setTimeout(() => {
+              connectWebSocket(attempt + 1)
+                .then(resolve)
+                .catch(reject);
+            }, 2121);
+          } else {
+            userState.setState({ userSocket: null }, false);
+            userState.setState({ socketStatus: 'offline' }, false);
+            reject(new Error('WebSocket connection closed'));
+          }
+        };
+      });
     };
 
-    await connectWebSocket();
+    await connectWebSocket()
+      .then(() => {
+        toastSuccess('connectSuccess');
+      })
+      .catch((error) => {
+        toastError(error);
+      });
   } catch (error) {
     redirectError(error.message);
   }

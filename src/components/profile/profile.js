@@ -301,14 +301,14 @@ function listenFriendLogin(array) {
         clearInterval(checkInterval);
         reject(new Error('Socket is offline'));
       }
-    }, 1000);
+    }, 420);
   });
 
   waitForSocketOpen
     .then(() => {
       const checkLoginInterval = setInterval(() => {
         userSocket.send(JSON.stringify({ userid: array }));
-      }, 1000);
+      }, 420);
 
       if (userState.getState().socketFunction) {
         const previousInterval = userState.getState().socketFunction;
@@ -511,22 +511,19 @@ function listenSocketMessage() {
   const waitForSocketOpen = new Promise((resolve, reject) => {
     const checkInterval = setInterval(() => {
       if (userSocket && userSocket.readyState === WebSocket.OPEN) {
-        console.log('socket open');
-
         clearInterval(checkInterval);
         resolve(userSocket);
       } else if (userState.getState().socketStatus === 'offline') {
         clearInterval(checkInterval);
         reject(new Error('Socket is offline'));
       }
-    }, 1000);
+    }, 420);
   });
 
   waitForSocketOpen
     .then(() => {
       userSocket.onmessage = (event) => {
         const loginStatusList = JSON.parse(event.data);
-        // console.log('list: ', loginStatusList);
 
         Object.entries(loginStatusList).forEach(([userId, isLoggedIn]) => {
           const profileModal = globalState.getState().profileModal;
@@ -538,12 +535,17 @@ function listenSocketMessage() {
             if (!friendItem) return;
 
             const loginStatusDiv = friendItem.querySelector('.login-status');
+            const loginStatus = loginStatusDiv.classList;
             if (isLoggedIn) {
-              loginStatusDiv.classList.remove('logout');
-              loginStatusDiv.classList.add('login');
+              if (loginStatus.contains('logout')) {
+                loginStatus.remove('logout');
+                loginStatus.add('login');
+              }
             } else {
-              loginStatusDiv.classList.remove('login');
-              loginStatusDiv.classList.add('logout');
+              if (loginStatus.contains('login')) {
+                loginStatus.remove('login');
+                loginStatus.add('logout');
+              }
             }
           }
 
@@ -555,12 +557,17 @@ function listenSocketMessage() {
             if (modalElement && modalUserId === +userId) {
               const modalLoginStatusDiv =
                 modalElement.querySelector('.login-status');
+              const loginStatus = modalLoginStatusDiv.classList;
               if (isLoggedIn) {
-                modalLoginStatusDiv.classList.remove('logout');
-                modalLoginStatusDiv.classList.add('login');
+                if (loginStatus.contains('logout')) {
+                  loginStatus.remove('logout');
+                  loginStatus.add('login');
+                }
               } else {
-                modalLoginStatusDiv.classList.remove('login');
-                modalLoginStatusDiv.classList.add('logout');
+                if (loginStatus.contains('login')) {
+                  loginStatus.remove('login');
+                  loginStatus.add('logout');
+                }
               }
             }
           }
@@ -574,12 +581,17 @@ function listenSocketMessage() {
             const modalLoginStatusDiv = modalItem.querySelector(
               '.modal-login-status'
             );
+            const loginStatus = modalLoginStatusDiv.classList;
             if (isLoggedIn) {
-              modalLoginStatusDiv.classList.remove('modal-logout');
-              modalLoginStatusDiv.classList.add('modal-login');
+              if (loginStatus.contains('modal-logout')) {
+                loginStatus.remove('modal-logout');
+                loginStatus.add('modal-login');
+              }
             } else {
-              modalLoginStatusDiv.classList.remove('modal-login');
-              modalLoginStatusDiv.classList.add('modal-logout');
+              if (loginStatus.contains('modal-login')) {
+                loginStatus.remove('modal-login');
+                loginStatus.add('modal-logout');
+              }
             }
           }
         });
