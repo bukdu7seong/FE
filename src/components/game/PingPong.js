@@ -116,7 +116,6 @@ export default class PingPong {
       this.player1.paddle = document.querySelector('.paddle_1');
       this.player2.paddle = document.querySelector('.paddle_2');
       this.ball.init();
-      // this.ball.initialCoord = this.ball.getCoord();
 
       this.boardCoord = this.board.getBoundingClientRect();
       const boardCenterTop = this.boardCoord.height / 2 - this.ball.radius;
@@ -246,11 +245,9 @@ export default class PingPong {
       }
 
       const data = await response.json();
-      // console.log(data);
-      return data.gameId; // JSON 결과에서 gameId 반환
+      return data.gameId;
     } catch (error) {
-      // console.error('Fetching error:', error);
-      return null; // 오류 발생 시 null 반환
+      return null;
     }
   }
 
@@ -267,7 +264,6 @@ export default class PingPong {
     let winner = player1Info;
     let loser = player2Info;
 
-    // 승자가 player2인 경우, 승자와 패자 정보를 스왑
     if (this.winner !== this.player1.playerName) {
       [winner, loser] = [loser, winner];
     }
@@ -304,7 +300,7 @@ export default class PingPong {
         if (gameState.getState().gameType === 'classic') {
           let gameId;
           try {
-            gameId = await this.fetchGameResults(); // await 키워드 사용
+            gameId = await this.fetchGameResults();
           } catch (error) {
             console.error('Error in fetchGameResults:', error);
           }
@@ -331,7 +327,6 @@ export default class PingPong {
         }
         this.cleanUp();
       } else {
-        // 목표 점수에 도달하지 않았다면 게임 재시작
         this.gameStart();
       }
     }, 0);
