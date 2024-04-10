@@ -24,9 +24,6 @@ async function update2FA(is2FAEnabled) {
     }
 
     const data = await response.json();
-    // console.log(
-    //   `2FA Authentication is now ${is2FAEnabled ? 'enabled' : 'disabled'}.`
-    // );
     toastSuccess('change2faSuccess');
     return data;
   } catch (error) {
