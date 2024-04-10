@@ -1,4 +1,3 @@
-import { globalState, userState } from '../../../lib/state/state.js';
 
 export function listenFriendLogin(array) {
   const userData = userState.getState();
