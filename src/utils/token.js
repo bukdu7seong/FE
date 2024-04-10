@@ -3,20 +3,27 @@ import { ACCOUNT_API_URL } from './api.js';
 import { getCookie, removeCookie, setCookie } from './cookie.js';
 
 function parseJwt(token) {
-  // JWT는 세 부분으로 나뉘며, 각 부분은 '.'으로 구분됩니다.
-  const base64Url = token.split('.')[1]; // 페이로드 부분을 선택합니다.
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Base64 URL 인코딩을 Base64로 변환합니다.
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split('')
-      .map(function (c) {
-        // Base64로 디코딩된 문자열에서 각 문자를 URI 컴포넌트로 변환합니다.
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join('')
-  );
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return null;
+    }
 
-  return JSON.parse(jsonPayload); // JSON 문자열을 객체로 변환합니다.
+    const base64Url = parts[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
 }
 
 export async function getAccessToken() {
@@ -26,6 +33,10 @@ export async function getAccessToken() {
   }
 
   const decodeToken = parseJwt(accessToken);
+  if (!decodeToken) {
+    removeCookie('accessToken');
+    return null;
+  }
   const expireTime = decodeToken.exp;
   const currentTime = Date.now() / 1000;
 
