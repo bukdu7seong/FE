@@ -1,17 +1,13 @@
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
-import {
-  formatCurrentTime,
-  initializeGameResultData,
-  setupGameSettingModal
-} from '../components/game/game.js';
+import { formatCurrentTime, initializeGameResultData, setupGameSettingModal } from '../components/game/game.js';
 
 export function pageGame() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
   const navbar = sidebar(routes);
 
-  const content = `
+  page.innerHTML = `
         <div class="main-box">
           <div class="user-box"></div>
           <div class="game-box" id='game'>
@@ -25,20 +21,9 @@ export function pageGame() {
           </div>
         </div>
       `;
-
-  const winner = {
-    name: 'Player 1',
-    image: 'path_to_winner_image',
-  };
-  const loser = {
-    name: 'Player 2',
-    image: 'path_to_loser_image',
-  };
-  page.innerHTML = content;
   page.appendChild(navbar);
-  page.appendChild(createScoreModal(initializeGameResultData()));
   page.appendChild(createGameSettingModal());
-  page.appendChild(createScoreModal({ winner, loser }));
+  page.appendChild(createScoreModal(initializeGameResultData()));
   page.appendChild(createEmail2faModal());
   setupGameSettingModal(page);
   return page;
