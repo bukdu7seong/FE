@@ -1,6 +1,5 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { getCookie } from '../../../utils/cookie.js';
-import { toastError } from '../../../utils/error.js';
+import { redirectError, toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
 
 export async function getFriendData(pageNumber = 1) {

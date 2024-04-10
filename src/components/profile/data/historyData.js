@@ -1,5 +1,5 @@
 import { GAME_API_URL } from '../../../utils/api.js';
-import { throwError, toastError } from '../../../utils/error.js';
+import { redirectError, throwError, toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
 
 export async function getHistoryData(pageNumber = 1) {
