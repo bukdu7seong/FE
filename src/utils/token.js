@@ -28,9 +28,6 @@ export async function getAccessToken() {
   const expireTime = decodeToken.exp;
   const currentTime = Date.now() / 1000;
 
-  console.log('expireTime:', expireTime);
-  console.log('currentTime:', currentTime);
-
   if (expireTime <= currentTime) {
     removeCookie('accessToken');
     try {
@@ -39,9 +36,9 @@ export async function getAccessToken() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
 
-      console.log('response:', response);
       if (response.status === 200) {
         const data = await response.json();
         setCookie('accessToken', data.access);
