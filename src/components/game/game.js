@@ -38,7 +38,7 @@ export function setupGameSettingModal(page) {
 
   const sendEmailButton = page.querySelector('#send-email-code-button');
   if (sendEmailButton) {
-    sendEmailButton.addEventListener('click', sendEmailCode);
+    sendEmailButton.addEventListener('click', sendEmailCode); //
   }
 }
 

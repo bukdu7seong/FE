@@ -1,5 +1,3 @@
-import { gameState } from '../../lib/state/state.js';
-import { getCookie } from '../utils/cookie.js';
 import { sidebar } from '../components/common/sidebar.js';
 import { routes } from '../../lib/router/router.js';
 import { GAME_API_URL } from '../utils/api.js';
@@ -136,29 +134,6 @@ export function pageBoard() {
   return page;
 }
 
-async function verifyCodeWithServer(code) {
-  try {
-    const response = await fetch('YOUR_SERVER_ENDPOINT', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code: code }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Server response was not ok.');
-    }
-
-    const data = await response.json();
-    // 검증 결과에 따라 추가 작업 수행
-    // 예: 사용자에게 성공 또는 실패 메시지 표시
-  } catch (error) {
-    console.error('Error verifying code:', error);
-    // 오류 처리
-  }
-}
-
 export function createScoreModal() {
   const currentTime = formatCurrentTime(); // 현재 시간 포맷팅
 
@@ -204,9 +179,9 @@ export function createScoreModal() {
 export async function sendEmailCode() {
   const emailInput = document.getElementById('emailInput');
   const emailErrorDiv = document.getElementById('emailError');
+  const countdownTimerDiv = document.querySelector('.countdown-timer');
   const email = emailInput.value;
 
-  // 이메일 유효성 검사
   if (!isValidEmail(email)) {
     emailErrorDiv.style.display = 'block';
     emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
@@ -216,31 +191,32 @@ export async function sendEmailCode() {
   emailErrorDiv.style.display = 'none';
 
   try {
-    const accessToken = await getAccessToken(); // 'access_token'은 쿠키에서 사용하는 토// 큰의 이름입니다.
-    const response = await fetch(
-      `${GAME_API_URL}/api/games/request-2fa/`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ email: email }),
-      }
-    );
+    const accessToken = await getAccessToken();
+    const response = await fetch(`${GAME_API_URL}/api/games/request-2fa/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ email: email }),
+    });
 
-    if (!response.ok) {
-      // throw new Error(`Server responded with status: ${response.status}`);
+    if (response.ok) {
+      // HTTP 상태 코드가 200-299일 경우에만 카운트다운을 시작합니다.
+      startCountdown(5 * 60, countdownTimerDiv);
+    } else {
+      console.error('Response was not OK:', response.status);
     }
 
     const data = await response.json();
-    // 서버 응답에 따른 추가 처리, 예를 들어 성공 메시지 표시 등
     console.log('Email code sent successfully:', data);
   } catch (error) {
-    // console.error('Error sending email code:', error);
-    // 오류 처리, 예를 들어 사용자에게 오류 메시지 표시 등
+    console.error('Error sending email code:', error);
+    emailErrorDiv.textContent = error.message;
+    emailErrorDiv.style.display = 'block';
   }
 }
+
 
 let countdownInterval;
 // 카운트다운 함수
@@ -321,40 +297,40 @@ function createEmail2faModal() {
   countdownTimerDiv.style.display = 'none'; // 처음에는 숨김
   email2faModal.querySelector('.modal-body').appendChild(countdownTimerDiv);
 
-  // 이메일 전송 버튼에 이벤트 리스너 추가
-  const sendEmailButton = email2faModal.querySelector(
-    '#send-email-code-button'
-  );
-  sendEmailButton.addEventListener('click', function () {
-    if (isValidEmail(document.getElementById('emailInput').value)) {
-      const countdownTimerDiv = email2faModal.querySelector('.countdown-timer');
-      startCountdown(5 * 60, countdownTimerDiv);
-    }
-  });
+  // // 이메일 전송 버튼에 이벤트 리스너 추가
+  // const sendEmailButton = email2faModal.querySelector(
+  //   '#send-email-code-button'
+  // );
+  // sendEmailButton.addEventListener('click', function () {
+  //   if (isValidEmail(document.getElementById('emailInput').value)) {
+  //     // const countdownTimerDiv = email2faModal.querySelector('.countdown-timer');
+  //     // startCountdown(5 * 60, countdownTimerDiv); //
+  //   }
+  // });
 
   return email2faModal;
 }
-export function updateScoreModalContent() {
-  document.getElementById('scoreModalLabel').innerHTML =
-    i18next.t('scoreModalLabel');
-  document.getElementById('win-label').innerHTML = i18next.t('win-label');
-  document.getElementById('win-label').innerHTML = i18next.t('win-label');
-  document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
-  document.getElementById('save-score').innerHTML = i18next.t('save-score');
-
-  document.getElementById('email2faModalLabel').innerHTML =
-    i18next.t('email2faModalLabel');
-  document.getElementById('emailAddressLabel').innerHTML =
-    i18next.t('emailAddressLabel');
-  document.getElementById('emailInput').placeholder = i18next.t('emailInput');
-  document.getElementById('send-email-code-button').innerHTML = i18next.t(
-    'send-email-code-button'
-  );
-  document.getElementById('codeInputLabel').innerHTML =
-    i18next.t('codeInputLabel');
-  document.getElementById('send-verification-code-button').innerHTML =
-    i18next.t('send-verification-code-button');
-}
+// export function updateScoreModalContent() {
+//   document.getElementById('scoreModalLabel').innerHTML =
+//     i18next.t('scoreModalLabel');
+//   document.getElementById('win-label').innerHTML = i18next.t('win-label');
+//   document.getElementById('win-label').innerHTML = i18next.t('win-label');
+//   document.getElementById('lose-label').innerHTML = i18next.t('lose-label');
+//   document.getElementById('save-score').innerHTML = i18next.t('save-score');
+//
+//   document.getElementById('email2faModalLabel').innerHTML =
+//     i18next.t('email2faModalLabel');
+//   document.getElementById('emailAddressLabel').innerHTML =
+//     i18next.t('emailAddressLabel');
+//   document.getElementById('emailInput').placeholder = i18next.t('emailInput');
+//   document.getElementById('send-email-code-button').innerHTML = i18next.t(
+//     'send-email-code-button'
+//   );
+//   document.getElementById('codeInputLabel').innerHTML =
+//     i18next.t('codeInputLabel');
+//   document.getElementById('send-verification-code-button').innerHTML =
+//     i18next.t('send-verification-code-button');
+// }
 
 // function formatCurrentTime() {
 //   const now = new Date();
@@ -365,17 +341,17 @@ export function updateScoreModalContent() {
 //   return `${month}/${day}, ${hours}:${minutes}`;
 // }
 
-export function updateScoreModal(gameResult) {
-  const winnerInfo = gameResult.winner;
-  const loserInfo = gameResult.loser;
-
-  const winnerNameElement = document.getElementById('classic-winner-name');
-  const loserNameElement = document.getElementById('classic-loser-name');
-  const winnerImageElement = document.getElementById('classic-winner-image');
-  const loserImageElement = document.getElementById('classic-loser-image');
-
-  winnerNameElement.textContent = winnerInfo.name;
-  loserNameElement.textContent = loserInfo.name;
-  winnerImageElement.src = winnerInfo.image;
-  loserImageElement.src = loserInfo.image;
-}
+// export function updateScoreModal(gameResult) {
+//   const winnerInfo = gameResult.winner;
+//   const loserInfo = gameResult.loser;
+//
+//   const winnerNameElement = document.getElementById('classic-winner-name');
+//   const loserNameElement = document.getElementById('classic-loser-name');
+//   const winnerImageElement = document.getElementById('classic-winner-image');
+//   const loserImageElement = document.getElementById('classic-loser-image');
+//
+//   winnerNameElement.textContent = winnerInfo.name;
+//   loserNameElement.textContent = loserInfo.name;
+//   winnerImageElement.src = winnerInfo.image;
+//   loserImageElement.src = loserInfo.image;
+// }
