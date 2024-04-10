@@ -64,7 +64,7 @@ async function changeUserPassword(oldPassword, newPassword) {
     }
 
     const data = await response.json();
-    console.log('Password changed successfully:', data);
+    // console.log('Password changed successfully:', data);
     // 요청이 성공한 경우, 성공 데이터 반환
     return { success: true, data: data };
   } catch (error) {

@@ -476,11 +476,11 @@ async function updateUserLanguage(language) {
     }
 
     const data = await response.json();
-    console.log('Language updated successfully:', data);
+    // console.log('Language updated successfully:', data);
     // 성공 처리 로직 (예: 사용자에게 알림 표시)
     return data;
   } catch (error) {
-    console.error('Error updating user language:', error);
+    // console.error('Error updating user language:', error);
     // 오류 처리 로직 (예: 오류 메시지 표시)
     return null;
   }
