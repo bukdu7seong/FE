@@ -15,20 +15,20 @@ const playerProfile = `
     <div class="photo-upload changeUserImage">
       <button class="upload-photo-btn" id="choose-photo">Choose a photo for your profile</button>
     </div>
-    <div class="profile-stats">
-      <div class="win-rate">
-        <span>-</span>
-        <label id='rate'></label>
+      <div class="profile-stats">
+        <div class="win-rate">
+          <span>-</span>
+          <span id='rate'></span>
+        </div>
+        <div class="win">
+          <span>-</span>
+          <span id='win'></span>
+        </div>
+        <div class="loss">
+          <span>-</span>
+          <span id='loss'></span>
+        </div>
       </div>
-      <div class="win">
-        <span>-</span>
-        <label id='win'></label>
-      </div>
-      <div class="loss">
-        <span>-</span>
-        <label id='loss'></label>
-      </div>
-    </div>
   </div>
 `;
 

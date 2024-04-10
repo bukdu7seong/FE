@@ -34,7 +34,6 @@ export default class PingPong {
   constructor(mode, player1Name, player2Name) {
     this.state = GameState.READY;
     this.board = document.querySelector('.board');
-    this.message = document.querySelector('.message');
     this.boardCoord = this.board.getBoundingClientRect();
     this.mode = mode;
     this.numObstacle = 15;
@@ -50,7 +49,7 @@ export default class PingPong {
     this.initBall();
     this.initEventListeners();
     this.initGameState();
-    this.scoreToWin = 2;
+    this.scoreToWin = 7;
     this.onGameEnd = null;
     window.addEventListener('popstate', this.handlePopState.bind(this));
     this.timeoutId = null;
@@ -68,7 +67,7 @@ export default class PingPong {
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === GameMode.NORMAL ? 10 : 20;
+    const ballSpeed = this.mode === GameMode.SPEED ? 30 : 15;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 
@@ -181,7 +180,6 @@ export default class PingPong {
 
   initGameState() {
     this.state = GameState.READY;
-    this.message.innerHTML = 'Press Enter to Play Pong';
   }
 
   startGame() {
@@ -191,7 +189,6 @@ export default class PingPong {
 
   gameStart() {
     this.state = GameState.PLAY;
-    this.message.innerHTML = 'Game Started';
     this.player1.updateScoreHtml();
     this.player2.updateScoreHtml();
     if (this.mode === GameMode.OBJECT && this.obstacles.length === 0) {
@@ -287,8 +284,9 @@ export default class PingPong {
     } else if (this.ball.rightOut(this.boardCoord)) {
       this.player1.updateScore();
     }
-    // this.ball.hide();
     this.ball.init();
+    this.player1.resetPaddlePosition(this.boardCoord.height);
+    this.player2.resetPaddlePosition(this.boardCoord.height);
     this.ball.updateStyle(
       this.boardCoord.height / 2 - this.ball.coord.height / 2,
       this.boardCoord.width / 2 - this.ball.coord.width / 2
@@ -311,9 +309,8 @@ export default class PingPong {
         //   this.ball.initialCoord.top,
         //   this.ball.initialCoord.left
         // );
-        this.message.innerHTML = `${this.winner} Wins!`;
+
         this.state = GameState.END;
-        console.log('game end');
 
         if (gameState.getState().gameType === 'classic') {
           let gameId;
@@ -368,7 +365,6 @@ export default class PingPong {
   }
 
   cleanUp() {
-    console.log('cleanUp()');
     if (this.timeoutId !== null) {
       clearTimeout(this.timeoutId);
       this.timeoutId = null; // 타이머 ID 초기화
