@@ -1,11 +1,10 @@
 import { globalState, userState } from '../../../../lib/state/state.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { getCookie } from '../../../utils/cookie.js';
-import { redirectError, toastError } from '../../../utils/error.js';
+import { redirectError } from '../../../utils/error.js';
 import { escapeHtml, validateInput } from '../../../utils/validateInput.js';
-import { getFriendData } from '../data/friendData.js';
 import { getImageData } from '../data/imageData.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastFail } from '../../../utils/fail.js';
 
 function modalHTML(modalId) {
   return `
@@ -53,15 +52,16 @@ async function searchUser(username) {
         redirectError('Unauthorized access token. Please login again.');
         return;
       } else if (response.status === 404) {
-        throw new Error('User not found');
+        throw new Error('userNotFound');
+
       } else {
-        throw new Error('Failed to search user');
+        throw new Error('failedToSearch');
       }
     }
 
     return await response.json();
   } catch (error) {
-    toastError(error.message);
+    toastFail(error.message);
   }
 }
 
@@ -86,13 +86,13 @@ async function inviteUser(friendId) {
         redirectError('Unauthorized access token. Please login again.');
         return;
       } else if (response.status === 409) {
-        throw new Error('Already invited or already friends.');
+        throw new Error('alreadyFriend');
       } else {
-        throw new Error('Failed to invite friend');
+        throw new Error('failedToInvite');
       }
     }
   } catch (error) {
-    toastError(error.message);
+    toastFail(error.message);
   }
 }
 
