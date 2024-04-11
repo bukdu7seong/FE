@@ -129,14 +129,14 @@ export function createScoreModal() {
             <!-- Winner section -->
             <div class="winner-loser mb-3 p-2 rounded d-flex align-items-center justify-content-between">
               <span class="badge bg-success rounded-pill px-3 me-2" id='win-label'>WIN</span>
-              <img src="winner-image-placeholder" class="rounded-circle me-2" id="classic-winner-image" alt="Winner" style="width: 50px; height: 50px;">
+              <img src="assets/images/profile/default.png" class="rounded-circle me-2" id="classic-winner-image" alt="Winner" style="width: 50px; height: 50px;">
               <span class="fw-bold flex-grow-1" id="classic-winner-name">Winner Name</span>
               <span class="time-score rounded-pill bg-secondary px-3" id="win-time">${currentTime}</span>
             </div>
             <!-- Loser section -->
             <div class="winner-loser mb-4 p-2 rounded d-flex align-items-center justify-content-between">
               <span class="badge bg-secondary rounded-pill px-3 me-2" id='lose-label'>LOSE</span>
-              <img src="loser-image-placeholder" class="rounded-circle me-2" id="classic-loser-image" alt="Loser" style="width: 50px; height: 50px;">
+              <img src="assets/images/profile/default.png" class="rounded-circle me-2" id="classic-loser-image" alt="Loser" style="width: 50px; height: 50px;">
               <span class="fw-bold flex-grow-1" id="classic-loser-name">Loser Name</span>
               <span class="time-score rounded-pill bg-secondary px-3" id="lose-time">${currentTime}</span>
             </div>

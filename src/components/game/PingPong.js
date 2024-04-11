@@ -261,7 +261,7 @@ export default class PingPong {
     };
     const player2Info = {
       name: this.player2.playerName,
-      image: '/assets/images/profile/default_profile.png',
+      image: '/assets/images/profile/default.png',
     };
 
     let winner = player1Info;
