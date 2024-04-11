@@ -212,17 +212,6 @@ export function setupTournamentEvents(page) {
   });
 }
 
-export function updateTournamentBoxContent() {
-  document.getElementById('tournament-pong').innerHTML =
-    i18next.t('tournament-pong');
-  document.getElementById('tournament-header').innerHTML =
-    i18next.t('tournament-header');
-  document.getElementById('tournament-player1').innerHTML =
-    i18next.t('tournament-player1');
-  document.getElementById('tournament-player2').innerHTML =
-    i18next.t('tournament-player2');
-}
-
 function updateTournamentSettingModalContent() {
   document.getElementById('tournamentSettingModalLabel').innerHTML = i18next.t(
     'tournamentSettingModalLabel'
