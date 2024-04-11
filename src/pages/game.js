@@ -105,7 +105,7 @@ export function pageBoard() {
 
   function loadScript() {
     let script = document.createElement('script');
-    script.src = 'src/components/common/sendVerificationEmail.js';
+    script.src = 'src/components/common/isValidEmail.js';
     document.body.appendChild(script);
   }
   loadScript();
