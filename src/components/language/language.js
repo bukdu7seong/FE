@@ -138,7 +138,11 @@ i18next.init({
         unsubscribePassword: 'Password is required.',
         alphanumericUsername :'Only alphanumeric characters are allowed.',
         emptyUsername : 'Please enter a username.',
-        selectImage : 'Please select an image.'
+        selectImage : 'Please select an image.',
+        alreadyFriend: 'Already invited or already friends.',
+        failedToInvite: 'Failed to invite friend',
+        userNotFound: 'User not found',
+        failedToSearch: 'Failed to search user'
       },
     },
     kr: {
@@ -277,7 +281,11 @@ i18next.init({
         unsubscribePassword: '비밀번호를 입력해야 합니다.',
         alphanumericUsername: '알파벳과 숫자만 허용됩니다.',
         emptyUsername: '사용자 이름을 입력해주세요.',
-        selectImage: '이미지를 선택해주세요.'
+        selectImage: '이미지를 선택해주세요.',
+        alreadyFriend: '이미 초대했거나 이미 친구입니다.',
+        failedToInvite: '친구 초대 실패',
+        userNotFound: '사용자를 찾을 수 없습니다.',
+        failedToSearch: '사용자 검색 실패.'
       },
     },
     fr: {
@@ -420,7 +428,11 @@ i18next.init({
         unsubscribePassword: 'Le mot de passe est requis.',
         alphanumericUsername: 'Seuls les caractères alphanumériques sont autorisés.',
         emptyUsername: "Veuillez entrer un nom d'utilisateur.",
-        selectImage: 'Veuillez sélectionner une image.'
+        selectImage: 'Veuillez sélectionner une image.',
+        alreadyFriend: 'Déjà invité ou déjà amis.',
+        failedToInvite: "Échec de l'invitation d'ami",
+        userNotFound: 'Utilisateur non trouvé',
+        failedToSearch: "Échec de la recherche de l'utilisateur"
       },
     },
   },
