@@ -130,7 +130,9 @@ export class userProfileModal {
     );
 
     fetchUserProfile(this.userId).then((data) => {
-      this.setUserInfo(data);
+      if (data) {
+        this.setUserInfo(data);
+      }
     });
   }
 
