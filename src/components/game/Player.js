@@ -1,9 +1,11 @@
+import { GameMode } from './PingPong.js';
+
 const INITIAL_PADDLE_TOP = 10;
-const PADDLE_SPEED = 4.2 * 2;
 
 export default class Player {
-  constructor(paddleElement, scoreElement, playerName) {
+  constructor(mode, paddleElement, scoreElement, playerName) {
     this.paddle = paddleElement;
+    this.paddleSpeed = mode === GameMode.SPEED ? 20 : 10;
     this.scoreElement = scoreElement;
     this.score = 0;
     this.playerName = playerName;
@@ -26,7 +28,7 @@ export default class Player {
     const currentTop = parseFloat(
       this.paddle.style.top ? this.paddle.style.top : INITIAL_PADDLE_TOP
     );
-    const newTop = currentTop - PADDLE_SPEED;
+    const newTop = currentTop - this.paddleSpeed;
     this.paddle.style.top = Math.max(INITIAL_PADDLE_TOP, newTop) + 'px';
     this.paddleCoord = this.paddle.getBoundingClientRect();
   }
@@ -35,7 +37,7 @@ export default class Player {
     const currentTop = parseFloat(
       this.paddle.style.top ? this.paddle.style.top : INITIAL_PADDLE_TOP
     );
-    const newTop = currentTop + PADDLE_SPEED;
+    const newTop = currentTop + this.paddleSpeed;
     this.paddle.style.top =
       Math.min(
         boardCoord.height - this.paddleCoord.height - INITIAL_PADDLE_TOP,
