@@ -77,6 +77,7 @@ export function formatCurrentTime() {
 async function sendEmailCode() {
   const emailInput = document.getElementById('emailInput');
   const emailErrorDiv = document.getElementById('emailError');
+  const emailSuccessDiv = document.getElementById('emailSuccess');
   const countdownTimerDiv = document.querySelector('.countdown-timer');
   const email = emailInput.value;
 
@@ -100,6 +101,8 @@ async function sendEmailCode() {
     });
 
     if (response.ok) {
+      emailSuccessDiv.textContent = i18next.t('emailSuccess');
+      emailSuccessDiv.style.display = 'block';
       startCountdown(5 * 60, countdownTimerDiv);
     }else {
       emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
