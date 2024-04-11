@@ -136,6 +136,9 @@ i18next.init({
         incorrectCurrentPassword: 'Incorrect current password.',
         unsubscribeSuccess: 'Account successfully unsubscribed.',
         unsubscribePassword: 'Password is required.',
+        alphanumericUsername :'Only alphanumeric characters are allowed.',
+        emptyUsername : 'Please enter a username.',
+        selectImage : 'Please select an image.'
       },
     },
     kr: {
@@ -272,6 +275,9 @@ i18next.init({
         incorrectCurrentPassword: '현재 비밀번호가 정확하지 않습니다.',
         unsubscribeSuccess: '계정이 성공적으로 삭제되었습니다.',
         unsubscribePassword: '비밀번호를 입력해야 합니다.',
+        alphanumericUsername: '알파벳과 숫자만 허용됩니다.',
+        emptyUsername: '사용자 이름을 입력해주세요.',
+        selectImage: '이미지를 선택해주세요.'
       },
     },
     fr: {
@@ -412,6 +418,9 @@ i18next.init({
         incorrectCurrentPassword: 'Mot de passe actuel incorrect.',
         unsubscribeSuccess: 'Désinscription réussie.',
         unsubscribePassword: 'Le mot de passe est requis.',
+        alphanumericUsername: 'Seuls les caractères alphanumériques sont autorisés.',
+        emptyUsername: "Veuillez entrer un nom d'utilisateur.",
+        selectImage: 'Veuillez sélectionner une image.'
       },
     },
   },
