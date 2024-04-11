@@ -19,7 +19,7 @@ function modalHTML(modalId) {
         <div class="modal-body">
           <div class="search-container">
             <input type="text" class="search-friend-field form-control" id="searchFriends" placeholder="Search">
-            <button type="button" id="searchButton" class="search-friend-btn btn btn-primary">Search</button>
+            <button type="button" id="searchButton" class="search-friend-btn btn btn-success">Search</button>
           </div>
           <div id="error-message" class="text-danger"></div>
           <div class="modal-search-friend-list">

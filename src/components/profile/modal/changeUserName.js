@@ -20,7 +20,7 @@ function modalHTML(modalId) {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="changeUserNameModalCloseButton">Close</button>
-            <button type="button" class="btn btn-primary" id="changeUserNameModalSaveButton">Save</button>
+            <button type="button" class="btn btn-success" id="changeUserNameModalSaveButton">Save</button>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@ export class changeUserNameModal {
     );
 
     this.modalInstance._element
-      .querySelector('.btn-primary')
+      .querySelector('.btn-success')
       .addEventListener('click', this.checkInput.bind(this));
   }
 
