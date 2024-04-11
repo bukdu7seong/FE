@@ -1,6 +1,3 @@
-import { routes } from '../../lib/router/router.js';
-import { sidebar } from '../components/common/sidebar.js';
-
 const playerProfile = `
   <div class="profile-photo">
     <img src="../assets/images/profile/default.png" alt="profile photo">

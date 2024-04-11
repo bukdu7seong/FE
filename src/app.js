@@ -82,7 +82,7 @@ function init() {
             let selectedMode;
             for (const mode of gameModes) {
               if (mode.checked) {
-                selectedMode = mode.id; // This will be 'normalMode', 'speedMode', or 'objectMode'
+                selectedMode = mode.id;
                 break;
               }
             }
@@ -107,7 +107,6 @@ function init() {
             const player3Name = document.getElementById('player3-name').value;
             const player4Name = document.getElementById('player4-name').value;
 
-            // 게임 모드 가져오기
             const gameModes = document.getElementsByName('gameMode');
             let selectedMode = '';
             for (const mode of gameModes) {

@@ -27,7 +27,6 @@ function confirmDeletionModalHTML(modalId, finalModalId) {
   `;
 }
 
-// 최종 확인 모달 HTML
 function finalConfirmationModalHTML(modalId) {
   return `
 <div class="modal fade" id='${modalId}' tabindex="-1" aria-labelledby="passwordConfirmModalLabel" aria-hidden="true">

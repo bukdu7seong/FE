@@ -2,7 +2,7 @@ let timerId2 = null;
 
 function startTimer(duration, display) {
   if (timerId2) {
-    clearInterval(timerId2); // 기존 타이머 인스턴스를 정지
+    clearInterval(timerId2);
   }
 
   let timer = duration;
@@ -50,14 +50,12 @@ export function pageTwoFA() {
     </div>
   `;
 
-  // 타이머와 재전송 버튼 요소 찾기
   const timerDisplay = page.querySelector('#timer2');
   const resendButton = page.querySelector('#resendEmailButton');
 
-  // 타이머 초기화 및 재전송 버튼에 이벤트 리스너 추가
-  startTimer(60 * 5, timerDisplay); // 타이머 초기화 (5분)
+  startTimer(60 * 5, timerDisplay);
   resendButton.addEventListener('click', function () {
-    startTimer(60 * 5, timerDisplay); // 재전송 버튼 클릭 시 타이머 리셋
+    startTimer(60 * 5, timerDisplay);
   });
 
   return page;

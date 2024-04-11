@@ -13,13 +13,11 @@ export function setupGameSettingModal(page) {
   let startGameButton = page.querySelector('#startGameButton');
   let gameBox = page.querySelector('#game');
 
-  // 게임 시작 버튼 이벤트
   startGameButton.addEventListener('click', function () {
     gameState.setState({ currentGameStatus: 'playing' });
     gameSettingModal.hide();
   });
 
-  // Escape 키 이벤트
   document.addEventListener('keydown', function (event) {
     if (
       event.key === 'Escape' &&
@@ -29,7 +27,6 @@ export function setupGameSettingModal(page) {
     }
   });
 
-  // 게임 박스 클릭 이벤트
   gameBox.addEventListener('click', function () {
     if (gameState.getState().currentGameStatus === 'idle') {
       applyLanguageClassicSetting()

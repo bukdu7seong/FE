@@ -2,7 +2,6 @@
 import { logout } from './logout.js';
 
 export function createLogoutModal() {
-  // Bootstrap 모달 HTML 구조
   let modalHTML = `
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -23,7 +22,6 @@ export function createLogoutModal() {
     </div>
   `;
 
-  // 모달을 DOM에 추가하고 Bootstrap 모달 인스턴스 생성
   let parser = new DOMParser();
   let doc = parser.parseFromString(modalHTML, 'text/html');
   document.body.appendChild(doc.body.firstChild);

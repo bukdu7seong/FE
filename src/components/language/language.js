@@ -444,7 +444,6 @@ i18next.init({
 });
 
 export function changeLanguage(languageCode) {
-  // 현재 설정된 언어와 같은 경우 변경하지 않음
   if (i18next.language === languageCode) {
     return;
   }
