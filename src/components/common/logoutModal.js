@@ -1,4 +1,3 @@
-// logoutModal.js
 import { logout } from './logout.js';
 
 export function createLogoutModal() {
@@ -34,7 +33,6 @@ export function createLogoutModal() {
     document.getElementById('logoutModal').remove();
   });
 
-  // '예' 버튼 클릭 이벤트 리스너
   document.getElementById('logout-confirm').addEventListener('click', () => {
     logoutModal.hide();
     logout();
