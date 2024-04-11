@@ -1,9 +1,7 @@
 import PingPong, { GameState } from './PingPong.js';
 import { gameState } from '../../../lib/state/state.js';
-import {
-  updateTournamentRoundModalContent,
-  updateTournamentWinnerModal,
-} from '../../pages/tournament.js';
+import { updateTournamentWinnerModal } from '../../pages/tournament.js';
+import applyLanguageTournamentRoundModal from '../language/applyLanguageTournamentRoundModal.js';
 
 const GameStage = {
   SEMI_A: 1,
@@ -137,6 +135,6 @@ function showTournamentRoundModal(pingpong, round, player1, player2) {
   };
   startRoundButton.addEventListener('click', startRoundButton.handler);
 
-  updateTournamentRoundModalContent(round);
+  applyLanguageTournamentRoundModal(round);
   tournamentRoundModal.show();
 }
