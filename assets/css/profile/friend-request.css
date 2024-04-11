@@ -116,32 +116,12 @@
   align-self: center;
 }
 
-/* .friend-request-btn button.accept {
-  background-color: green;
-}
-
-.friend-request-btn button.decline {
-  background-color: rgb(224, 8, 8);
-} */
-
 .friend-request-profile {
   display: inline-flex;
   text-align: center;
   margin-left: auto;
   margin-right: 1vw;
 }
-
-/* .friend-request-profile-btn {
-  padding: 1vw;
-  max-width: 8vw;
-  border: none;
-  border-radius: 10px;
-  border: 1px solid #fff;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  font-size: min(1.8vw, 1.8vh);
-} */
 
 .friend-request-btn-wrapper {
   display: flex;
@@ -156,27 +136,3 @@
   margin-top: 1vh;
   margin-left: 1vw;
 }
-
-/* .invite-friends-btn {
-  padding: 1vw;
-  max-width: 15vw;
-  border: none;
-  border-radius: 10px;
-  border: 1px solid green;
-  background: green;
-  color: #fff;
-  cursor: pointer;
-  font-size: min(1.8vw, 1.8vh);
-}
-
-.friend-request-view-all-btn {
-  padding: 1vw;
-  max-width: 9vw;
-  border: none;
-  border-radius: 10px;
-  border: 1px solid #fff;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  font-size: min(2vw, 2vh);
-} */

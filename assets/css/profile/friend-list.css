@@ -112,32 +112,8 @@
   margin-right: 1vw;
 }
 
-/* .friend-profile-btn {
-  padding: 1vw;
-  max-width: 8vw;
-  border: none;
-  border-radius: 10px;
-  border: 1px solid #fff;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  font-size: min(1.8vw, 1.8vh);
-} */
-
 .friend-view-all {
   text-align: center;
   margin-top: 1vh;
   margin-left: auto;
 }
-/* 
-.friend-view-all-btn {
-  padding: 1vw;
-  max-width: 9vw;
-  border: none;
-  border-radius: 10px;
-  border: 1px solid #fff;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  font-size: min(2vw, 2vh);
-} */

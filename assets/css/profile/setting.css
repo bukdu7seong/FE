@@ -95,27 +95,3 @@
   border-radius: 50%;
   filter: invert(100%);
 }
-
-/* .setting-option .change-password-btn {
-  background-color: green;
-  color: white;
-  border: none;
-  padding: min(1vw, 1vh);
-  text-align: center;
-  text-decoration: none;
-  font-size: min(2vw, 2vh);
-  cursor: pointer;
-  border-radius: 15px;
-}
-
-.setting-option .unsubscribe-btn {
-  background-color: #e84118;
-  color: white;
-  border: none;
-  padding: min(1vw, 1vh);
-  text-align: center;
-  text-decoration: none;
-  font-size: min(2vw, 2vh);
-  cursor: pointer;
-  border-radius: 15px;
-} */
