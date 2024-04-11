@@ -11,7 +11,6 @@ import {
 import { setComponent, renderPage, setOnRender } from '../lib/render/render.js';
 // pages
 import { pageBoard } from './pages/game.js';
-import { updateTournamentBoxContent } from './pages/tournament.js';
 // components
 import { sidebar } from './components/common/sidebar.js';
 import { profile } from './components/profile/profile.js';
@@ -27,6 +26,7 @@ import Tournament from './components/game/Tournament.js';
 import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
 import applyLanguageClassic from './components/language/applyLanguageClassic.js';
+import applyLanguageTournamentBox from './components/language/applyLanguageTournamentBox.js';
 
 function hideModal() {
   const modalElement = document.getElementById('gameSettingModal');
@@ -46,7 +46,7 @@ function init() {
       setOnRender(routes['/twofa'], twoFA);
       setOnRender(routes['/profile'], profile);
       setOnRender(routes['/game'], applyLanguageClassic);
-      setOnRender(routes['/tournament'], updateTournamentBoxContent);
+      setOnRender(routes['/tournament'], applyLanguageTournamentBox);
       setOnRender(routes['/oauth2-redirect'], handleOAuth2Redirect);
 
       const sidebarComponent = sidebar(routes);
