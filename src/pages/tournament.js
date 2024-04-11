@@ -44,7 +44,7 @@ function createTournamentSettingModal() {
                             <label for="player1-name" class="form-label" id='t-player1-label'>Player 1</label>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player1-name" placeholder="Name">
+                            <input type="text" class="form-control bg-secondary text-white" id="player1-name" placeholder="Name" required maxlength="10">
                         </div>
                     </div>
                     <!-- Player 2 Input -->
@@ -53,7 +53,7 @@ function createTournamentSettingModal() {
                             <label for="player2-name" class="form-label" id='t-player2-label'>Player 2</label>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player2-name" placeholder="Name">
+                            <input type="text" class="form-control bg-secondary text-white" id="player2-name" placeholder="Name" required maxlength="10">
                         </div>
                     </div>
                     <!-- Player 3 Input -->
@@ -62,7 +62,7 @@ function createTournamentSettingModal() {
                             <label for="player3-name" class="form-label" id='t-player3-label'>Player 3</label>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player3-name" placeholder="Name">
+                            <input type="text" class="form-control bg-secondary text-white" id="player3-name" placeholder="Name" required maxlength="10">
                         </div>
                     </div>
                     <!-- Player 4 Input -->
@@ -71,7 +71,7 @@ function createTournamentSettingModal() {
                             <label for="player4-name" class="form-label" id='t-player4-label'>Player 4</label>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player4-name" placeholder="Name">
+                            <input type="text" class="form-control bg-secondary text-white" id="player4-name" placeholder="Name" required maxlength="10">
                         </div>
                     </div>
                     <!-- Mode Selection -->

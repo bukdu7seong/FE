@@ -48,7 +48,7 @@ function createGameSettingModal() {
                             <label for="player-name" class="form-label" id='player2-label'>Player 2</label>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control bg-dark text-white" id="player-name"
+                            <input type="text" class="form-control bg-dark text-white" id="player-name" required maxlength="10"
                                    placeholder="Name">
                         </div>
                     </div>
