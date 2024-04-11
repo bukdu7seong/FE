@@ -32,7 +32,7 @@ function modalHTML(modalId) {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='change-password-modal-cancel'></button>
-            <button type="button" class="btn btn-primary" id='change-password-modal-change'></button>
+            <button type="button" class="btn btn-success" id='change-password-modal-change'></button>
           </div>
         </div>
       </div>
@@ -100,7 +100,7 @@ export class changePasswordModal {
     });
 
     this.modalInstance._element
-      .querySelector('.btn-primary')
+      .querySelector('.btn-success')
       .addEventListener('click', this.checkInput.bind(this));
   }
 

@@ -14,7 +14,7 @@ const KEY_CODES = {
   MOVE_DOWN_PLAYER2: 'ArrowDown',
 };
 
-const GameMode = {
+export const GameMode = {
   NORMAL: 'normal',
   SPEED: 'speed',
   OBJECT: 'object',
@@ -43,7 +43,7 @@ export default class PingPong {
     this.resize = null;
     this.pause = null;
     this.resume = null;
-    this.initPlayers(player1Name, player2Name);
+    this.initPlayers(mode, player1Name, player2Name);
     this.initBall();
     this.initEventListeners();
     this.initGameState();
@@ -53,19 +53,24 @@ export default class PingPong {
     this.timeoutId = null;
   }
 
-  initPlayers(player1Name, player2Name) {
+  initPlayers(mode, player1Name, player2Name) {
     const paddle1 = document.querySelector('.paddle_1');
     const score1 = document.querySelector('.player_1_score');
     const paddle2 = document.querySelector('.paddle_2');
     const score2 = document.querySelector('.player_2_score');
-    this.player1 = new Player(paddle1, score1, player1Name);
-    this.player2 = new Player(paddle2, score2, player2Name);
+    this.player1 = new Player(mode, paddle1, score1, player1Name);
+    this.player2 = new Player(mode, paddle2, score2, player2Name);
   }
 
   initBall() {
     const initialBall = document.querySelector('.ball');
     const initialBallCoord = initialBall.getBoundingClientRect();
-    const ballSpeed = this.mode === GameMode.SPEED ? 30 : 15;
+    const ballSpeeds = {
+      [GameMode.NORMAL]: 20,
+      [GameMode.SPEED]: 25,
+      [GameMode.OBJECT]: 15
+    };
+    const ballSpeed = ballSpeeds[this.mode] || 15;
     this.ball = new Ball(initialBall, initialBallCoord, ballSpeed);
   }
 

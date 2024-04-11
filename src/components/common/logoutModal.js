@@ -16,7 +16,7 @@ export function createLogoutModal() {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="logout-no">아니오</button>
-            <button type="button" class="btn btn-primary" id="logout-confirm">예</button>
+            <button type="button" class="btn btn-success" id="logout-confirm">예</button>
           </div>
         </div>
       </div>
