@@ -7,8 +7,6 @@
 }
 
 .profile-photo {
-  /* max-width: 33%;
-  max-height: 33%; */
   aspect-ratio: 1/1;
 }
 
@@ -49,11 +47,11 @@
 }
 
 .photo-upload button {
-  font-size: min(1.5vw, 1.5vh); /* 버튼 글자 크기 */
-  color: #fff; /* 글자 색상 */
-  background-color: transparent; /* 배경 색상 */
-  cursor: pointer; /* 마우스 오버 시 커서 변경 */
-  padding-left: min(3vw, 3vh); /* 버튼 내부 여백 */
+  font-size: min(1.5vw, 1.5vh);
+  color: #fff;
+  background-color: transparent;
+  cursor: pointer;
+  padding-left: min(3vw, 3vh);
   position: relative;
 }
 .photo-upload button::before {
@@ -64,7 +62,7 @@
   left: 3px;
   top: 50%;
   filter: invert(100%);
-  transform: translateY(-50%); /* Y축 기준으로 -50% 만큼 이동하여 중앙 정렬 */
+  transform: translateY(-50%);
   background: url('/assets/images/icon/camera-fill.png') no-repeat center center;
   background-size: contain;
 }
@@ -72,14 +70,14 @@
 .profile-stats {
   display: flex;
   flex-direction: row;
-  justify-content: space-around; /* 내부 요소들 간격 조정 */
+  justify-content: space-around;
   position: relative;
   width: min(30vw, 30vh);
   height: auto;
   background: #000;
   border-radius: 15px;
-  color: #fff; /* 글자 색깔 */
-  padding: min(1vw, 1vh); /* 내부 여백 */
+  color: #fff;
+  padding: min(1vw, 1vh);
   margin-top: 10px;
   align-items: center;
   border: 6px solid #333;
@@ -99,11 +97,11 @@
 .win-rate span,
 .win span,
 .loss span {
-  font-size: min(2vw, 2vh); /* 숫자 크기 */
+  font-size: min(2vw, 2vh);
 }
 .win-rate label,
 .win label,
 .loss label {
   display: block;
-  font-size: min(1vw, 1vh); /* 라벨 크기 */
+  font-size: min(1vw, 1vh);
 }

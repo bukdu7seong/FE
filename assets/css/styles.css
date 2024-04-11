@@ -1,10 +1,8 @@
-/* 폰트 */
 @font-face {
   font-family: 'Symtext';
-  src: url('../fonts/Symtext.ttf') format('truetype');
+  src: url('/assets/fonts/Symtext.ttf') format('truetype');
 }
 
-/* 기본 스타일 */
 * {
   border: 0;
   box-sizing: border-box;
@@ -12,7 +10,6 @@
   padding: 0;
 }
 
-/* 전체 스타일 */
 body {
   background: #171717;
   color: #faf2dd;
@@ -22,22 +19,16 @@ body {
   align-items: center;
 }
 
-/* 숨김 클래스 */
 .hidden {
   display: none;
 }
 
-/* 전체 화면 */
 .full-screen {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
 }
-
-/* Bootstrap 오버로딩 스타일 */
-
-/* Button */
 
 .btn {
   padding: min(1vw, 1vh);
@@ -100,14 +91,12 @@ body {
   border-top: none;
 }
 
-/* Dropdown */
 .dropdown-menu-dark {
   background-color: #171717;
   color: #faf2dd;
   border: 1px solid green;
 }
 
-/* Toast */
 .toast-container {
   display: flex;
   align-items: center;
@@ -255,12 +244,10 @@ body {
   border: 1px solid green;
 }
 
-/* Close */
 .btn-close {
   margin-left: auto;
 }
 
-/* Profile */
 .modal-player-profile {
   display: flex;
   position: relative;
