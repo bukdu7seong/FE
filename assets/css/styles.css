@@ -1,7 +1,7 @@
 /* 폰트 */
 @font-face {
   font-family: 'Symtext';
-  src: url('../fonts/Symtext.ttf') format('truetype');
+  src: url('/assets/fonts/Symtext.ttf') format('truetype');
 }
 
 /* 기본 스타일 */
