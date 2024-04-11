@@ -1,6 +1,9 @@
 import PingPong, { GameState } from './PingPong.js';
 import { gameState } from '../../../lib/state/state.js';
-import { updateTournamentRoundModalContent, updateTournamentWinnerModal } from '../../pages/tournament.js';
+import {
+  updateTournamentRoundModalContent,
+  updateTournamentWinnerModal,
+} from '../../pages/tournament.js';
 
 const GameStage = {
   SEMI_A: 1,
@@ -33,11 +36,16 @@ export default class Tournament {
         );
         this.semiFinalA.onGameEnd = () => this.tournamentStart();
 
-        gameState.setState({ currentGame: this.semiFinalA  }, false);
+        gameState.setState({ currentGame: this.semiFinalA }, false);
         gameState.setState({ gameType: 'semi_a' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
 
-        showTournamentRoundModal(this.semiFinalA,1, this.playerNames[0], this.playerNames[1]);
+        showTournamentRoundModal(
+          this.semiFinalA,
+          1,
+          this.playerNames[0],
+          this.playerNames[1]
+        );
       }
       if (this.semiFinalA.state === GameState.END) {
         this.finalist.push(this.semiFinalA.winner);
@@ -54,11 +62,16 @@ export default class Tournament {
         );
         this.semiFinalB.onGameEnd = () => this.tournamentStart();
 
-        gameState.setState({ currentGame: this.semiFinalB  }, false);
+        gameState.setState({ currentGame: this.semiFinalB }, false);
         gameState.setState({ gameType: 'semi_b' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
 
-        showTournamentRoundModal(this.semiFinalB, 2, this.playerNames[2], this.playerNames[3]);
+        showTournamentRoundModal(
+          this.semiFinalB,
+          2,
+          this.playerNames[2],
+          this.playerNames[3]
+        );
       }
       if (this.semiFinalB.state === GameState.END) {
         this.finalist.push(this.semiFinalB.winner);
@@ -75,14 +88,20 @@ export default class Tournament {
         );
         this.final.onGameEnd = () => this.tournamentStart();
 
-        gameState.setState({ currentGame: this.final  }, false);
+        gameState.setState({ currentGame: this.final }, false);
         gameState.setState({ gameType: 'final' }, false);
         gameState.setState({ currentGameStatus: 'start' }, false);
-        showTournamentRoundModal(this.final,3, this.finalist[0], this.finalist[1]);
+        showTournamentRoundModal(
+          this.final,
+          3,
+          this.finalist[0],
+          this.finalist[1]
+        );
       }
       if (this.final.state === 'end') {
-        const tournamentWinnerModalElement = document.getElementById('tournamentWinnerModal');
-        console.log(this.final.winner);
+        const tournamentWinnerModalElement = document.getElementById(
+          'tournamentWinnerModal'
+        );
         document.getElementById('winner-name').value = this.final.winner;
         if (tournamentWinnerModalElement) {
           const scoreModal = new bootstrap.Modal(tournamentWinnerModalElement);
@@ -95,21 +114,24 @@ export default class Tournament {
 }
 
 function showTournamentRoundModal(pingpong, round, player1, player2) {
-
-  document.getElementById('tournamentRoundModalLabel').textContent = 'TOURNAMENT ROUND ' + round;
+  document.getElementById('tournamentRoundModalLabel').textContent =
+    'TOURNAMENT ROUND ' + round;
 
   document.getElementById('round-player1-name').value = player1;
   document.getElementById('round-player2-name').value = player2;
 
-  const tournamentRoundModal = new bootstrap.Modal(document.getElementById('tournamentRoundModal'), {
-    backdrop: 'static',
-    keyboard: false
-  });
+  const tournamentRoundModal = new bootstrap.Modal(
+    document.getElementById('tournamentRoundModal'),
+    {
+      backdrop: 'static',
+      keyboard: false,
+    }
+  );
 
   const startRoundButton = document.getElementById('startRoundButton');
 
   startRoundButton.removeEventListener('click', startRoundButton.handler);
-  startRoundButton.handler = function() {
+  startRoundButton.handler = function () {
     pingpong.startGame();
     tournamentRoundModal.hide();
   };
@@ -118,4 +140,3 @@ function showTournamentRoundModal(pingpong, round, player1, player2) {
   updateTournamentRoundModalContent(round);
   tournamentRoundModal.show();
 }
-

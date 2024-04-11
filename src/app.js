@@ -133,7 +133,7 @@ function init() {
       }
     };
   } catch (e) {
-    console.log('app.js: ', e);
+    console.log(e);
   }
 }
 

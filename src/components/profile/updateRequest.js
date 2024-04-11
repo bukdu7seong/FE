@@ -26,7 +26,6 @@ export async function updateRequest(userId, accept) {
         }
       }
     } catch (error) {
-      console.log(error);
       toastError(error.message);
     }
   } else {
