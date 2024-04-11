@@ -17,8 +17,10 @@ function modalHTML(modalId) {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <input type="text" class="form-control" id="searchFriends" placeholder="Search">
-          <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+          <div class="search-container">
+            <input type="text" class="search-friend-field form-control" id="searchFriends" placeholder="Search">
+            <button type="button" id="searchButton" class="search-friend-btn btn btn-primary">Search</button>
+          </div>
           <div id="error-message" class="text-danger"></div>
           <div class="modal-search-friend-list">
             <ul></ul>

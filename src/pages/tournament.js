@@ -5,7 +5,6 @@ import { routes } from '../../lib/router/router.js';
 export function pageTournament() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  const navbar = sidebar(routes);
 
   page.innerHTML = `
         <div class="main-box">
@@ -19,9 +18,9 @@ export function pageTournament() {
               <div class="player-option" id="tournament-player2">PLAYER 2</div>
             </div>
           </div>
+          <div id="mainNavbar"></div>
         </div>
       `;
-  page.appendChild(navbar);
   page.appendChild(createTournamentSettingModal());
   page.appendChild(createTournamentRoundModal());
   page.appendChild(createTournamentWinnerModal());
@@ -172,36 +171,43 @@ function createTournamentWinnerModal() {
       </div>
     </div>`;
 
-  modalContainer.querySelector("#restartGameButton").addEventListener("click", function() {
-    const modalElement = document.getElementById('tournamentWinnerModal');
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    modalInstance.hide();
-  });
+  modalContainer
+    .querySelector('#restartGameButton')
+    .addEventListener('click', function () {
+      const modalElement = document.getElementById('tournamentWinnerModal');
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      modalInstance.hide();
+    });
 
   return modalContainer;
 }
 
-
 export function setupTournamentEvents(page) {
   gameState.setState({ currentGameStatus: 'idle' });
   let gameBox = page.querySelector('#tournament');
-  let tournamentSettingModal = new bootstrap.Modal(page.querySelector('#tournamentSettingModal'), {
-    keyboard: false
-  });
+  let tournamentSettingModal = new bootstrap.Modal(
+    page.querySelector('#tournamentSettingModal'),
+    {
+      keyboard: false,
+    }
+  );
   let startTournamentButton = page.querySelector('#startTournamentButton');
 
-  startTournamentButton.addEventListener('click', function() {
+  startTournamentButton.addEventListener('click', function () {
     gameState.setState({ currentGameStatus: 'playing' });
     tournamentSettingModal.hide();
   });
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && gameState.getState().currentGameStatus === 'idle') {
+  document.addEventListener('keydown', function (event) {
+    if (
+      event.key === 'Escape' &&
+      gameState.getState().currentGameStatus === 'idle'
+    ) {
       tournamentSettingModal.hide();
     }
   });
 
-  gameBox.addEventListener('click', function() {
+  gameBox.addEventListener('click', function () {
     if (gameState.getState().currentGameStatus === 'idle') {
       updateTournamentSettingModalContent();
       tournamentSettingModal.show();
@@ -210,38 +216,68 @@ export function setupTournamentEvents(page) {
 }
 
 export function updateTournamentBoxContent() {
-  document.getElementById("tournament-pong").innerHTML = i18next.t("tournament-pong");
-  document.getElementById('tournament-header').innerHTML = i18next.t('tournament-header');
-  document.getElementById('tournament-player1').innerHTML = i18next.t('tournament-player1');
-  document.getElementById('tournament-player2').innerHTML = i18next.t('tournament-player2');
+  document.getElementById('tournament-pong').innerHTML =
+    i18next.t('tournament-pong');
+  document.getElementById('tournament-header').innerHTML =
+    i18next.t('tournament-header');
+  document.getElementById('tournament-player1').innerHTML =
+    i18next.t('tournament-player1');
+  document.getElementById('tournament-player2').innerHTML =
+    i18next.t('tournament-player2');
 }
 
 function updateTournamentSettingModalContent() {
-  document.getElementById("tournamentSettingModalLabel").innerHTML = i18next.t("tournamentSettingModalLabel");
-  document.getElementById('t-player1-label').innerHTML = i18next.t('t-player1-label');
-  document.getElementById('player1-name').placeholder = i18next.t('player1-name');
-  document.getElementById('t-player2-label').innerHTML = i18next.t('t-player2-label');
-  document.getElementById('player2-name').placeholder = i18next.t('player2-name');
-  document.getElementById('t-player3-label').innerHTML = i18next.t('t-player3-label');
-  document.getElementById('player3-name').placeholder = i18next.t('player3-name');
-  document.getElementById('t-player4-label').innerHTML = i18next.t('t-player4-label');
-  document.getElementById('player4-name').placeholder = i18next.t('player4-name');
+  document.getElementById('tournamentSettingModalLabel').innerHTML = i18next.t(
+    'tournamentSettingModalLabel'
+  );
+  document.getElementById('t-player1-label').innerHTML =
+    i18next.t('t-player1-label');
+  document.getElementById('player1-name').placeholder =
+    i18next.t('player1-name');
+  document.getElementById('t-player2-label').innerHTML =
+    i18next.t('t-player2-label');
+  document.getElementById('player2-name').placeholder =
+    i18next.t('player2-name');
+  document.getElementById('t-player3-label').innerHTML =
+    i18next.t('t-player3-label');
+  document.getElementById('player3-name').placeholder =
+    i18next.t('player3-name');
+  document.getElementById('t-player4-label').innerHTML =
+    i18next.t('t-player4-label');
+  document.getElementById('player4-name').placeholder =
+    i18next.t('player4-name');
   document.getElementById('t-mode').innerHTML = i18next.t('t-mode');
-  document.getElementById('t-normal-label').innerHTML = i18next.t('t-normal-label');
-  document.getElementById('t-speed-label').innerHTML = i18next.t('t-speed-label');
-  document.getElementById('t-object-label').innerHTML = i18next.t('t-object-label');
-  document.getElementById('startTournamentButton').innerHTML = i18next.t('startTournamentButton');
+  document.getElementById('t-normal-label').innerHTML =
+    i18next.t('t-normal-label');
+  document.getElementById('t-speed-label').innerHTML =
+    i18next.t('t-speed-label');
+  document.getElementById('t-object-label').innerHTML =
+    i18next.t('t-object-label');
+  document.getElementById('startTournamentButton').innerHTML = i18next.t(
+    'startTournamentButton'
+  );
 }
 
 export function updateTournamentRoundModalContent(round) {
-  document.getElementById('tournamentRoundModalLabel').textContent = i18next.t('tournamentRoundModalLabel', { round: round });
-  document.getElementById("round-player1").innerHTML = i18next.t("round-player1");
-  document.getElementById("round-player2").innerHTML = i18next.t("round-player2");
-  document.getElementById("round-content").innerHTML = i18next.t("round-content");
-  document.getElementById("startRoundButton").innerHTML = i18next.t("startRoundButton");
+  document.getElementById('tournamentRoundModalLabel').textContent = i18next.t(
+    'tournamentRoundModalLabel',
+    { round: round }
+  );
+  document.getElementById('round-player1').innerHTML =
+    i18next.t('round-player1');
+  document.getElementById('round-player2').innerHTML =
+    i18next.t('round-player2');
+  document.getElementById('round-content').innerHTML =
+    i18next.t('round-content');
+  document.getElementById('startRoundButton').innerHTML =
+    i18next.t('startRoundButton');
 }
 export function updateTournamentWinnerModal() {
-  document.getElementById("tournamentWinnerModalLabel").innerHTML = i18next.t("tournamentWinnerModalLabel");
-  document.getElementById('tournament_player').innerHTML = i18next.t('tournament_player');
-  document.getElementById('restartGameButton').innerHTML = i18next.t('restartGameButton');
+  document.getElementById('tournamentWinnerModalLabel').innerHTML = i18next.t(
+    'tournamentWinnerModalLabel'
+  );
+  document.getElementById('tournament_player').innerHTML =
+    i18next.t('tournament_player');
+  document.getElementById('restartGameButton').innerHTML =
+    i18next.t('restartGameButton');
 }

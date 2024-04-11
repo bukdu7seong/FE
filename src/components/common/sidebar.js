@@ -1,6 +1,12 @@
 import { route } from '../../../lib/router/router.js';
 import { createLogoutModal } from './logoutModal.js';
 
+function matchPath(str1, str2) {
+  str1 = str1.startsWith('/') ? str1.slice(1) : str1;
+  str2 = str2.charAt(0).toLowerCase() + str2.slice(1);
+  return str1 === str2;
+}
+
 export function sidebar(routes) {
   // 네비게이션 바를 위한 <nav> 태그 생성
   const navbar = document.createElement('nav');
@@ -44,18 +50,18 @@ export function sidebar(routes) {
 
   // 아이콘 및 라우트 매핑
   const icons = {
-    Profile: 'assets/images/icon/house-solid.svg',
-    Game: 'assets/images/icon/gamepad-solid.svg',
-    Tournament: 'assets/images/icon/trophy-solid.svg',
-    Logout: 'assets/images/icon/door-closed-fill.svg',
+    Profile: '/assets/images/icon/house-solid.png',
+    Game: '/assets/images/icon/gamepad-solid.png',
+    Tournament: '/assets/images/icon/trophy-solid.png',
+    Logout: '/assets/images/icon/door-closed-fill.png',
   };
 
   // Logout을 위한 임시 객체 생성
-  routes.Logout = { name: 'Logout' };
+  routes['/logout'] = { name: 'Logout' };
 
   // 라우트 및 메뉴 아이템 생성
   Object.entries(routes).forEach(([route, { name }]) => {
-    if (icons[name]) {
+    if (icons[name] && matchPath(route, name)) {
       const menuItem = document.createElement('li');
       menuItem.className = 'nav-item';
 

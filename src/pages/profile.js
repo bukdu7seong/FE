@@ -9,7 +9,7 @@ const playerProfile = `
     <div class="profile-name">
       <span>-</span>
       <button class="edit-profile-btn changeUserName">
-        <img src="../assets/images/icon/pencil-fill.svg" alt="edit profile">
+        <img src="/assets/images/icon/pencil-fill.png" alt="edit profile">
       </button>
     </div>
     <div class="photo-upload changeUserImage">
@@ -84,7 +84,7 @@ const setting = `
     <div class="setting-option" id="language-settings">
       <label class="name" for="language-btn" id='language'></label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language-btn">
-        <img src="../assets/images/icon/globe2.svg" alt="language">
+        <img src="/assets/images/icon/globe2.png" alt="language">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
         <li class="dropdown-item" id="lang-kr" data-lang="kr">한국어</li>
@@ -105,7 +105,6 @@ const setting = `
 export function pageProfile() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
-  const navbar = sidebar(routes);
 
   const content = `
     <div class="main-box">
@@ -128,10 +127,10 @@ export function pageProfile() {
           ${setting}
         </div>
       </div>
+      <div id="mainNavbar"></div>
     </div>
   `;
 
   page.innerHTML = content;
-  page.appendChild(navbar);
   return page;
 }

@@ -28,19 +28,19 @@ import { checkLogin } from './components/common/checkLogin.js';
 import { handleOAuth2Redirect } from './components/login/oauth2/oauth2RedirectHandler.js';
 import applyLanguageClassic from './components/language/applyLanguageClassic.js';
 
-function hideModal() {
-  const modalElement = document.getElementById('gameSettingModal');
-  if (modalElement) {
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    if (modalInstance) {
-      modalInstance.hide();
-    }
-  }
-}
+// function hideModal() {
+//   const modalElement = document.getElementById('gameSettingModal');
+//   if (modalElement) {
+//     const modalInstance = bootstrap.Modal.getInstance(modalElement);
+//     if (modalInstance) {
+//       modalInstance.hide();
+//     }
+//   }
+// }
 
 function init() {
   try {
-    window.onload = function () {
+    window.onload = async function () {
       setOnRender(routes['/login'], signIn);
       setOnRender(routes['/signup'], signUp);
       setOnRender(routes['/twofa'], twoFA);
@@ -57,11 +57,13 @@ function init() {
       routeState.subscribe(checkLogin);
       gameState.subscribe(setGameCondition);
 
-      firstRoute(setDefaultPath(window.location.href));
+      const firstPath = await setDefaultPath(window.location.href);
+
+      firstRoute(firstPath);
     };
 
     window.addEventListener('popstate', () => {
-      route(routeByState(), false);
+      route(routeByState(window.location.pathname), false);
     });
 
     window.onclick = function (event) {

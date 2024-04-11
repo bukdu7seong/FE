@@ -1,0 +1,20 @@
+.search-container {
+  display: flex;
+  /* justify-content: center; */
+  align-items: stretch;
+  width: 100%;
+  margin-bottom: 1vh;
+}
+
+.search-friend-field .serach-friend-btn {
+  flex: 1;
+  height: 5vh;
+}
+
+.search-friend-field {
+  margin-right: min(2vw, 2vh);
+}
+
+.search-friend-btn {
+  width: 20%;
+}

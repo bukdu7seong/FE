@@ -188,7 +188,7 @@ export class viewAllRequestsModal {
           acceptButton.type = 'button';
           acceptButton.className = 'btn btn-success';
           const acceptImg = document.createElement('img');
-          acceptImg.src = '../assets/images/icon/check-lg.svg';
+          acceptImg.src = '../assets/images/icon/check-lg.png';
           acceptImg.alt = 'accept';
           acceptButton.appendChild(acceptImg);
 
@@ -202,7 +202,7 @@ export class viewAllRequestsModal {
           declineButton.type = 'button';
           declineButton.className = 'btn btn-danger';
           const declineImg = document.createElement('img');
-          declineImg.src = '../assets/images/icon/x-lg.svg';
+          declineImg.src = '../assets/images/icon/x-lg.png';
           declineImg.alt = 'decline';
           declineButton.appendChild(declineImg);
 
