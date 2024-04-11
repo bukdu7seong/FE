@@ -66,7 +66,7 @@ export async function initUserInfo() {
       throwError('Unauthorized access token. Please login again.');
     } else {
       // alert('Failed to fetch user image.');
-      userImage = '/assets/images/profile/default_profile.png';
+      userImage = '/assets/images/profile/default.png';
     }
 
     changeLanguage(userData.language.toLowerCase());

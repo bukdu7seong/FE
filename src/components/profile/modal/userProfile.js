@@ -6,33 +6,33 @@ import { getAccessToken } from '../../../utils/token.js';
 
 function modalHTML(modalId) {
   return `
-    <div class="modal fade" id="${modalId}">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header" data-bs-theme="dark">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class='modal fade' id='${modalId}'>
+      <div class='modal-dialog modal-dialog-centered'>
+        <div class='modal-content'>
+          <div class='modal-header' data-bs-theme='dark'>
+            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
           </div>
-          <div class="modal-body modal-player-profile">
-            <div class="modal-profile-photo">
-              <img src="/assets/images/profile/default_profile.png" alt="profile photo">
+          <div class='modal-body modal-player-profile'>
+            <div class='modal-profile-photo'>
+              <img src='/assets/images/profile/default.png' alt='profile photo'>
             </div>
-            <div class="modal-profile-info">
-              <div class="modal-profile-wrapper">
-                <div class="login-status logout"></div>
-                <div class="modal-profile-name">
+            <div class='modal-profile-info'>
+              <div class='modal-profile-wrapper'>
+                <div class='login-status logout'></div>
+                <div class='modal-profile-name'>
                   <span>-</span>
                 </div>
               </div>
-              <div class="modal-profile-stats">
-                <div class="modal-win-rate">
+              <div class='modal-profile-stats'>
+                <div class='modal-win-rate'>
                   <span>-</span>
                   <label>RATE</label>
                 </div>
-                <div class="modal-win">
+                <div class='modal-win'>
                   <span>-</span>
                   <label>WIN</label>
                 </div>
-                <div class="modal-loss">
+                <div class='modal-loss'>
                   <span>-</span>
                   <label>LOSS</label>
                 </div>

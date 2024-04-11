@@ -240,7 +240,7 @@ export async function setFriendList() {
       const userImage = await getImageData(result.img);
       const friendImgSrc = userImage
         ? userImage
-        : '/assets/images/profile/default.png';
+        : '/assets/images/profile/default2.png';
 
       // Friend List Item
       const friendListItemDiv = document.createElement('div');
