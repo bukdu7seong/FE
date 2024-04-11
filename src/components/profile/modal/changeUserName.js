@@ -93,11 +93,9 @@ export class changeUserNameModal {
       this.modalInstance._element.querySelector('#newUsername').value;
 
     if (!validateInput(this.inputData)) {
-      this.modalInstance._element.querySelector('#error-message').textContent =
-        'Only alphanumeric characters are allowed.';
+      this.modalInstance._element.querySelector('#error-message').textContent = i18next.t('alphanumericUsername');
     } else if (this.inputData.length === 0) {
-      this.modalInstance._element.querySelector('#error-message').textContent =
-        'Please enter a username.';
+      this.modalInstance._element.querySelector('#error-message').textContent =  i18next.t('emptyUsername');
     } else {
       if (await this.changeName()) {
         toastSuccess('changeUserNameSuccess');
