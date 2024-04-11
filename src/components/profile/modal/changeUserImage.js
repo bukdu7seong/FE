@@ -96,8 +96,7 @@ export class changeUserImageModal {
       this.modalInstance._element.querySelector('#newProfileImage').files[0];
 
     if (!this.inputFile) {
-      this.modalInstance._element.querySelector('#error-message').textContent =
-        'Please select an image.';
+      this.modalInstance._element.querySelector('#error-message').textContent = i18next.t('selectImage');
     } else {
       this.changeImage();
       toastSuccess('changeUserImageSuccess');
