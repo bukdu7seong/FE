@@ -1,6 +1,5 @@
 import {
   formatCurrentTime,
-  initializeGameResultData,
   setupGameSettingModal,
 } from '../components/game/game.js';
 
@@ -24,7 +23,7 @@ export function pageGame() {
         </div>
       `;
   page.appendChild(createGameSettingModal());
-  page.appendChild(createScoreModal(initializeGameResultData()));
+  page.appendChild(createScoreModal());
   page.appendChild(createEmail2faModal());
   setupGameSettingModal(page);
   return page;
