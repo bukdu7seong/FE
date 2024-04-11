@@ -1,4 +1,5 @@
 import { gameState } from '../../lib/state/state.js';
+import applyLanguageTournamentSettingModal from '../components/language/applyLanguageTournamentSettingModal.js';
 export function pageTournament() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
@@ -206,42 +207,10 @@ export function setupTournamentEvents(page) {
 
   gameBox.addEventListener('click', function () {
     if (gameState.getState().currentGameStatus === 'idle') {
-      updateTournamentSettingModalContent();
+      applyLanguageTournamentSettingModal();
       tournamentSettingModal.show();
     }
   });
-}
-
-function updateTournamentSettingModalContent() {
-  document.getElementById('tournamentSettingModalLabel').innerHTML = i18next.t(
-    'tournamentSettingModalLabel'
-  );
-  document.getElementById('t-player1-label').innerHTML =
-    i18next.t('t-player1-label');
-  document.getElementById('player1-name').placeholder =
-    i18next.t('player1-name');
-  document.getElementById('t-player2-label').innerHTML =
-    i18next.t('t-player2-label');
-  document.getElementById('player2-name').placeholder =
-    i18next.t('player2-name');
-  document.getElementById('t-player3-label').innerHTML =
-    i18next.t('t-player3-label');
-  document.getElementById('player3-name').placeholder =
-    i18next.t('player3-name');
-  document.getElementById('t-player4-label').innerHTML =
-    i18next.t('t-player4-label');
-  document.getElementById('player4-name').placeholder =
-    i18next.t('player4-name');
-  document.getElementById('t-mode').innerHTML = i18next.t('t-mode');
-  document.getElementById('t-normal-label').innerHTML =
-    i18next.t('t-normal-label');
-  document.getElementById('t-speed-label').innerHTML =
-    i18next.t('t-speed-label');
-  document.getElementById('t-object-label').innerHTML =
-    i18next.t('t-object-label');
-  document.getElementById('startTournamentButton').innerHTML = i18next.t(
-    'startTournamentButton'
-  );
 }
 
 export function updateTournamentRoundModalContent(round) {
