@@ -87,7 +87,6 @@ export async function initUserInfo() {
 
     const connectWebSocket = (attempt = 1) => {
       return new Promise(async (resolve, reject) => {
-        console.log('connecting...');
         const accessToken = await getAccessToken();
         const socket = new WebSocket(
           `${SOCKET_URL}/ws/friend/status?token=${accessToken}`

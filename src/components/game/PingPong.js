@@ -3,9 +3,7 @@ import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import { gameState, userState } from '../../../lib/state/state.js';
 import { GAME_API_URL } from '../../utils/api.js';
-import {
-  updateScoreModalResult,
-} from './game.js';
+import { updateScoreModalResult } from './game.js';
 import { getAccessToken } from '../../utils/token.js';
 import applyLanguageClassicScoreModal from '../language/applyLanguageClassicScoreModal.js';
 
@@ -233,10 +231,10 @@ export default class PingPong {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          is_winner : is_winner,
-          win_score : win_score,
-          lose_score : lose_score,
-          game_mode : this.mode
+          is_winner: is_winner,
+          win_score: win_score,
+          lose_score: lose_score,
+          game_mode: this.mode,
         }),
       });
 
@@ -408,7 +406,6 @@ async function submitVerificationCode(gameId) {
     }
 
     const data = await response.json();
-    console.log('Verification successful:', data);
     emailModal.hide();
   } catch (error) {
     codeErrorDiv.style.display = 'block';
