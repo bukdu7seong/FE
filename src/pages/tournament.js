@@ -212,13 +212,3 @@ export function setupTournamentEvents(page) {
     }
   });
 }
-
-export function updateTournamentWinnerModal() {
-  document.getElementById('tournamentWinnerModalLabel').innerHTML = i18next.t(
-    'tournamentWinnerModalLabel'
-  );
-  document.getElementById('tournament_player').innerHTML =
-    i18next.t('tournament_player');
-  document.getElementById('restartGameButton').innerHTML =
-    i18next.t('restartGameButton');
-}
