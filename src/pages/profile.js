@@ -1,6 +1,6 @@
 const playerProfile = `
   <div class="profile-photo">
-    <img src="../assets/images/profile/default.png" alt="profile photo">
+    <img src="/assets/images/profile/default.png" alt="profile photo">
   </div>
   <div class="profile-info">
     <div class="profile-name">

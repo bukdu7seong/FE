@@ -98,7 +98,7 @@ async function setProfile() {
 
   if (profileImage) {
     if (!userData.userImage) {
-      profileImage.src = '../../assets/images/profile/default.png';
+      profileImage.src = '/assets/images/profile/default.png';
     } else {
       profileImage.src = userData.userImage;
     }
@@ -160,7 +160,7 @@ async function setHistoryList() {
       const historyIconDiv = document.createElement('div');
       historyIconDiv.classList.add('history-icon');
       const iconImg = document.createElement('img');
-      iconImg.src = `../assets/images/icon/hand-thumbs-${iconThumb}-fill.png`;
+      iconImg.src = `/assets/images/icon/hand-thumbs-${iconThumb}-fill.png`;
       iconImg.alt = `hand thumbs ${iconThumb}`;
       historyIconDiv.appendChild(iconImg);
 
@@ -393,7 +393,7 @@ export async function setRequestList() {
       acceptButton.type = 'button';
       acceptButton.className = 'btn btn-success';
       const acceptImg = document.createElement('img');
-      acceptImg.src = '../assets/images/icon/check-lg.png';
+      acceptImg.src = '/assets/images/icon/check-lg.png';
       acceptImg.alt = 'accept';
       acceptButton.appendChild(acceptImg);
 
@@ -408,7 +408,7 @@ export async function setRequestList() {
       declineButton.type = 'button';
       declineButton.className = 'btn btn-danger';
       const declineImg = document.createElement('img');
-      declineImg.src = '../assets/images/icon/x-lg.png';
+      declineImg.src = '/assets/images/icon/x-lg.png';
       declineImg.alt = 'decline';
       declineButton.appendChild(declineImg);
 

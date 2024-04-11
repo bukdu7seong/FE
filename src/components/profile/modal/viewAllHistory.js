@@ -147,7 +147,7 @@ export class viewAllHistoryModal {
           const historyIconDiv = document.createElement('div');
           historyIconDiv.classList.add('history-icon');
           const iconImg = document.createElement('img');
-          iconImg.src = `../assets/images/icon/hand-thumbs-${iconThumb}-fill.png`;
+          iconImg.src = `/assets/images/icon/hand-thumbs-${iconThumb}-fill.png`;
           iconImg.alt = `hand thumbs ${iconThumb}`;
           historyIconDiv.appendChild(iconImg);
 
