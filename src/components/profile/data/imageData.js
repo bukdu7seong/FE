@@ -1,6 +1,6 @@
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
-import { toastError } from '../../../utils/error.js';
 import { getAccessToken } from '../../../utils/token.js';
+import { toastFail } from '../../../utils/fail.js';
 
 export async function getImageData(imagePath) {
   try {
@@ -17,12 +17,12 @@ export async function getImageData(imagePath) {
     });
 
     if (!imageResponse.ok) {
-      throw new Error('Failed to fetch user image.');
+      throw new Error('FailedFetchImage');
     }
 
     return imageResponse.url;
   } catch (error) {
-    toastError(error.message);
+    toastFail(error.message);
     return null;
   }
 }

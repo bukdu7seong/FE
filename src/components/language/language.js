@@ -142,7 +142,8 @@ i18next.init({
         alreadyFriend: 'Already invited or already friends.',
         failedToInvite: 'Failed to invite friend',
         userNotFound: 'User not found',
-        failedToSearch: 'Failed to search user'
+        failedToSearch: 'Failed to search user',
+        FailedFetchImage: 'Failed to fetch user image.'
       },
     },
     kr: {
@@ -285,7 +286,8 @@ i18next.init({
         alreadyFriend: '이미 초대했거나 이미 친구입니다.',
         failedToInvite: '친구 초대 실패',
         userNotFound: '사용자를 찾을 수 없습니다.',
-        failedToSearch: '사용자 검색 실패.'
+        failedToSearch: '사용자 검색 실패.',
+        FailedFetchImage: '사용자 이미지를 불러오는 데 실패했습니다.'
       },
     },
     fr: {
@@ -432,7 +434,8 @@ i18next.init({
         alreadyFriend: 'Déjà invité ou déjà amis.',
         failedToInvite: "Échec de l'invitation d'ami",
         userNotFound: 'Utilisateur non trouvé',
-        failedToSearch: "Échec de la recherche de l'utilisateur"
+        failedToSearch: "Échec de la recherche de l'utilisateur",
+        FailedFetchImage: "Échec du chargement de l'image de l'utilisateur."
       },
     },
   },
