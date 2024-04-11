@@ -1,0 +1,143 @@
+.friend-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.friend-title {
+  margin-bottom: 1vh;
+}
+
+.friend-title span {
+  font-size: min(3vw, 3vh);
+  color: #fff;
+}
+
+.friend-list-list {
+  width: 100%;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+  min-height: min(8vw, 8vh);
+}
+
+.friend-list-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friend-list-list li {
+  position: relative;
+  border-radius: 10px;
+}
+.friend-list-list li::after {
+  position: absolute;
+  content: '';
+  top: 100%;
+  left: 5%;
+  right: 5%;
+  border-bottom: 1px solid gray;
+}
+.friend-list-list li:last-child::after {
+  border-bottom: none;
+}
+
+.friend-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: min(8vw, 8vh);
+}
+
+.login-status {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  aspect-ratio: 1/1;
+  margin: min(1vw, 1vh);
+}
+
+.login-status.login {
+  background-color: green;
+}
+
+.login-status.logout {
+  background-color: red;
+}
+
+.login-status.offline {
+  background-color: gray;
+}
+
+.friend-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 50%;
+}
+
+.friend-photo {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: min(5vw, 5vh);
+  margin: min(1vw, 1vh);
+  aspect-ratio: 1/1;
+}
+
+.friend-photo img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.friend-name span {
+  display: flex;
+  align-items: center;
+  font-size: min(2.3vw, 2.3vh);
+  color: #fff;
+}
+
+.friend-profile {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 1vw;
+}
+
+/* .friend-profile-btn {
+  padding: 1vw;
+  max-width: 8vw;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: min(1.8vw, 1.8vh);
+} */
+
+.friend-view-all {
+  text-align: center;
+  margin-top: 1vh;
+  margin-left: auto;
+}
+/* 
+.friend-view-all-btn {
+  padding: 1vw;
+  max-width: 9vw;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: min(2vw, 2vh);
+} */

@@ -1,0 +1,61 @@
+.dash {
+  color: white;
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.btn.form-signin,
+.btn.form-signup,
+.btn.form-2fa {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.icon-2fa {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+  fill: white;
+}
+
+.btn-outline-light {
+  border-radius: 10px;
+}
+
+.input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.twofacode .submit-btn {
+  flex: 1;
+  height: 5vh;
+}
+
+.twofacode {
+  margin-right: min(2vw, 2vh);
+}
+
+#two-f-a-code {
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+  cursor: text !important;
+}
+
+#two-f-a-code:hover {
+  color: black;
+}
+
+.form-control::placeholder {
+  color: white;
+  text-align: center;
+  margin: 0 auto; /* 중앙 정렬 */
+}
+
+.timer {
+  margin-top: 10px;
+  color: #ececec !important;
+}

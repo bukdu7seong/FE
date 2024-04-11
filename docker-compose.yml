@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  web:
+    build: build/
+    ports:
+      - '443:443'
+      - '80:80'
+    volumes:
+      - ./:/usr/share/nginx/html
