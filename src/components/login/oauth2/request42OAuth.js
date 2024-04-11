@@ -12,7 +12,7 @@ export async function request42OAuth() {
 
     if (response.status === 200) {
       const data = await response.json();
-      window.location.href = data.url;
+      window.location.replace(data.url);
     } else {
       throw new Error(response.status.toString());
     }
