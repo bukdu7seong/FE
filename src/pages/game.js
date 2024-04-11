@@ -1,5 +1,3 @@
-import { sidebar } from '../components/common/sidebar.js';
-import { routes } from '../../lib/router/router.js';
 import {
   formatCurrentTime,
   initializeGameResultData,

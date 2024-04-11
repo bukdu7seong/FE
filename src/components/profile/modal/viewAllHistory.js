@@ -1,4 +1,3 @@
-import { userState } from '../../../../lib/state/state.js';
 import { changeDateFormat } from '../../../utils/date.js';
 import { escapeHtml } from '../../../utils/validateInput.js';
 import { getHistoryData } from '../data/historyData.js';

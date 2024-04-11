@@ -1,7 +1,4 @@
 import { gameState } from '../../lib/state/state.js';
-import { sidebar } from '../components/common/sidebar.js';
-import { routes } from '../../lib/router/router.js';
-
 export function pageTournament() {
   const page = document.createElement('div');
   page.setAttribute('class', 'full-screen');
