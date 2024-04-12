@@ -80,6 +80,7 @@ function createGameSettingModal() {
         </div>
         <div class="modal-footer border-0">
           <button type="button" id="startGameButton" class="btn btn-md btn-success w-100">START</button>
+          <div id="game-round-error" class="text-danger"></div>
         </div>
       </div>
     </div>
