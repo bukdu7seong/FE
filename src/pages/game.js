@@ -32,59 +32,59 @@ export function pageGame() {
 function createGameSettingModal() {
   const modalContainer = document.createElement('div');
   modalContainer.innerHTML = `
-     <button type="button" class="btn gameSettingModal" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
-<div class="modal fade" id="gameSettingModal" tabindex="-1" aria-labelledby="gameSettingModalLabel" aria-hidden="true">
+  <button type="button" class="btn gameSettingModal" data-bs-toggle="modal" data-bs-target="#gameSettingModal"></button>
+  <div class="modal fade" id="gameSettingModal" tabindex="-1" aria-labelledby="gameSettingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h2 class="modal-title" id="gameSettingModalLabel">Game Setting</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-white">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="player-name" class="form-label" id='player2-label'>Player 2</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control bg-dark text-white" id="player-name" required maxlength="10"
-                                   placeholder="Name">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <span class="form-label d-block" id='mode'>Mode</span>
-                        </div>
-                        <div class="col">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
-                                <label class="form-check-label" for="normal" id='normal-label'>
-                                    Normal Mode
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="speed">
-                                <label class="form-check-label" for="speed" id='speed-label'>
-                                    Speed Mode
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="object">
-                                <label class="form-check-label" for="object" id='object-label'>
-                                    Object Mode
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer border-0">
-      <button type="button" id="startGameButton" class="btn btn-md btn-success w-100">START</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h2 class="modal-title" id="gameSettingModalLabel">Game Setting</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body text-white">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-4">
+                <label for="player-name" class="form-label" id='player2-label'>Player 2</label>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control bg-dark text-white" id="player-name" required maxlength="10"
+                 placeholder="Name">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <span class="form-label d-block" id='mode'>Mode</span>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
+                  <label class="form-check-label" for="normal" id='normal-label'>
+                      Normal Mode
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gameMode" id="speed">
+                  <label class="form-check-label" for="speed" id='speed-label'>
+                    Speed Mode
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gameMode" id="object">
+                  <label class="form-check-label" for="object" id='object-label'>
+                    Object Mode
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" id="startGameButton" class="btn btn-md btn-success w-100">START</button>
+        </div>
+      </div>
     </div>
-</div>
-  `;
+  </div>
+`;
   return modalContainer;
 }
 
