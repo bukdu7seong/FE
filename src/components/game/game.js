@@ -19,7 +19,7 @@ export function setupGameSettingModal(page) {
     if (playerName.value === '') {
       gameState.setState({ currentGameStatus: 'error' });
       const roundError = page.querySelector('#game-round-error');
-      roundError.textContent = 'Please enter a name';
+      roundError.textContent = i18next.t('enterPlayerName');
       return;
     }
 
