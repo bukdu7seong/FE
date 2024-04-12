@@ -210,12 +210,12 @@ export function setupTournamentEvents(page) {
     if (playerNames.includes('')) {
       gameState.setState({ currentGameStatus: 'error' });
       const roundError = page.querySelector('#round-error');
-      roundError.textContent = 'Please enter names for all players';
+      roundError.textContent = i18next.t('enterPlayerName');
       return;
     } else if (new Set(playerNames).size !== playerNames.length) {
       gameState.setState({ currentGameStatus: 'error' });
       const roundError = page.querySelector('#round-error');
-      roundError.textContent = 'Please enter unique names for all players';
+      roundError.textContent = i18next.t('enterUniqueName');
       return;
     }
 
