@@ -1,5 +1,5 @@
 import { userState } from '../../../../lib/state/state.js';
-import { validateInput } from '../../../utils/validateInput.js';
+import { escapeHtml, validateInput } from '../../../utils/validateInput.js';
 import { redirectError, toastError } from '../../../utils/error.js';
 import { ACCOUNT_API_URL } from '../../../utils/api.js';
 import { getAccessToken } from '../../../utils/token.js';
@@ -93,9 +93,11 @@ export class changeUserNameModal {
       this.modalInstance._element.querySelector('#newUsername').value;
 
     if (!validateInput(this.inputData)) {
-      this.modalInstance._element.querySelector('#error-message').textContent = i18next.t('alphanumericUsername');
+      this.modalInstance._element.querySelector('#error-message').textContent =
+        i18next.t('alphanumericUsername');
     } else if (this.inputData.length === 0) {
-      this.modalInstance._element.querySelector('#error-message').textContent =  i18next.t('emptyUsername');
+      this.modalInstance._element.querySelector('#error-message').textContent =
+        i18next.t('emptyUsername');
     } else {
       if (await this.changeName()) {
         toastSuccess('changeUserNameSuccess');
@@ -109,7 +111,7 @@ export class changeUserNameModal {
     if (result === true) {
       const profileName = document.querySelector('.profile-name span');
       if (profileName) {
-        profileName.innerHTML = `${this.inputData}`;
+        profileName.innerHTML = `${escapeHtml(this.inputData)}`;
       }
     }
     return result;

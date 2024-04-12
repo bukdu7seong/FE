@@ -30,85 +30,85 @@ function createTournamentSettingModal() {
   const modalContainer = document.createElement('div');
 
   modalContainer.innerHTML = `
-<div class="modal fade" id="tournamentSettingModal" tabindex="-1" aria-labelledby="tournamentSettingModalLabel" aria-hidden="true">
+  <div class="modal fade" id="tournamentSettingModal" tabindex="-1" aria-labelledby="tournamentSettingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header border-0">
-                <h2 class="modal-title" id="tournamentSettingModalLabel">TOURNAMENT Game Setting</h2>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <!-- Player 1 Input -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <label for="player1-name" class="form-label" id='t-player1-label'>Player 1</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player1-name" placeholder="Name" required maxlength="10">
-                        </div>
-                    </div>
-                    <!-- Player 2 Input -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <label for="player2-name" class="form-label" id='t-player2-label'>Player 2</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player2-name" placeholder="Name" required maxlength="10">
-                        </div>
-                    </div>
-                    <!-- Player 3 Input -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <label for="player3-name" class="form-label" id='t-player3-label'>Player 3</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player3-name" placeholder="Name" required maxlength="10">
-                        </div>
-                    </div>
-                    <!-- Player 4 Input -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <label for="player4-name" class="form-label" id='t-player4-label'>Player 4</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control bg-secondary text-white" id="player4-name" placeholder="Name" required maxlength="10">
-                        </div>
-                    </div>
-                    <!-- Mode Selection -->
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <span class="form-label d-block" id='t-mode'>Mode</span>
-                        </div>
-                        <div class="col">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
-                                <label class="form-check-label" for="normal" id='t-normal-label'>
-                                    Normal Mode
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="speed">
-                                <label class="form-check-label" for="speed" id='t-speed-label'>
-                                    Speed Mode
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gameMode" id="object">
-                                <label class="form-check-label" for="object" id='t-object-label'>
-                                    Object Mode
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" id="startTournamentButton" class="btn btn-lg btn-success w-100">START</button>
-            </div>
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header border-0">
+          <h2 class="modal-title" id="tournamentSettingModalLabel">TOURNAMENT Game Setting</h2>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <!-- Player 1 Input -->
+            <div class="row mb-2">
+              <div class="col-sm-4">
+                <label for="player1-name" class="form-label" id='t-player1-label'>Player 1</label>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control bg-secondary text-white" id="player1-name" placeholder="Name" required maxlength="10">
+              </div>
+            </div>
+            <!-- Player 2 Input -->
+            <div class="row mb-2">
+              <div class="col-sm-4">
+                <label for="player2-name" class="form-label" id='t-player2-label'>Player 2</label>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control bg-secondary text-white" id="player2-name" placeholder="Name" required maxlength="10">
+              </div>
+            </div>
+            <!-- Player 3 Input -->
+            <div class="row mb-2">
+              <div class="col-sm-4">
+                <label for="player3-name" class="form-label" id='t-player3-label'>Player 3</label>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control bg-secondary text-white" id="player3-name" placeholder="Name" required maxlength="10">
+              </div>
+            </div>
+            <!-- Player 4 Input -->
+            <div class="row mb-2">
+              <div class="col-sm-4">
+                <label for="player4-name" class="form-label" id='t-player4-label'>Player 4</label>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control bg-secondary text-white" id="player4-name" placeholder="Name" required maxlength="10">
+              </div>
+            </div>
+            <!-- Mode Selection -->
+            <div class="row">
+              <div class="col-sm-4">
+                <span class="form-label d-block" id='t-mode'>Mode</span>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gameMode" id="normal" checked>
+                  <label class="form-check-label" for="normal" id='t-normal-label'>
+                    Normal Mode
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gameMode" id="speed">
+                  <label class="form-check-label" for="speed" id='t-speed-label'>
+                    Speed Mode
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gameMode" id="object">
+                  <label class="form-check-label" for="object" id='t-object-label'>
+                    Object Mode
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" id="startTournamentButton" class="btn btn-lg btn-success w-100">START</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 `;
   return modalContainer;
 }
@@ -119,31 +119,31 @@ function createTournamentRoundModal() {
   modalContainer.innerHTML = `
   <div class="modal fade" id="tournamentRoundModal" tabindex="-1" aria-labelledby="tournamentRoundModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header border-0">
-                <h5 class="modal-title" id="tournamentRoundModalLabel">TOURNAMENT ROUND 1</h5>
-            </div>
-            <div class="modal-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-center">
-                        <div class="h6" id='round-player1'>Player 1</div>
-                        <input type="text" class="form-control bg-secondary text-white" id="round-player1-name" value="joyoujeo" readonly>
-                    </div>
-                    <div class="text-center">
-                        <div class="h6" id='round-player2'>Player 2</div>
-                        <input type="text" class="form-control bg-secondary text-white" id="round-player2-name" value="gychoi" readonly>
-                    </div>
-                </div>
-                <div class="text-center my-3" id='round-content'>
-                    <h6>Are you ready?</h6>
-                </div>
-            </div>
-            <div class="modal-footer border-0 justify-content-center">
-                <button type="button" class="btn btn-lg btn-success" id="startRoundButton">START</button>
-            </div>
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="tournamentRoundModalLabel">TOURNAMENT ROUND 1</h5>
         </div>
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-center">
+              <div class="h6" id='round-player1'>Player 1</div>
+              <input type="text" class="form-control bg-secondary text-white" id="round-player1-name" value="joyoujeo" readonly>
+            </div>
+            <div class="text-center">
+              <div class="h6" id='round-player2'>Player 2</div>
+              <input type="text" class="form-control bg-secondary text-white" id="round-player2-name" value="gychoi" readonly>
+            </div>
+          </div>
+          <div class="text-center my-3" id='round-content'>
+            <h6>Are you ready?</h6>
+          </div>
+        </div>
+        <div class="modal-footer border-0 justify-content-center">
+          <button type="button" class="btn btn-lg btn-success" id="startRoundButton">START</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 `;
   return modalContainer;
 }
