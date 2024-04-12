@@ -126,6 +126,7 @@ export class viewAllFriendsModal {
     const friendList = this.modalInstance._element.querySelector(
       '.modal-friend-list-list ul'
     );
+
     friendList.innerHTML = '';
 
     fetchFriendData(pageNumber).then((friendData) => {
@@ -140,7 +141,7 @@ export class viewAllFriendsModal {
       } else {
         let friendIdArray = [];
 
-        friendData.friends.forEach(async (result) => {
+        const friendPromises = friendData.friends.map(async (result) => {
           const friendItem = document.createElement('li');
           const userImage = await getImageData(result.img);
           const friendImgSrc = userImage
@@ -199,10 +200,16 @@ export class viewAllFriendsModal {
           friendListItemDiv.appendChild(friendProfileDiv);
           friendProfileDiv.appendChild(friendProfileBtn);
           friendItem.appendChild(friendListItemDiv);
-          friendList.appendChild(friendItem);
+
+          return friendItem;
         });
 
-        this.listenFriendLogin(friendIdArray);
+        Promise.all(friendPromises).then((friendItems) => {
+          friendItems.forEach((friendItem) => {
+            friendList.appendChild(friendItem);
+          });
+          this.listenFriendLogin(friendIdArray);
+        });
       }
     });
   }

@@ -139,6 +139,8 @@ async function setHistoryList() {
     return;
   }
 
+  historyList.innerHTML = '';
+
   if (!historyData.games.length) {
     const historyItem = document.createElement('li');
     historyItem.id = 'historyItemNoData';
@@ -150,7 +152,7 @@ async function setHistoryList() {
   } else {
     const firstTwoResults = historyData.games.slice(0, 2);
 
-    firstTwoResults.forEach(async (result) => {
+    const historyPromises = firstTwoResults.map(async (result) => {
       const historyItem = document.createElement('li');
       const iconThumb = result.winner ? 'up' : 'down';
       const userImage = await getImageData(result.other_img);
@@ -210,6 +212,12 @@ async function setHistoryList() {
       historyItemDiv.appendChild(historyUserInfoDiv);
       historyItemDiv.appendChild(historyTimeDiv);
       historyItem.appendChild(historyItemDiv);
+
+      return historyItem;
+    });
+
+    const allHistoryItems = await Promise.all(historyPromises);
+    allHistoryItems.forEach((historyItem) => {
       historyList.appendChild(historyItem);
     });
   }
@@ -238,7 +246,7 @@ export async function setFriendList() {
     const firstTwoResults = friendData.friends.slice(0, 2);
     let friendIdArray = [];
 
-    firstTwoResults.forEach(async (result) => {
+    const friendPromises = firstTwoResults.map(async (result) => {
       const friendItem = document.createElement('li');
       const userImage = await getImageData(result.img);
       const friendImgSrc = userImage
@@ -335,8 +343,15 @@ export async function setFriendList() {
       friendListItemDiv.appendChild(friendProfileDiv);
       friendProfileDiv.appendChild(friendProfileBtn);
       friendItem.appendChild(friendListItemDiv);
+
+      return friendItem;
+    });
+
+    const allFriendItems = await Promise.all(friendPromises);
+    allFriendItems.forEach((friendItem) => {
       friendList.appendChild(friendItem);
     });
+
     listenFriendLogin(friendIdArray);
   }
 }
@@ -398,7 +413,9 @@ export async function setRequestList() {
     });
     requestList.appendChild(requestItem);
   } else {
-    requestData.friends.slice(0, 2).map(async (result) => {
+    const firstTwoResults = requestData.friends.slice(0, 2);
+
+    const requestPromises = firstTwoResults.map(async (result) => {
       const requestItem = document.createElement('li');
       const userImage = await getImageData(result.img);
       const requestImgSrc = userImage
@@ -486,6 +503,12 @@ export async function setRequestList() {
       friendRequestItemDiv.appendChild(friendRequestBtnDiv);
       friendRequestItemDiv.appendChild(friendRequestProfileDiv);
       requestItem.appendChild(friendRequestItemDiv);
+
+      return requestItem;
+    });
+
+    const allRequestItems = await Promise.all(requestPromises);
+    allRequestItems.forEach((requestItem) => {
       requestList.appendChild(requestItem);
     });
   }

@@ -122,6 +122,7 @@ export class viewAllHistoryModal {
 
   setHistoryList(pageNumber = 1) {
     const historyList = document.querySelector('.modal-history-list ul');
+
     historyList.innerHTML = '';
 
     fetchHistoryData(pageNumber).then((historyData) => {
@@ -134,7 +135,7 @@ export class viewAllHistoryModal {
         historyItem.textContent = i18next.t('viewAllHistoryModalNoData');
         historyList.appendChild(historyItem);
       } else {
-        historyData.games.forEach(async (result) => {
+        const historyPromises = historyData.games.map(async (result) => {
           const historyItem = document.createElement('li');
           const iconThumb = result.winner ? 'up' : 'down';
           const userImage = await getImageData(result.other_img);
@@ -194,7 +195,13 @@ export class viewAllHistoryModal {
           historyItemDiv.appendChild(historyUserInfoDiv);
           historyItemDiv.appendChild(historyTimeDiv);
           historyItem.appendChild(historyItemDiv);
-          historyList.appendChild(historyItem);
+          return historyItem;
+        });
+
+        Promise.all(historyPromises).then((historyItems) => {
+          historyItems.forEach((historyItem) => {
+            historyList.appendChild(historyItem);
+          });
         });
       }
     });
