@@ -27,7 +27,7 @@ export default function applyLanguageProfile() {
   for (const [id, text] of Object.entries(elementsToUpdate)) {
     const element = document.getElementById(id);
     if (element) {
-      element.innerHTML = text;
+      element.textContent = text;
       applyLanguage().set({
         id: id
       });

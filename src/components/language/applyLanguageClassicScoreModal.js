@@ -18,7 +18,7 @@ export default function applyLanguageClassicScoreModal() {
       if (id === 'emailInput') {
         element.placeholder = text;
       } else {
-        element.innerHTML = text;
+        element.textContent = text;
       }
     }
   }
