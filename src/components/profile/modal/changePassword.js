@@ -17,15 +17,15 @@ function modalHTML(modalId) {
             <form id="passwordChangeForm">
               <div class="mb-3">
                 <label for="currentPassword" class="form-label" id='change-password-modal-current'></label>
-                <input type="password" class="form-control" id="currentPassword" required>
+                <input type="password" class="form-control" id="currentPassword" required maxlength="20">
               </div>
               <div class="mb-3">
                 <label for="newPassword" class="form-label" id='change-password-modal-new'></label>
-                <input type="password" class="form-control" id="newPassword" required>
+                <input type="password" class="form-control" id="newPassword" required maxlength="20">
               </div>
               <div class="mb-3">
                 <label for="confirmPassword" class="form-label" id='change-password-modal-new-confirm'></label>
-                <input type="password" class="form-control" id="confirmPassword" required>
+                <input type="password" class="form-control" id="confirmPassword" required maxlength="20">
               </div>
               <div id="password-error-message" class="text-danger"></div>
             </form>
@@ -164,9 +164,8 @@ export class changePasswordModal {
     );
     document.getElementById('change-password-modal-current').textContent =
       i18next.t('change-password-modal-current');
-    document.getElementById('change-password-modal-new').textContent = i18next.t(
-      'change-password-modal-new'
-    );
+    document.getElementById('change-password-modal-new').textContent =
+      i18next.t('change-password-modal-new');
     document.getElementById('change-password-modal-new-confirm').textContent =
       i18next.t('change-password-modal-new-confirm');
     document.getElementById('change-password-modal-cancel').textContent =

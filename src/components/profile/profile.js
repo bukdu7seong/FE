@@ -21,6 +21,8 @@ import { ACCOUNT_API_URL } from '../../utils/api.js';
 import { getAccessToken } from '../../utils/token.js';
 import applyLanguageProfile from '../language/applyLanguageProfile.js';
 import { getGameData } from './data/gameData.js';
+import { toastFail } from '../../utils/fail.js';
+import { toastSuccess } from '../../utils/success.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -491,6 +493,41 @@ async function updateUserLanguage(language) {
   }
 }
 
+function setFindPassword() {
+  const findPasswordButton = document.getElementById('find-password');
+  if (!findPasswordButton) {
+    return;
+  }
+
+  findPasswordButton.addEventListener('click', async () => {
+    findPasswordButton.disabled = true;
+
+    try {
+      const accessToken = await getAccessToken();
+      const url = `${ACCOUNT_API_URL}/api/account/pass`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Cannot find password. Please try again.');
+      } else {
+        toastSuccess('New password has been sent to your email.');
+      }
+    } catch (e) {
+      toastFail(e.message);
+    } finally {
+      setTimeout(() => {
+        findPasswordButton.disabled = false;
+      }, 4242);
+    }
+  });
+}
+
 function set2fa() {
   const twoFACheckbox = document.getElementById('2fa');
   if (!twoFACheckbox) {
@@ -619,6 +656,7 @@ export function profile() {
   listenSocketMessage();
   setLanguage();
   set2fa();
+  setFindPassword();
   setModal();
   applyLanguageProfile();
 }
