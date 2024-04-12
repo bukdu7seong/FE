@@ -105,6 +105,8 @@ function createTournamentSettingModal() {
         </div>
         <div class="modal-footer border-0">
           <button type="button" id="startTournamentButton" class="btn btn-lg btn-success w-100">START</button>
+          <div id="round-error" class="text-danger"></div>
+
         </div>
       </div>
     </div>
@@ -189,9 +191,34 @@ export function setupTournamentEvents(page) {
       keyboard: false,
     }
   );
+
   let startTournamentButton = page.querySelector('#startTournamentButton');
 
+  const player1Name = page.querySelector('#player1-name');
+  const player2Name = page.querySelector('#player2-name');
+  const player3Name = page.querySelector('#player3-name');
+  const player4Name = page.querySelector('#player4-name');
+
   startTournamentButton.addEventListener('click', function () {
+    const playerNames = [
+      player1Name.value,
+      player2Name.value,
+      player3Name.value,
+      player4Name.value,
+    ];
+
+    if (playerNames.includes('')) {
+      gameState.setState({ currentGameStatus: 'error' });
+      const roundError = page.querySelector('#round-error');
+      roundError.textContent = 'Please enter names for all players';
+      return;
+    } else if (new Set(playerNames).size !== playerNames.length) {
+      gameState.setState({ currentGameStatus: 'error' });
+      const roundError = page.querySelector('#round-error');
+      roundError.textContent = 'Please enter unique names for all players';
+      return;
+    }
+
     gameState.setState({ currentGameStatus: 'playing' });
     tournamentSettingModal.hide();
   });

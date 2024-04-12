@@ -81,7 +81,7 @@ const setting = `
     <div class="setting-option" id="language-settings">
       <label class="name" for="language-btn" id='language'></label>
       <button type="button" data-bs-toggle="dropdown" class="language-btn" id="language-btn">
-        <img src="/assets/images/icon/globe2.png" alt="language">
+        <img src="/assets/images/icon/globe2.png" alt="language" id="globe">
       </button>
       <ul class="dropdown-menu dropdown-menu-dark language-list">
         <li class="dropdown-item" id="lang-kr" data-lang="kr">한국어</li>

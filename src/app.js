@@ -86,18 +86,20 @@ function init() {
                 break;
               }
             }
-            hideModal();
-            renderPage(pageBoard(), 'game-box');
-            const pongGame = new PingPong(
-              selectedMode,
-              userState.getState().userName,
-              player2Name
-            );
-            gameState.setState({ currentGame: pongGame }, false);
-            gameState.setState({ currentGameStatus: 'start' }, false);
-            gameState.setState({ gameType: 'classic' }, false);
+            if (gameState.getState().currentGameStatus === 'playing') {
+              hideModal();
+              renderPage(pageBoard(), 'game-box');
+              const pongGame = new PingPong(
+                selectedMode,
+                userState.getState().userName,
+                player2Name
+              );
+              gameState.setState({ currentGame: pongGame }, false);
+              gameState.setState({ currentGameStatus: 'start' }, false);
+              gameState.setState({ gameType: 'classic' }, false);
 
-            pongGame.startGame();
+              pongGame.startGame();
+            }
           }
           break;
         case 'Tournament':
@@ -116,15 +118,17 @@ function init() {
               }
             }
 
-            renderPage(pageBoard(), 'game-box');
-            const playerNames = [
-              player1Name,
-              player2Name,
-              player3Name,
-              player4Name,
-            ];
-            const tournament = new Tournament(selectedMode, playerNames);
-            tournament.startTournament();
+            if (gameState.getState().currentGameStatus === 'playing') {
+              renderPage(pageBoard(), 'game-box');
+              const playerNames = [
+                player1Name,
+                player2Name,
+                player3Name,
+                player4Name,
+              ];
+              const tournament = new Tournament(selectedMode, playerNames);
+              tournament.startTournament();
+            }
           }
           break;
         default:

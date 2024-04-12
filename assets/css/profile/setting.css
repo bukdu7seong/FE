@@ -95,3 +95,7 @@
   border-radius: 50%;
   filter: invert(100%);
 }
+
+#globe {
+  filter: invert(0%);
+}
