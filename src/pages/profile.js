@@ -90,8 +90,12 @@ const setting = `
       </ul>
     </div>
     <div class="setting-option">
-      <label class="name" for="change-password", id='change-password-guide'></label>
+      <label class="name" for='change-password', id='change-password-guide'></label>
       <button type="button" class="btn btn-success change-password" id="change-password"></button>
+    </div>
+    <div class="setting-option">
+      <label class="name" for='find-password', id='find-password-guide'></label>
+      <button type="button" class="btn btn-success find-password" id="find-password"></button>
     </div>
     <div class="setting-option">
       <label class="name" for="unsubscribe" id='unsubscribe-guide'></label>

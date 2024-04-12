@@ -4,24 +4,26 @@ export default function applyLanguageProfile() {
   const elementsToUpdate = {
     'recent-history': i18next.t('recent-history'),
     'friend-request': i18next.t('friend-request'),
-    'friends': i18next.t('friends'),
-    'rate': i18next.t('rate'),
-    'win': i18next.t('win'),
-    'loss': i18next.t('loss'),
+    friends: i18next.t('friends'),
+    rate: i18next.t('rate'),
+    win: i18next.t('win'),
+    loss: i18next.t('loss'),
     'choose-photo': i18next.t('choose-photo'),
     '2fa-option': i18next.t('2fa-option'),
-    'language': i18next.t('language'),
+    language: i18next.t('language'),
     'change-password-guide': i18next.t('change-password-guide'),
     'change-password': i18next.t('change-password'),
+    'find-password-guide': i18next.t('find-password-guide'),
+    'find-password': i18next.t('find-password'),
     'unsubscribe-guide': i18next.t('unsubscribe-guide'),
-    'unsubscribe': i18next.t('unsubscribe'),
+    unsubscribe: i18next.t('unsubscribe'),
     'lang-kr': i18next.t('lang-kr'),
     'lang-en': i18next.t('lang-en'),
     'lang-fr': i18next.t('lang-fr'),
-    'playerHistoryViewAll': i18next.t('playerHistoryViewAll'),
-    'friendListViewAll': i18next.t('friendListViewAll'),
-    'friendRequestInvite': i18next.t('friendRequestInvite'),
-    'friendRequestViewAll': i18next.t('friendRequestViewAll')
+    playerHistoryViewAll: i18next.t('playerHistoryViewAll'),
+    friendListViewAll: i18next.t('friendListViewAll'),
+    friendRequestInvite: i18next.t('friendRequestInvite'),
+    friendRequestViewAll: i18next.t('friendRequestViewAll'),
   };
 
   for (const [id, text] of Object.entries(elementsToUpdate)) {
@@ -29,8 +31,8 @@ export default function applyLanguageProfile() {
     if (element) {
       element.textContent = text;
       applyLanguage().set({
-        id: id
+        id: id,
       });
     }
   }
-};
+}

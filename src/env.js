@@ -1,3 +1,3 @@
-const DOMAIN = '10.15.3.7';
+const DOMAIN = 'localhost';
 
 export default DOMAIN;
