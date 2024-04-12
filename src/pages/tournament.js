@@ -233,7 +233,7 @@ export function setupTournamentEvents(page) {
   });
 
   gameBox.addEventListener('click', function () {
-    if (gameState.getState().currentGameStatus === 'idle') {
+    if (gameState.getState().currentGameStatus === 'idle' || gameState.getState().currentGameStatus === 'error') {
       applyLanguageTournamentSettingModal();
       tournamentSettingModal.show();
     }
