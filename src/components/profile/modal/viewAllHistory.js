@@ -122,9 +122,6 @@ export class viewAllHistoryModal {
 
   setHistoryList(pageNumber = 1) {
     const historyList = document.querySelector('.modal-history-list ul');
-
-    historyList.innerHTML = '';
-
     fetchHistoryData(pageNumber).then((historyData) => {
       this.maxPage = historyData.totalPages || 1;
       this.totalData = historyData.total || 0;
@@ -199,6 +196,8 @@ export class viewAllHistoryModal {
         });
 
         Promise.all(historyPromises).then((historyItems) => {
+          historyList.innerHTML = '';
+
           historyItems.forEach((historyItem) => {
             historyList.appendChild(historyItem);
           });
