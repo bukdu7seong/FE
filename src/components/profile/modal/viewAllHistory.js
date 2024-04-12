@@ -230,7 +230,7 @@ export class viewAllHistoryModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('viewAllHistoryModalH2').innerHTML = i18next.t(
+  document.getElementById('viewAllHistoryModalH2').textContent = i18next.t(
     'viewAllHistoryModalH2'
   );
 }

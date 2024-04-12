@@ -132,11 +132,11 @@ export class changeUserNameModal {
 }
 
 function updateMultilingualContent() {
-  document.getElementById('change-username').innerHTML =
+  document.getElementById('change-username').textContent =
     i18next.t('change-username');
   document.getElementById('newUsername').placeholder = i18next.t('newUsername');
-  document.getElementById('changeUserNameModalCloseButton').innerHTML =
+  document.getElementById('changeUserNameModalCloseButton').textContent =
     i18next.t('changeUserNameModalCloseButton');
-  document.getElementById('changeUserNameModalSaveButton').innerHTML =
+  document.getElementById('changeUserNameModalSaveButton').textContent =
     i18next.t('changeUserNameModalSaveButton');
 }

@@ -4,10 +4,10 @@ export default function applyLanguageTournamentRoundModal(round) {
       text: i18next.t('tournamentRoundModalLabel', { round: round }),
       type: 'textContent'
     },
-    'round-player1': { text: i18next.t('round-player1'), type: 'innerHTML' },
-    'round-player2': { text: i18next.t('round-player2'), type: 'innerHTML' },
-    'round-content': { text: i18next.t('round-content'), type: 'innerHTML' },
-    'startRoundButton': { text: i18next.t('startRoundButton'), type: 'innerHTML' }
+    'round-player1': { text: i18next.t('round-player1'), type: 'textContent' },
+    'round-player2': { text: i18next.t('round-player2'), type: 'textContent' },
+    'round-content': { text: i18next.t('round-content'), type: 'textContent' },
+    'startRoundButton': { text: i18next.t('startRoundButton'), type: 'textContent' }
   };
 
   for (const [id, { text, type }] of Object.entries(elementsToUpdate)) {

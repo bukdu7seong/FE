@@ -9,7 +9,7 @@ export default function applyLanguageTournamentBox() {
   for (const [id, text] of Object.entries(elementsToUpdate)) {
     const element = document.getElementById(id);
     if (element) {
-      element.innerHTML = text;
+      element.textContent = text;
     }
   }
 }

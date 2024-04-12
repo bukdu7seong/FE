@@ -192,23 +192,23 @@ export class deleteUserModal {
   }
 
   updateModalContent() {
-    document.getElementById('confirmDeletionModalLabel').innerHTML = i18next.t(
+    document.getElementById('confirmDeletionModalLabel').textContent = i18next.t(
       'confirmDeletionModalLabel'
     );
-    document.getElementById('confirm-deletion-modal-content').innerHTML =
+    document.getElementById('confirm-deletion-modal-content').textContent =
       i18next.t('confirm-deletion-modal-content');
-    document.getElementById('confirm-deletion-modal-cancel').innerHTML =
+    document.getElementById('confirm-deletion-modal-cancel').textContent =
       i18next.t('confirm-deletion-modal-cancel');
-    document.getElementById('confirm-deletion-modal-confirm').innerHTML =
+    document.getElementById('confirm-deletion-modal-confirm').textContent =
       i18next.t('confirm-deletion-modal-confirm');
-    document.getElementById('passwordConfirmModalLabel').innerHTML = i18next.t(
+    document.getElementById('passwordConfirmModalLabel').textContent = i18next.t(
       'passwordConfirmModalLabel'
     );
-    document.getElementById('password-confirm-form-content').innerHTML =
+    document.getElementById('password-confirm-form-content').textContent =
       i18next.t('password-confirm-form-content');
     document.getElementById('password-confirm-form-input').placeholder =
       i18next.t('password-confirm-form-input');
-    document.getElementById('password-confirm-form-confirm').innerHTML =
+    document.getElementById('password-confirm-form-confirm').textContent =
       i18next.t('password-confirm-form-confirm');
   }
 }

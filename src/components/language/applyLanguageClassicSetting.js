@@ -16,7 +16,7 @@ export default function applyLanguageClassicSetting() {
       if (id === 'player-name') {
         element.placeholder = text;
       } else {
-        element.innerHTML = text;
+        element.textContent = text;
       }
     }
   }

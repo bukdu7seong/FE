@@ -122,11 +122,11 @@ export class changeUserImageModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('changeUserImageModalh1').innerHTML = i18next.t(
+  document.getElementById('changeUserImageModalh1').textContent = i18next.t(
     'changeUserImageModalh1'
   );
-  document.getElementById('changeUserImageModalCloseButton').innerHTML =
+  document.getElementById('changeUserImageModalCloseButton').textContent =
     i18next.t('changeUserImageModalCloseButton');
-  document.getElementById('changeUserImageModalSaveButton').innerHTML =
+  document.getElementById('changeUserImageModalSaveButton').textContent =
     i18next.t('changeUserImageModalSaveButton');
 }
