@@ -128,6 +128,7 @@ export class viewAllRequestsModal {
     const requestList = this.modalInstance._element.querySelector(
       '.modal-friend-request-list ul'
     );
+
     requestList.innerHTML = '';
 
     fetchRequestData(pageNumber).then((requestData) => {
@@ -144,7 +145,7 @@ export class viewAllRequestsModal {
       } else {
         let requestIdArray = [];
 
-        requestData.friends.forEach(async (result) => {
+        const requestPromises = requestData.friends.map(async (result) => {
           const requestItem = document.createElement('li');
           const requestImage = await getImageData(result.img);
           const requestImgSrc = requestImage
@@ -238,10 +239,16 @@ export class viewAllRequestsModal {
           friendRequestItemDiv.appendChild(friendRequestBtnDiv);
           friendRequestItemDiv.appendChild(friendRequestProfileDiv);
           requestItem.appendChild(friendRequestItemDiv);
-          requestList.appendChild(requestItem);
+
+          return requestItem;
         });
 
-        this.listenFriendLogin(requestIdArray);
+        Promise.all(requestPromises).then((requestItems) => {
+          requestItems.forEach((requestItem) => {
+            requestList.appendChild(requestItem);
+          });
+          this.listenFriendLogin(requestIdArray);
+        });
       }
     });
   }

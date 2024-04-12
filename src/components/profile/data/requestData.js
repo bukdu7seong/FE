@@ -26,16 +26,6 @@ export async function getRequestData(pageNumber = 1) {
 
     const data = await response.json();
 
-    data.friends.sort((a, b) => {
-      if (a.username < b.username) {
-        return -1;
-      }
-      if (a.username > b.username) {
-        return 1;
-      }
-      return 0;
-    });
-
     return data;
   } catch (error) {
     toastError(error.message);
