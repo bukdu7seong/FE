@@ -23,7 +23,7 @@ import applyLanguageProfile from '../language/applyLanguageProfile.js';
 import { getGameData } from './data/gameData.js';
 import { toastFail } from '../../utils/fail.js';
 import { toastSuccess } from '../../utils/success.js';
-import { toastError } from '../../utils/error.js';
+import { redirectError } from '../../utils/error.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -309,14 +309,14 @@ export async function setFriendList() {
             if (response.status === 401) {
               redirectError('Unauthorized access token. Please login again.');
             } else {
-              throw new Error('Can\'t find your friends.');
+              throw new Error('cantFindFriends');
             }
           } else {
             toastSuccess('Successfully unsubscribed.');
             await setFriendList();
           }
         } catch (e) {
-          toastError(e.message);
+          toastFail(e.message);
         }
       });
 
