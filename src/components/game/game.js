@@ -37,7 +37,7 @@ export function setupGameSettingModal(page) {
   });
 
   gameBox.addEventListener('click', function () {
-    if (gameState.getState().currentGameStatus === 'idle') {
+    if (gameState.getState().currentGameStatus === 'idle' || gameState.getState().currentGameStatus === 'error') {
       applyLanguageClassicSetting();
       gameSettingModal.show();
     }
