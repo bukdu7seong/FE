@@ -136,6 +136,8 @@ export class viewAllRequestsModal {
 
       // API 상 friends와 차이가 없는지 확인해봐야 함
       if (!requestData.friends.length) {
+        requestList.innerHTML = '';
+
         const requestItem = document.createElement('li');
         requestItem.textContent = 'No Friend Request';
         requestItem.textContent = i18next.t('viewAllRequestsModalNoFriend');
@@ -192,9 +194,13 @@ export class viewAllRequestsModal {
           acceptButton.appendChild(acceptImg);
 
           acceptButton.addEventListener('click', () => {
-            updateRequest(result.id, true).then(() => {
-              this.setRequestList(this.currentPage);
-            });
+            updateRequest(result.id, true)
+              .then(() => {
+                this.setRequestList(this.currentPage);
+              })
+              .catch(() => {
+                this.setRequestList(this.currentPage);
+              });
           });
 
           const declineButton = document.createElement('button');
@@ -206,9 +212,13 @@ export class viewAllRequestsModal {
           declineButton.appendChild(declineImg);
 
           declineButton.addEventListener('click', () => {
-            updateRequest(result.id, false).then(() => {
-              this.setRequestList(this.currentPage);
-            });
+            updateRequest(result.id, false)
+              .then(() => {
+                this.setRequestList(this.currentPage);
+              })
+              .catch(() => {
+                this.setRequestList(this.currentPage);
+              });
           });
 
           // Friend Request Profile

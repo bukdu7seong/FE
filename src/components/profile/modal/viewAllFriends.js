@@ -133,6 +133,8 @@ export class viewAllFriendsModal {
       this.updatePageInfo();
 
       if (!friendData.friends.length) {
+        friendList.innerHTML = '';
+
         const friendItem = document.createElement('li');
         friendItem.textContent = i18next.t('viewAllFriendsModalNoData');
         friendList.appendChild(friendItem);

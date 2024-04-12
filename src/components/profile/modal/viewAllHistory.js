@@ -128,6 +128,8 @@ export class viewAllHistoryModal {
       this.updatePageInfo();
 
       if (!historyData.games.length) {
+        historyList.innerHTML = '';
+
         const historyItem = document.createElement('li');
         historyItem.textContent = i18next.t('viewAllHistoryModalNoData');
         historyList.appendChild(historyItem);
