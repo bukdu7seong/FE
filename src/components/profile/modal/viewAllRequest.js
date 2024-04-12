@@ -129,8 +129,6 @@ export class viewAllRequestsModal {
       '.modal-friend-request-list ul'
     );
 
-    requestList.innerHTML = '';
-
     fetchRequestData(pageNumber).then((requestData) => {
       this.maxPage = requestData.totalPages;
       this.totalData = requestData.total;
@@ -244,6 +242,8 @@ export class viewAllRequestsModal {
         });
 
         Promise.all(requestPromises).then((requestItems) => {
+          requestList.innerHTML = '';
+
           requestItems.forEach((requestItem) => {
             requestList.appendChild(requestItem);
           });

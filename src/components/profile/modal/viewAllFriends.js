@@ -127,8 +127,6 @@ export class viewAllFriendsModal {
       '.modal-friend-list-list ul'
     );
 
-    friendList.innerHTML = '';
-
     fetchFriendData(pageNumber).then((friendData) => {
       this.maxPage = friendData.totalPages;
       this.totalData = friendData.total;
@@ -205,6 +203,8 @@ export class viewAllFriendsModal {
         });
 
         Promise.all(friendPromises).then((friendItems) => {
+          friendList.innerHTML = '';
+
           friendItems.forEach((friendItem) => {
             friendList.appendChild(friendItem);
           });
