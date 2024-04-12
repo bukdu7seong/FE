@@ -98,7 +98,7 @@ export class viewAllRequestsModal {
     prevBigButton.addEventListener('click', () => {
       if (this.currentPage > 1) {
         this.currentPage = 1;
-        this.setHistoryList(1);
+        this.setRequestList(1);
       }
     });
 
@@ -119,7 +119,7 @@ export class viewAllRequestsModal {
     nextBigButton.addEventListener('click', () => {
       if (this.currentPage < this.maxPage) {
         this.currentPage = this.maxPage;
-        this.setHistoryList(this.maxPage);
+        this.setRequestList(this.maxPage);
       }
     });
   }

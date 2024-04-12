@@ -96,28 +96,28 @@ export class viewAllFriendsModal {
     prevBigButton.addEventListener('click', () => {
       if (this.currentPage > 1) {
         this.currentPage = 1;
-        this.setHistoryList(1);
+        this.setFriendList(1);
       }
     });
 
     prevSmallButton.addEventListener('click', () => {
       if (this.currentPage > 1) {
         this.currentPage -= 1;
-        this.setHistoryList(this.currentPage);
+        this.setFriendList(this.currentPage);
       }
     });
 
     nextSmallButton.addEventListener('click', () => {
       if (this.currentPage < this.maxPage) {
         this.currentPage += 1;
-        this.setHistoryList(this.currentPage);
+        this.setFriendList(this.currentPage);
       }
     });
 
     nextBigButton.addEventListener('click', () => {
       if (this.currentPage < this.maxPage) {
         this.currentPage = this.maxPage;
-        this.setHistoryList(this.maxPage);
+        this.setFriendList(this.maxPage);
       }
     });
   }
