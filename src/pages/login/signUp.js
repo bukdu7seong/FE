@@ -12,6 +12,7 @@ export function pageSignUp() {
 				id="usernameInput"
 				placeholder="Username"
 				required
+				maxLength="10"
 			  />
 			  <label for="usernameInput" class="text-secondary">사용자 이름</label>
 			</div>
@@ -23,6 +24,7 @@ export function pageSignUp() {
 				id="passwordInput"
 				placeholder="Password"
 				required
+				maxLength="20"
 			  />
 			  <label for="passwordInput" class="text-secondary">비밀번호</label>
 			</div>
