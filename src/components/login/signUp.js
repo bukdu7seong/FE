@@ -38,9 +38,12 @@ async function requestSignUp(formData) {
       case '400':
         alert('Failed to fetch 42 authentication token. Try login again.');
         break;
+      case '413':
+        alert('Payload Too Large. Try uploading a smaller image.');
+        return;
       case '415':
-        alert('Unsupported Media Type. Try logging in again.');
-        break;
+        alert('Unsupported Media Type. Try uploading a different image.');
+        return;
       default:
         alert('Failed to proceed sign up process. Please login again.');
     }
