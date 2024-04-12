@@ -149,6 +149,7 @@ i18next.init({
         emailSuccess: 'Verification code sent successfully.',
         enterPlayerName: "Please enter the player's name.",
         enterUniqueName: "Please enter unique names for all players",
+        cantFindFriends : 'Can\'t find your friends.'
       },
     },
     kr: {
@@ -297,7 +298,8 @@ i18next.init({
         FailedFetchImage: '사용자 이미지를 불러오는 데 실패했습니다.',
         emailSuccess: '이메일 인증 코드가 성공적으로 전송되었습니다.',
         enterPlayerName : '플레이어의 이름을 입력해주세요.',
-        enterUniqueName: "모든 플레이어의 고유한 이름을 입력하세요."
+        enterUniqueName: "모든 플레이어의 고유한 이름을 입력하세요.",
+        cantFindFriends: "친구를 찾을 수 없어요."
       },
     },
     fr: {
@@ -451,7 +453,8 @@ i18next.init({
         FailedFetchImage: "Échec du chargement de l'image de l'utilisateur.",
         emailSuccess: 'Code de vérification envoyé avec succès.',
         enterPlayerName: "Veuillez entrer le nom du joueur.",
-        enterUniqueName: 'Veuillez saisir des noms uniques pour tous les joueurs'
+        enterUniqueName: 'Veuillez saisir des noms uniques pour tous les joueurs',
+        cantFindFriends: "친구를 찾을 수 없어요."
       },
     },
   },
