@@ -143,7 +143,8 @@ i18next.init({
         failedToInvite: 'Failed to invite friend',
         userNotFound: 'User not found',
         failedToSearch: 'Failed to search user',
-        FailedFetchImage: 'Failed to fetch user image.'
+        FailedFetchImage: 'Failed to fetch user image.',
+        emailSuccess : 'Verification code sent successfully.'
       },
     },
     kr: {
@@ -287,7 +288,8 @@ i18next.init({
         failedToInvite: '친구 초대 실패',
         userNotFound: '사용자를 찾을 수 없습니다.',
         failedToSearch: '사용자 검색 실패.',
-        FailedFetchImage: '사용자 이미지를 불러오는 데 실패했습니다.'
+        FailedFetchImage: '사용자 이미지를 불러오는 데 실패했습니다.',
+        emailSuccess: '이메일 인증 코드가 성공적으로 전송되었습니다.',
       },
     },
     fr: {
@@ -435,7 +437,8 @@ i18next.init({
         failedToInvite: "Échec de l'invitation d'ami",
         userNotFound: 'Utilisateur non trouvé',
         failedToSearch: "Échec de la recherche de l'utilisateur",
-        FailedFetchImage: "Échec du chargement de l'image de l'utilisateur."
+        FailedFetchImage: "Échec du chargement de l'image de l'utilisateur.",
+        emailSuccess: 'Code de vérification envoyé avec succès.',
       },
     },
   },

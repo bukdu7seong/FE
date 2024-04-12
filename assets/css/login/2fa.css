@@ -52,7 +52,7 @@
 .form-control::placeholder {
   color: white;
   text-align: center;
-  margin: 0 auto; /* 중앙 정렬 */
+  margin: 0 auto;
 }
 
 .timer {
