@@ -26,15 +26,15 @@ function modalHTML(modalId) {
               <div class='modal-profile-stats'>
                 <div class='modal-win-rate'>
                   <span>-</span>
-                  <label>RATE</label>
+                  <span>RATE</span>
                 </div>
                 <div class='modal-win'>
                   <span>-</span>
-                  <label>WIN</label>
+                  <span>WIN</span>
                 </div>
                 <div class='modal-loss'>
                   <span>-</span>
-                  <label>LOSS</label>
+                  <span>LOSS</span>
                 </div>
               </div>
             </div>
