@@ -309,7 +309,7 @@ export async function setFriendList() {
             if (response.status === 401) {
               redirectError('Unauthorized access token. Please login again.');
             } else {
-              throw new Error('Failed to delete friend request.');
+              throw new Error('Can\'t find your friends.');
             }
           } else {
             toastSuccess('Successfully unsubscribed.');
