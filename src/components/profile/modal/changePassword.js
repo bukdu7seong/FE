@@ -159,19 +159,19 @@ export class changePasswordModal {
   }
 
   updateModalContent() {
-    document.getElementById('changePasswordModalLabel').innerHTML = i18next.t(
+    document.getElementById('changePasswordModalLabel').textContent = i18next.t(
       'changePasswordModalLabel'
     );
-    document.getElementById('change-password-modal-current').innerHTML =
+    document.getElementById('change-password-modal-current').textContent =
       i18next.t('change-password-modal-current');
-    document.getElementById('change-password-modal-new').innerHTML = i18next.t(
+    document.getElementById('change-password-modal-new').textContent = i18next.t(
       'change-password-modal-new'
     );
-    document.getElementById('change-password-modal-new-confirm').innerHTML =
+    document.getElementById('change-password-modal-new-confirm').textContent =
       i18next.t('change-password-modal-new-confirm');
-    document.getElementById('change-password-modal-cancel').innerHTML =
+    document.getElementById('change-password-modal-cancel').textContent =
       i18next.t('change-password-modal-cancel');
-    document.getElementById('change-password-modal-change').innerHTML =
+    document.getElementById('change-password-modal-change').textContent =
       i18next.t('change-password-modal-change');
   }
 }

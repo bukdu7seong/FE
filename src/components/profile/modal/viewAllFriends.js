@@ -291,7 +291,7 @@ export class viewAllFriendsModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('viewAllFriendsModalTitle').innerHTML = i18next.t(
+  document.getElementById('viewAllFriendsModalTitle').textContent = i18next.t(
     'viewAllFriendsModalTitle'
   );
 }

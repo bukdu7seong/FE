@@ -40,11 +40,11 @@ export function createLogoutModal() {
 }
 
 function updateMultilingualContent() {
-  document.getElementById('logoutModalLabel').innerHTML =
+  document.getElementById('logoutModalLabel').textContent =
     i18next.t('logoutModalLabel');
-  document.getElementById('logoutModalBody').innerHTML =
+  document.getElementById('logoutModalBody').textContent =
     i18next.t('logoutModalBody');
-  document.getElementById('logout-no').innerHTML = i18next.t('logout-no');
-  document.getElementById('logout-confirm').innerHTML =
+  document.getElementById('logout-no').textContent = i18next.t('logout-no');
+  document.getElementById('logout-confirm').textContent =
     i18next.t('logout-confirm');
 }

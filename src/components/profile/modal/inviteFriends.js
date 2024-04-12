@@ -332,10 +332,10 @@ export class inviteFriendsModal {
 }
 
 function updateMultilingualContent() {
-  document.getElementById('inviteFriendsModalTitle').innerHTML = i18next.t(
+  document.getElementById('inviteFriendsModalTitle').textContent = i18next.t(
     'inviteFriendsModalTitle'
   );
   document.getElementById('searchFriends').placeholder =
     i18next.t('searchFriends');
-  document.getElementById('searchButton').innerHTML = i18next.t('searchButton');
+  document.getElementById('searchButton').textContent = i18next.t('searchButton');
 }

@@ -332,7 +332,7 @@ export class viewAllRequestsModal {
   }
 }
 function updateMultilingualContent() {
-  document.getElementById('viewAllRequestsModalTitle').innerHTML = i18next.t(
+  document.getElementById('viewAllRequestsModalTitle').textContent = i18next.t(
     'viewAllRequestsModalTitle'
   );
 }
