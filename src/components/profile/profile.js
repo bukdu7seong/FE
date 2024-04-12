@@ -23,6 +23,7 @@ import applyLanguageProfile from '../language/applyLanguageProfile.js';
 import { getGameData } from './data/gameData.js';
 import { toastFail } from '../../utils/fail.js';
 import { toastSuccess } from '../../utils/success.js';
+import { toastError } from '../../utils/error.js';
 
 const BUTTONS = [
   'changeUserName',
@@ -272,6 +273,45 @@ export async function setFriendList() {
       friendNameSpan.textContent = escapeHtml(result.username);
       friendNameDiv.appendChild(friendNameSpan);
 
+      const friendUnsubscribeBtn = document.createElement('div');
+      friendUnsubscribeBtn.type = 'button';
+      friendUnsubscribeBtn.classList.add('btn');
+      friendUnsubscribeBtn.classList.add('btn-danger');
+      friendUnsubscribeBtn.classList.add('friend-unsubscribe-btn');
+      const friendUnsubscribeImg = document.createElement('img');
+      friendUnsubscribeImg.src = '/assets/images/icon/x-lg.png';
+      friendUnsubscribeImg.alt = 'unsubscribe';
+      friendUnsubscribeBtn.appendChild(friendUnsubscribeImg);
+
+      friendUnsubscribeBtn.addEventListener('click', async () => {
+        const userId = result.id;
+        const accessToken = await getAccessToken();
+        const url = `${ACCOUNT_API_URL}/api/friend/delete-friend-request/?user_id=${userId}`;
+
+        try {
+          const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          if (!response.ok) {
+            if (response.status === 401) {
+              redirectError('Unauthorized access token. Please login again.');
+            } else {
+              throw new Error('Failed to delete friend request.');
+            }
+          } else {
+            toastSuccess('Successfully unsubscribed.');
+            await setFriendList();
+          }
+        } catch (e) {
+          toastError(e.message);
+        }
+      });
+
       // Friend Profile
       const friendProfileDiv = document.createElement('div');
       friendProfileDiv.classList.add('friend-profile');
@@ -291,6 +331,7 @@ export async function setFriendList() {
       friendInfoDiv.appendChild(friendNameDiv);
       friendListItemDiv.appendChild(loginStatusDiv);
       friendListItemDiv.appendChild(friendInfoDiv);
+      friendListItemDiv.appendChild(friendUnsubscribeBtn);
       friendListItemDiv.appendChild(friendProfileDiv);
       friendProfileDiv.appendChild(friendProfileBtn);
       friendItem.appendChild(friendListItemDiv);
