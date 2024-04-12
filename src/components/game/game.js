@@ -14,6 +14,15 @@ export function setupGameSettingModal(page) {
   let gameBox = page.querySelector('#game');
 
   startGameButton.addEventListener('click', function () {
+    const playerName = page.querySelector('#player-name');
+
+    if (playerName.value === '') {
+      gameState.setState({ currentGameStatus: 'error' });
+      const roundError = page.querySelector('#game-round-error');
+      roundError.textContent = 'Please enter a name';
+      return;
+    }
+
     gameState.setState({ currentGameStatus: 'playing' });
     gameSettingModal.hide();
   });
@@ -29,7 +38,7 @@ export function setupGameSettingModal(page) {
 
   gameBox.addEventListener('click', function () {
     if (gameState.getState().currentGameStatus === 'idle') {
-      applyLanguageClassicSetting()
+      applyLanguageClassicSetting();
       gameSettingModal.show();
     }
   });
@@ -41,7 +50,6 @@ export function setupGameSettingModal(page) {
 }
 
 export function updateScoreModalResult(gameResult) {
-
   const currentTime = formatCurrentTime();
 
   const elementsToUpdate = {
@@ -50,7 +58,7 @@ export function updateScoreModalResult(gameResult) {
     'classic-winner-image': gameResult.winner.image,
     'classic-loser-image': gameResult.loser.image,
     'win-time': currentTime,
-    'lose-time': currentTime
+    'lose-time': currentTime,
   };
 
   for (const [id, value] of Object.entries(elementsToUpdate)) {
@@ -104,7 +112,7 @@ async function sendEmailCode() {
       emailSuccessDiv.textContent = i18next.t('emailSuccess');
       emailSuccessDiv.style.display = 'block';
       startCountdown(5 * 60, countdownTimerDiv);
-    }else {
+    } else {
       emailErrorDiv.textContent = i18next.t('invalidEmailFormat');
       emailErrorDiv.style.display = 'block';
     }
