@@ -17,7 +17,7 @@ function modalHTML(modalId) {
         </div>
         <div class="modal-body">
           <div class="search-container">
-            <input type="text" class="search-friend-field form-control" id="searchFriends" placeholder="Search">
+            <input type="text" class="search-friend-field form-control" id="searchFriends" placeholder="Search" maxlength="10">
             <button type="button" id="searchButton" class="search-friend-btn btn btn-success">Search</button>
           </div>
           <div id="error-message" class="text-danger"></div>
@@ -53,7 +53,6 @@ async function searchUser(username) {
         return;
       } else if (response.status === 404) {
         throw new Error('userNotFound');
-
       } else {
         throw new Error('failedToSearch');
       }
