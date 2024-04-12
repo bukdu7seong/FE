@@ -104,6 +104,22 @@
   color: #fff;
 }
 
+.friend-unsubscribe-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 10px;
+  margin-left: min(1vw, 1vh);
+}
+
+.friend-unsubscribe-btn img {
+  width: min(1vw, 1vh);
+  filter: invert(100%);
+  object-fit: contain;
+  margin: auto;
+  align-self: center;
+}
+
 .friend-profile {
   display: flex;
   align-items: center;

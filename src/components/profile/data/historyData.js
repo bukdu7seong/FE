@@ -25,7 +25,11 @@ export async function getHistoryData(pageNumber = 1) {
       }
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    data.games.sort((a, b) => new Date(b.played_at) - new Date(a.played_at));
+
+    return data;
   } catch (error) {
     toastError(error.message);
     return null;
