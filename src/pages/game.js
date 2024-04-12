@@ -168,7 +168,7 @@ function createEmail2faModal() {
                 <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
               </div>
               <div class="emailError text-danger mt-2" id='emailError' style="display: none;"></div>
-              <div class="emailSuccess text-success mt-2" id='emailSuccess' style="display: none;"></div>\`;
+              <div class="emailSuccess text-success mt-2" id='emailSuccess' style="display: none;"></div>
               <div class="d-grid gap-2 mb-3">
                 <button type="button" class="btn btn-dark" id='send-email-code-button'>Send Code</button>
               </div>
